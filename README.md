@@ -1,7 +1,6 @@
 - 👋 Hi, I’m @arndvs
 - 👀 I’m interested in bbq, vinyl and rock climbing
-- 🌱 I’m currently learning React, TypeScript, Redux
-- 💞️ I’m looking to collaborate on 
+- 🌱 I’m currently learning Javascrtipt, React, Redux and TypeScript
 - 📫 How to reach me: https://www.linkedin.com/in/arndvs/
 
 <!---
