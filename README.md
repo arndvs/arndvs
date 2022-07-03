@@ -1,5 +1,5 @@
 - 👋 Hi, I’m @arndvs
-- 👀 I’m interested in bbq, vinyl and rock climbing
+- 👀 I’m interested in coding, bbq, vinyl and rock climbing
 - 🌱 I’m always learning 
 - 📫 How to reach me: https://www.linkedin.com/in/arndvs/
 
