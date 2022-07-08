@@ -1,6 +1,6 @@
 # Aaron Davis
 
-👋 Hi, I'm Aaron. I the Co-Founder, President and a Software Engineer at [🍊RipeMetrics](http://www.ripemetrics.com). 
+👋 Hi, I'm Aaron. I'm a Co-Founder, President and Software Engineer at [🍊RipeMetrics](http://www.ripemetrics.com). Prior to starting RipeMetrics, I've worked in fields related to Business Development, Sales/Marketing, Cause Marketing, Custome Loyalty, Graphic Design, UX/UI and Customer Experience.
 
 ## About Me
 
