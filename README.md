@@ -1,10 +1,10 @@
 # Aaron Davis
 
-👋 Hi, I'm Aaron. I the Co-Founder, President and Software Engineer at [🍊RipeMetrics](http://www.ripemetrics.com). 
+👋 Hi, I'm Aaron. I the Co-Founder, President and a Software Engineer at [🍊RipeMetrics](http://www.ripemetrics.com). 
 
 ## About Me
 
-- 🔭 I’m currently working on: Implementing Typescript.
+- 🔭 I’m currently working on building awesome features at RipeMetrics.
 - 🌱 I’m currently learning: TypeScript.
 - 🤔 What I want to learn next: Improving my React game with [Epic React](https://epicreact.dev/).
 - 📫 How to reach me: https://www.linkedin.com/in/arndvs/
@@ -16,3 +16,4 @@
 - [Redux](https://redux.js.org//)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind](https://tailwindui.com/)
+- [Framer] (https://www.framer.com/motion/)
