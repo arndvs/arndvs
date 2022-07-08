@@ -16,4 +16,4 @@
 - [Redux](https://redux.js.org//)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind](https://tailwindui.com/)
-- [Framer] (https://www.framer.com/motion/)
+- [Framer Motion](https://www.framer.com/motion/)
