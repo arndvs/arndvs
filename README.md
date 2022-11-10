@@ -8,12 +8,14 @@
 - 🌱 I’m currently learning: TypeScript.
 - 🤔 What I want to learn next: Improving my React game with [Epic React](https://epicreact.dev/).
 - 📫 How to reach me: https://www.linkedin.com/in/arndvs/
-- ⚡ Fun fact: I love rock climning and collecting vinyl.
+- ⚡ Fun fact: I love to cook, and I enjoy rock climning and collecting vinyl.
 
 ## 🔧 Tools I Like To Use
 
-- [React](https://reactjs.org/)
-- [Redux](https://redux.js.org//)
 - [TypeScript](https://www.typescriptlang.org/)
+- [React](https://reactjs.org/)
+- [Next](https://nextjs.org/)
+- [Redux](https://redux.js.org//)
+- [Material UI](https://mui.com/)
 - [Tailwind](https://tailwindui.com/)
 - [Framer Motion](https://www.framer.com/motion/)
