@@ -5,8 +5,8 @@
 ## About Me
 
 - 🔭 I’m currently working on building awesome features at RipeMetrics.
-- 🌱 I’m currently learning: TypeScript.
-- 🤔 What I want to learn next: Improving my React game with [Epic React](https://epicreact.dev/).
+- 🌱 I’m currently learning: TypeScript & RTK Query.
+- 🤔 What I want to learn next: Leaflet & Mapbox.
 - 📫 How to reach me: https://www.linkedin.com/in/arndvs/
 - ⚡ Fun fact: I love to cook, and I enjoy rock climning and collecting vinyl.
 
