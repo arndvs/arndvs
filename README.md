@@ -5,8 +5,6 @@
 ## About Me
 
 - 🔭 I’m currently working on building awesome features at RipeMetrics.
-- 🌱 I’m currently learning: RTK Query.
-- 🤔 What I want to learn next: OpenAI
 - 📫 How to reach me: https://www.linkedin.com/in/arndvs/
 - ⚡ Fun fact: I love to cook, and I enjoy rock climning and collecting vinyl.
 
