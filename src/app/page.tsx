@@ -1,103 +1,303 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ArrowRight, Github, Linkedin, Mail } from "lucide-react"
+import { motion } from "framer-motion"
+import { containerVariants, itemVariants, cardVariants } from "@/lib/utils/animations"
+
+// ===== Page Data =====
+const pageData = {
+  hero: {
+    title: "Full Stack Software Engineer",
+    description:
+      "Self-taught software engineer with 8+ years of experience building and scaling AI-powered SaaS platforms from concept to production. Specializing in React, TypeScript, Next.js, and modern AI integration including LLM engineering, RAG systems, and automated data processing pipelines.",
+    cta: {
+      primary: { text: "View Projects", href: "/projects", icon: ArrowRight },
+      secondary: { text: "Contact", href: "mailto:arndvs@gmail.com", icon: Mail },
+    },
+  },
+  about: {
+    title: "About",
+    paragraphs: [
+      "I'm a self-taught software engineer who founded and scaled RipeMetrics, an AI-native customer growth platform, from concept to serving 50+ enterprise clients. My journey combines technical leadership with hands-on development, specializing in building production-ready AI applications that solve real business problems.",
+      "My expertise spans the full stack, with a particular focus on frontend architecture, AI integration, and building scalable SaaS platforms. I've led complete technical refactors, implemented RAG systems with vector databases, and created real-time communication systems that process thousands of customer interactions daily.",
+    ],
+    techStack: {
+      title: "Technologies I work with",
+      technologies: [
+        "React",
+        "TypeScript",
+        "Next.js",
+        "Redux RTK",
+        "Tailwind CSS",
+        "Material UI",
+        "Node.js",
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "OpenAI/Claude API",
+        "LangChain",
+        "Pinecone",
+        "Chroma",
+      ],
+    },
+  },
+  featuredProjects: {
+    title: "Featured Projects",
+    viewAllText: "View all",
+    viewAllHref: "/projects",
+    projects: [
+      {
+        id: "ripemetrics",
+        title: "RipeMetrics",
+        description:
+          "AI-native customer growth platform serving 50+ enterprise clients. Reduced customer service costs by 40% through AI automation while maintaining 95%+ system uptime.",
+        category: "AI / SaaS",
+        statusColor: "green" as const,
+        technologies: ["React", "Next.js", "TypeScript", "Redux RTK", "OpenAI", "Pinecone"],
+        link: "/projects/ripemetrics",
+        linkText: "View case study",
+      },
+      {
+        id: "alignsd-wellness",
+        title: "Align San Diego Family Chiropractic",
+        description:
+          "Comprehensive wellness center website with Sanity CMS, advanced blog system, unique review platform, AI content generation, and intricate SEO optimization.",
+        category: "Healthcare / Web",
+        statusColor: "blue" as const,
+        technologies: ["Next.js 15", "Sanity CMS", "TypeScript", "OpenAI", "Stripe"],
+        link: "/projects/align-san-diego-family-chiropractic",
+        linkText: "View case study",
+      },
+    ],
+  },
+  contact: {
+    title: "Let's work together",
+    description: "I'm always interested in hearing about new projects and opportunities.",
+    links: [
+      { type: "email", text: "Get in touch", href: "mailto:arndvs@gmail.com", icon: Mail },
+      { type: "github", text: "GitHub", href: "https://github.com/arndvs", icon: Github },
+      { type: "linkedin", text: "LinkedIn", href: "https://linkedin.com/in/arndvs", icon: Linkedin },
+    ],
+  },
+}
+
+// ===== TypeScript Interfaces =====
+interface ProjectCardProps {
+  title: string
+  description: string
+  category: string
+  statusColor: "green" | "blue" | "purple"
+  technologies: string[]
+  link?: string
+  linkText?: string
+}
+
+interface ContactLinkProps {
+  type: string
+  text: string
+  href: string
+  icon: React.ElementType
+}
+
+interface TechStackProps {
+  technologies: string[]
+}
+
+// ===== Helper Components =====
+
+/**
+ * Project card component displaying project information with hover animations
+ */
+const ProjectCard: React.FC<ProjectCardProps> = ({
+  title,
+  description,
+  category,
+  statusColor,
+  technologies,
+  link,
+  linkText,
+}) => {
+  const statusColorMap = {
+    green: "bg-green-500",
+    blue: "bg-blue-500",
+    purple: "bg-purple-500",
+  }
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <motion.div variants={cardVariants}>
+      <Card className="group overflow-hidden transition-all hover:border-primary/50">
+        <CardHeader>
+          <div className="mb-2 flex items-center gap-2">
+            <div className={`h-2 w-2 rounded-full ${statusColorMap[statusColor]}`} />
+            <span className="text-xs font-medium text-muted-foreground">{category}</span>
+          </div>
+          <CardTitle className="text-2xl">{title}</CardTitle>
+          <CardDescription className="text-base leading-relaxed">{description}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-2">
+            {technologies.map((tech) => (
+              <span key={tech} className="rounded-md bg-secondary px-2 py-1 text-xs font-medium">
+                {tech}
+              </span>
+            ))}
+          </div>
+          {link && (
+            <Button asChild variant="link" className="mt-4 p-0">
+              <Link href={link}>
+                {linkText} <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+    </motion.div>
+  )
+}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+/**
+ * Contact link button component
+ */
+const ContactLink: React.FC<ContactLinkProps> = ({ type, text, href, icon: Icon }) => {
+  const isPrimary = type === "email"
+  return (
+    <Button asChild size="lg" variant={isPrimary ? "default" : "outline"}>
+      <a href={href} target={type !== "email" ? "_blank" : undefined} rel={type !== "email" ? "noopener noreferrer" : undefined}>
+        <Icon className="mr-2 h-4 w-4" />
+        {text}
+      </a>
+    </Button>
+  )
+}
+
+/**
+ * Technology stack grid component
+ */
+const TechStack: React.FC<TechStackProps> = ({ technologies }) => (
+  <div className="flex flex-wrap gap-2">
+    {technologies.map((tech) => (
+      <motion.span
+        key={tech}
+        variants={itemVariants}
+        whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+        className="rounded-md bg-secondary px-3 py-1 text-sm font-medium"
+      >
+        {tech}
+      </motion.span>
+    ))}
+  </div>
+)
+
+// ===== Main Component =====
+
+/**
+ * Home page component displaying hero section, about information,
+ * featured projects, and contact section.
+ * 
+ * Uses Framer Motion for scroll-triggered animations and shadcn components
+ * for consistent UI styling.
+ * 
+ * @example
+ * <HomePage />
+ */
+export default function HomePage() {
+  return (
+    <main className="min-h-screen pt-16">
+      {/* Hero Section */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={containerVariants}
+        className="mx-auto max-w-7xl px-6 py-24 lg:px-8 lg:py-32"
+      >
+        <motion.div variants={itemVariants} className="max-w-3xl">
+          <h1 className="text-5xl font-bold tracking-tight text-balance lg:text-6xl">{pageData.hero.title}</h1>
+          <p className="mt-6 text-xl leading-relaxed text-muted-foreground text-pretty">{pageData.hero.description}</p>
+          <div className="mt-10 flex items-center gap-4">
+            <Button asChild size="lg">
+              <Link href={pageData.hero.cta.primary.href}>
+                {pageData.hero.cta.primary.text} <pageData.hero.cta.primary.icon className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <a href={pageData.hero.cta.secondary.href}>
+                <pageData.hero.cta.secondary.icon className="mr-2 h-4 w-4" />
+                {pageData.hero.cta.secondary.text}
+              </a>
+            </Button>
+          </div>
+        </motion.div>
+      </motion.section>
+
+      {/* About Section */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={containerVariants}
+        className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+      >
+        <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
+          {pageData.about.title}
+        </motion.h2>
+        <div className="mt-8 grid gap-8 lg:grid-cols-2">
+          <motion.div variants={itemVariants} className="space-y-4 text-lg leading-relaxed text-muted-foreground">
+            {pageData.about.paragraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </motion.div>
+          <motion.div variants={itemVariants} className="space-y-4">
+            <h3 className="text-xl font-semibold">{pageData.about.techStack.title}</h3>
+            <TechStack technologies={pageData.about.techStack.technologies} />
+          </motion.div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      </motion.section>
+
+      {/* Featured Projects */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={containerVariants}
+        className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+      >
+        <motion.div variants={itemVariants} className="flex items-center justify-between">
+          <h2 className="text-3xl font-bold tracking-tight">{pageData.featuredProjects.title}</h2>
+          <Button asChild variant="ghost">
+            <Link href={pageData.featuredProjects.viewAllHref}>
+              {pageData.featuredProjects.viewAllText} <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </motion.div>
+        <motion.div variants={containerVariants} className="mt-8 grid gap-6 md:grid-cols-2">
+          {pageData.featuredProjects.projects.map((project) => (
+            <ProjectCard key={project.id} {...project} />
+          ))}
+        </motion.div>
+      </motion.section>
+
+      {/* Contact Section */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={containerVariants}
+        className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+      >
+        <motion.div variants={itemVariants} className="rounded-lg border border-border bg-card p-8 lg:p-12">
+          <h2 className="text-3xl font-bold tracking-tight">{pageData.contact.title}</h2>
+          <p className="mt-4 text-lg text-muted-foreground">{pageData.contact.description}</p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            {pageData.contact.links.map((link) => (
+              <ContactLink key={link.type} {...link} />
+            ))}
+          </div>
+        </motion.div>
+      </motion.section>
+    </main>
+  )
 }
