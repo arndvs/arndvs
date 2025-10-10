@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { Navigation } from "@/components/navigation"
 import { Suspense } from "react"
+import { Toaster } from "sonner"
 
 export const metadata: Metadata = {
   title: "Portfolio - Full Stack Software Engineer",
@@ -30,6 +31,7 @@ export default function RootLayout({
           <Navigation />
           {children}
         </Suspense>
+        <Toaster />
         <Analytics />
       </body>
     </html>

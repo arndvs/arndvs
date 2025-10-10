@@ -32,18 +32,18 @@ const pageData = {
     technologies: {
       label: "Technologies",
       items: [
-        "React",
-        "Next.js",
-        "TypeScript",
-        "Redux RTK",
-        "Material UI",
-        "Tailwind",
-        "FastAPI",
-        "PostgreSQL",
-        "MySQL",
-        "OpenAI",
-        "Pinecone",
-        "Chroma",
+                "React",
+                "Next.js",
+                "TypeScript",
+                "Redux RTK",
+                "Material UI",
+                "Tailwind",
+                "FastAPI",
+                "PostgreSQL",
+                "MySQL",
+                "OpenAI",
+                "Pinecone",
+                "Chroma",
       ],
     },
   },
@@ -114,36 +114,36 @@ const pageData = {
   achievements: {
     title: "Key Technical Achievements",
     items: [
-      {
-        title: "Performance Optimization",
-        description:
-          "Reduced network request response times by 6 seconds on average through complete React/Next.js refactor with RTK Query and TypeScript.",
-      },
-      {
-        title: "Rapid Client Onboarding",
-        description:
-          "Built automated content extraction system that reduced client onboarding time from 20 minutes to 2 minutes using TypeScript and Apify SDK.",
-      },
-      {
-        title: "Comprehensive Analytics",
-        description:
-          "Developed analytics dashboard with 40+ custom charts using Highcharts for large dataset visualization and real-time insights.",
-      },
-      {
-        title: "High Availability",
-        description:
-          "Achieved 95%+ system uptime through robust architecture, comprehensive monitoring with Sentry and PostHog, and efficient CI/CD pipelines.",
-      },
-      {
-        title: "Scalable Email Infrastructure",
-        description:
-          "Configured SendGrid SDK to support 10,000+ daily marketing emails with TCR/10DLC compliance for enterprise-scale communication.",
-      },
-      {
-        title: "Multi-Tenant Vector Database",
-        description:
-          "Architected vector databases for document embeddings with multi-tenant architecture using Pinecone and Chroma for intelligent search.",
-      },
+            {
+              title: "Performance Optimization",
+              description:
+                "Reduced network request response times by 6 seconds on average through complete React/Next.js refactor with RTK Query and TypeScript.",
+            },
+            {
+              title: "Rapid Client Onboarding",
+              description:
+                "Built automated content extraction system that reduced client onboarding time from 20 minutes to 2 minutes using TypeScript and Apify SDK.",
+            },
+            {
+              title: "Comprehensive Analytics",
+              description:
+                "Developed analytics dashboard with 40+ custom charts using Highcharts for large dataset visualization and real-time insights.",
+            },
+            {
+              title: "High Availability",
+              description:
+                "Achieved 95%+ system uptime through robust architecture, comprehensive monitoring with Sentry and PostHog, and efficient CI/CD pipelines.",
+            },
+            {
+              title: "Scalable Email Infrastructure",
+              description:
+                "Configured SendGrid SDK to support 10,000+ daily marketing emails with TCR/10DLC compliance for enterprise-scale communication.",
+            },
+            {
+              title: "Multi-Tenant Vector Database",
+              description:
+                "Architected vector databases for document embeddings with multi-tenant architecture using Pinecone and Chroma for intelligent search.",
+            },
     ],
   },
   conclusion: {

@@ -3,9 +3,10 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, Github, Linkedin, Mail } from "lucide-react"
+import { ArrowRight, Github, Linkedin } from "lucide-react"
 import { motion } from "framer-motion"
 import { containerVariants, itemVariants, cardVariants } from "@/lib/utils/animations"
+import { ContactForm } from "@/components/contact-form"
 
 // ===== Page Data =====
 const pageData = {
@@ -15,7 +16,6 @@ const pageData = {
       "Self-taught software engineer with 8+ years of experience building and scaling AI-powered SaaS platforms from concept to production. Specializing in React, TypeScript, Next.js, and modern AI integration including LLM engineering, RAG systems, and automated data processing pipelines.",
     cta: {
       primary: { text: "View Projects", href: "/projects", icon: ArrowRight },
-      secondary: { text: "Contact", href: "mailto:arndvs@gmail.com", icon: Mail },
     },
   },
   about: {
@@ -76,8 +76,7 @@ const pageData = {
   contact: {
     title: "Let's work together",
     description: "I'm always interested in hearing about new projects and opportunities.",
-    links: [
-      { type: "email", text: "Get in touch", href: "mailto:arndvs@gmail.com", icon: Mail },
+    socialLinks: [
       { type: "github", text: "GitHub", href: "https://github.com/arndvs", icon: Github },
       { type: "linkedin", text: "LinkedIn", href: "https://linkedin.com/in/arndvs", icon: Linkedin },
     ],
@@ -95,7 +94,7 @@ interface ProjectCardProps {
   linkText?: string
 }
 
-interface ContactLinkProps {
+interface SocialLinkProps {
   type: string
   text: string
   href: string
@@ -159,13 +158,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }
 
 /**
- * Contact link button component
+ * Social link button component
  */
-const ContactLink: React.FC<ContactLinkProps> = ({ type, text, href, icon: Icon }) => {
-  const isPrimary = type === "email"
+const SocialLink: React.FC<SocialLinkProps> = ({ text, href, icon: Icon }) => {
   return (
-    <Button asChild size="lg" variant={isPrimary ? "default" : "outline"}>
-      <a href={href} target={type !== "email" ? "_blank" : undefined} rel={type !== "email" ? "noopener noreferrer" : undefined}>
+    <Button asChild size="lg" variant="outline">
+      <a href={href} target="_blank" rel="noopener noreferrer">
         <Icon className="mr-2 h-4 w-4" />
         {text}
       </a>
@@ -223,12 +221,7 @@ export default function HomePage() {
                 {pageData.hero.cta.primary.text} <pageData.hero.cta.primary.icon className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
-              <a href={pageData.hero.cta.secondary.href}>
-                <pageData.hero.cta.secondary.icon className="mr-2 h-4 w-4" />
-                {pageData.hero.cta.secondary.text}
-              </a>
-            </Button>
+            <ContactForm triggerText="Contact" triggerVariant="outline" />
           </div>
         </motion.div>
       </motion.section>
@@ -292,8 +285,9 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold tracking-tight">{pageData.contact.title}</h2>
           <p className="mt-4 text-lg text-muted-foreground">{pageData.contact.description}</p>
           <div className="mt-8 flex flex-wrap gap-4">
-            {pageData.contact.links.map((link) => (
-              <ContactLink key={link.type} {...link} />
+            <ContactForm />
+            {pageData.contact.socialLinks.map((link) => (
+              <SocialLink key={link.type} {...link} />
             ))}
           </div>
         </motion.div>

@@ -217,13 +217,13 @@ interface LearningItemProps {
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description }) => (
   <motion.div variants={cardVariants}>
     <Card className="h-full">
-      <CardHeader>
+                <CardHeader>
         <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
+                </CardHeader>
+                <CardContent>
         <CardDescription className="leading-relaxed">{description}</CardDescription>
-      </CardContent>
-    </Card>
+                </CardContent>
+              </Card>
   </motion.div>
 )
 
@@ -256,12 +256,12 @@ const TechStackCategory: React.FC<TechStackCategoryProps> = ({ name, technologie
  */
 const MetricCard: React.FC<MetricCardProps> = ({ value, label }) => (
   <motion.div variants={cardVariants}>
-    <Card>
-      <CardHeader>
+              <Card>
+                <CardHeader>
         <CardTitle className="text-4xl font-bold text-cyan-500">{value}</CardTitle>
         <CardDescription>{label}</CardDescription>
-      </CardHeader>
-    </Card>
+                </CardHeader>
+              </Card>
   </motion.div>
 )
 
