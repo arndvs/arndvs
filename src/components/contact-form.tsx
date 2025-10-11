@@ -22,6 +22,8 @@ interface ContactFormProps {
   triggerVariant?: "default" | "outline" | "ghost" | "link"
   triggerSize?: "default" | "sm" | "lg" | "icon"
   showIcon?: boolean
+  triggerIcon?: React.ReactNode
+  triggerClassName?: string
 }
 
 /**
@@ -32,12 +34,16 @@ interface ContactFormProps {
  * @param triggerVariant - Button variant style
  * @param triggerSize - Button size
  * @param showIcon - Whether to show the mail icon
+ * @param triggerIcon - Custom icon to display instead of the default Mail icon
+ * @param triggerClassName - Additional CSS classes for the trigger button
  */
 export function ContactForm({
   triggerText = "Get in touch",
   triggerVariant = "default",
   triggerSize = "lg",
   showIcon = true,
+  triggerIcon,
+  triggerClassName = "",
 }: ContactFormProps) {
   const [open, setOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -59,7 +65,6 @@ export function ContactForm({
     // Validate honeypot before processing
     const honeypotResult = validateHoneypot(formData)
     if (!honeypotResult.isValid) {
-      console.log("🚫 Honeypot triggered - potential spam blocked:", honeypotResult.reason)
       // Silent rejection - fake success to avoid alerting bots
       setIsSubmitting(true)
       setTimeout(() => {
@@ -116,8 +121,9 @@ export function ContactForm({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={triggerVariant} size={triggerSize}>
-          {showIcon && <Mail className="mr-2 h-4 w-4" />}
+        <Button variant={triggerVariant} size={triggerSize} className={triggerClassName + " hover:cursor-pointer"}>
+          {showIcon && !triggerIcon && <Mail className="mr-2 h-4 w-4" />}
+          {triggerIcon}
           {triggerText}
         </Button>
       </DialogTrigger>

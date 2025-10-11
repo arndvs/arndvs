@@ -84,6 +84,17 @@ const pageData = {
 }
 
 // ===== TypeScript Interfaces =====
+
+/**
+ * Props for the ProjectCard component
+ * @property {string} title - Project name/title
+ * @property {string} description - Brief project description
+ * @property {string} category - Project category (e.g., "AI / SaaS")
+ * @property {"green" | "blue" | "purple"} statusColor - Status indicator color
+ * @property {string[]} technologies - Array of technology names used
+ * @property {string} [link] - Optional link to project details
+ * @property {string} [linkText] - Optional custom link text
+ */
 interface ProjectCardProps {
   title: string
   description: string
@@ -94,6 +105,13 @@ interface ProjectCardProps {
   linkText?: string
 }
 
+/**
+ * Props for the SocialLink component
+ * @property {string} type - Social platform type identifier
+ * @property {string} text - Display text for the link
+ * @property {string} href - URL to social profile
+ * @property {React.ElementType} icon - Lucide icon component
+ */
 interface SocialLinkProps {
   type: string
   text: string
@@ -101,6 +119,10 @@ interface SocialLinkProps {
   icon: React.ElementType
 }
 
+/**
+ * Props for the TechStack component
+ * @property {string[]} technologies - Array of technology names to display
+ */
 interface TechStackProps {
   technologies: string[]
 }
@@ -192,18 +214,26 @@ const TechStack: React.FC<TechStackProps> = ({ technologies }) => (
 // ===== Main Component =====
 
 /**
- * Home page component displaying hero section, about information,
- * featured projects, and contact section.
+ * Home page component showcasing Aaron Davis's professional profile and portfolio.
+ * Features scroll-triggered animations, featured projects, and contact information.
  * 
- * Uses Framer Motion for scroll-triggered animations and shadcn components
- * for consistent UI styling.
+ * Structure:
+ * - Hero section with title, description, and CTAs
+ * - About section with background and tech stack
+ * - Featured projects grid with case study links
+ * - Contact section with social links and contact form
+ * 
+ * All sections use Framer Motion's whileInView for smooth scroll-triggered animations.
+ * Responsive design with Tailwind CSS breakpoints for mobile, tablet, and desktop.
+ * Implements shadcn/ui components for consistent styling across the application.
  * 
  * @example
+ * // Automatically rendered at root route /
  * <HomePage />
  */
 export default function HomePage() {
   return (
-    <main className="min-h-screen pt-16">
+    <main className="min-h-screen pt-16" role="main">
       {/* Hero Section */}
       <motion.section
         initial="hidden"
@@ -211,6 +241,7 @@ export default function HomePage() {
         viewport={{ once: true, margin: "-100px" }}
         variants={containerVariants}
         className="mx-auto max-w-7xl px-6 py-24 lg:px-8 lg:py-32"
+        aria-label="Hero section"
       >
         <motion.div variants={itemVariants} className="max-w-3xl">
           <h1 className="text-5xl font-bold tracking-tight text-balance lg:text-6xl">{pageData.hero.title}</h1>
@@ -233,6 +264,7 @@ export default function HomePage() {
         viewport={{ once: true, margin: "-100px" }}
         variants={containerVariants}
         className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+        aria-label="About Aaron Davis"
       >
         <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
           {pageData.about.title}
@@ -257,6 +289,7 @@ export default function HomePage() {
         viewport={{ once: true, margin: "-100px" }}
         variants={containerVariants}
         className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+        aria-label="Featured projects"
       >
         <motion.div variants={itemVariants} className="flex items-center justify-between">
           <h2 className="text-3xl font-bold tracking-tight">{pageData.featuredProjects.title}</h2>
@@ -280,6 +313,7 @@ export default function HomePage() {
         viewport={{ once: true, margin: "-100px" }}
         variants={containerVariants}
         className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+        aria-label="Contact information"
       >
         <motion.div variants={itemVariants} className="rounded-lg border border-border bg-card p-8 lg:p-12">
           <h2 className="text-3xl font-bold tracking-tight">{pageData.contact.title}</h2>

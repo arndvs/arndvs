@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { FieldValues, UseFormRegister } from "react-hook-form"
 
 interface HoneypotConfig {
   minSubmitTime?: number // Minimum time in ms before form can be submitted
@@ -28,7 +29,7 @@ export function useHoneypot(config: HoneypotConfig = {}) {
   /**
    * Validates honeypot fields and timing
    */
-  const validateHoneypot = (formData: Record<string, any>): HoneypotResult => {
+  const validateHoneypot = (formData: Record<string, string>): HoneypotResult => {
     // Check if honeypot field was filled (bot behavior)
     if (formData.website || formData._honeypot || honeypotValue) {
       return {
@@ -117,7 +118,7 @@ export function SpamProtectionFields() {
 /**
  * Anti-spam fields for React Hook Form
  */
-export function SpamProtectionFieldsRHF({ register }: { register: any }) {
+export function SpamProtectionFieldsRHF({ register }: { register: UseFormRegister<FieldValues> }) {
   return (
     <>
       <div style={{ 
