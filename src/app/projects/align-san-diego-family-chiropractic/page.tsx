@@ -321,7 +321,7 @@ export default function AlignSDWellnessPage() {
           </motion.p>
           <motion.div variants={itemVariants} className="mt-6 flex gap-4">
             <Button asChild>
-              <a href={pageData.header.cta.href} target="_blank" rel="noopener noreferrer">
+              <a href={pageData.header.cta.href} target="_blank" rel="nofollow noopener noreferrer">
                 {pageData.header.cta.text} <pageData.header.cta.icon className="ml-2 h-4 w-4" />
               </a>
             </Button>
