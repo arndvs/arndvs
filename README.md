@@ -1,75 +1,70 @@
 # Aaron Davis
-**Full-Stack Engineer | Learning MCP UI | AI & Frontend Development**
 
-👋 Hi, I'm Aaron. I'm a freelance Full-Stack Engineer with 8+ years of experience building AI-powered customer experience platforms, including co-founding RipeMetrics. I'm currently diving deep into **Model Context Protocol (MCP) development** and exploring how AI agents can integrate visual interfaces with conversational experiences.
+Full-stack engineer based in San Diego. I spent 8 years building RipeMetrics
+— a marketing automation, business intelligence, and customer support platform
+— which is where I learned how to ship AI features in production and what it
+actually takes to keep a SaaS product alive long term.
 
-## 🔄 Exploring Early-Stage Tech: MCP UI Development
+I'm currently going deep on agentic engineering — Claude Code, autonomous
+workflows, human-in-the-loop patterns, and the infrastructure that makes AI
+systems reliable rather than just impressive in a demo.
 
-I'm diving into Model Context Protocol UI because we're incredibly early on this technology. MCP UI represents a fascinating shift in how users will interact with applications - blending natural language with visual interfaces where users can say "show me my dashboard" and actually click buttons, view charts, and interact with components.
+## What I'm working with
 
-This feels like being at the beginning of React or the early days of mobile development. The patterns are just starting to emerge, and there's huge potential for developers who understand both traditional UI development and conversational AI.
+**AI & Agents**
+Claude Code · LLM Integration · Prompt Engineering · RAG · LangChain ·
+Model Context Protocol · Anthropic · ElevenLabs
 
-### What I'm Learning
-- **MCP UI Fundamentals** - Serving HTML and interactive components to AI agents
-- **Remote DOM** - Creating components that use the host agent's design system  
-- **Hybrid Interaction Models** - Combining conversation with traditional UI patterns
-- **Early Pattern Recognition** - Understanding where this technology makes sense vs. traditional approaches
-- **Client Work** - Continuing full-stack development while exploring these emerging patterns
+**Core stack**
+TypeScript · React · Next.js · Node.js · Express · FastAPI · Python
 
-## 🔧 Core Technologies
+**Infrastructure**
+AWS · Docker · CI/CD · DigitalOcean · PostgreSQL
 
-### AI & MCP Stack
-- **Model Context Protocol (MCP)** - Building servers and UI components
-- **Remote DOM** - Creating agent-integrated visual experiences
-- **LLM Engineering** - Fine-tuning, RAG systems, vector databases
-- **OpenAI API** - GPT integration and custom AI workflows
+## Current projects
 
-### Frontend Excellence  
-- **TypeScript** - Type-safe development across all projects
-- **React** & **Next.js** - Modern component architecture
-- **Tailwind CSS** - Rapid, responsive design systems
-- **Framer Motion** - Smooth animations and micro-interactions
+**Align San Diego Family Chiropractic ** — Website for a San Diego chiropractic clinic, built
+well beyond what the brief required. Next.js 15, Sanity CMS, 2,000+
+TypeScript files. Five AI integrations: GPT-4o Vision insurance verification,
+OpenAI content enhancement pipeline, LLM review sentiment analysis, AI spam
+detection, and AEO endpoints. Custom JSON-LD composition architecture with
+68 Schema.org types including medical schemas with ICD-10/SNOMED-CT codes.
+Programmatic SEO engine generating 163+ pages. 55 automated tests, 4 CI/CD
+pipelines. Credit on the footer.
 
-### Full-Stack Capabilities
-- **Node.js** & **Express** - Backend API development
-- **PostgreSQL** - Database design and optimization
-- **Git** - Version control and collaborative development
-- **Docker** - Containerized deployments
+[alignsd.com](https://alignsd.com)
 
-## 🎯 What Makes Me Different
+_(In development)_
 
-**Strong Foundation**: 8+ years building AI-powered customer platforms gives me a solid base for understanding where conversational interfaces add value vs. traditional approaches.
+**Scorpion Percussion** — Cross-platform iOS and Android app for a
+professional drumstick manufacturer, replacing their legacy native iOS app.
+Turborepo monorepo, Koa.js/tRPC API, Expo React Native frontend. Custom
+stick builder resolving Shopify variants against a validated configuration
+engine, full e-commerce flow, drift-corrected metronome with custom audio
+engine, production status tracking, push notifications via APNs and FCM.
 
-**Early Adopter Mindset**: Excited about being early to MCP UI development - similar to how I felt learning React or exploring mobile-first design when those were emerging.
+**AI Development Dotfiles** — Opinionated Claude Code and VS Code
+configuration shared across machines. Custom agent skills, automated context
+detection, cross-machine secrets management.
+[github.com/arndvs/dotfiles](https://github.com/arndvs/dotfiles)
 
-**Pattern Recognition**: My business background helps me see where these hybrid interaction models (conversation + UI) solve real user problems vs. just being technically interesting.
+**RISE Technologies** — A fictional smart bed company built as a sandbox
+for implementing AI video generation via agentic workflows. Short film, product teaser, working website
+with UX gags. Just like that. Chief Morning Officer.
+[riseawake.com](https://riseawake.com) _(coming soon)_
 
-**Available for Opportunities**: Taking on freelance projects while staying current with emerging technologies - interested in roles where I can apply my experience while continuing to learn.
+**Align San Diego Family Chiropractic ** — Opinionated Claude Code and VS Code
+configuration shared across machines. Custom agent skills, automated context
+detection, cross-machine secrets management.
+[github.com/arndvs/dotfiles](https://github.com/arndvs/dotfiles)
 
-## 📚 Learning & Development
+## Background
 
-- **Master the Model Context Protocol (MCP)** - Kent C. Dodds (Currently enrolled, Sept 2025)
-- **LLM Engineering - Foundations to SLMs** - AI Makerspace (Nov 2024)
-- **AI Engineering Bootcamp** - Maven (Mar 2025)
+- Founded and built RipeMetrics (2017–2025) — full stack, solo and with a team
+- Freelance web development since 2010
+- Based in San Diego, open to remote
 
-## 🌟 Open to Opportunities
+## Links
 
-I'm particularly interested in:
-- **Senior Frontend Engineer** roles at AI-first companies
-- **MCP UI Developer** positions (emerging but high-value specialization)
-- **Technical Lead** roles combining AI integration with modern web development
-- **Consulting** on AI-native user experience design
-
-## 📫 Let's Connect
-
-- **LinkedIn**: [linkedin.com/in/arndvs](https://www.linkedin.com/in/arndvs/)
-- **Location**: San Diego, California
-- **Open to**: Remote, hybrid, or San Diego-based opportunities
-
-## ⚡ Beyond Code
-
-When I'm not building the future of AI interfaces, you'll find me rock climbing or hunting for rare vinyl records. 
-
----
-
-*Currently building at the intersection of AI and user experience - where every interaction feels magical but the technology disappears into the background.*
+[arndvs.com](https://arndvs.com) ·
+[linkedin.com/in/arndvs](https://linkedin.com/in/arndvs)
