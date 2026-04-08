@@ -67,10 +67,10 @@ const pageData = {
         id: "alignsd-wellness",
         title: "AlignSD Wellness Center",
         description:
-          "Comprehensive wellness center website with Sanity CMS, advanced blog system, unique review platform, AI content generation, and intricate SEO optimization.",
+          "A 44,000-line healthcare platform serving 5,000+ families — 5 AI integrations, 81 JSON-LD schemas, 158 programmatic pages, and 27 email templates. Built solo.",
         category: "Healthcare / Web",
-        statusColor: "blue" as const,
-        technologies: ["Next.js 15", "Sanity CMS", "TypeScript", "OpenAI", "Schema.org"],
+        statusColor: "cyan" as const,
+        technologies: ["Next.js 16", "Sanity v5", "TypeScript", "OpenAI", "React Email"],
         link: "/projects/align-san-diego-family-chiropractic",
         linkText: "View case study",
       },
@@ -98,7 +98,7 @@ interface ProjectCardProps {
   title: string
   description: string
   category: string
-  statusColor: "green" | "blue" | "purple"
+  statusColor: "green" | "blue" | "purple" | "cyan"
   technologies: string[]
   link?: string
   linkText?: string
@@ -125,6 +125,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     green: "bg-green-500",
     blue: "bg-blue-500",
     purple: "bg-purple-500",
+    cyan: "bg-cyan-500",
   }
 
   return (

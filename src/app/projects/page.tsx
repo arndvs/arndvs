@@ -48,7 +48,7 @@ const projectsPageData = {
       id: "align-san-diego-family-chiropractic",
       title: "Align San Diego Family Chiropractic",
       description:
-        "Full-stack healthcare platform with 5 AI integrations, 25+ Schema.org types with medical coding, programmatic SEO across 60+ routes, and a 26-template transactional email system — built on Next.js 16, Sanity v5, and OpenAI.",
+        "A 44,000-line healthcare platform with 5 AI integrations, 81 JSON-LD schemas, programmatic SEO across 158 pages, and a 27-template transactional email system — built solo on Next.js 16, Sanity v5, and OpenAI.",
       category: "Healthcare / Web",
       color: "cyan",
       technologies: [
