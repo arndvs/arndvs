@@ -16,9 +16,9 @@ const pageData = {
       color: "cyan",
       label: "Healthcare / Web",
     },
-    title: "Align San Diego Family Chiropractic",   
+    title: "AlignSD Wellness Center",
     description:
-      "A comprehensive wellness center website featuring advanced content management, patient review systems, AI content generation, and sophisticated SEO optimization for a San Diego chiropractic practice.",
+      "Full-stack healthcare platform with 5 AI integrations, 25+ Schema.org types (including ICD-10 and SNOMED-CT medical codes), programmatic SEO across 60+ routes, a 26-template transactional email system, and 57+ automated tests — built on Next.js 16, Sanity v5, and OpenAI.",
     cta: {
       text: "Visit Website",
       href: "https://alignsd.com",
@@ -28,58 +28,58 @@ const pageData = {
   overview: {
     title: "Project Overview",
     description:
-      "Align San Diego Family Chiropractic is a full-featured healthcare website built for a San Diego chiropractic practice specializing in prenatal, postpartum, and family care. The project showcases advanced web development techniques including headless CMS integration, custom review systems, AI-powered content enhancement, and intricate SEO strategies with hub-and-spoke content architecture.",
+      "AlignSD is a production healthcare platform for a San Diego chiropractic practice specializing in prenatal, postpartum, and family care. The codebase ships 60+ frontend routes, 27 API endpoints, 9 Sanity document types, and 4 GitHub Actions CI/CD pipelines. Five distinct OpenAI integrations handle everything from GPT-4o Vision insurance card processing to review sentiment analysis and spam detection. A programmatic SEO layer generates condition and service pages at build time, each with structured data drawn from 25+ Schema.org types with ICD-10 and SNOMED-CT medical coding. The email system uses React Email to render 26 templates across 30+ reusable components, delivered through Resend.",
   },
   features: {
     title: "Key Features",
     items: [
       {
+        id: "ai-integrations",
+        title: "5 AI Integrations",
+        description:
+          "GPT-4o Vision for insurance card OCR, content enhancement for blog posts, event description generation, review sentiment analysis, and spam detection — each with dedicated API routes, structured JSON output, and error boundaries.",
+      },
+      {
+        id: "schema-org",
+        title: "25+ Schema.org Types with Medical Coding",
+        description:
+          "Comprehensive structured data layer generating JSON-LD for LocalBusiness, MedicalBusiness, Chiropractor, FAQPage, BlogPosting, Event, Review, and 18+ more types. Includes ICD-10 and SNOMED-CT medical codes for conditions and treatments.",
+      },
+      {
         id: "sanity-cms",
-        title: "Sanity CMS Integration",
+        title: "Sanity v5 Content Platform",
         description:
-          "Comprehensive headless CMS implementation with custom schemas for blog posts, events, team members, services, and patient reviews. Features live preview, draft mode, and visual editing capabilities.",
+          "9 document types and 3 object types with live preview, draft mode, and visual editing. 12 GROQ query files power the data layer. Custom Studio with embedded dashboards, media management, and presentation mode.",
       },
       {
-        id: "blog-events",
-        title: "Advanced Blog & Event System",
+        id: "programmatic-seo",
+        title: "Programmatic SEO Across 60+ Routes",
         description:
-          "Dynamic blog with category filtering, tag-based navigation, featured posts, author profiles, and event management system with registration capabilities and calendar integration.",
+          "Hub-and-spoke architecture generating condition pages, service pages, and location-specific landing pages at build time. Dynamic sitemap, canonical URLs, and comprehensive internal linking driven by Sanity content relationships.",
       },
       {
-        id: "reviews",
-        title: "Unique Review Platform",
+        id: "email-system",
+        title: "26-Template Email System",
         description:
-          "Custom-built patient review system with 130+ testimonials, service-specific tagging, rating aggregation, filtering by treatment type, and integration with Google Maps and Yelp reviews.",
+          "React Email renders 26 transactional templates (appointment confirmations, review requests, contact forms, insurance submissions) using 30+ reusable components, delivered through Resend with rate limiting and error handling.",
       },
       {
-        id: "ai-content",
-        title: "AI Content Generation",
+        id: "review-platform",
+        title: "AI-Powered Review Platform",
         description:
-          "OpenAI integration for content enhancement, blog post optimization, meta description generation, and automated content suggestions to improve SEO and readability.",
+          "155+ patient reviews with sentiment analysis, service-specific tagging, rating aggregation, and filtering by treatment type. Generates AggregateRating and individual Review schema for rich snippets in search results.",
       },
       {
-        id: "booking",
-        title: "Appointment Booking",
+        id: "testing",
+        title: "57+ Automated Tests",
         description:
-          "Custom appointment booking components with form validation, phone number formatting, email notifications via Resend, and integration with practice management systems.",
+          "Vitest and React Testing Library covering unit, integration, SEO validation, and E2E scenarios. Dedicated test suites verify Schema.org output, meta tag generation, and API endpoint responses.",
       },
       {
-        id: "automation",
-        title: "Automation & CRM Integration",
+        id: "aeo",
+        title: "Answer Engine Optimization",
         description:
-          "n8n workflow automation for patient communication, GoHighLevel CRM integration for lead management, automated follow-ups, and patient engagement tracking.",
-      },
-      {
-        id: "seo",
-        title: "SEO Optimization",
-        description:
-          "Intricate hub-and-spoke content architecture with service pages, condition-specific landing pages, location-based SEO, schema markup, and comprehensive internal linking strategy.",
-      },
-      {
-        id: "payments",
-        title: "Payment Processing",
-        description:
-          "Stripe integration for online payments, package purchases, gift certificates, and subscription management for wellness programs and membership plans.",
+          "Machine-readable endpoints at /llms.txt and /llms-full.txt serve structured practice data to AI assistants. FAQ schema and medical condition markup provide direct answers for voice search and AI-powered discovery.",
       },
     ],
   },
@@ -87,34 +87,34 @@ const pageData = {
     title: "Technical Implementation",
     sections: [
       {
-        id: "content-mgmt",
-        heading: "Content Management",
+        id: "content-platform",
+        heading: "Content Platform",
         description:
-          "Built a comprehensive Sanity CMS implementation with custom schemas for all content types. Implemented Portable Text for rich content editing, custom input components for specialized fields, and live preview functionality. Created custom validation rules and reference management for complex content relationships.",
+          "Sanity v5 powers 9 document types (blog posts, events, team members, services, reviews, conditions, FAQs, testimonials, settings) and 3 object types. 12 GROQ query files centralize data access. The Studio ships with embedded analytics dashboards, a media library plugin, and Presentation mode for visual editing. Draft mode and live preview let editors see changes before publishing.",
       },
       {
-        id: "review-system",
-        heading: "Review System Architecture",
+        id: "ai-pipeline",
+        heading: "AI Integration Pipeline",
         description:
-          "Designed and implemented a unique review system that aggregates patient testimonials from multiple sources (Google, Yelp, direct submissions). Built filtering and sorting capabilities by service type, condition treated, and rating. Implemented schema markup for rich snippets in search results.",
+          "Five dedicated API routes handle AI tasks: GPT-4o Vision extracts structured data from insurance card photos, a content enhancement endpoint rewrites blog drafts for SEO, an event enhancer generates descriptions from minimal input, review sentiment analysis scores and categorizes patient feedback, and a spam detection layer filters form submissions. Each route returns structured JSON with Zod-validated schemas and includes rate limiting.",
       },
       {
-        id: "ai-enhancement",
-        heading: "AI-Powered Content Enhancement",
+        id: "json-ld",
+        heading: "Structured Data & JSON-LD",
         description:
-          "Integrated OpenAI API for automated content optimization, including meta description generation, blog post enhancement, and SEO keyword suggestions. Built custom prompts and workflows to maintain brand voice while improving content quality and search visibility.",
+          "A centralized schema generation system produces JSON-LD for 25+ Schema.org types. Medical conditions include ICD-10 diagnostic codes and SNOMED-CT identifiers. The system generates LocalBusiness, Chiropractor, MedicalBusiness, FAQPage, BlogPosting, Event, Review, AggregateRating, BreadcrumbList, and condition-specific MedicalCondition types. Dedicated test suites validate every output against Schema.org specifications.",
       },
       {
-        id: "seo-strategy",
-        heading: "SEO Strategy",
+        id: "programmatic-seo",
+        heading: "Programmatic SEO Architecture",
         description:
-          "Implemented a hub-and-spoke content architecture with pillar pages for main services and supporting content for specific conditions and treatments. Built dynamic sitemap generation, structured data implementation, and comprehensive internal linking system to improve search rankings and user navigation.",
+          "A hub-and-spoke model generates 60+ routes at build time. Service pillar pages link to condition-specific child pages, each with unique content, FAQ schema, and internal links back to the hub. Dynamic sitemaps, canonical URLs, and Open Graph metadata are generated per-page. AEO endpoints at /llms.txt and /llms-full.txt serve machine-readable practice data for AI assistants.",
       },
       {
-        id: "automation-workflows",
-        heading: "Automation Workflows",
+        id: "email-system",
+        heading: "Transactional Email System",
         description:
-          "Created n8n workflows for automated patient communication, appointment reminders, review requests, and lead nurturing. Integrated with GoHighLevel CRM for comprehensive patient relationship management and marketing automation.",
+          "React Email renders 26 templates from 30+ shared components covering appointment confirmations, review requests, contact form receipts, insurance submission acknowledgments, and internal notifications. Resend delivers all mail with automatic retries. Templates use consistent branding and are type-safe with TypeScript interfaces for every prop.",
       },
     ],
   },
@@ -124,62 +124,65 @@ const pageData = {
       {
         id: "frontend",
         name: "Frontend",
-        technologies: ["Next.js 15 (App Router)", "React 19", "TypeScript", "Tailwind CSS v4", "Framer Motion", "Radix UI"],
+        technologies: ["Next.js 16 (App Router)", "React 19", "TypeScript 5.8", "Tailwind CSS v4", "Framer Motion", "Radix UI"],
       },
       {
         id: "cms-content",
         name: "CMS & Content",
         technologies: [
-          "Sanity CMS",
+          "Sanity v5",
+          "GROQ",
           "Portable Text",
-          "Lexical Editor",
-          "Sanity Vision",
           "Sanity Presentation",
           "Sanity Media Plugin",
+          "9 Document Types",
         ],
       },
       {
-        id: "ai-automation",
-        name: "AI & Automation",
-        technologies: ["OpenAI API", "n8n Workflows", "GoHighLevel CRM", "Automated Content Generation"],
+        id: "ai",
+        name: "AI & Machine Learning",
+        technologies: ["OpenAI GPT-4o Vision", "Content Enhancement", "Sentiment Analysis", "Spam Detection", "Event Generation"],
       },
       {
-        id: "forms-validation",
-        name: "Forms & Validation",
-        technologies: ["React Hook Form", "Zod Validation", "libphonenumber-js", "Custom Input Components"],
+        id: "email",
+        name: "Email & Notifications",
+        technologies: ["React Email", "Resend", "26 Templates", "30+ Shared Components"],
       },
       {
-        id: "email-payments",
-        name: "Email & Payments",
-        technologies: ["React Email", "Resend", "Stripe", "Payment Processing"],
+        id: "seo-data",
+        name: "SEO & Structured Data",
+        technologies: ["25+ Schema.org Types", "ICD-10 / SNOMED-CT", "Dynamic Sitemaps", "AEO (/llms.txt)", "Open Graph"],
       },
       {
-        id: "testing-quality",
-        name: "Testing & Quality",
-        technologies: ["Vitest", "React Testing Library", "TypeScript ESLint", "Prettier"],
+        id: "testing-devops",
+        name: "Testing & DevOps",
+        technologies: ["Vitest", "React Testing Library", "57+ Test Files", "4 GitHub Actions Workflows", "TypeScript ESLint"],
       },
     ],
   },
   results: {
     title: "Results & Impact",
     metrics: [
-      { value: "130+", label: "Five-Star Patient Reviews" },
-      { value: "5,000+", label: "Patients Served" },
-      { value: "15+", label: "Years in Practice" },
+      { value: "5", label: "AI Integrations (GPT-4o Vision, Sentiment, Spam, Content, Events)" },
+      { value: "25+", label: "Schema.org Types with Medical Coding" },
+      { value: "60+", label: "Frontend Routes & Pages" },
+      { value: "27", label: "API Endpoints" },
+      { value: "57+", label: "Automated Tests" },
+      { value: "26", label: "Email Templates" },
     ],
     paragraphs: [
-      "The website successfully serves as the primary digital presence for Align San Diego Family Chiropractic</a>, driving patient acquisition through organic search, showcasing the practice's expertise through comprehensive content, and streamlining patient communication through automated workflows.",
-      "The advanced review system and SEO optimization have significantly improved the practice's online visibility, while the AI-powered content generation has enabled consistent, high-quality content production without overwhelming the practice's administrative resources.",
-        ],
+      "The platform drives patient acquisition through programmatic SEO, with build-time generation of condition and service pages across 60+ routes. Each page carries its own JSON-LD structured data, Open Graph tags, and internal links back to the hub-and-spoke architecture.",
+      "Answer Engine Optimization endpoints (/llms.txt and /llms-full.txt) serve machine-readable practice data to AI assistants, while 155+ patient reviews with sentiment analysis generate AggregateRating schema for rich search snippets.",
+    ],
   },
   learnings: {
-    title: "Key Learnings",
+    title: "Architectural Decisions",
     items: [
-      "Headless CMS architecture provides flexibility for complex content structures while maintaining editorial control and preview capabilities",
-      "Custom review aggregation systems can provide more value than third-party solutions when tailored to specific business needs",
-      "AI-powered content generation requires careful prompt engineering and brand voice guidelines to maintain quality and consistency",
-      "Hub-and-spoke SEO architecture with comprehensive internal linking significantly improves search visibility for healthcare practices",
-      "Automation workflows for patient communication can dramatically reduce administrative burden while improving patient engagement",
+      "Chose Sanity v5 over Contentful for its real-time collaboration, GROQ query language, and Presentation mode — critical for a non-technical client who edits content daily",
+      "Isolated each AI integration behind its own API route with Zod-validated input/output schemas, making it possible to swap models or add rate limiting per-endpoint without touching other features",
+      "Generated 25+ Schema.org types from a centralized utility rather than inline markup, so adding ICD-10 or SNOMED-CT codes to a new condition page requires zero frontend changes",
+      "Built the email system with React Email components instead of HTML templates, gaining type safety, component reuse across 26 templates, and the ability to preview emails in the browser during development",
+      "Invested in 57+ tests early — the SEO validation suite alone catches missing meta tags, broken structured data, and canonical URL regressions before they reach production",
     ],
   },
 }
@@ -405,7 +408,7 @@ export default function AlignSDWellnessPage() {
             <motion.h2 variants={itemVariants} className="mb-6 text-3xl font-bold">
               {pageData.results.title}
             </motion.h2>
-            <motion.div variants={staggerContainerVariants} className="grid gap-6 md:grid-cols-3">
+            <motion.div variants={staggerContainerVariants} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {pageData.results.metrics.map((metric, index) => (
                 <MetricCard key={index} value={metric.value} label={metric.label} />
               ))}
