@@ -1,7 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { FieldValues, UseFormRegister } from "react-hook-form"
+import { useEffect, useRef } from "react"
 
 interface HoneypotConfig {
   minSubmitTime?: number // Minimum time in ms before form can be submitted
@@ -20,7 +19,6 @@ interface HoneypotResult {
 export function useHoneypot(config: HoneypotConfig = {}) {
   const { minSubmitTime = 3000, enableTimeValidation = true } = config
   const formStartTime = useRef<number>(Date.now())
-  const [honeypotValue, setHoneypotValue] = useState("")
 
   useEffect(() => {
     formStartTime.current = Date.now()
@@ -31,7 +29,7 @@ export function useHoneypot(config: HoneypotConfig = {}) {
    */
   const validateHoneypot = (formData: Record<string, string>): HoneypotResult => {
     // Check if honeypot field was filled (bot behavior)
-    if (formData.website || formData._honeypot || honeypotValue) {
+    if (formData.website || formData._honeypot) {
       return {
         isValid: false,
         reason: "Honeypot field filled",
@@ -57,13 +55,11 @@ export function useHoneypot(config: HoneypotConfig = {}) {
    */
   const getHoneypotFormData = () => ({
     _honeypot_timestamp: formStartTime.current.toString(),
-    _honeypot_field: honeypotValue,
   })
 
   return {
     validateHoneypot,
     getHoneypotFormData,
-    setHoneypotValue,
   }
 }
 
@@ -108,52 +104,6 @@ export function SpamProtectionFields() {
           id="confirm_email" 
           name="_honeypot" 
           tabIndex={-1} 
-          autoComplete="off"
-        />
-      </div>
-    </>
-  )
-}
-
-/**
- * Anti-spam fields for React Hook Form
- */
-export function SpamProtectionFieldsRHF({ register }: { register: UseFormRegister<FieldValues> }) {
-  return (
-    <>
-      <div style={{ 
-        opacity: 0, 
-        position: "absolute", 
-        top: 0, 
-        left: 0, 
-        height: 0, 
-        width: 0, 
-        zIndex: -1 
-      }} aria-hidden="true">
-        <label htmlFor="company_website">Company Website (optional)</label>
-        <input
-          type="text"
-          id="company_website"
-          {...register("website")}
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
-      <div style={{ 
-        opacity: 0, 
-        position: "absolute", 
-        top: 0, 
-        left: 0, 
-        height: 0, 
-        width: 0, 
-        zIndex: -1 
-      }} aria-hidden="true">
-        <label htmlFor="confirm_email">Confirm Email (optional)</label>
-        <input
-          type="text"
-          id="confirm_email"
-          {...register("_honeypot")}
-          tabIndex={-1}
           autoComplete="off"
         />
       </div>

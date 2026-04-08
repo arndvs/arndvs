@@ -108,28 +108,6 @@ export function GlitchName() {
 
   return (
     <>
-      <style jsx global>{`
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-          }
-        }
-        @keyframes slideUp {
-          from {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-          }
-          to {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-20px);
-          }
-        }
-      `}</style>
       <div
         className="flex items-center gap-2 cursor-pointer select-none group"
         onMouseEnter={() => setIsHovering(true)}
