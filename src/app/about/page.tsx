@@ -213,7 +213,6 @@ const aboutPageData = {
   },
 };
 
-// ===== TypeScript Interfaces =====
 interface JourneyPhaseProps {
   icon: LucideIcon;
   title: string;
@@ -237,7 +236,6 @@ interface TechCategoryProps {
   technologies: string[];
 }
 
-// ===== Helper Functions =====
 const getColorClasses = (color: string) => {
   const colorMap = {
     orange: {
@@ -260,7 +258,6 @@ const getColorClasses = (color: string) => {
   return colorMap[color as keyof typeof colorMap] || colorMap.orange;
 };
 
-// ===== Subcomponents =====
 const JourneyPhaseCard: React.FC<JourneyPhaseProps> = ({
   icon: Icon,
   title,
@@ -328,7 +325,6 @@ const TechCategory: React.FC<TechCategoryProps> = ({ title, technologies }) => (
   </motion.div>
 );
 
-// ===== Main Component =====
 export default function AboutPage() {
   return (
     <main className="min-h-screen pt-16">
