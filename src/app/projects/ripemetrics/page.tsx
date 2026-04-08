@@ -259,7 +259,7 @@ export default function RipeMetricsPage() {
             </Button>
           </motion.div>
           <motion.div variants={itemVariants} className="flex items-center gap-2 mb-4">
-            <div className={`h-2 w-2 rounded-full bg-${pageData.header.badge.color}-500`} />
+            <div className={`h-2 w-2 rounded-full ${{ cyan: "bg-cyan-500", green: "bg-green-500", blue: "bg-blue-500" }[pageData.header.badge.color]}`} />
             <span className="text-sm font-medium text-muted-foreground">{pageData.header.badge.label}</span>
           </motion.div>
           <motion.h1 variants={itemVariants} className="text-5xl font-bold tracking-tight text-balance">
