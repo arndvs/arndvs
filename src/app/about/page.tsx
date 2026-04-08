@@ -190,6 +190,11 @@ const aboutPageData = {
         ],
       },
       {
+        id: "mobile",
+        title: "Mobile & Monorepo",
+        technologies: ["Expo", "React Native", "Turborepo", "tRPC"],
+      },
+      {
         id: "emerging",
         title: "Emerging Tech",
         technologies: [
