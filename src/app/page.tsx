@@ -9,9 +9,9 @@ import { containerVariants, itemVariants, cardVariants } from "@/lib/utils/anima
 import { ContactForm } from "@/components/contact-form"
 const pageData = {
   hero: {
-    title: "Full Stack Software Engineer",
+    title: "Full-Stack Engineer & AI Builder",
     description:
-      "Self-taught software engineer with 8+ years of experience building and scaling AI-powered SaaS platforms from concept to production. Specializing in React, TypeScript, Next.js, and modern AI integration including LLM engineering, RAG systems, and automated data processing pipelines.",
+      "8+ years shipping production software. I founded RipeMetrics, an AI-native customer growth platform serving 50+ enterprise clients. Now I build full-stack applications and agentic AI systems for clients who need software that actually works.",
     cta: {
       primary: { text: "View Projects", href: "/projects", icon: ArrowRight },
     },
@@ -19,8 +19,9 @@ const pageData = {
   about: {
     title: "About",
     paragraphs: [
-      "I'm a self-taught software engineer who founded and scaled RipeMetrics, an AI-native customer growth platform, from concept to serving 50+ enterprise clients. My journey combines technical leadership with hands-on development, specializing in building production-ready AI applications that solve real business problems.",
-      "My expertise spans the full stack, with a particular focus on frontend architecture, AI integration, and building scalable SaaS platforms. I've led complete technical refactors, implemented RAG systems with vector databases, and created real-time communication systems that process thousands of customer interactions daily.",
+      "I founded RipeMetrics in 2017 and scaled it from a prototype to an AI-native customer growth platform serving 50+ enterprise clients. That meant building everything — React frontends, Node/Python backends, OpenAI integrations, RAG pipelines with Pinecone, and real-time messaging systems processing thousands of interactions daily.",
+      "Right now I'm building a Next.js 15 wellness platform for AlignSD with Sanity CMS, structured data, and AI-assisted content, and architecting Scorpion Percussion's e-commerce stack with Turborepo, tRPC, and React Native.",
+      "I'm most interested in agentic engineering — wiring LLMs, tool-use, and structured outputs into systems that run autonomously. When AI handles the repetitive work, I focus on architecture and the problems that actually need a human.",
     ],
     techStack: {
       title: "Technologies I work with",
@@ -60,14 +61,23 @@ const pageData = {
       },
       {
         id: "alignsd-wellness",
-        title: "Align San Diego Family Chiropractic",
+        title: "AlignSD Wellness Center",
         description:
           "Comprehensive wellness center website with Sanity CMS, advanced blog system, unique review platform, AI content generation, and intricate SEO optimization.",
         category: "Healthcare / Web",
         statusColor: "blue" as const,
-        technologies: ["Next.js 15", "Sanity CMS", "TypeScript", "OpenAI", "Stripe"],
+        technologies: ["Next.js 15", "Sanity CMS", "TypeScript", "OpenAI", "Schema.org"],
         link: "/projects/align-san-diego-family-chiropractic",
         linkText: "View case study",
+      },
+      {
+        id: "scorpion-percussion",
+        title: "Scorpion Percussion",
+        description:
+          "E-commerce platform for a percussion instrument brand. Monorepo architecture with shared type-safe API layer and native mobile storefront.",
+        category: "E-commerce / Mobile",
+        statusColor: "purple" as const,
+        technologies: ["Turborepo", "tRPC", "Expo", "React Native", "TypeScript"],
       },
     ],
   },
