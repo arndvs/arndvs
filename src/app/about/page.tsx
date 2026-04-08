@@ -143,7 +143,6 @@ const aboutPageData = {
           "Next.js",
           "TypeScript",
           "Redux RTK",
-          "Preact",
           "Tailwind CSS",
           "Material UI",
           "Framer Motion",
@@ -177,7 +176,7 @@ const aboutPageData = {
       {
         id: "cms",
         title: "CMS & Tools",
-        technologies: ["Sanity CMS", "Stripe", "Twilio", "ElevenLabs"],
+        technologies: ["Sanity CMS", "Stripe", "Twilio"],
       },
       {
         id: "devops",
@@ -196,7 +195,6 @@ const aboutPageData = {
         technologies: [
           "Model Context Protocol",
           "MCP UI",
-          "Remote DOM",
           "AI Agents",
         ],
       },
