@@ -200,6 +200,7 @@ const aboutPageData = {
         technologies: [
           "Model Context Protocol",
           "MCP UI",
+          "Claude Code",
           "AI Agents",
         ],
       },
