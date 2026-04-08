@@ -16,9 +16,9 @@ const pageData = {
       color: "cyan",
       label: "Healthcare / Web",
     },
-    title: "Align San Diego Family Chiropractic",   
+    title: "AlignSD Wellness Center",
     description:
-      "A comprehensive wellness center website featuring advanced content management, patient review systems, AI content generation, and sophisticated SEO optimization for a San Diego chiropractic practice.",
+      "Full-stack healthcare platform with 5 AI integrations, 25+ Schema.org types (including ICD-10 and SNOMED-CT medical codes), programmatic SEO across 60+ routes, a 26-template transactional email system, and 57+ automated tests — built on Next.js 16, Sanity v5, and OpenAI.",
     cta: {
       text: "Visit Website",
       href: "https://alignsd.com",
@@ -28,7 +28,7 @@ const pageData = {
   overview: {
     title: "Project Overview",
     description:
-      "Align San Diego Family Chiropractic is a full-featured healthcare website built for a San Diego chiropractic practice specializing in prenatal, postpartum, and family care. The project showcases advanced web development techniques including headless CMS integration, custom review systems, AI-powered content enhancement, and intricate SEO strategies with hub-and-spoke content architecture.",
+      "AlignSD is a production healthcare platform for a San Diego chiropractic practice specializing in prenatal, postpartum, and family care. The codebase ships 60+ frontend routes, 27 API endpoints, 9 Sanity document types, and 4 GitHub Actions CI/CD pipelines. Five distinct OpenAI integrations handle everything from GPT-4o Vision insurance card processing to review sentiment analysis and spam detection. A programmatic SEO layer generates condition and service pages at build time, each with structured data drawn from 25+ Schema.org types with ICD-10 and SNOMED-CT medical coding. The email system uses React Email to render 26 templates across 30+ reusable components, delivered through Resend.",
   },
   features: {
     title: "Key Features",
