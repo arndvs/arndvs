@@ -51,9 +51,10 @@ export function Navigation() {
                 className={cn(
                   "text-sm font-medium transition-colors hover:text-primary",
                   pathname === item.href ? "text-foreground" : "text-muted-foreground",
+                  item.href !== "/" && pathname.startsWith(item.href) && "text-foreground",
                 )}
                 aria-label={item.ariaLabel}
-                aria-current={pathname === item.href ? "page" : undefined}
+                aria-current={pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href)) ? "page" : undefined}
               >
                 {item.name}
               </Link>
