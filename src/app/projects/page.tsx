@@ -62,7 +62,7 @@ const projectsPageData = {
       ],
       featured: true,
       role: "Full-Stack Developer",
-      year: "2024-Present",
+      year: "2025-Present",
       link: "https://alignsd.com",
     },
   ],
