@@ -94,6 +94,14 @@ const aboutPageData = {
     ],
     certifications: [
       {
+        id: "claude-code",
+        title: "Claude Code for Real Engineers",
+        issuer: "AI Hero",
+        date: "Apr 2026",
+        description:
+          "Cohort-based course on production-grade AI-assisted engineering with Claude Code. Agent steering, TDD feedback loops, autonomous agents with Docker sandboxing, and human-in-the-loop patterns.",
+      },
+      {
         id: "mcp",
         title: "Master the Model Context Protocol (MCP)",
         issuer: "Kent C. Dodds",
