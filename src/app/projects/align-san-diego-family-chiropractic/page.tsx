@@ -376,7 +376,7 @@ export default function AlignSDWellnessPage() {
             className="mb-4 flex items-center gap-2"
           >
             <div
-              className={`h-2 w-2 rounded-full bg-${pageData.header.badge.color}-500`}
+              className={`h-2 w-2 rounded-full ${{ cyan: "bg-cyan-500", green: "bg-green-500", blue: "bg-blue-500" }[pageData.header.badge.color]}`}
             />
             <span className="text-sm font-medium text-muted-foreground">
               {pageData.header.badge.label}
