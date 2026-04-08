@@ -105,7 +105,7 @@ export default function RootLayout({
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
         <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Loading...</div>}>
           <Navigation />
-          <main>{children}</main>
+          {children}
           <Footer />
         </Suspense>
         <Toaster position="top-right" richColors closeButton />
