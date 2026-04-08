@@ -22,7 +22,7 @@ const aboutPageData = {
   hero: {
     title: "About Me",
     subtitle:
-      "Full-stack engineer based in San Diego. I founded RipeMetrics in 2017, scaled it to 50+ enterprise clients, and now build production software and agentic AI systems for clients who need things that actually work.",
+      "Full-stack engineer based in San Diego. I've been doing freelance web development since 2010. In 2017 I founded RipeMetrics and scaled it to 50+ enterprise clients. Now I build production software and agentic AI systems for clients who need things that actually work.",
   },
   journey: {
     title: "The Journey",
@@ -64,7 +64,7 @@ const aboutPageData = {
         id: "ai",
         icon: Sparkles,
         title: "AI Engineer",
-        period: "2024-Present",
+        period: "2023-Present",
         color: "purple",
         description: [
           "Completed AI Engineering Bootcamp (Maven) and LLM Engineering course (AI Makerspace), going deep on transformer architectures, fine-tuning, and RAG systems.",
