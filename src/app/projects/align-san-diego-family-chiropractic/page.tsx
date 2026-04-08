@@ -176,13 +176,13 @@ const pageData = {
     ],
   },
   learnings: {
-    title: "Key Learnings",
+    title: "Architectural Decisions",
     items: [
-      "Headless CMS architecture provides flexibility for complex content structures while maintaining editorial control and preview capabilities",
-      "Custom review aggregation systems can provide more value than third-party solutions when tailored to specific business needs",
-      "AI-powered content generation requires careful prompt engineering and brand voice guidelines to maintain quality and consistency",
-      "Hub-and-spoke SEO architecture with comprehensive internal linking significantly improves search visibility for healthcare practices",
-      "Automation workflows for patient communication can dramatically reduce administrative burden while improving patient engagement",
+      "Chose Sanity v5 over Contentful for its real-time collaboration, GROQ query language, and Presentation mode — critical for a non-technical client who edits content daily",
+      "Isolated each AI integration behind its own API route with Zod-validated input/output schemas, making it possible to swap models or add rate limiting per-endpoint without touching other features",
+      "Generated 25+ Schema.org types from a centralized utility rather than inline markup, so adding ICD-10 or SNOMED-CT codes to a new condition page requires zero frontend changes",
+      "Built the email system with React Email components instead of HTML templates, gaining type safety, component reuse across 26 templates, and the ability to preview emails in the browser during development",
+      "Invested in 57+ tests early — the SEO validation suite alone catches missing meta tags, broken structured data, and canonical URL regressions before they reach production",
     ],
   },
 }
