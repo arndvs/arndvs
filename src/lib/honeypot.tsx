@@ -10,24 +10,13 @@ interface HoneypotConfig {
 interface HoneypotResult {
   isValid: boolean
   reason?: string
-}
-
-/**
- * Client-side honeypot hook for spam protection
- * Implements time-based validation and hidden field detection
- */
-export function useHoneypot(config: HoneypotConfig = {}) {
+}export function useHoneypot(config: HoneypotConfig = {}) {
   const { minSubmitTime = 3000, enableTimeValidation = true } = config
   const formStartTime = useRef<number>(Date.now())
 
   useEffect(() => {
     formStartTime.current = Date.now()
-  }, [])
-
-  /**
-   * Validates honeypot fields and timing
-   */
-  const validateHoneypot = (formData: Record<string, string>): HoneypotResult => {
+  }, [])  const validateHoneypot = (formData: Record<string, string>): HoneypotResult => {
     // Check if honeypot field was filled (bot behavior)
     if (formData.website || formData._honeypot) {
       return {
@@ -48,12 +37,7 @@ export function useHoneypot(config: HoneypotConfig = {}) {
     }
 
     return { isValid: true }
-  }
-
-  /**
-   * Gets honeypot form data to include in submission
-   */
-  const getHoneypotFormData = () => ({
+  }  const getHoneypotFormData = () => ({
     _honeypot_timestamp: formStartTime.current.toString(),
   })
 
@@ -61,13 +45,7 @@ export function useHoneypot(config: HoneypotConfig = {}) {
     validateHoneypot,
     getHoneypotFormData,
   }
-}
-
-/**
- * Anti-spam fields component
- * Renders decoy fields that appear like normal optional fields
- */
-export function SpamProtectionFields() {
+}export function SpamProtectionFields() {
   return (
     <>
       {/* Looks like a legitimate optional field but hidden with CSS */}

@@ -24,20 +24,7 @@ interface ContactFormProps {
   showIcon?: boolean
   triggerIcon?: React.ReactNode
   triggerClassName?: string
-}
-
-/**
- * Contact form dialog component that hides email address.
- * Uses a dialog modal with form fields for name, email, and message.
- * 
- * @param triggerText - Text for the button that opens the dialog
- * @param triggerVariant - Button variant style
- * @param triggerSize - Button size
- * @param showIcon - Whether to show the mail icon
- * @param triggerIcon - Custom icon to display instead of the default Mail icon
- * @param triggerClassName - Additional CSS classes for the trigger button
- */
-export function ContactForm({
+}export function ContactForm({
   triggerText = "Get in touch",
   triggerVariant = "default",
   triggerSize = "lg",

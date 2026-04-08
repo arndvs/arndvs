@@ -8,8 +8,6 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Suspense } from "react"
 import { Toaster } from "sonner"
-
-// ===== Metadata Configuration =====
 export const metadata: Metadata = {
   title: {
     default: "Aaron Davis - Full Stack Software Engineer & AI Specialist",
@@ -74,27 +72,6 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
 }
-
-/**
- * Root layout component that wraps all pages in the application.
- * Provides global navigation, footer, font configuration, toast notifications, and analytics.
- * Implements Geist Sans and Geist Mono fonts for consistent typography.
- * 
- * Features:
- * - Fixed navigation header with routing
- * - Responsive footer with social links and contact form
- * - Toast notifications via Sonner
- * - Analytics tracking via Vercel
- * - Font optimization with Next.js font system
- * - Suspense boundary for progressive hydration
- * 
- * @param {Object} props - Component props
- * @param {React.ReactNode} props.children - Page content to render within the layout
- * 
- * @example
- * // This layout automatically wraps all pages in the app
- * // No direct usage required - Next.js handles it automatically
- */
 export default function RootLayout({
   children,
 }: Readonly<{

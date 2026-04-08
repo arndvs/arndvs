@@ -17,8 +17,6 @@ import {
   itemVariants,
   cardVariants,
 } from "@/lib/utils/animations";
-
-// ===== Page Data =====
 const projectsPageData = {
   hero: {
     title: "Projects",
@@ -75,22 +73,6 @@ const projectsPageData = {
     buttonText: "Get in touch",
   },
 };
-
-// ===== TypeScript Interfaces =====
-
-/**
- * Project data interface
- * @property {string} id - Unique project identifier for routing
- * @property {string} title - Project title
- * @property {string} description - Project description
- * @property {string} category - Project category/type
- * @property {string} color - Color theme (green, blue, cyan, orange, purple)
- * @property {string[]} technologies - Array of technologies used
- * @property {boolean} featured - Whether project is featured
- * @property {string} role - Role in the project
- * @property {string} year - Year or time period
- * @property {string} [link] - Optional external link to live site
- */
 interface Project {
   id: string;
   title: string;
@@ -103,14 +85,6 @@ interface Project {
   year: string;
   link?: string;
 }
-
-// ===== Helper Functions =====
-
-/**
- * Get Tailwind background color class based on color name
- * @param {string} color - Color name (green, blue, cyan, orange, purple)
- * @returns {string} Tailwind class string
- */
 const getColorClass = (color: string): string => {
   const colorMap: Record<string, string> = {
     green: "bg-green-500",
@@ -121,13 +95,6 @@ const getColorClass = (color: string): string => {
   };
   return colorMap[color] || "bg-primary";
 };
-
-// ===== Subcomponents =====
-
-/**
- * Project card component displaying project information with hover animations
- * Shows project title, description, technologies, role, year, and action buttons
- */
 const ProjectCard: React.FC<Project> = ({
   id,
   title,
@@ -203,29 +170,6 @@ const ProjectCard: React.FC<Project> = ({
     </motion.div>
   );
 };
-
-// ===== Main Component =====
-
-/**
- * Projects listing page showcasing portfolio work.
- * Displays featured projects with filtering, categories, and technology stacks.
- *
- * Features:
- * - Hero section with page title and description
- * - Grid of project cards with hover effects
- * - Project categories and year badges
- * - Technology stack tags
- * - Links to case studies and live sites
- * - CTA section with contact form
- * - Scroll-triggered animations for all sections
- *
- * All sections use Framer Motion's whileInView for smooth scroll-triggered animations.
- * Project cards have hover effects and responsive grid layout.
- *
- * @example
- * // Automatically rendered at /projects route
- * <ProjectsPage />
- */
 export default function ProjectsPage() {
   return (
     <main className="min-h-screen pt-16">

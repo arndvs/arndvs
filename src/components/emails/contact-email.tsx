@@ -14,13 +14,7 @@ interface ContactEmailProps {
   name: string
   email: string
   message: string
-}
-
-/**
- * Email template for contact form submissions
- * Uses React Email components for consistent rendering across email clients
- */
-export function ContactEmail({ name, email, message }: ContactEmailProps) {
+}export function ContactEmail({ name, email, message }: ContactEmailProps) {
   return (
     <Html>
       <Head />
