@@ -34,52 +34,52 @@ const pageData = {
     title: "Key Features",
     items: [
       {
+        id: "ai-integrations",
+        title: "5 AI Integrations",
+        description:
+          "GPT-4o Vision for insurance card OCR, content enhancement for blog posts, event description generation, review sentiment analysis, and spam detection — each with dedicated API routes, structured JSON output, and error boundaries.",
+      },
+      {
+        id: "schema-org",
+        title: "25+ Schema.org Types with Medical Coding",
+        description:
+          "Comprehensive structured data layer generating JSON-LD for LocalBusiness, MedicalBusiness, Chiropractor, FAQPage, BlogPosting, Event, Review, and 18+ more types. Includes ICD-10 and SNOMED-CT medical codes for conditions and treatments.",
+      },
+      {
         id: "sanity-cms",
-        title: "Sanity CMS Integration",
+        title: "Sanity v5 Content Platform",
         description:
-          "Comprehensive headless CMS implementation with custom schemas for blog posts, events, team members, services, and patient reviews. Features live preview, draft mode, and visual editing capabilities.",
+          "9 document types and 3 object types with live preview, draft mode, and visual editing. 12 GROQ query files power the data layer. Custom Studio with embedded dashboards, media management, and presentation mode.",
       },
       {
-        id: "blog-events",
-        title: "Advanced Blog & Event System",
+        id: "programmatic-seo",
+        title: "Programmatic SEO Across 60+ Routes",
         description:
-          "Dynamic blog with category filtering, tag-based navigation, featured posts, author profiles, and event management system with registration capabilities and calendar integration.",
+          "Hub-and-spoke architecture generating condition pages, service pages, and location-specific landing pages at build time. Dynamic sitemap, canonical URLs, and comprehensive internal linking driven by Sanity content relationships.",
       },
       {
-        id: "reviews",
-        title: "Unique Review Platform",
+        id: "email-system",
+        title: "26-Template Email System",
         description:
-          "Custom-built patient review system with 130+ testimonials, service-specific tagging, rating aggregation, filtering by treatment type, and integration with Google Maps and Yelp reviews.",
+          "React Email renders 26 transactional templates (appointment confirmations, review requests, contact forms, insurance submissions) using 30+ reusable components, delivered through Resend with rate limiting and error handling.",
       },
       {
-        id: "ai-content",
-        title: "AI Content Generation",
+        id: "review-platform",
+        title: "AI-Powered Review Platform",
         description:
-          "OpenAI integration for content enhancement, blog post optimization, meta description generation, and automated content suggestions to improve SEO and readability.",
+          "155+ patient reviews with sentiment analysis, service-specific tagging, rating aggregation, and filtering by treatment type. Generates AggregateRating and individual Review schema for rich snippets in search results.",
       },
       {
-        id: "booking",
-        title: "Appointment Booking",
+        id: "testing",
+        title: "57+ Automated Tests",
         description:
-          "Custom appointment booking components with form validation, phone number formatting, email notifications via Resend, and integration with practice management systems.",
+          "Vitest and React Testing Library covering unit, integration, SEO validation, and E2E scenarios. Dedicated test suites verify Schema.org output, meta tag generation, and API endpoint responses.",
       },
       {
-        id: "automation",
-        title: "Automation & CRM Integration",
+        id: "aeo",
+        title: "Answer Engine Optimization",
         description:
-          "n8n workflow automation for patient communication, GoHighLevel CRM integration for lead management, automated follow-ups, and patient engagement tracking.",
-      },
-      {
-        id: "seo",
-        title: "SEO Optimization",
-        description:
-          "Intricate hub-and-spoke content architecture with service pages, condition-specific landing pages, location-based SEO, schema markup, and comprehensive internal linking strategy.",
-      },
-      {
-        id: "payments",
-        title: "Payment Processing",
-        description:
-          "Stripe integration for online payments, package purchases, gift certificates, and subscription management for wellness programs and membership plans.",
+          "Machine-readable endpoints at /llms.txt and /llms-full.txt serve structured practice data to AI assistants. FAQ schema and medical condition markup provide direct answers for voice search and AI-powered discovery.",
       },
     ],
   },
