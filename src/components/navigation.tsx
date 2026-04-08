@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { GlitchName } from "./glitch-name"
+import { ContactForm } from "./contact-form"
 const navItems = [
   { name: "Home", href: "/", ariaLabel: "Go to home page" },
   { name: "About", href: "/about", ariaLabel: "Learn more about Aaron" },
@@ -26,7 +27,7 @@ export function Navigation() {
           >
             <GlitchName />
           </Link>
-          <div className="flex gap-8" role="navigation">
+          <div className="flex items-center gap-8" role="navigation">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -42,6 +43,7 @@ export function Navigation() {
                 {item.name}
               </Link>
             ))}
+            <ContactForm triggerText="Contact" triggerVariant="default" triggerSize="sm" showIcon={false} />
           </div>
         </div>
       </div>
