@@ -55,7 +55,7 @@ const aboutPageData = {
         period: "2020-2025",
         color: "green",
         description: [
-          "Led complete technical refactor from Laravel Livewire to React/Next.js, reducing network response times by 6 seconds and improving overall system performance.",
+          "At RipeMetrics, led complete technical refactor from Laravel Livewire to React/Next.js, reducing network response times by 6 seconds and improving overall system performance.",
           "Built AI-powered chatbot with OpenAI, MySQL, and vector databases (Pinecone/Chroma). Created website content extraction system reducing client onboarding from 20 minutes to 2 minutes.",
           "Scaled platform to 50+ enterprise clients processing thousands of customer interactions daily, while maintaining 95%+ system uptime.",
         ],
