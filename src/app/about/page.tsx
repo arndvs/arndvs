@@ -130,7 +130,7 @@ const aboutPageData = {
   differentiators: {
     title: "How I Work",
     content:
-      "My path from sales to engineering means I build software with the end user in mind, not just the spec. I ship fast, communicate clearly, and treat every project like it's my own product.",
+      "My path from sales to engineering means I build software with the end user in mind, not just the spec. Seven years of selling enterprise software taught me how businesses actually buy and what makes them stick around — that instinct doesn't go away when you switch to the terminal. I ship fast, communicate clearly, and treat every project like it's my own product.",
   },
   techStack: {
     title: "Technologies I Work With",
