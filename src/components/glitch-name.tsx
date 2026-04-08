@@ -12,7 +12,6 @@ const glitchChars = "!<>-_\\/[]{}—=+*^?#________"
 
 export function GlitchName() {
   const [isHovering, setIsHovering] = useState(false)
-  const [currentText, setCurrentText] = useState("Aaron Davis")
   const [displayText, setDisplayText] = useState("Aaron Davis")
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const glitchIntervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -33,14 +32,18 @@ export function GlitchName() {
     if (isHovering) {
       let progress = 0
       const targetIndex = (identityIndexRef.current + 1) % nameVariations.length
-      const target = nameVariations[targetIndex].text
+      const variation = nameVariations[targetIndex]
+
+      if (!variation)
+        return
+
+      const target = variation.text
 
       glitchIntervalRef.current = setInterval(() => {
         progress += 1
         if (progress <= target.length) {
           setDisplayText(scrambleText(target, progress))
         } else {
-          setCurrentText(target)
           setDisplayText(target)
           identityIndexRef.current = targetIndex
           if (glitchIntervalRef.current) {
@@ -51,7 +54,12 @@ export function GlitchName() {
 
       intervalRef.current = setInterval(() => {
         const nextIndex = (identityIndexRef.current + 1) % nameVariations.length
-        const nextTarget = nameVariations[nextIndex].text
+        const nextVariation = nameVariations[nextIndex]
+
+        if (!nextVariation)
+          return
+
+        const nextTarget = nextVariation.text
         let nextProgress = 0
 
         if (glitchIntervalRef.current) {
@@ -63,7 +71,6 @@ export function GlitchName() {
           if (nextProgress <= nextTarget.length) {
             setDisplayText(scrambleText(nextTarget, nextProgress))
           } else {
-            setCurrentText(nextTarget)
             setDisplayText(nextTarget)
             identityIndexRef.current = nextIndex
             if (glitchIntervalRef.current) {
@@ -84,7 +91,6 @@ export function GlitchName() {
         if (progress <= target.length) {
           setDisplayText(scrambleText(target, progress))
         } else {
-          setCurrentText(target)
           setDisplayText(target)
           identityIndexRef.current = 0
           if (glitchIntervalRef.current) {

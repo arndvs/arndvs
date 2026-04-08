@@ -13,7 +13,7 @@ interface HoneypotResult {
  * Validates spam protection fields and timing from form submissions
  */
 export function validateHoneypotServer(
-  formData: Record<string, any>,
+  formData: Record<string, string>,
   serverTime: number = Date.now()
 ): HoneypotResult {
   // Check honeypot fields
