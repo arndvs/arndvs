@@ -4,11 +4,12 @@ import Link from "next/link"
 import { Github, Linkedin, Mail } from "lucide-react"
 import { motion } from "framer-motion"
 import { ContactForm } from "./contact-form"
-import { containerVariants, itemVariants } from "@/lib/utils/animations"const footerData = {
+import { containerVariants, itemVariants } from "@/lib/utils/animations"
+const footerData = {
   brand: {
     name: "Aaron Davis",
     description:
-      "Self-taught engineer building at the intersection of AI and user experience. Specializing in full-stack development, AI integration, and scalable SaaS platforms.",
+      "Full-stack engineer building AI systems that work in production.",
   },
   navigation: [
     { name: "Home", href: "/" },
@@ -30,7 +31,8 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const f
     },
   ],
   location: "San Diego, California",
-}export function Footer() {
+}
+export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
