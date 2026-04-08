@@ -87,34 +87,34 @@ const pageData = {
     title: "Technical Implementation",
     sections: [
       {
-        id: "content-mgmt",
-        heading: "Content Management",
+        id: "content-platform",
+        heading: "Content Platform",
         description:
-          "Built a comprehensive Sanity CMS implementation with custom schemas for all content types. Implemented Portable Text for rich content editing, custom input components for specialized fields, and live preview functionality. Created custom validation rules and reference management for complex content relationships.",
+          "Sanity v5 powers 9 document types (blog posts, events, team members, services, reviews, conditions, FAQs, testimonials, settings) and 3 object types. 12 GROQ query files centralize data access. The Studio ships with embedded analytics dashboards, a media library plugin, and Presentation mode for visual editing. Draft mode and live preview let editors see changes before publishing.",
       },
       {
-        id: "review-system",
-        heading: "Review System Architecture",
+        id: "ai-pipeline",
+        heading: "AI Integration Pipeline",
         description:
-          "Designed and implemented a unique review system that aggregates patient testimonials from multiple sources (Google, Yelp, direct submissions). Built filtering and sorting capabilities by service type, condition treated, and rating. Implemented schema markup for rich snippets in search results.",
+          "Five dedicated API routes handle AI tasks: GPT-4o Vision extracts structured data from insurance card photos, a content enhancement endpoint rewrites blog drafts for SEO, an event enhancer generates descriptions from minimal input, review sentiment analysis scores and categorizes patient feedback, and a spam detection layer filters form submissions. Each route returns structured JSON with Zod-validated schemas and includes rate limiting.",
       },
       {
-        id: "ai-enhancement",
-        heading: "AI-Powered Content Enhancement",
+        id: "json-ld",
+        heading: "Structured Data & JSON-LD",
         description:
-          "Integrated OpenAI API for automated content optimization, including meta description generation, blog post enhancement, and SEO keyword suggestions. Built custom prompts and workflows to maintain brand voice while improving content quality and search visibility.",
+          "A centralized schema generation system produces JSON-LD for 25+ Schema.org types. Medical conditions include ICD-10 diagnostic codes and SNOMED-CT identifiers. The system generates LocalBusiness, Chiropractor, MedicalBusiness, FAQPage, BlogPosting, Event, Review, AggregateRating, BreadcrumbList, and condition-specific MedicalCondition types. Dedicated test suites validate every output against Schema.org specifications.",
       },
       {
-        id: "seo-strategy",
-        heading: "SEO Strategy",
+        id: "programmatic-seo",
+        heading: "Programmatic SEO Architecture",
         description:
-          "Implemented a hub-and-spoke content architecture with pillar pages for main services and supporting content for specific conditions and treatments. Built dynamic sitemap generation, structured data implementation, and comprehensive internal linking system to improve search rankings and user navigation.",
+          "A hub-and-spoke model generates 60+ routes at build time. Service pillar pages link to condition-specific child pages, each with unique content, FAQ schema, and internal links back to the hub. Dynamic sitemaps, canonical URLs, and Open Graph metadata are generated per-page. AEO endpoints at /llms.txt and /llms-full.txt serve machine-readable practice data for AI assistants.",
       },
       {
-        id: "automation-workflows",
-        heading: "Automation Workflows",
+        id: "email-system",
+        heading: "Transactional Email System",
         description:
-          "Created n8n workflows for automated patient communication, appointment reminders, review requests, and lead nurturing. Integrated with GoHighLevel CRM for comprehensive patient relationship management and marketing automation.",
+          "React Email renders 26 templates from 30+ shared components covering appointment confirmations, review requests, contact form receipts, insurance submission acknowledgments, and internal notifications. Resend delivers all mail with automatic retries. Templates use consistent branding and are type-safe with TypeScript interfaces for every prop.",
       },
     ],
   },
