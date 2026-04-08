@@ -1,9 +1,23 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BookOpen, Rocket, Code2, Sparkles, Award, GraduationCap, type LucideIcon } from "lucide-react"
-import { motion } from "framer-motion"
-import { containerVariants, itemVariants } from "@/lib/utils/animations"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  BookOpen,
+  Rocket,
+  Code2,
+  Sparkles,
+  Award,
+  GraduationCap,
+  type LucideIcon,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { containerVariants, itemVariants } from "@/lib/utils/animations";
 const aboutPageData = {
   hero: {
     title: "About Me",
@@ -116,17 +130,41 @@ const aboutPageData = {
       {
         id: "frontend",
         title: "Frontend",
-        technologies: ["React", "Next.js", "TypeScript", "Redux RTK", "Preact", "Tailwind CSS", "Material UI", "Framer Motion"],
+        technologies: [
+          "React",
+          "Next.js",
+          "TypeScript",
+          "Redux RTK",
+          "Preact",
+          "Tailwind CSS",
+          "Material UI",
+          "Framer Motion",
+        ],
       },
       {
         id: "backend",
         title: "Backend & Database",
-        technologies: ["Node.js", "Python", "FastAPI", "PostgreSQL", "MySQL", "Redis"],
+        technologies: [
+          "Node.js",
+          "Python",
+          "FastAPI",
+          "PostgreSQL",
+          "MySQL",
+          "Redis",
+        ],
       },
       {
         id: "ai",
         title: "AI & ML",
-        technologies: ["OpenAI API", "Claude API", "LangChain", "RAG", "Pinecone", "Chroma", "Vector DBs"],
+        technologies: [
+          "OpenAI API",
+          "Claude API",
+          "LangChain",
+          "RAG",
+          "Pinecone",
+          "Chroma",
+          "Vector DBs",
+        ],
       },
       {
         id: "cms",
@@ -136,12 +174,23 @@ const aboutPageData = {
       {
         id: "devops",
         title: "DevOps & Testing",
-        technologies: ["Git", "Docker", "Vitest", "React Testing Library", "CI/CD"],
+        technologies: [
+          "Git",
+          "Docker",
+          "Vitest",
+          "React Testing Library",
+          "CI/CD",
+        ],
       },
       {
         id: "emerging",
         title: "Emerging Tech",
-        technologies: ["Model Context Protocol", "MCP UI", "Remote DOM", "AI Agents"],
+        technologies: [
+          "Model Context Protocol",
+          "MCP UI",
+          "Remote DOM",
+          "AI Agents",
+        ],
       },
     ],
   },
@@ -150,30 +199,30 @@ const aboutPageData = {
     content:
       "When I'm not building you'll find me rock climbing around San Diego or hunting for rare vinyl records.",
   },
-}
+};
 
 // ===== TypeScript Interfaces =====
 interface JourneyPhaseProps {
-  icon: LucideIcon
-  title: string
-  period: string
-  color: string
-  description: string[]
+  icon: LucideIcon;
+  title: string;
+  period: string;
+  color: string;
+  description: string[];
 }
 interface EducationItemProps {
-  institution: string
-  period: string
-  description: string
+  institution: string;
+  period: string;
+  description: string;
 }
 interface CertificationItemProps {
-  title: string
-  issuer: string
-  date: string
-  description: string
+  title: string;
+  issuer: string;
+  date: string;
+  description: string;
 }
 interface TechCategoryProps {
-  title: string
-  technologies: string[]
+  title: string;
+  technologies: string[];
 }
 
 // ===== Helper Functions =====
@@ -195,13 +244,19 @@ const getColorClasses = (color: string) => {
       border: "border-l-purple-500",
       icon: "text-purple-500",
     },
-  }
-  return colorMap[color as keyof typeof colorMap] || colorMap.orange
-}
+  };
+  return colorMap[color as keyof typeof colorMap] || colorMap.orange;
+};
 
 // ===== Subcomponents =====
-const JourneyPhaseCard: React.FC<JourneyPhaseProps> = ({ icon: Icon, title, period, color, description }) => {
-  const colors = getColorClasses(color)
+const JourneyPhaseCard: React.FC<JourneyPhaseProps> = ({
+  icon: Icon,
+  title,
+  period,
+  color,
+  description,
+}) => {
+  const colors = getColorClasses(color);
 
   return (
     <motion.div variants={itemVariants}>
@@ -218,16 +273,25 @@ const JourneyPhaseCard: React.FC<JourneyPhaseProps> = ({ icon: Icon, title, peri
         </CardContent>
       </Card>
     </motion.div>
-  )
-}
-const EducationItem: React.FC<EducationItemProps> = ({ institution, period, description }) => (
+  );
+};
+const EducationItem: React.FC<EducationItemProps> = ({
+  institution,
+  period,
+  description,
+}) => (
   <div>
     <p className="font-semibold text-foreground">{institution}</p>
     <p className="text-xs text-muted-foreground mb-1">{period}</p>
     <p>{description}</p>
   </div>
-)
-const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, date, description }) => (
+);
+const CertificationItem: React.FC<CertificationItemProps> = ({
+  title,
+  issuer,
+  date,
+  description,
+}) => (
   <div>
     <p className="font-semibold text-foreground">{title}</p>
     <p className="text-xs text-muted-foreground mb-1">
@@ -235,19 +299,22 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, da
     </p>
     <p>{description}</p>
   </div>
-)
+);
 const TechCategory: React.FC<TechCategoryProps> = ({ title, technologies }) => (
   <motion.div variants={itemVariants}>
     <h3 className="text-lg font-semibold mb-4">{title}</h3>
     <div className="flex flex-wrap gap-2">
       {technologies.map((tech) => (
-        <span key={tech} className="rounded-md bg-secondary px-3 py-1 text-sm font-medium">
+        <span
+          key={tech}
+          className="rounded-md bg-secondary px-3 py-1 text-sm font-medium"
+        >
           {tech}
         </span>
       ))}
     </div>
   </motion.div>
-)
+);
 
 // ===== Main Component =====
 export default function AboutPage() {
@@ -263,8 +330,12 @@ export default function AboutPage() {
         aria-label="Introduction"
       >
         <motion.div variants={itemVariants} className="max-w-3xl">
-          <h1 className="text-5xl font-bold tracking-tight text-balance">{aboutPageData.hero.title}</h1>
-          <p className="mt-6 text-xl leading-relaxed text-muted-foreground text-pretty">{aboutPageData.hero.subtitle}</p>
+          <h1 className="text-5xl font-bold tracking-tight text-balance">
+            {aboutPageData.hero.title}
+          </h1>
+          <p className="mt-6 text-xl leading-relaxed text-muted-foreground text-pretty">
+            {aboutPageData.hero.subtitle}
+          </p>
         </motion.div>
 
         {/* Journey Timeline */}
@@ -276,7 +347,10 @@ export default function AboutPage() {
           className="mt-16"
           aria-label="Career journey timeline"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight mb-8">
+          <motion.h2
+            variants={itemVariants}
+            className="text-3xl font-bold tracking-tight mb-8"
+          >
             {aboutPageData.journey.title}
           </motion.h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4" role="list">
@@ -295,7 +369,10 @@ export default function AboutPage() {
           className="mt-24"
           aria-label="Education and certifications"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight mb-8">
+          <motion.h2
+            variants={itemVariants}
+            className="text-3xl font-bold tracking-tight mb-8"
+          >
             {aboutPageData.education.title}
           </motion.h2>
           <div className="grid gap-6 md:grid-cols-2" role="list">
@@ -338,10 +415,16 @@ export default function AboutPage() {
           className="mt-24"
           aria-label="Unique differentiators"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight mb-8">
+          <motion.h2
+            variants={itemVariants}
+            className="text-3xl font-bold tracking-tight mb-8"
+          >
             {aboutPageData.differentiators.title}
           </motion.h2>
-          <motion.p variants={itemVariants} className="text-lg text-muted-foreground leading-relaxed max-w-3xl">
+          <motion.p
+            variants={itemVariants}
+            className="text-lg text-muted-foreground leading-relaxed max-w-3xl"
+          >
             {aboutPageData.differentiators.content}
           </motion.p>
         </motion.div>
@@ -355,7 +438,10 @@ export default function AboutPage() {
           className="mt-24"
           aria-label="Technology stack"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight mb-8">
+          <motion.h2
+            variants={itemVariants}
+            className="text-3xl font-bold tracking-tight mb-8"
+          >
             {aboutPageData.techStack.title}
           </motion.h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3" role="list">
@@ -374,19 +460,23 @@ export default function AboutPage() {
           className="mt-24"
           aria-label="Personal interests"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight mb-8">
+          <motion.h2
+            variants={itemVariants}
+            className="text-3xl font-bold tracking-tight mb-8"
+          >
             {aboutPageData.personal.title}
           </motion.h2>
           <motion.div variants={itemVariants}>
             <Card>
               <CardContent className="pt-6">
-                <p className="text-lg text-muted-foreground leading-relaxed">{aboutPageData.personal.content}</p>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  {aboutPageData.personal.content}
+                </p>
               </CardContent>
             </Card>
           </motion.div>
         </motion.div>
       </motion.section>
     </main>
-  )
+  );
 }
-
