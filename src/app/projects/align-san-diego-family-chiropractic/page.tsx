@@ -163,14 +163,17 @@ const pageData = {
   results: {
     title: "Results & Impact",
     metrics: [
-      { value: "130+", label: "Five-Star Patient Reviews" },
-      { value: "5,000+", label: "Patients Served" },
-      { value: "15+", label: "Years in Practice" },
+      { value: "5", label: "AI Integrations (GPT-4o Vision, Sentiment, Spam, Content, Events)" },
+      { value: "25+", label: "Schema.org Types with Medical Coding" },
+      { value: "60+", label: "Frontend Routes & Pages" },
+      { value: "27", label: "API Endpoints" },
+      { value: "57+", label: "Automated Tests" },
+      { value: "26", label: "Email Templates" },
     ],
     paragraphs: [
-      "The website successfully serves as the primary digital presence for Align San Diego Family Chiropractic</a>, driving patient acquisition through organic search, showcasing the practice's expertise through comprehensive content, and streamlining patient communication through automated workflows.",
-      "The advanced review system and SEO optimization have significantly improved the practice's online visibility, while the AI-powered content generation has enabled consistent, high-quality content production without overwhelming the practice's administrative resources.",
-        ],
+      "The platform drives patient acquisition through programmatic SEO, with build-time generation of condition and service pages across 60+ routes. Each page carries its own JSON-LD structured data, Open Graph tags, and internal links back to the hub-and-spoke architecture.",
+      "Answer Engine Optimization endpoints (/llms.txt and /llms-full.txt) serve machine-readable practice data to AI assistants, while 155+ patient reviews with sentiment analysis generate AggregateRating schema for rich search snippets.",
+    ],
   },
   learnings: {
     title: "Key Learnings",
@@ -405,7 +408,7 @@ export default function AlignSDWellnessPage() {
             <motion.h2 variants={itemVariants} className="mb-6 text-3xl font-bold">
               {pageData.results.title}
             </motion.h2>
-            <motion.div variants={staggerContainerVariants} className="grid gap-6 md:grid-cols-3">
+            <motion.div variants={staggerContainerVariants} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {pageData.results.metrics.map((metric, index) => (
                 <MetricCard key={index} value={metric.value} label={metric.label} />
               ))}
