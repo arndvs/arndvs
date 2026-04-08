@@ -1,12 +1,22 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, ExternalLink } from "lucide-react"
-import { ContactForm } from "@/components/contact-form"
-import { motion } from "framer-motion"
-import { containerVariants, itemVariants, cardVariants } from "@/lib/utils/animations"
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, ExternalLink } from "lucide-react";
+import { ContactForm } from "@/components/contact-form";
+import { motion } from "framer-motion";
+import {
+  containerVariants,
+  itemVariants,
+  cardVariants,
+} from "@/lib/utils/animations";
 
 // ===== Page Data =====
 const projectsPageData = {
@@ -23,19 +33,35 @@ const projectsPageData = {
         "AI-powered customer growth platform serving 50+ enterprise clients with automated customer service, reducing costs by 40% and achieving 95%+ uptime.",
       category: "AI / SaaS",
       color: "green",
-      technologies: ["React", "Next.js", "TypeScript", "Redux RTK", "OpenAI", "Pinecone", "PostgreSQL"],
+      technologies: [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Redux RTK",
+        "OpenAI",
+        "Pinecone",
+        "PostgreSQL",
+      ],
       featured: true,
       role: "Founder & Full-Stack Developer",
       year: "2017-2025",
     },
     {
       id: "align-san-diego-family-chiropractic",
-      title: "AlignSD Wellness Center",
+      title: "Align San Diego Family Chiropractic",
       description:
         "Full-stack healthcare platform with 5 AI integrations, 25+ Schema.org types with medical coding, programmatic SEO across 60+ routes, and a 26-template transactional email system — built on Next.js 16, Sanity v5, and OpenAI.",
       category: "Healthcare / Web",
       color: "cyan",
-      technologies: ["Next.js 16", "React 19", "Sanity v5", "TypeScript", "OpenAI", "Schema.org", "Programmatic SEO"],
+      technologies: [
+        "Next.js 16",
+        "React 19",
+        "Sanity v5",
+        "TypeScript",
+        "OpenAI",
+        "Schema.org",
+        "Programmatic SEO",
+      ],
       featured: true,
       role: "Full-Stack Developer",
       year: "2024-Present",
@@ -48,7 +74,7 @@ const projectsPageData = {
       "I'm currently taking on freelance projects and exploring full-time opportunities in AI-first companies.",
     buttonText: "Get in touch",
   },
-}
+};
 
 // ===== TypeScript Interfaces =====
 
@@ -66,16 +92,16 @@ const projectsPageData = {
  * @property {string} [link] - Optional external link to live site
  */
 interface Project {
-  id: string
-  title: string
-  description: string
-  category: string
-  color: string
-  technologies: string[]
-  featured: boolean
-  role: string
-  year: string
-  link?: string
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  color: string;
+  technologies: string[];
+  featured: boolean;
+  role: string;
+  year: string;
+  link?: string;
 }
 
 // ===== Helper Functions =====
@@ -92,9 +118,9 @@ const getColorClass = (color: string): string => {
     cyan: "bg-cyan-500",
     orange: "bg-orange-500",
     purple: "bg-purple-500",
-  }
-  return colorMap[color] || "bg-primary"
-}
+  };
+  return colorMap[color] || "bg-primary";
+};
 
 // ===== Subcomponents =====
 
@@ -121,26 +147,37 @@ const ProjectCard: React.FC<Project> = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className={`h-2 w-2 rounded-full ${getColorClass(color)}`} />
-              <span className="text-xs font-medium text-muted-foreground">{category}</span>
+              <span className="text-xs font-medium text-muted-foreground">
+                {category}
+              </span>
             </div>
             <span className="text-xs text-muted-foreground">{year}</span>
           </div>
 
           {/* Title and Role */}
           <div>
-            <CardTitle className="text-2xl group-hover:text-primary transition-colors">{title}</CardTitle>
-            <p className="mt-2 text-sm font-medium text-muted-foreground">{role}</p>
+            <CardTitle className="text-2xl group-hover:text-primary transition-colors">
+              {title}
+            </CardTitle>
+            <p className="mt-2 text-sm font-medium text-muted-foreground">
+              {role}
+            </p>
           </div>
 
           {/* Description */}
-          <CardDescription className="text-base leading-relaxed">{description}</CardDescription>
+          <CardDescription className="text-base leading-relaxed">
+            {description}
+          </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-4">
           {/* Technologies */}
           <div className="flex flex-wrap gap-2">
             {technologies.map((tech) => (
-              <span key={tech} className="rounded-md bg-secondary px-2.5 py-1 text-xs font-medium">
+              <span
+                key={tech}
+                className="rounded-md bg-secondary px-2.5 py-1 text-xs font-medium"
+              >
                 {tech}
               </span>
             ))}
@@ -164,15 +201,15 @@ const ProjectCard: React.FC<Project> = ({
         </CardContent>
       </Card>
     </motion.div>
-  )
-}
+  );
+};
 
 // ===== Main Component =====
 
 /**
  * Projects listing page showcasing portfolio work.
  * Displays featured projects with filtering, categories, and technology stacks.
- * 
+ *
  * Features:
  * - Hero section with page title and description
  * - Grid of project cards with hover effects
@@ -181,10 +218,10 @@ const ProjectCard: React.FC<Project> = ({
  * - Links to case studies and live sites
  * - CTA section with contact form
  * - Scroll-triggered animations for all sections
- * 
+ *
  * All sections use Framer Motion's whileInView for smooth scroll-triggered animations.
  * Project cards have hover effects and responsive grid layout.
- * 
+ *
  * @example
  * // Automatically rendered at /projects route
  * <ProjectsPage />
@@ -201,10 +238,16 @@ export default function ProjectsPage() {
           variants={containerVariants}
           className="max-w-3xl"
         >
-          <motion.h1 variants={itemVariants} className="text-5xl font-bold tracking-tight text-balance lg:text-6xl">
+          <motion.h1
+            variants={itemVariants}
+            className="text-5xl font-bold tracking-tight text-balance lg:text-6xl"
+          >
             {projectsPageData.hero.title}
           </motion.h1>
-          <motion.p variants={itemVariants} className="mt-6 text-xl leading-relaxed text-muted-foreground text-pretty">
+          <motion.p
+            variants={itemVariants}
+            className="mt-6 text-xl leading-relaxed text-muted-foreground text-pretty"
+          >
             {projectsPageData.hero.description}
           </motion.p>
         </motion.div>
@@ -235,8 +278,12 @@ export default function ProjectsPage() {
           <motion.div variants={itemVariants}>
             <Card className="text-center">
               <CardContent className="p-8 lg:p-12">
-                <h2 className="text-2xl font-bold tracking-tight">{projectsPageData.cta.title}</h2>
-                <p className="mt-4 text-lg text-muted-foreground">{projectsPageData.cta.description}</p>
+                <h2 className="text-2xl font-bold tracking-tight">
+                  {projectsPageData.cta.title}
+                </h2>
+                <p className="mt-4 text-lg text-muted-foreground">
+                  {projectsPageData.cta.description}
+                </p>
                 <div className="mt-6">
                   <ContactForm triggerText={projectsPageData.cta.buttonText} />
                 </div>
@@ -246,5 +293,5 @@ export default function ProjectsPage() {
         </motion.div>
       </section>
     </main>
-  )
+  );
 }
