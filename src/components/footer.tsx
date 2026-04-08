@@ -4,10 +4,7 @@ import Link from "next/link"
 import { Github, Linkedin, Mail } from "lucide-react"
 import { motion } from "framer-motion"
 import { ContactForm } from "./contact-form"
-import { containerVariants, itemVariants } from "@/lib/utils/animations"
-
-// ===== Footer Data =====
-const footerData = {
+import { containerVariants, itemVariants } from "@/lib/utils/animations"const footerData = {
   brand: {
     name: "Aaron Davis",
     description:
@@ -33,16 +30,7 @@ const footerData = {
     },
   ],
   location: "San Diego, California",
-}
-
-/**
- * Footer component with brand information, navigation links, and social connections.
- * Features scroll-triggered Framer Motion animations and honeypot-protected contact form.
- * 
- * @example
- * <Footer />
- */
-export function Footer() {
+}export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (

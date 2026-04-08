@@ -3,10 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BookOpen, Rocket, Code2, Sparkles, Award, GraduationCap, type LucideIcon } from "lucide-react"
 import { motion } from "framer-motion"
-import { containerVariants, itemVariants } from "@/lib/utils/animations"
-
-// ===== Page Data =====
-const aboutPageData = {
+import { containerVariants, itemVariants } from "@/lib/utils/animations"const aboutPageData = {
   hero: {
     title: "About Me",
     subtitle:
@@ -182,76 +179,30 @@ const aboutPageData = {
   },
 }
 
-// ===== TypeScript Interfaces =====
-
-/**
- * Props for JourneyPhaseCard component
- * @property {LucideIcon} icon - Icon component from lucide-react
- * @property {string} title - Phase title
- * @property {string} period - Time period
- * @property {string} color - Color theme (orange, blue, green, purple)
- * @property {string[]} description - Array of description paragraphs
- */
-interface JourneyPhaseProps {
+// ===== TypeScript Interfaces =====interface JourneyPhaseProps {
   icon: LucideIcon
   title: string
   period: string
   color: string
   description: string[]
-}
-
-/**
- * Props for EducationCard component
- * @property {string} institution - Institution name
- * @property {string} period - Time period
- * @property {string} description - Course description
- */
-interface EducationItemProps {
+}interface EducationItemProps {
   institution: string
   period: string
   description: string
-}
-
-/**
- * Props for CertificationCard component
- * @property {string} title - Certification title
- * @property {string} issuer - Issuing organization
- * @property {string} date - Completion date
- * @property {string} description - Certification description
- */
-interface CertificationItemProps {
+}interface CertificationItemProps {
   title: string
   issuer: string
   date: string
   description: string
-}
-
-/**
- * Props for DifferentiatorCard component
- * @property {string} title - Differentiator title
- * @property {string} description - Differentiator description
- */
-interface DifferentiatorProps {
+}interface DifferentiatorProps {
   title: string
   description: string
-}
-
-/**
- * Props for TechCategory component
- * @property {string} title - Category title
- * @property {string[]} technologies - Array of technology names
- */
-interface TechCategoryProps {
+}interface TechCategoryProps {
   title: string
   technologies: string[]
 }
 
-// ===== Helper Functions =====
-
-/**
- * Get Tailwind color classes for journey phase cards
- */
-const getColorClasses = (color: string) => {
+// ===== Helper Functions =====const getColorClasses = (color: string) => {
   const colorMap = {
     orange: {
       border: "border-l-orange-500",
@@ -273,12 +224,7 @@ const getColorClasses = (color: string) => {
   return colorMap[color as keyof typeof colorMap] || colorMap.orange
 }
 
-// ===== Subcomponents =====
-
-/**
- * Journey phase card displaying career stage information
- */
-const JourneyPhaseCard: React.FC<JourneyPhaseProps> = ({ icon: Icon, title, period, color, description }) => {
+// ===== Subcomponents =====const JourneyPhaseCard: React.FC<JourneyPhaseProps> = ({ icon: Icon, title, period, color, description }) => {
   const colors = getColorClasses(color)
 
   return (
@@ -297,23 +243,13 @@ const JourneyPhaseCard: React.FC<JourneyPhaseProps> = ({ icon: Icon, title, peri
       </Card>
     </motion.div>
   )
-}
-
-/**
- * Education item card
- */
-const EducationItem: React.FC<EducationItemProps> = ({ institution, period, description }) => (
+}const EducationItem: React.FC<EducationItemProps> = ({ institution, period, description }) => (
   <div>
     <p className="font-semibold text-foreground">{institution}</p>
     <p className="text-xs text-muted-foreground mb-1">{period}</p>
     <p>{description}</p>
   </div>
-)
-
-/**
- * Certification item card
- */
-const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, date, description }) => (
+)const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, date, description }) => (
   <div>
     <p className="font-semibold text-foreground">{title}</p>
     <p className="text-xs text-muted-foreground mb-1">
@@ -321,12 +257,7 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, da
     </p>
     <p>{description}</p>
   </div>
-)
-
-/**
- * Differentiator card
- */
-const DifferentiatorCard: React.FC<DifferentiatorProps> = ({ title, description }) => (
+)const DifferentiatorCard: React.FC<DifferentiatorProps> = ({ title, description }) => (
   <motion.div variants={itemVariants}>
     <Card className="h-full">
       <CardHeader>
@@ -335,12 +266,7 @@ const DifferentiatorCard: React.FC<DifferentiatorProps> = ({ title, description 
       <CardContent className="text-sm text-muted-foreground">{description}</CardContent>
     </Card>
   </motion.div>
-)
-
-/**
- * Technology category section
- */
-const TechCategory: React.FC<TechCategoryProps> = ({ title, technologies }) => (
+)const TechCategory: React.FC<TechCategoryProps> = ({ title, technologies }) => (
   <motion.div variants={itemVariants}>
     <h3 className="text-lg font-semibold mb-4">{title}</h3>
     <div className="flex flex-wrap gap-2">
@@ -353,28 +279,7 @@ const TechCategory: React.FC<TechCategoryProps> = ({ title, technologies }) => (
   </motion.div>
 )
 
-// ===== Main Component =====
-
-/**
- * About page component showcasing Aaron Davis's professional journey, education, and expertise.
- * Features scroll-triggered animations, timeline cards, and comprehensive technology stack.
- * 
- * Sections include:
- * - Hero introduction
- * - Career journey timeline (4 phases: Sales → Founder → Full-Stack → AI Engineer)
- * - Education and certifications
- * - Differentiators and unique value proposition
- * - Technologies and tools organized by category
- * - Personal interests and philosophy
- * 
- * All content sections use Framer Motion's whileInView for smooth scroll-triggered animations.
- * Cards feature color-coded left borders to visually distinguish career phases.
- * 
- * @example
- * // Automatically rendered at /about route
- * <AboutPage />
- */
-export default function AboutPage() {
+// ===== Main Component =====export default function AboutPage() {
   return (
     <main className="min-h-screen pt-16">
       {/* Hero Section */}

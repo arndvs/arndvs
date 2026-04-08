@@ -6,8 +6,6 @@ import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { containerVariants, itemVariants, cardVariants, staggerContainerVariants } from "@/lib/utils/animations"
-
-// ===== Page Data =====
 const pageData = {
   header: {
     backLink: "/projects",
@@ -155,8 +153,6 @@ const pageData = {
     },
   },
 }
-
-// ===== TypeScript Interfaces =====
 interface MetricCardProps {
   value: string
   label: string
@@ -175,22 +171,12 @@ interface AchievementCardProps {
 interface TechBadgeProps {
   tech: string
 }
-
-// ===== Helper Components =====
-
-/**
- * Metric display card component
- */
 const MetricCard: React.FC<MetricCardProps> = ({ value, label }) => (
   <motion.div variants={cardVariants} className="rounded-lg border border-border bg-card p-6">
     <div className="text-4xl font-bold text-primary">{value}</div>
     <div className="mt-2 text-sm font-medium text-muted-foreground">{label}</div>
   </motion.div>
 )
-
-/**
- * Feature card component with hover effect
- */
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description }) => (
   <motion.div variants={cardVariants}>
     <Card>
@@ -201,20 +187,12 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, description }) => (
     </Card>
   </motion.div>
 )
-
-/**
- * Achievement card component
- */
 const AchievementCard: React.FC<AchievementCardProps> = ({ title, description }) => (
   <motion.div variants={cardVariants} className="rounded-lg border border-border bg-card p-6">
     <h3 className="text-xl font-semibold">{title}</h3>
     <p className="mt-2 leading-relaxed text-muted-foreground">{description}</p>
   </motion.div>
 )
-
-/**
- * Technology badge component
- */
 const TechBadge: React.FC<TechBadgeProps> = ({ tech }) => (
   <motion.span
     variants={itemVariants}
@@ -224,19 +202,6 @@ const TechBadge: React.FC<TechBadgeProps> = ({ tech }) => (
     {tech}
   </motion.span>
 )
-
-// ===== Main Component =====
-
-/**
- * RipeMetrics case study page showcasing project details, technical implementation,
- * and business impact.
- * 
- * Uses Framer Motion for scroll-triggered animations throughout the page.
- * All content is sourced from the pageData object for easy CMS integration.
- * 
- * @example
- * <RipeMetricsPage />
- */
 export default function RipeMetricsPage() {
   return (
     <main className="min-h-screen pt-16">

@@ -1,18 +1,7 @@
-/**
- * Server-side honeypot validation
- * This file has NO "use client" directive so it can be used in API routes
- */
-
 interface HoneypotResult {
   isValid: boolean
   reason?: string
-}
-
-/**
- * Server-side honeypot validation
- * Validates spam protection fields and timing from form submissions
- */
-export function validateHoneypotServer(
+}export function validateHoneypotServer(
   formData: Record<string, string>,
   serverTime: number = Date.now()
 ): HoneypotResult {

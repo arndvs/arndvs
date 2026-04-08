@@ -7,8 +7,6 @@ import { ArrowRight, Github, Linkedin } from "lucide-react"
 import { motion } from "framer-motion"
 import { containerVariants, itemVariants, cardVariants } from "@/lib/utils/animations"
 import { ContactForm } from "@/components/contact-form"
-
-// ===== Page Data =====
 const pageData = {
   hero: {
     title: "Full Stack Software Engineer",
@@ -82,19 +80,6 @@ const pageData = {
     ],
   },
 }
-
-// ===== TypeScript Interfaces =====
-
-/**
- * Props for the ProjectCard component
- * @property {string} title - Project name/title
- * @property {string} description - Brief project description
- * @property {string} category - Project category (e.g., "AI / SaaS")
- * @property {"green" | "blue" | "purple"} statusColor - Status indicator color
- * @property {string[]} technologies - Array of technology names used
- * @property {string} [link] - Optional link to project details
- * @property {string} [linkText] - Optional custom link text
- */
 interface ProjectCardProps {
   title: string
   description: string
@@ -104,34 +89,15 @@ interface ProjectCardProps {
   link?: string
   linkText?: string
 }
-
-/**
- * Props for the SocialLink component
- * @property {string} type - Social platform type identifier
- * @property {string} text - Display text for the link
- * @property {string} href - URL to social profile
- * @property {React.ElementType} icon - Lucide icon component
- */
 interface SocialLinkProps {
   type: string
   text: string
   href: string
   icon: React.ElementType
 }
-
-/**
- * Props for the TechStack component
- * @property {string[]} technologies - Array of technology names to display
- */
 interface TechStackProps {
   technologies: string[]
 }
-
-// ===== Helper Components =====
-
-/**
- * Project card component displaying project information with hover animations
- */
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   description,
@@ -178,10 +144,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     </motion.div>
   )
 }
-
-/**
- * Social link button component
- */
 const SocialLink: React.FC<SocialLinkProps> = ({ text, href, icon: Icon }) => {
   return (
     <Button asChild size="lg" variant="outline">
@@ -192,10 +154,6 @@ const SocialLink: React.FC<SocialLinkProps> = ({ text, href, icon: Icon }) => {
     </Button>
   )
 }
-
-/**
- * Technology stack grid component
- */
 const TechStack: React.FC<TechStackProps> = ({ technologies }) => (
   <div className="flex flex-wrap gap-2">
     {technologies.map((tech) => (
@@ -210,27 +168,6 @@ const TechStack: React.FC<TechStackProps> = ({ technologies }) => (
     ))}
   </div>
 )
-
-// ===== Main Component =====
-
-/**
- * Home page component showcasing Aaron Davis's professional profile and portfolio.
- * Features scroll-triggered animations, featured projects, and contact information.
- * 
- * Structure:
- * - Hero section with title, description, and CTAs
- * - About section with background and tech stack
- * - Featured projects grid with case study links
- * - Contact section with social links and contact form
- * 
- * All sections use Framer Motion's whileInView for smooth scroll-triggered animations.
- * Responsive design with Tailwind CSS breakpoints for mobile, tablet, and desktop.
- * Implements shadcn/ui components for consistent styling across the application.
- * 
- * @example
- * // Automatically rendered at root route /
- * <HomePage />
- */
 export default function HomePage() {
   return (
     <main className="min-h-screen pt-16" role="main">

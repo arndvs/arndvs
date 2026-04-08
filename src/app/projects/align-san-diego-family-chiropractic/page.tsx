@@ -17,8 +17,6 @@ import {
   cardVariants,
   staggerContainerVariants,
 } from "@/lib/utils/animations";
-
-// ===== Page Data =====
 const pageData = {
   header: {
     backLink: "/projects",
@@ -231,8 +229,6 @@ const pageData = {
     ],
   },
 };
-
-// ===== TypeScript Interfaces =====
 interface FeatureCardProps {
   title: string;
   description: string;
@@ -256,12 +252,6 @@ interface MetricCardProps {
 interface LearningItemProps {
   text: string;
 }
-
-// ===== Helper Components =====
-
-/**
- * Feature card component displaying key feature information
- */
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description }) => (
   <motion.div variants={cardVariants}>
     <Card className="h-full">
@@ -276,10 +266,6 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, description }) => (
     </Card>
   </motion.div>
 );
-
-/**
- * Technical implementation section component
- */
 const TechImplementationSection: React.FC<TechImplementationSectionProps> = ({
   heading,
   description,
@@ -289,10 +275,6 @@ const TechImplementationSection: React.FC<TechImplementationSectionProps> = ({
     <p className="leading-relaxed text-muted-foreground">{description}</p>
   </motion.div>
 );
-
-/**
- * Technology stack category component
- */
 const TechStackCategory: React.FC<TechStackCategoryProps> = ({
   name,
   technologies,
@@ -306,10 +288,6 @@ const TechStackCategory: React.FC<TechStackCategoryProps> = ({
     </ul>
   </motion.div>
 );
-
-/**
- * Metric display card component
- */
 const MetricCard: React.FC<MetricCardProps> = ({ value, label }) => (
   <motion.div variants={cardVariants}>
     <Card>
@@ -322,29 +300,12 @@ const MetricCard: React.FC<MetricCardProps> = ({ value, label }) => (
     </Card>
   </motion.div>
 );
-
-/**
- * Learning item component with bullet point
- */
 const LearningItem: React.FC<LearningItemProps> = ({ text }) => (
   <motion.li variants={itemVariants} className="flex gap-3">
     <span className="text-cyan-500">•</span>
     <span>{text}</span>
   </motion.li>
 );
-
-// ===== Main Component =====
-
-/**
- * Align San Diego Family Chiropractic case study page showcasing a comprehensive
- * healthcare website with CMS, AI integration, and advanced SEO.
- *
- * Features scroll-triggered animations and full content structure
- * ready for headless CMS integration.
- *
- * @example
- * <AlignSDWellnessPage />
- */
 export default function AlignSDWellnessPage() {
   return (
     <main className="min-h-screen pt-16">

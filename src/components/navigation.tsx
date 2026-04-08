@@ -4,28 +4,11 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { GlitchName } from "./glitch-name"
-
-// ===== Navigation Data =====
 const navItems = [
   { name: "Home", href: "/", ariaLabel: "Go to home page" },
   { name: "About", href: "/about", ariaLabel: "Learn more about Aaron" },
   { name: "Projects", href: "/projects", ariaLabel: "View project portfolio" },
 ]
-
-/**
- * Main navigation component with fixed positioning and backdrop blur.
- * Features active state highlighting, responsive design, and interactive glitch name effect.
- * 
- * Includes:
- * - GlitchName component with hover animations and encoding transformations
- * - Active route highlighting based on current pathname
- * - Smooth color transitions on hover
- * - Fixed positioning with semi-transparent backdrop
- * - Responsive layout with consistent spacing
- * 
- * @example
- * <Navigation />
- */
 export function Navigation() {
   const pathname = usePathname()
 
