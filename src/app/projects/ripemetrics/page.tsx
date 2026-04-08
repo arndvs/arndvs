@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, ExternalLink } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { containerVariants, itemVariants, cardVariants, staggerContainerVariants } from "@/lib/utils/animations"
@@ -151,7 +151,6 @@ const pageData = {
     description:
       "RipeMetrics successfully scaled from concept to serving 50+ enterprise clients, processing thousands of customer interactions daily. The platform reduced customer service costs by 40% through AI automation while maintaining 95%+ system uptime. Led technical team through multiple successful product pivots based on market feedback, demonstrating the platform's adaptability and robust architecture.",
     cta: {
-      primary: { text: "View Live Site", icon: ExternalLink },
       secondary: { text: "View More Projects", href: "/projects" },
     },
   },
@@ -193,7 +192,7 @@ const MetricCard: React.FC<MetricCardProps> = ({ value, label }) => (
  * Feature card component with hover effect
  */
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description }) => (
-  <motion.div variants={cardVariants} whileHover={{ y: -5, transition: { duration: 0.2 } }}>
+  <motion.div variants={cardVariants}>
     <Card>
       <CardContent className="pt-6">
         <h3 className="text-xl font-semibold">{title}</h3>
@@ -410,11 +409,7 @@ export default function RipeMetricsPage() {
         <motion.div variants={itemVariants} className="rounded-lg border border-border bg-card p-8 lg:p-12">
           <h2 className="text-3xl font-bold tracking-tight">{pageData.conclusion.title}</h2>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">{pageData.conclusion.description}</p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Button size="lg">
-              <pageData.conclusion.cta.primary.icon className="mr-2 h-4 w-4" />
-              {pageData.conclusion.cta.primary.text}
-            </Button>
+          <div className="mt-8">
             <Button asChild variant="outline" size="lg">
               <Link href={pageData.conclusion.cta.secondary.href}>{pageData.conclusion.cta.secondary.text}</Link>
             </Button>
