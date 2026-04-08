@@ -1,11 +1,22 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, ExternalLink } from "lucide-react"
-import { motion } from "framer-motion"
-import { containerVariants, itemVariants, cardVariants, staggerContainerVariants } from "@/lib/utils/animations"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ArrowLeft, ExternalLink } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  containerVariants,
+  itemVariants,
+  cardVariants,
+  staggerContainerVariants,
+} from "@/lib/utils/animations";
 
 // ===== Page Data =====
 const pageData = {
@@ -16,7 +27,7 @@ const pageData = {
       color: "cyan",
       label: "Healthcare / Web",
     },
-    title: "AlignSD Wellness Center",
+    title: "Align San Diego Family Chiropractic",
     description:
       "Full-stack healthcare platform with 5 AI integrations, 25+ Schema.org types (including ICD-10 and SNOMED-CT medical codes), programmatic SEO across 60+ routes, a 26-template transactional email system, and 57+ automated tests — built on Next.js 16, Sanity v5, and OpenAI.",
     cta: {
@@ -124,7 +135,14 @@ const pageData = {
       {
         id: "frontend",
         name: "Frontend",
-        technologies: ["Next.js 16 (App Router)", "React 19", "TypeScript 5.8", "Tailwind CSS v4", "Framer Motion", "Radix UI"],
+        technologies: [
+          "Next.js 16 (App Router)",
+          "React 19",
+          "TypeScript 5.8",
+          "Tailwind CSS v4",
+          "Framer Motion",
+          "Radix UI",
+        ],
       },
       {
         id: "cms-content",
@@ -141,29 +159,56 @@ const pageData = {
       {
         id: "ai",
         name: "AI & Machine Learning",
-        technologies: ["OpenAI GPT-4o Vision", "Content Enhancement", "Sentiment Analysis", "Spam Detection", "Event Generation"],
+        technologies: [
+          "OpenAI GPT-4o Vision",
+          "Content Enhancement",
+          "Sentiment Analysis",
+          "Spam Detection",
+          "Event Generation",
+        ],
       },
       {
         id: "email",
         name: "Email & Notifications",
-        technologies: ["React Email", "Resend", "26 Templates", "30+ Shared Components"],
+        technologies: [
+          "React Email",
+          "Resend",
+          "26 Templates",
+          "30+ Shared Components",
+        ],
       },
       {
         id: "seo-data",
         name: "SEO & Structured Data",
-        technologies: ["25+ Schema.org Types", "ICD-10 / SNOMED-CT", "Dynamic Sitemaps", "AEO (/llms.txt)", "Open Graph"],
+        technologies: [
+          "25+ Schema.org Types",
+          "ICD-10 / SNOMED-CT",
+          "Dynamic Sitemaps",
+          "AEO (/llms.txt)",
+          "Open Graph",
+        ],
       },
       {
         id: "testing-devops",
         name: "Testing & DevOps",
-        technologies: ["Vitest", "React Testing Library", "57+ Test Files", "4 GitHub Actions Workflows", "TypeScript ESLint"],
+        technologies: [
+          "Vitest",
+          "React Testing Library",
+          "57+ Test Files",
+          "4 GitHub Actions Workflows",
+          "TypeScript ESLint",
+        ],
       },
     ],
   },
   results: {
     title: "Results & Impact",
     metrics: [
-      { value: "5", label: "AI Integrations (GPT-4o Vision, Sentiment, Spam, Content, Events)" },
+      {
+        value: "5",
+        label:
+          "AI Integrations (GPT-4o Vision, Sentiment, Spam, Content, Events)",
+      },
       { value: "25+", label: "Schema.org Types with Medical Coding" },
       { value: "60+", label: "Frontend Routes & Pages" },
       { value: "27", label: "API Endpoints" },
@@ -185,31 +230,31 @@ const pageData = {
       "Invested in 57+ tests early — the SEO validation suite alone catches missing meta tags, broken structured data, and canonical URL regressions before they reach production",
     ],
   },
-}
+};
 
 // ===== TypeScript Interfaces =====
 interface FeatureCardProps {
-  title: string
-  description: string
+  title: string;
+  description: string;
 }
 
 interface TechImplementationSectionProps {
-  heading: string
-  description: string
+  heading: string;
+  description: string;
 }
 
 interface TechStackCategoryProps {
-  name: string
-  technologies: string[]
+  name: string;
+  technologies: string[];
 }
 
 interface MetricCardProps {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 
 interface LearningItemProps {
-  text: string
+  text: string;
 }
 
 // ===== Helper Components =====
@@ -220,30 +265,38 @@ interface LearningItemProps {
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description }) => (
   <motion.div variants={cardVariants}>
     <Card className="h-full">
-                <CardHeader>
+      <CardHeader>
         <CardTitle>{title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-        <CardDescription className="leading-relaxed">{description}</CardDescription>
-                </CardContent>
-              </Card>
+      </CardHeader>
+      <CardContent>
+        <CardDescription className="leading-relaxed">
+          {description}
+        </CardDescription>
+      </CardContent>
+    </Card>
   </motion.div>
-)
+);
 
 /**
  * Technical implementation section component
  */
-const TechImplementationSection: React.FC<TechImplementationSectionProps> = ({ heading, description }) => (
+const TechImplementationSection: React.FC<TechImplementationSectionProps> = ({
+  heading,
+  description,
+}) => (
   <motion.div variants={itemVariants}>
     <h3 className="mb-3 text-xl font-semibold">{heading}</h3>
     <p className="leading-relaxed text-muted-foreground">{description}</p>
   </motion.div>
-)
+);
 
 /**
  * Technology stack category component
  */
-const TechStackCategory: React.FC<TechStackCategoryProps> = ({ name, technologies }) => (
+const TechStackCategory: React.FC<TechStackCategoryProps> = ({
+  name,
+  technologies,
+}) => (
   <motion.div variants={cardVariants} className="rounded-lg border bg-card p-4">
     <h3 className="mb-2 font-semibold">{name}</h3>
     <ul className="space-y-1 text-sm text-muted-foreground">
@@ -252,21 +305,23 @@ const TechStackCategory: React.FC<TechStackCategoryProps> = ({ name, technologie
       ))}
     </ul>
   </motion.div>
-)
+);
 
 /**
  * Metric display card component
  */
 const MetricCard: React.FC<MetricCardProps> = ({ value, label }) => (
   <motion.div variants={cardVariants}>
-              <Card>
-                <CardHeader>
-        <CardTitle className="text-4xl font-bold text-cyan-500">{value}</CardTitle>
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-4xl font-bold text-cyan-500">
+          {value}
+        </CardTitle>
         <CardDescription>{label}</CardDescription>
-                </CardHeader>
-              </Card>
+      </CardHeader>
+    </Card>
   </motion.div>
-)
+);
 
 /**
  * Learning item component with bullet point
@@ -276,17 +331,17 @@ const LearningItem: React.FC<LearningItemProps> = ({ text }) => (
     <span className="text-cyan-500">•</span>
     <span>{text}</span>
   </motion.li>
-)
+);
 
 // ===== Main Component =====
 
 /**
- * AlignSD Wellness Center case study page showcasing a comprehensive
+ * Align San Diego Family Chiropractic case study page showcasing a comprehensive
  * healthcare website with CMS, AI integration, and advanced SEO.
- * 
+ *
  * Features scroll-triggered animations and full content structure
  * ready for headless CMS integration.
- * 
+ *
  * @example
  * <AlignSDWellnessPage />
  */
@@ -295,7 +350,11 @@ export default function AlignSDWellnessPage() {
     <main className="min-h-screen pt-16">
       <article className="mx-auto max-w-4xl px-6 py-24 lg:px-8">
         {/* Back Button */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
           <Button asChild variant="ghost" className="mb-8">
             <Link href={pageData.header.backLink}>
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -312,20 +371,38 @@ export default function AlignSDWellnessPage() {
           variants={containerVariants}
           className="mb-12"
         >
-          <motion.div variants={itemVariants} className="mb-4 flex items-center gap-2">
-            <div className={`h-2 w-2 rounded-full bg-${pageData.header.badge.color}-500`} />
-            <span className="text-sm font-medium text-muted-foreground">{pageData.header.badge.label}</span>
+          <motion.div
+            variants={itemVariants}
+            className="mb-4 flex items-center gap-2"
+          >
+            <div
+              className={`h-2 w-2 rounded-full bg-${pageData.header.badge.color}-500`}
+            />
+            <span className="text-sm font-medium text-muted-foreground">
+              {pageData.header.badge.label}
+            </span>
           </motion.div>
-          <motion.h1 variants={itemVariants} className="text-5xl font-bold tracking-tight text-balance">
+          <motion.h1
+            variants={itemVariants}
+            className="text-5xl font-bold tracking-tight text-balance"
+          >
             {pageData.header.title}
           </motion.h1>
-          <motion.p variants={itemVariants} className="mt-6 text-xl leading-relaxed text-muted-foreground text-pretty">
+          <motion.p
+            variants={itemVariants}
+            className="mt-6 text-xl leading-relaxed text-muted-foreground text-pretty"
+          >
             {pageData.header.description}
           </motion.p>
           <motion.div variants={itemVariants} className="mt-6 flex gap-4">
             <Button asChild>
-              <a href={pageData.header.cta.href} target="_blank" rel="nofollow noopener noreferrer">
-                {pageData.header.cta.text} <pageData.header.cta.icon className="ml-2 h-4 w-4" />
+              <a
+                href={pageData.header.cta.href}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+              >
+                {pageData.header.cta.text}{" "}
+                <pageData.header.cta.icon className="ml-2 h-4 w-4" />
               </a>
             </Button>
           </motion.div>
@@ -339,10 +416,16 @@ export default function AlignSDWellnessPage() {
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
           >
-            <motion.h2 variants={itemVariants} className="mb-4 text-3xl font-bold">
+            <motion.h2
+              variants={itemVariants}
+              className="mb-4 text-3xl font-bold"
+            >
               {pageData.overview.title}
             </motion.h2>
-            <motion.p variants={itemVariants} className="leading-relaxed text-muted-foreground">
+            <motion.p
+              variants={itemVariants}
+              className="leading-relaxed text-muted-foreground"
+            >
               {pageData.overview.description}
             </motion.p>
           </motion.section>
@@ -354,12 +437,22 @@ export default function AlignSDWellnessPage() {
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
           >
-            <motion.h2 variants={itemVariants} className="mb-6 text-3xl font-bold">
+            <motion.h2
+              variants={itemVariants}
+              className="mb-6 text-3xl font-bold"
+            >
               {pageData.features.title}
             </motion.h2>
-            <motion.div variants={staggerContainerVariants} className="grid gap-6 md:grid-cols-2">
+            <motion.div
+              variants={staggerContainerVariants}
+              className="grid gap-6 md:grid-cols-2"
+            >
               {pageData.features.items.map((feature) => (
-                <FeatureCard key={feature.id} title={feature.title} description={feature.description} />
+                <FeatureCard
+                  key={feature.id}
+                  title={feature.title}
+                  description={feature.description}
+                />
               ))}
             </motion.div>
           </motion.section>
@@ -371,12 +464,19 @@ export default function AlignSDWellnessPage() {
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
           >
-            <motion.h2 variants={itemVariants} className="mb-6 text-3xl font-bold">
+            <motion.h2
+              variants={itemVariants}
+              className="mb-6 text-3xl font-bold"
+            >
               {pageData.technicalImplementation.title}
             </motion.h2>
             <motion.div variants={containerVariants} className="space-y-6">
               {pageData.technicalImplementation.sections.map((section) => (
-                <TechImplementationSection key={section.id} heading={section.heading} description={section.description} />
+                <TechImplementationSection
+                  key={section.id}
+                  heading={section.heading}
+                  description={section.description}
+                />
               ))}
             </motion.div>
           </motion.section>
@@ -388,12 +488,22 @@ export default function AlignSDWellnessPage() {
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
           >
-            <motion.h2 variants={itemVariants} className="mb-6 text-3xl font-bold">
+            <motion.h2
+              variants={itemVariants}
+              className="mb-6 text-3xl font-bold"
+            >
               {pageData.techStack.title}
             </motion.h2>
-            <motion.div variants={staggerContainerVariants} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <motion.div
+              variants={staggerContainerVariants}
+              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            >
               {pageData.techStack.categories.map((category) => (
-                <TechStackCategory key={category.id} name={category.name} technologies={category.technologies} />
+                <TechStackCategory
+                  key={category.id}
+                  name={category.name}
+                  technologies={category.technologies}
+                />
               ))}
             </motion.div>
           </motion.section>
@@ -405,18 +515,32 @@ export default function AlignSDWellnessPage() {
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
           >
-            <motion.h2 variants={itemVariants} className="mb-6 text-3xl font-bold">
+            <motion.h2
+              variants={itemVariants}
+              className="mb-6 text-3xl font-bold"
+            >
               {pageData.results.title}
             </motion.h2>
-            <motion.div variants={staggerContainerVariants} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <motion.div
+              variants={staggerContainerVariants}
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
               {pageData.results.metrics.map((metric, index) => (
-                <MetricCard key={index} value={metric.value} label={metric.label} />
+                <MetricCard
+                  key={index}
+                  value={metric.value}
+                  label={metric.label}
+                />
               ))}
             </motion.div>
 
             <motion.div variants={containerVariants} className="mt-6 space-y-4">
               {pageData.results.paragraphs.map((paragraph, index) => (
-                <motion.p key={index} variants={itemVariants} className="leading-relaxed text-muted-foreground">
+                <motion.p
+                  key={index}
+                  variants={itemVariants}
+                  className="leading-relaxed text-muted-foreground"
+                >
                   {paragraph}
                 </motion.p>
               ))}
@@ -430,10 +554,16 @@ export default function AlignSDWellnessPage() {
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
           >
-            <motion.h2 variants={itemVariants} className="mb-6 text-3xl font-bold">
+            <motion.h2
+              variants={itemVariants}
+              className="mb-6 text-3xl font-bold"
+            >
               {pageData.learnings.title}
             </motion.h2>
-            <motion.ul variants={containerVariants} className="space-y-3 leading-relaxed text-muted-foreground">
+            <motion.ul
+              variants={containerVariants}
+              className="space-y-3 leading-relaxed text-muted-foreground"
+            >
               {pageData.learnings.items.map((item, index) => (
                 <LearningItem key={index} text={item} />
               ))}
@@ -442,5 +572,5 @@ export default function AlignSDWellnessPage() {
         </div>
       </article>
     </main>
-  )
+  );
 }
