@@ -3,11 +3,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BookOpen, Rocket, Code2, Sparkles, Award, GraduationCap, type LucideIcon } from "lucide-react"
 import { motion } from "framer-motion"
-import { containerVariants, itemVariants } from "@/lib/utils/animations"const aboutPageData = {
+import { containerVariants, itemVariants } from "@/lib/utils/animations"
+const aboutPageData = {
   hero: {
     title: "About Me",
     subtitle:
-      "A self-taught engineer with a non-traditional path from sales and marketing to building AI-powered platforms serving enterprise clients.",
+      "Full-stack engineer based in San Diego. I founded RipeMetrics in 2017, scaled it to 50+ enterprise clients, and now build production software and agentic AI systems for clients who need things that actually work.",
   },
   journey: {
     title: "The Journey",
@@ -19,9 +20,7 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const a
         period: "2010-2017",
         color: "orange",
         description: [
-          "Started as a Cause Marketing & Customer Loyalty Solutions Specialist, learning the fundamentals of customer experience and business strategy.",
-          'Authored a chapter in "Going Up: Proven Strategies for Reaching Higher Levels in Business" on cause marketing implementation.',
-          "Worked as Regional Sales Manager at Mainstream Merchant Services, where I began exploring web development and marketing automation.",
+          "Spent seven years in B2B sales and cause marketing, learning how businesses actually buy software and what makes customers stick around.",
         ],
       },
       {
@@ -32,8 +31,7 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const a
         color: "blue",
         description: [
           "Founded RipeMetrics and graduated from the CSD16 accelerator program, a venture capital-backed program for early-stage software companies.",
-          "Taught myself to code out of necessity while building the product from scratch. Started with basic web development and progressively learned React, TypeScript, and full-stack development.",
-          "Led product development, managed diverse teams, and shaped company vision while learning software engineering in real-time.",
+          "Built the product from scratch while leading product development, managing teams, and shaping company vision.",
         ],
       },
       {
@@ -55,9 +53,9 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const a
         period: "2024-Present",
         color: "purple",
         description: [
-          "Completed AI Engineering Bootcamp (Maven) and LLM Engineering course (AI Makerspace), diving deep into transformer architectures, fine-tuning, and RAG systems.",
-          "Currently exploring Model Context Protocol (MCP) UI development through Kent C. Dodds' intensive course - building hybrid interfaces where conversation meets traditional UI.",
-          "Excited about being early to this technology, similar to the early days of React or mobile-first design. Building at the intersection of AI and user experience.",
+          "Completed AI Engineering Bootcamp (Maven) and LLM Engineering course (AI Makerspace), going deep on transformer architectures, fine-tuning, and RAG systems.",
+          "Now building client projects: a Next.js 15 wellness platform for AlignSD with Sanity CMS and structured data, and Scorpion Percussion's e-commerce stack with Turborepo, tRPC, and React Native.",
+          "Focused on agentic engineering — wiring LLMs, tool-use, and structured outputs into systems that run autonomously.",
         ],
       },
     ],
@@ -105,37 +103,12 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const a
         description:
           "6-week course on transformer architectures, fine-tuning techniques (LoRA, QLoRA), model alignment (DPO, RLHF), and SLM optimization.",
       },
-      {
-        id: "sanity",
-        title: "AI-powered Sanity Development",
-        issuer: "Sanity",
-        date: "Mar 2025",
-        description: "Advanced Sanity CMS development with AI integration for content management systems.",
-      },
     ],
   },
   differentiators: {
-    title: "What Makes Me Different",
-    items: [
-      {
-        id: "business",
-        title: "Business + Technical",
-        description:
-          "My background in sales, marketing, and customer experience gives me a unique perspective. I don't just build features - I build solutions that drive measurable business outcomes like 40% cost reduction and 95%+ uptime.",
-      },
-      {
-        id: "self-taught",
-        title: "Self-Taught & Resourceful",
-        description:
-          "I learned to code by building a real product for real customers. This taught me to be resourceful, pragmatic, and focused on shipping working software rather than perfect code. I'm comfortable learning new technologies quickly.",
-      },
-      {
-        id: "early-adopter",
-        title: "Early Adopter Mindset",
-        description:
-          "I'm excited about being early to emerging technologies like MCP UI development. Having built systems from scratch, I have good intuition for where new patterns add value versus where traditional approaches still make sense.",
-      },
-    ],
+    title: "How I Work",
+    content:
+      "My path from sales to engineering means I build software with the end user in mind, not just the spec. I ship fast, communicate clearly, and treat every project like it's my own product.",
   },
   techStack: {
     title: "Technologies I Work With",
@@ -158,7 +131,7 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const a
       {
         id: "cms",
         title: "CMS & Tools",
-        technologies: ["Sanity CMS", "Stripe", "Twilio", "ElevenLabs", "n8n", "GoHighLevel"],
+        technologies: ["Sanity CMS", "Stripe", "Twilio", "ElevenLabs"],
       },
       {
         id: "devops",
@@ -175,34 +148,36 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const a
   personal: {
     title: "Beyond Code",
     content:
-      "When I'm not building the future of AI interfaces, you'll find me rock climbing around San Diego or hunting for rare vinyl records. I believe the best engineers are well-rounded people who bring diverse perspectives to their work. My non-traditional path into tech has taught me that there's no single \"right way\" to become a great engineer - curiosity, persistence, and a willingness to learn are what matter most.",
+      "When I'm not building you'll find me rock climbing around San Diego or hunting for rare vinyl records.",
   },
 }
 
-// ===== TypeScript Interfaces =====interface JourneyPhaseProps {
+// ===== TypeScript Interfaces =====
+interface JourneyPhaseProps {
   icon: LucideIcon
   title: string
   period: string
   color: string
   description: string[]
-}interface EducationItemProps {
+}
+interface EducationItemProps {
   institution: string
   period: string
   description: string
-}interface CertificationItemProps {
+}
+interface CertificationItemProps {
   title: string
   issuer: string
   date: string
   description: string
-}interface DifferentiatorProps {
-  title: string
-  description: string
-}interface TechCategoryProps {
+}
+interface TechCategoryProps {
   title: string
   technologies: string[]
 }
 
-// ===== Helper Functions =====const getColorClasses = (color: string) => {
+// ===== Helper Functions =====
+const getColorClasses = (color: string) => {
   const colorMap = {
     orange: {
       border: "border-l-orange-500",
@@ -224,7 +199,8 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const a
   return colorMap[color as keyof typeof colorMap] || colorMap.orange
 }
 
-// ===== Subcomponents =====const JourneyPhaseCard: React.FC<JourneyPhaseProps> = ({ icon: Icon, title, period, color, description }) => {
+// ===== Subcomponents =====
+const JourneyPhaseCard: React.FC<JourneyPhaseProps> = ({ icon: Icon, title, period, color, description }) => {
   const colors = getColorClasses(color)
 
   return (
@@ -243,13 +219,15 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const a
       </Card>
     </motion.div>
   )
-}const EducationItem: React.FC<EducationItemProps> = ({ institution, period, description }) => (
+}
+const EducationItem: React.FC<EducationItemProps> = ({ institution, period, description }) => (
   <div>
     <p className="font-semibold text-foreground">{institution}</p>
     <p className="text-xs text-muted-foreground mb-1">{period}</p>
     <p>{description}</p>
   </div>
-)const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, date, description }) => (
+)
+const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, date, description }) => (
   <div>
     <p className="font-semibold text-foreground">{title}</p>
     <p className="text-xs text-muted-foreground mb-1">
@@ -257,16 +235,8 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const a
     </p>
     <p>{description}</p>
   </div>
-)const DifferentiatorCard: React.FC<DifferentiatorProps> = ({ title, description }) => (
-  <motion.div variants={itemVariants}>
-    <Card className="h-full">
-      <CardHeader>
-        <CardTitle className="text-lg">{title}</CardTitle>
-      </CardHeader>
-      <CardContent className="text-sm text-muted-foreground">{description}</CardContent>
-    </Card>
-  </motion.div>
-)const TechCategory: React.FC<TechCategoryProps> = ({ title, technologies }) => (
+)
+const TechCategory: React.FC<TechCategoryProps> = ({ title, technologies }) => (
   <motion.div variants={itemVariants}>
     <h3 className="text-lg font-semibold mb-4">{title}</h3>
     <div className="flex flex-wrap gap-2">
@@ -279,7 +249,8 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const a
   </motion.div>
 )
 
-// ===== Main Component =====export default function AboutPage() {
+// ===== Main Component =====
+export default function AboutPage() {
   return (
     <main className="min-h-screen pt-16">
       {/* Hero Section */}
@@ -370,11 +341,9 @@ import { containerVariants, itemVariants } from "@/lib/utils/animations"const a
           <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight mb-8">
             {aboutPageData.differentiators.title}
           </motion.h2>
-          <div className="grid gap-6 md:grid-cols-3" role="list">
-            {aboutPageData.differentiators.items.map((item) => (
-              <DifferentiatorCard key={item.id} {...item} />
-            ))}
-          </div>
+          <motion.p variants={itemVariants} className="text-lg text-muted-foreground leading-relaxed max-w-3xl">
+            {aboutPageData.differentiators.content}
+          </motion.p>
         </motion.div>
 
         {/* Tech Stack */}
