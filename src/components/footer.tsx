@@ -46,7 +46,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="bg-background">
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -112,7 +112,7 @@ export function Footer() {
         {/* Bottom */}
         <motion.div
           variants={itemVariants}
-          className="mt-12 border-t border-border pt-8 text-center text-sm text-muted-foreground"
+          className="mt-12 pt-8 text-center text-sm text-muted-foreground"
         >
           <p>
             © {currentYear} {footerData.brand.name}. All rights reserved.
