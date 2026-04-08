@@ -64,7 +64,7 @@ const aboutPageData = {
         id: "ai",
         icon: Sparkles,
         title: "AI Engineer",
-        period: "2023-Present",
+        period: "2024-Present",
         color: "purple",
         description: [
           "Completed AI Engineering Bootcamp (Maven) and LLM Engineering course (AI Makerspace), going deep on transformer architectures, fine-tuning, and RAG systems.",
