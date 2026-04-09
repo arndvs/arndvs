@@ -2,15 +2,18 @@
 
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Lightbulb, GitBranch, Wrench } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { MermaidDiagram } from "@/components/mermaid-diagram"
 import {
   containerVariants,
   itemVariants,
   cardVariants,
   staggerContainerVariants,
 } from "@/lib/utils/animations"
+import { diagrams } from "./diagrams"
+import type { DiagramKey } from "./diagrams"
 import type {
   HeaderData,
   OverviewData,
@@ -19,6 +22,9 @@ import type {
   TechSection,
   Achievement,
   ConclusionData,
+  DeepDive,
+  Decision,
+  Learning,
 } from "./data"
 
 export function BackButton() {
@@ -262,6 +268,152 @@ export function ConclusionSection({ data }: { data: ConclusionData }) {
             <Link href={data.cta.secondary.href}>{data.cta.secondary.text}</Link>
           </Button>
         </div>
+      </motion.div>
+    </motion.section>
+  )
+}
+
+export function ArchitectureDiagram({ diagramKey }: { diagramKey: DiagramKey }) {
+  return (
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={containerVariants}
+      className="mx-auto max-w-5xl px-6 py-16 lg:px-8"
+    >
+      <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
+        System Architecture
+      </motion.h2>
+      <motion.div variants={itemVariants} className="mt-8">
+        <MermaidDiagram chart={diagrams[diagramKey]} />
+      </motion.div>
+    </motion.section>
+  )
+}
+
+export function DeepDiveSection({ data }: { data: DeepDive }) {
+  return (
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={containerVariants}
+      className="mx-auto max-w-5xl px-6 py-16 lg:px-8"
+    >
+      <motion.div variants={itemVariants} className="mb-2">
+        <span className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          Deep Dive
+        </span>
+      </motion.div>
+      <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
+        {data.title}
+      </motion.h2>
+      <motion.p variants={itemVariants} className="mt-1 text-lg text-muted-foreground">
+        {data.subtitle}
+      </motion.p>
+      <motion.p variants={itemVariants} className="mt-6 text-lg leading-relaxed text-muted-foreground">
+        {data.problem}
+      </motion.p>
+
+      <motion.div variants={itemVariants} className="mt-8">
+        <MermaidDiagram chart={diagrams[data.diagramKey]} />
+      </motion.div>
+
+      <motion.div variants={containerVariants} className="mt-8 space-y-4">
+        {data.walkthrough.map((step, i) => (
+          <motion.div key={i} variants={itemVariants} className="flex gap-4">
+            <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              {i + 1}
+            </span>
+            <p className="text-lg leading-relaxed text-muted-foreground">{step}</p>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      <motion.div
+        variants={itemVariants}
+        className="mt-8 rounded-lg border-l-4 border-primary bg-muted/50 p-6"
+      >
+        <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide">
+          {data.insight.title}
+        </h3>
+        <p className="text-lg leading-relaxed text-muted-foreground">{data.insight.body}</p>
+      </motion.div>
+    </motion.section>
+  )
+}
+
+const learningIcons = [Lightbulb, GitBranch, Wrench]
+
+export function DecisionsSection({ decisions }: { decisions: Decision[] }) {
+  return (
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={containerVariants}
+      className="mx-auto max-w-5xl px-6 py-16 lg:px-8"
+    >
+      <motion.h2 variants={itemVariants} className="mb-8 text-3xl font-bold tracking-tight">
+        Engineering Decisions
+      </motion.h2>
+      <motion.div variants={containerVariants} className="space-y-4">
+        {decisions.map((d, i) => (
+          <motion.div
+            key={i}
+            variants={itemVariants}
+            className={`rounded-lg p-5 ${i % 2 === 0 ? "bg-muted/30" : "bg-muted/60"}`}
+          >
+            <p className="mb-1 font-semibold">{d.decision}</p>
+            <p className="mb-2 text-sm text-muted-foreground">
+              <span className="font-medium text-foreground/70">Considered:</span> {d.alternatives}
+            </p>
+            <p className="text-sm leading-relaxed text-muted-foreground">{d.reasoning}</p>
+          </motion.div>
+        ))}
+      </motion.div>
+    </motion.section>
+  )
+}
+
+export function LearningsSection({ learnings }: { learnings: Learning[] }) {
+  return (
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={containerVariants}
+      className="mx-auto max-w-5xl px-6 py-16 lg:px-8"
+    >
+      <motion.h2 variants={itemVariants} className="mb-8 text-3xl font-bold tracking-tight">
+        What I Learned
+      </motion.h2>
+      <motion.div
+        variants={staggerContainerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="grid gap-6 md:grid-cols-3"
+      >
+        {learnings.map((learning, i) => {
+          const Icon = learningIcons[i] ?? Wrench
+          return (
+            <motion.div key={i} variants={cardVariants}>
+              <Card className="h-full">
+                <CardHeader className="pb-2">
+                  <div className="flex items-center gap-2">
+                    <Icon className="h-4 w-4 text-green-500" />
+                    <CardTitle className="text-sm">{learning.title}</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{learning.body}</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )
+        })}
       </motion.div>
     </motion.section>
   )

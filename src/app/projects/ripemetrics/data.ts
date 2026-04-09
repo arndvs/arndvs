@@ -1,3 +1,5 @@
+import type { DiagramKey } from "./diagrams"
+
 export interface HeaderData {
   backLink: string
   backText: string
@@ -39,12 +41,37 @@ export interface ConclusionData {
   cta: { secondary: { text: string; href: string } }
 }
 
+export interface DeepDive {
+  id: string
+  title: string
+  subtitle: string
+  problem: string
+  diagramKey: DiagramKey
+  walkthrough: string[]
+  insight: { title: string; body: string }
+}
+
+export interface Decision {
+  decision: string
+  alternatives: string
+  reasoning: string
+}
+
+export interface Learning {
+  title: string
+  body: string
+}
+
 export interface PageData {
   header: HeaderData
   overview: OverviewData
   challenge: { title: string; description: string }
   solution: { title: string; description: string; features: Feature[] }
   impact: { title: string; metrics: ImpactMetric[] }
+  architectureDiagramKey: DiagramKey
+  deepDives: DeepDive[]
+  decisions: Decision[]
+  learnings: Learning[]
   technicalImplementation: { title: string; sections: TechSection[] }
   achievements: { title: string; items: Achievement[] }
   conclusion: ConclusionData
@@ -133,6 +160,109 @@ export const pageData: PageData = {
       { value: "95%+", label: "System uptime achieved" },
     ],
   },
+  architectureDiagramKey: "systemArchitecture",
+  deepDives: [
+    {
+      id: "frontend-migration",
+      title: "Laravel → React Migration",
+      subtitle: "Refactoring a Monolith Without Downtime",
+      problem:
+        "The original platform was built on Laravel Livewire — server-rendered components with limited interactivity. As the product grew to 50+ clients, Livewire's round-trip model added 6+ seconds to common dashboard interactions. Real-time features like live chat and streaming AI responses were impossible without a fundamental architecture change.",
+      diagramKey: "migrationTimeline",
+      walkthrough: [
+        "I audited every Livewire component and mapped them to React equivalents, prioritizing the highest-traffic surfaces first: the analytics dashboard (40+ charts), the chat interface, and the client management panel.",
+        "RTK Query replaced Laravel's Eloquent-based API layer. Each endpoint got typed request/response schemas, optimistic updates for UI responsiveness, and automatic cache invalidation. This alone cut perceived latency by ~4 seconds on dashboard loads.",
+        "The migration ran in parallel with production — a feature flag routed enterprise clients to the React app while smaller accounts stayed on Livewire. Over 3 months, we migrated 100% of users with zero downtime incidents.",
+        "Material UI provided the component foundation, but Tailwind handled all custom styling. This hybrid approach gave us rapid prototyping speed (MUI's pre-built components) with pixel-level control (Tailwind utilities) where designs demanded it.",
+      ],
+      insight: {
+        title: "Parallel Migration > Big Bang Rewrite",
+        body: "Running both frontends simultaneously cost extra infrastructure, but it eliminated the risk of a failed big-bang cutover. Feature flags let us validate the React app with power users first, catch edge cases, and roll back per-client if needed. The 6-second improvement in response times justified the migration cost within the first month.",
+      },
+    },
+    {
+      id: "ai-chatbot",
+      title: "AI Chatbot Architecture",
+      subtitle: "Multi-Tenant RAG with Streaming Responses",
+      problem:
+        "Each client needed a chatbot that understood their specific business — not a generic GPT wrapper. The system had to isolate each client's knowledge base, support real-time streaming responses, maintain conversation history, and scale to handle concurrent sessions across 50+ tenants without cross-contamination of context.",
+      diagramKey: "chatbotArchitecture",
+      walkthrough: [
+        "Each client's website content, FAQs, and documentation gets embedded via OpenAI's text-embedding-ada-002 and stored in a namespaced Pinecone index. Namespaces provide hard tenant isolation — one client's vectors never appear in another's search results.",
+        "When a user sends a message, the API retrieves the top-5 most relevant document chunks from that tenant's namespace, joins them with the conversation history (last 10 messages), and constructs a system prompt that constrains the model to the client's domain.",
+        "FastAPI handles the OpenAI streaming response via Server-Sent Events. Tokens stream to the chat widget in real-time while the full response is asynchronously persisted to the database and broadcast to the agent dashboard via PusherJS.",
+        "A fallback escalation path triggers when the chatbot's confidence score drops below a threshold — the conversation routes to a human agent with full context preserved, so the agent doesn't start from scratch.",
+      ],
+      insight: {
+        title: "Namespace Isolation Is Non-Negotiable",
+        body: "Early prototypes used metadata filtering instead of namespaces for tenant isolation. During load testing, I discovered that metadata filters on large indexes added 200-400ms latency per query and had edge cases where filters could return cross-tenant results under high concurrency. Switching to dedicated namespaces eliminated both problems and simplified the query path.",
+      },
+    },
+    {
+      id: "onboarding-pipeline",
+      title: "Automated Client Onboarding",
+      subtitle: "From 20 Minutes to 2 Minutes Per Client",
+      problem:
+        "Onboarding a new client required manually copying their website content, writing chatbot training data, and configuring the knowledge base. At 50+ clients, this manual process consumed 15+ hours per week and was the primary bottleneck to scaling the business.",
+      diagramKey: "onboardingPipeline",
+      walkthrough: [
+        "The pipeline starts with a client URL and extraction config. Apify SDK crawls the site following both sitemap.xml links and discovered anchor tags, building a complete page inventory with deduplication.",
+        "Each page runs through a content parser that strips navigation, footers, and boilerplate, extracting only meaningful content. The parser handles SPAs via headless browser rendering when static HTML extraction fails.",
+        "Extracted content is chunked into 512-token segments with 50-token overlap to preserve context at chunk boundaries. Each chunk gets embedded and upserted into the client's Pinecone namespace in batches of 100.",
+        "The entire pipeline runs asynchronously — the admin triggers it from the dashboard, gets a real-time progress feed via PusherJS, and the chatbot is ready to test within 2 minutes for a typical 50-page site.",
+      ],
+      insight: {
+        title: "Chunk Overlap Prevents Context Loss",
+        body: "Initial chunking without overlap created a subtle bug: sentences split across chunk boundaries lost meaning, causing the chatbot to give incomplete answers. Adding 50-token overlap (roughly one paragraph) eliminated these edge cases. The 10% storage overhead was insignificant compared to the improvement in answer quality.",
+      },
+    },
+  ],
+  decisions: [
+    {
+      decision: "RTK Query over React Query / SWR",
+      alternatives: "TanStack Query, SWR, custom fetch hooks",
+      reasoning:
+        "The SaaS dashboard had complex cross-component state (selected client, active filters, real-time chat state) that needed Redux. RTK Query integrates natively with the Redux store, giving us one state management solution instead of Redux + a separate data-fetching library. Cache invalidation tags across related endpoints (e.g., updating a chat session invalidates the analytics view) were trivial with RTK Query's tag system.",
+    },
+    {
+      decision: "FastAPI for AI routes instead of Node.js",
+      alternatives: "Express.js, Next.js API routes, Django",
+      reasoning:
+        "Python's ML ecosystem (LangChain, sentence-transformers, numpy) made FastAPI the natural choice for AI-heavy routes. FastAPI's native async support and streaming response capabilities matched the chatbot's SSE requirements perfectly. The trade-off — running two server runtimes — was offset by cleaner separation of concerns: Next.js handles the marketing site and SSR, FastAPI handles all AI inference routes.",
+    },
+    {
+      decision: "Pinecone + Chroma dual vector DB strategy",
+      alternatives: "Pinecone-only, Weaviate, Qdrant, pgvector",
+      reasoning:
+        "Pinecone runs in production for its managed infrastructure and namespace-based multi-tenancy. Chroma runs locally for development and testing — identical API surface, zero cloud costs during iteration. This dual approach let developers test embedding pipelines and chatbot behavior locally without burning Pinecone API credits or risking production data.",
+    },
+    {
+      decision: "Preact islands for embeddable widgets",
+      alternatives: "React, Web Components, vanilla JS, iframe embeds",
+      reasoning:
+        "Clients embed our chat widget on their WordPress and Shopify sites. React's 40KB+ runtime was unacceptable for a third-party script. Preact's 3KB runtime with compatible API let us share component logic between the main app and the embeddable widget. Iframes were ruled out because they break on mobile and can't access parent page context for URL-aware chatbot responses.",
+    },
+    {
+      decision: "SendGrid with TCR/10DLC compliance",
+      alternatives: "Amazon SES, Mailgun, Postmark, self-hosted SMTP",
+      reasoning:
+        "At 10,000+ daily marketing emails, deliverability is the constraint — not cost. SendGrid's dedicated IP pools and TCR/10DLC registration process (which took 6 weeks to complete) ensured our emails landed in inboxes, not spam folders. The compliance process was painful but necessary: without 10DLC registration, carriers increasingly block unregistered bulk SMS/email senders.",
+    },
+  ],
+  learnings: [
+    {
+      title: "Multi-Tenant Vector DBs Need Hard Isolation",
+      body: "Metadata filtering looks simpler than namespaces but breaks under load. Always use hard isolation (namespaces, separate indexes, or separate collections) for multi-tenant vector stores. The performance and correctness guarantees are worth the operational complexity.",
+    },
+    {
+      title: "Streaming Changes Everything About Error Handling",
+      body: "With traditional request/response, you return errors before any data. With SSE streaming, you might be 200 tokens into a response when OpenAI rate-limits you. I built a structured error token protocol so the frontend can distinguish between a normal end-of-stream and a mid-stream failure.",
+    },
+    {
+      title: "Product-Market Fit Tests Architecture",
+      body: "RipeMetrics pivoted 3 times: from review management to customer analytics to AI chatbots. Each pivot stress-tested the architecture differently. The modular service-oriented design survived because individual services (email, analytics, chat) could be swapped or deprecated without cascading changes.",
+    },
+  ],
   technicalImplementation: {
     title: "Technical Implementation",
     sections: [

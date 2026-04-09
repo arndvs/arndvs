@@ -7,6 +7,10 @@ import {
   ChallengeSection,
   SolutionSection,
   ImpactSection,
+  ArchitectureDiagram,
+  DeepDiveSection,
+  DecisionsSection,
+  LearningsSection,
   TechImplementationSection,
   AchievementsSection,
   ConclusionSection,
@@ -30,6 +34,12 @@ export default function RipeMetricsContent() {
         title={pageData.impact.title}
         metrics={pageData.impact.metrics}
       />
+      <ArchitectureDiagram diagramKey={pageData.architectureDiagramKey} />
+      {pageData.deepDives.map((dive) => (
+        <DeepDiveSection key={dive.id} data={dive} />
+      ))}
+      <DecisionsSection decisions={pageData.decisions} />
+      <LearningsSection learnings={pageData.learnings} />
       <TechImplementationSection
         title={pageData.technicalImplementation.title}
         sections={pageData.technicalImplementation.sections}
