@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -64,6 +65,7 @@ const projectsPageData = {
       role: "Full-Stack Developer",
       year: "2025-Present",
       link: "https://alignsd.com",
+      thumbnail: "/projects/alignsd/hero-webgl-shader.png",
     },
     {
       id: "scorpion-percussion",
@@ -104,6 +106,7 @@ interface Project {
   year: string;
   link?: string;
   comingSoon?: boolean;
+  thumbnail?: string;
 }
 const getColorClass = (color: string): string => {
   const colorMap: Record<string, string> = {
@@ -126,10 +129,22 @@ const ProjectCard: React.FC<Project> = ({
   year,
   link,
   comingSoon,
+  thumbnail,
 }) => {
   return (
     <motion.div variants={cardVariants}>
       <Card className="group h-full overflow-hidden transition-all hover:border-primary/50 hover:shadow-lg">
+        {thumbnail && (
+          <div className="overflow-hidden border-b">
+            <Image
+              src={thumbnail}
+              alt={`${title} screenshot`}
+              width={800}
+              height={450}
+              className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+        )}
         <CardHeader className="space-y-4">
           {/* Category and Year */}
           <div className="flex items-center justify-between">
