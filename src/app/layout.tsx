@@ -80,6 +80,44 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Person",
+                  "@id": "https://arndvs.com/#person",
+                  name: "Aaron Davis",
+                  url: "https://arndvs.com",
+                  jobTitle: "Full-Stack Software Engineer",
+                  description:
+                    "Self-taught software engineer with 8+ years of experience building AI-powered SaaS platforms.",
+                  sameAs: [
+                    "https://github.com/arndvs",
+                    "https://linkedin.com/in/arndvs",
+                  ],
+                  knowsAbout: [
+                    "React",
+                    "Next.js",
+                    "TypeScript",
+                    "AI Engineering",
+                    "RAG Systems",
+                    "Full-Stack Development",
+                  ],
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://arndvs.com/#website",
+                  url: "https://arndvs.com",
+                  name: "Aaron Davis Portfolio",
+                  author: { "@id": "https://arndvs.com/#person" },
+                },
+              ],
+            }),
+          }}
+        />
         <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Loading...</div>}>
           <Navigation />
           {children}
