@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     template: "%s | Aaron Davis",
   },
   description:
-    "Self-taught software engineer with 8+ years of experience building AI-powered SaaS platforms. Specializing in React, Next.js, TypeScript, AI integration, RAG systems, and full-stack development. Based in San Diego, CA.",
+    "Full-stack engineer and AI builder based in San Diego. Founded RipeMetrics (50+ enterprise clients), built a 44k-line healthcare platform with 5 AI integrations. React, Next.js, TypeScript, OpenAI, RAG systems.",
   keywords: [
     "Full Stack Developer",
     "Software Engineer",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: "Aaron Davis Portfolio",
     title: "Aaron Davis - Full Stack Software Engineer & AI Specialist",
     description:
-      "Self-taught software engineer specializing in AI-powered platforms, React, Next.js, and modern full-stack development.",
+      "Full-stack engineer and AI builder. Founded RipeMetrics (50+ enterprise clients), built healthcare platforms with AI integrations. React, Next.js, TypeScript.",
     images: [
       {
         url: "/images/og-image.jpg",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Aaron Davis - Full Stack Software Engineer",
     description:
-      "Self-taught software engineer specializing in AI-powered platforms, React, Next.js, and modern full-stack development.",
+      "Full-stack engineer and AI builder. Founded RipeMetrics (50+ enterprise clients), built healthcare platforms with AI integrations.",
     images: ["/images/og-image.jpg"],
   },
   robots: {
