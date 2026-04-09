@@ -7,6 +7,7 @@ import { Menu } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { GlitchName } from "./glitch-name"
 import { ContactForm } from "./contact-form"
+import { ThemeToggle } from "./theme-toggle"
 import { Button } from "./ui/button"
 import {
   Sheet,
@@ -60,6 +61,7 @@ export function Navigation() {
               </Link>
             ))}
             <ContactForm triggerText="Contact" triggerVariant="default" triggerSize="sm" showIcon={false} />
+            <ThemeToggle />
           </div>
 
           {/* Mobile nav */}
@@ -90,6 +92,7 @@ export function Navigation() {
                   </Link>
                 ))}
                 <ContactForm triggerText="Contact" triggerVariant="default" triggerSize="default" showIcon={false} />
+                <ThemeToggle />
               </div>
             </SheetContent>
           </Sheet>
