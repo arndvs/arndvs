@@ -10,6 +10,7 @@ import {
   DecisionLog,
   LearningsGrid,
   MetricsSection,
+  GallerySection,
   CTASection,
 } from "./components"
 
@@ -29,6 +30,7 @@ export default function AlignSDPage() {
         <DecisionLog decisions={pageData.decisions} />
         <LearningsGrid learnings={pageData.learnings} />
         <MetricsSection metrics={pageData.metrics} />
+        <GallerySection gallery={pageData.gallery} />
         <CTASection data={pageData.cta} />
       </article>
     </main>

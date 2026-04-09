@@ -6,6 +6,8 @@ export interface HeroData {
   tagline: string
   stats: { label: string; value: string }[]
   cta: { text: string; href: string }
+  screenshotSrc?: string
+  screenshotAlt?: string
 }
 
 export interface SituationData {
@@ -41,6 +43,8 @@ export interface DeepDive {
     title: string
     body: string
   }
+  screenshotSrc?: string
+  screenshotAlt?: string
 }
 
 export interface Decision {
@@ -66,6 +70,12 @@ export interface CTAData {
   buttons: { text: string; href: string; variant: "default" | "outline" }[]
 }
 
+export interface GalleryImage {
+  src: string
+  alt: string
+  caption: string
+}
+
 export interface PageData {
   hero: HeroData
   situation: SituationData
@@ -74,6 +84,7 @@ export interface PageData {
   decisions: Decision[]
   learnings: Learning[]
   metrics: { hero: Metric[]; supporting: Metric[] }
+  gallery: GalleryImage[]
   cta: CTAData
 }
 
@@ -91,6 +102,8 @@ export const pageData: PageData = {
       { label: "Commits", value: "1,800" },
     ],
     cta: { text: "Visit Live Site", href: "https://alignsd.com" },
+    screenshotSrc: "/projects/alignsd/hero-webgl-shader.png",
+    screenshotAlt: "AlignSD homepage with WebGL shader hero section",
   },
 
   situation: {
@@ -173,6 +186,8 @@ export const pageData: PageData = {
         title: "Partial Success > Total Rollback",
         body: "The hardest part of multi-service orchestration isn't calling the APIs — it's deciding what happens when service #4 of 7 fails. I built each downstream call to be independently failable: if the CRM call fails, the patient still gets their confirmation email and staff still gets the Slack notification. Partial success is better than total rollback for a non-transactional flow.",
       },
+      screenshotSrc: "/projects/alignsd/start-here-hero.png",
+      screenshotAlt: "AlignSD insurance verification start-here page",
     },
     {
       id: "json-ld-composer",
@@ -191,6 +206,8 @@ export const pageData: PageData = {
         title: "The Abstraction That Pays For Itself",
         body: "The composable architecture cost ~3x more upfront time than inlining JSON-LD per page. It paid for itself the first time the client added a new service category: zero frontend changes, the builder + composer automatically generated the right structured data from the Sanity schema. The abstraction boundary is \"what data exists\" (Sanity) vs. \"what Google needs to see\" (JSON-LD) — and those two things should never be coupled.",
       },
+      screenshotSrc: "/projects/alignsd/services-categories.png",
+      screenshotAlt: "AlignSD services categories with structured data",
     },
     {
       id: "programmatic-seo",
@@ -208,6 +225,8 @@ export const pageData: PageData = {
         title: "Content That Proves You Know the Neighborhood",
         body: "The tabbed local guide (Parks, Health, Food, Landmarks) is what differentiates this from a content farm. Each tab contains hand-curated places with addresses and Google Maps links. This is the kind of content Google rewards — it's genuinely useful to someone searching \"chiropractor near Mission Valley\" because it proves the business actually knows the neighborhood. The CMS schema stores these as structured Sanity documents so the client can update them without touching code.",
       },
+      screenshotSrc: "/projects/alignsd/services-hero.png",
+      screenshotAlt: "AlignSD services page with programmatic area SEO",
     },
     {
       id: "spam-prevention",
@@ -226,6 +245,8 @@ export const pageData: PageData = {
         title: "Silent Rejection Is the Whole Strategy",
         body: "The silent rejection on Wall 1 is critical. Returning an error message tells the bot it was caught — it adapts. Returning a fake success response makes the bot think it worked. Meanwhile, the spam alert email gives staff visibility without manual triage. The three walls are ordered by cost: honeypot is free (client-side), rate limiting is cheap (in-memory), and IPHub costs an API call — so you only pay for the call on submissions that passed the first two walls.",
       },
+      screenshotSrc: "/projects/alignsd/contact-page.png",
+      screenshotAlt: "AlignSD contact page with honeypot spam prevention",
     },
   ],
 
@@ -303,6 +324,39 @@ export const pageData: PageData = {
       { value: 55, label: "Test Files" },
     ],
   },
+
+  gallery: [
+    {
+      src: "/projects/alignsd/hero-webgl-shader.png",
+      alt: "AlignSD homepage with WebGL shader hero animation",
+      caption: "Homepage — WebGL paper shader hero with animated particle system",
+    },
+    {
+      src: "/projects/alignsd/reviews-grid.png",
+      alt: "AlignSD patient reviews grid layout",
+      caption: "Reviews — AI-curated patient testimonial grid",
+    },
+    {
+      src: "/projects/alignsd/services-hero.png",
+      alt: "AlignSD services page hero section",
+      caption: "Services — Dynamic service categories with structured data",
+    },
+    {
+      src: "/projects/alignsd/start-here-wellness-system.png",
+      alt: "AlignSD wellness system onboarding flow",
+      caption: "Start Here — Multi-step wellness assessment with insurance verification",
+    },
+    {
+      src: "/projects/alignsd/testimonial-carousel.png",
+      alt: "AlignSD testimonial carousel component",
+      caption: "Testimonials — Animated carousel with AI-generated review insights",
+    },
+    {
+      src: "/projects/alignsd/services-pricing.png",
+      alt: "AlignSD services and pricing section",
+      caption: "Pricing — Dynamic pricing cards pulled from Sanity CMS",
+    },
+  ],
 
   cta: {
     text: "Interested in what I could build for your business? I'm currently taking on full-stack web development and AI integration projects.",

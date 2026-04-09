@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -22,6 +23,7 @@ import type {
   Learning,
   Metric,
   CTAData,
+  GalleryImage,
 } from "./data"
 import {
   ExternalLink,
@@ -109,6 +111,19 @@ export function HeroSection({ data }: { data: HeroData }) {
           </a>
         </Button>
       </motion.div>
+
+      {data.screenshotSrc && (
+        <motion.div variants={itemVariants} className="mt-12 overflow-hidden rounded-lg border border-border">
+          <Image
+            src={data.screenshotSrc}
+            alt={data.screenshotAlt ?? ""}
+            width={1440}
+            height={900}
+            className="w-full"
+            priority
+          />
+        </motion.div>
+      )}
     </motion.header>
   )
 }
@@ -286,6 +301,18 @@ export function DeepDiveSection({ data }: { data: DeepDive }) {
         <p className="mb-2 text-sm font-semibold">{data.insight.title}</p>
         <p className="text-sm leading-relaxed text-muted-foreground italic">{data.insight.body}</p>
       </motion.div>
+
+      {data.screenshotSrc && (
+        <motion.div variants={itemVariants} className="mt-8 overflow-hidden rounded-lg border">
+          <Image
+            src={data.screenshotSrc}
+            alt={data.screenshotAlt ?? `${data.title} screenshot`}
+            width={1200}
+            height={800}
+            className="w-full"
+          />
+        </motion.div>
+      )}
     </motion.section>
   )
 }
@@ -429,6 +456,47 @@ export function MetricsSection({
               </CardHeader>
             </Card>
           </motion.div>
+        ))}
+      </motion.div>
+    </motion.section>
+  )
+}
+
+export function GallerySection({ gallery }: { gallery: GalleryImage[] }) {
+  return (
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={containerVariants}
+      className="mb-16"
+    >
+      <motion.h2 variants={itemVariants} className="mb-8 text-3xl font-bold">
+        Gallery
+      </motion.h2>
+
+      <motion.div
+        variants={staggerContainerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        {gallery.map((img) => (
+          <motion.figure key={img.src} variants={cardVariants} className="overflow-hidden rounded-lg border">
+            <Image
+              src={img.src}
+              alt={img.alt}
+              width={800}
+              height={600}
+              className="w-full"
+            />
+            {img.caption && (
+              <figcaption className="bg-muted/50 px-4 py-3 text-sm text-muted-foreground">
+                {img.caption}
+              </figcaption>
+            )}
+          </motion.figure>
         ))}
       </motion.div>
     </motion.section>
