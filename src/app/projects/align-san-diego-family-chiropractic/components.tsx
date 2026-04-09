@@ -103,7 +103,7 @@ export function HeroSection({ data }: { data: HeroData }) {
 
       <motion.div variants={itemVariants} className="mt-8">
         <Button asChild>
-          <a href={data.cta.href} target="_blank" rel="nofollow noopener noreferrer">
+          <a href={data.cta.href} target="_blank" rel="noopener noreferrer">
             {data.cta.text}
             <ExternalLink className="ml-2 h-4 w-4" />
           </a>
