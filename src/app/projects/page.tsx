@@ -65,6 +65,25 @@ const projectsPageData = {
       year: "2025-Present",
       link: "https://alignsd.com",
     },
+    {
+      id: "scorpion-percussion",
+      title: "Scorpion Percussion",
+      description:
+        "E-commerce platform for a percussion instrument brand. Monorepo architecture with shared type-safe API layer and native mobile storefront.",
+      category: "E-commerce / Mobile",
+      color: "purple",
+      technologies: [
+        "Turborepo",
+        "tRPC",
+        "Expo",
+        "React Native",
+        "TypeScript",
+      ],
+      featured: true,
+      role: "Full-Stack Developer",
+      year: "2025-Present",
+      comingSoon: true,
+    },
   ],
   cta: {
     title: "Interested in working together?",
@@ -84,6 +103,7 @@ interface Project {
   role: string;
   year: string;
   link?: string;
+  comingSoon?: boolean;
 }
 const getColorClass = (color: string): string => {
   const colorMap: Record<string, string> = {
@@ -105,6 +125,7 @@ const ProjectCard: React.FC<Project> = ({
   role,
   year,
   link,
+  comingSoon,
 }) => {
   return (
     <motion.div variants={cardVariants}>
@@ -150,13 +171,18 @@ const ProjectCard: React.FC<Project> = ({
             ))}
           </div>
 
-          {/* Action Buttons */}
           <div className="flex items-center gap-3">
-            <Button asChild variant="default" size="sm">
-              <Link href={`/projects/${id}`}>
-                View case study <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            {comingSoon ? (
+              <span className="rounded-md border border-dashed border-muted-foreground/40 px-3 py-1.5 text-xs font-medium text-muted-foreground">
+                Case study coming soon
+              </span>
+            ) : (
+              <Button asChild variant="default" size="sm">
+                <Link href={`/projects/${id}`}>
+                  View case study <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            )}
             {link && (
               <Button asChild variant="outline" size="sm">
                 <a href={link} target="_blank" rel="noopener noreferrer">
