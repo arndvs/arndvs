@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Mail } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import { useHoneypot, SpamProtectionFields } from "@/lib/honeypot";
 
 interface ContactFormProps {
@@ -35,23 +36,32 @@ export function ContactForm({
 }: ContactFormProps) {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
 
-  // Initialize honeypot protection
   const { validateHoneypot, getHoneypotFormData } = useHoneypot({
-    minSubmitTime: 3000, // 3 seconds minimum
+    minSubmitTime: 3000,
     enableTimeValidation: true,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate honeypot before processing
-    const honeypotResult = validateHoneypot(formData);
+    const honeypotFields: Record<string, string> = {};
+    if (formRef.current) {
+      const fd = new FormData(formRef.current);
+      for (const [key, value] of fd.entries()) {
+        if (key === "website" || key === "_honeypot") {
+          honeypotFields[key] = value as string;
+        }
+      }
+    }
+
+    const honeypotResult = validateHoneypot({ ...formData, ...honeypotFields });
     if (!honeypotResult.isValid) {
       // Silent rejection - fake success to avoid alerting bots
       setIsSubmitting(true);
@@ -115,7 +125,7 @@ export function ContactForm({
         <Button
           variant={triggerVariant}
           size={triggerSize}
-          className={triggerClassName + "hover:cursor-pointer"}
+          className={cn(triggerClassName, "hover:cursor-pointer")}
         >
           {showIcon && !triggerIcon && <Mail className="mr-2 h-4 w-4" />}
           {triggerIcon}
@@ -129,7 +139,7 @@ export function ContactForm({
             Send me a message and I&apos;ll get back to you as soon as possible.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 pt-4">
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
             <Input
