@@ -1,5 +1,4 @@
-"use client"
-
+import type { Metadata } from "next"
 import { pageData } from "./data"
 import {
   BackButton,
@@ -13,6 +12,12 @@ import {
   GallerySection,
   CTASection,
 } from "./components"
+
+export const metadata: Metadata = {
+  title: "Align San Diego Family Chiropractic",
+  description:
+    "Case study: A 44,000-line healthcare platform with 5 AI integrations, 81 JSON-LD schemas, programmatic SEO across 158 pages, built on Next.js 16 and Sanity v5.",
+}
 
 export default function AlignSDPage() {
   return (
