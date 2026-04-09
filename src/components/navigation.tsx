@@ -1,10 +1,21 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { Menu } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { GlitchName } from "./glitch-name"
 import { ContactForm } from "./contact-form"
+import { Button } from "./ui/button"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet"
+
 const navItems = [
   { name: "Home", href: "/", ariaLabel: "Go to home page" },
   { name: "About", href: "/about", ariaLabel: "Learn more about Aaron" },
@@ -12,6 +23,10 @@ const navItems = [
 ]
 export function Navigation() {
   const pathname = usePathname()
+  const [open, setOpen] = useState(false)
+
+  const isActive = (href: string) =>
+    pathname === href || (href !== "/" && pathname.startsWith(href))
 
   return (
     <nav 
@@ -27,24 +42,57 @@ export function Navigation() {
           >
             <GlitchName />
           </Link>
-          <div className="flex items-center gap-8" role="navigation">
+
+          {/* Desktop nav */}
+          <div className="hidden items-center gap-8 md:flex" role="navigation">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
                   "text-sm font-medium transition-colors hover:text-primary",
-                  pathname === item.href ? "text-foreground" : "text-muted-foreground",
-                  item.href !== "/" && pathname.startsWith(item.href) && "text-foreground",
+                  isActive(item.href) ? "text-foreground" : "text-muted-foreground",
                 )}
                 aria-label={item.ariaLabel}
-                aria-current={pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href)) ? "page" : undefined}
+                aria-current={isActive(item.href) ? "page" : undefined}
               >
                 {item.name}
               </Link>
             ))}
             <ContactForm triggerText="Contact" triggerVariant="default" triggerSize="sm" showIcon={false} />
           </div>
+
+          {/* Mobile nav */}
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon" aria-label="Open menu">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-64">
+              <SheetHeader>
+                <SheetTitle className="text-left">Menu</SheetTitle>
+              </SheetHeader>
+              <div className="mt-6 flex flex-col gap-4">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "text-lg font-medium transition-colors hover:text-primary",
+                      isActive(item.href) ? "text-foreground" : "text-muted-foreground",
+                    )}
+                    aria-label={item.ariaLabel}
+                    aria-current={isActive(item.href) ? "page" : undefined}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+                <ContactForm triggerText="Contact" triggerVariant="default" triggerSize="default" showIcon={false} />
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </nav>
