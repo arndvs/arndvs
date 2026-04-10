@@ -17,7 +17,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { containerVariants, itemVariants } from "@/lib/utils/animations";
+import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 const aboutPageData = {
   hero: {
     title: "About Me",
@@ -265,6 +265,7 @@ const JourneyPhaseCard: React.FC<JourneyPhaseProps> = ({
   color,
   description,
 }) => {
+  const { itemVariants } = useAnimationVariants();
   const colors = getColorClasses(color);
 
   return (
@@ -309,8 +310,11 @@ const CertificationItem: React.FC<CertificationItemProps> = ({
     <p>{description}</p>
   </div>
 );
-const TechCategory: React.FC<TechCategoryProps> = ({ title, technologies }) => (
-  <motion.div variants={itemVariants}>
+const TechCategory: React.FC<TechCategoryProps> = ({ title, technologies }) => {
+  const { itemVariants } = useAnimationVariants();
+
+  return (
+    <motion.div variants={itemVariants}>
     <h3 className="text-lg font-semibold mb-4">{title}</h3>
     <div className="flex flex-wrap gap-2">
       {technologies.map((tech) => (
@@ -323,9 +327,12 @@ const TechCategory: React.FC<TechCategoryProps> = ({ title, technologies }) => (
       ))}
     </div>
   </motion.div>
-);
+  );
+};
 
 export default function AboutContent() {
+  const { containerVariants, itemVariants } = useAnimationVariants();
+
   return (
     <main className="min-h-screen pt-16">
       {/* Hero Section */}

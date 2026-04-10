@@ -13,11 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { motion } from "framer-motion";
-import {
-  containerVariants,
-  itemVariants,
-  cardVariants,
-} from "@/lib/utils/animations";
+import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 const projectsPageData = {
   hero: {
     title: "Projects",
@@ -152,6 +148,8 @@ const ProjectCard: React.FC<Project> = ({
   comingSoon,
   thumbnail,
 }) => {
+  const { cardVariants } = useAnimationVariants();
+
   return (
     <motion.div variants={cardVariants}>
       <Card className="group h-full overflow-hidden transition-all hover:border-primary/50 hover:shadow-lg">
@@ -233,6 +231,8 @@ const ProjectCard: React.FC<Project> = ({
   );
 };
 export default function ProjectsContent() {
+  const { containerVariants, itemVariants } = useAnimationVariants();
+
   return (
     <main className="min-h-screen pt-16">
       <section className="mx-auto max-w-7xl px-6 py-24 lg:px-8 lg:py-32">

@@ -77,6 +77,25 @@ export function useCardVariants(options?: { clsSafe?: boolean }): Variants {
     return options?.clsSafe ? clsSafeItem : cardVariants
 }
 
+export function useAnimationVariants() {
+    const shouldReduce = useReducedMotion()
+
+    if (shouldReduce)
+        return {
+            containerVariants: reducedContainer,
+            staggerContainerVariants: reducedContainer,
+            itemVariants: reducedItem,
+            cardVariants: reducedItem,
+        }
+
+    return {
+        containerVariants,
+        staggerContainerVariants,
+        itemVariants,
+        cardVariants,
+    }
+}
+
 export function useInteractionVariants(type: "button" | "micro"): Variants {
     const shouldReduce = useReducedMotion()
 

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowRight, Github, Linkedin } from "lucide-react"
 import { motion } from "framer-motion"
-import { containerVariants, itemVariants, cardVariants } from "@/lib/utils/animations"
+import { useAnimationVariants } from "@/lib/hooks/use-animation-variants"
 import { ContactForm } from "@/components/contact-form"
 const pageData = {
   hero: {
@@ -132,6 +132,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   link,
   linkText,
 }) => {
+  const { cardVariants } = useAnimationVariants()
   const statusColorMap = {
     green: "bg-green-500",
     blue: "bg-blue-500",
@@ -181,8 +182,11 @@ const SocialLink: React.FC<SocialLinkProps> = ({ text, href, icon: Icon }) => {
     </Button>
   )
 }
-const TechStack: React.FC<TechStackProps> = ({ technologies }) => (
-  <div className="flex flex-wrap gap-2">
+const TechStack: React.FC<TechStackProps> = ({ technologies }) => {
+  const { itemVariants } = useAnimationVariants()
+
+  return (
+    <div className="flex flex-wrap gap-2">
     {technologies.map((tech) => (
       <motion.span
         key={tech}
@@ -194,8 +198,11 @@ const TechStack: React.FC<TechStackProps> = ({ technologies }) => (
       </motion.span>
     ))}
   </div>
-)
+  )
+}
 export default function HomeContent() {
+  const { containerVariants, itemVariants } = useAnimationVariants()
+
   return (
     <main className="min-h-screen pt-16" role="main">
       {/* Hero Section */}

@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Github, Linkedin, Mail } from "lucide-react"
 import { motion } from "framer-motion"
 import { ContactForm } from "./contact-form"
-import { containerVariants, itemVariants } from "@/lib/utils/animations"
+import { useAnimationVariants } from "@/lib/hooks/use-animation-variants"
 const footerData = {
   brand: {
     name: "Aaron Davis",
@@ -34,6 +34,7 @@ const footerData = {
 }
 export function Footer() {
   const currentYear = new Date().getFullYear()
+  const { containerVariants, itemVariants } = useAnimationVariants()
 
   return (
     <footer className="bg-background">

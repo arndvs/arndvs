@@ -6,12 +6,7 @@ import { ArrowLeft, Lightbulb, GitBranch, Wrench } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MermaidDiagram } from "@/components/mermaid-diagram"
-import {
-  containerVariants,
-  itemVariants,
-  cardVariants,
-  staggerContainerVariants,
-} from "@/lib/utils/animations"
+import { useAnimationVariants } from "@/lib/hooks/use-animation-variants"
 import { diagrams } from "./diagrams"
 import type { DiagramKey } from "./diagrams"
 import type {
@@ -39,6 +34,7 @@ export function BackButton() {
 }
 
 export function HeaderSection({ data }: { data: HeaderData }) {
+  const { containerVariants, itemVariants } = useAnimationVariants()
   const badgeColor: Record<string, string> = {
     cyan: "bg-cyan-500",
     green: "bg-green-500",
@@ -73,6 +69,8 @@ export function HeaderSection({ data }: { data: HeaderData }) {
 }
 
 export function OverviewSection({ data }: { data: OverviewData }) {
+  const { containerVariants, itemVariants } = useAnimationVariants()
+
   return (
     <motion.section
       initial="hidden"
@@ -117,6 +115,8 @@ export function OverviewSection({ data }: { data: OverviewData }) {
 }
 
 export function ChallengeSection({ title, description }: { title: string; description: string }) {
+  const { containerVariants, itemVariants } = useAnimationVariants()
+
   return (
     <motion.section
       initial="hidden"
@@ -144,6 +144,8 @@ export function SolutionSection({
   description: string
   features: Feature[]
 }) {
+  const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+
   return (
     <motion.section
       initial="hidden"
@@ -175,6 +177,8 @@ export function SolutionSection({
 }
 
 export function ImpactSection({ title, metrics }: { title: string; metrics: ImpactMetric[] }) {
+  const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+
   return (
     <motion.section
       initial="hidden"
@@ -205,6 +209,8 @@ export function TechImplementationSection({
   title: string
   sections: TechSection[]
 }) {
+  const { containerVariants, itemVariants } = useAnimationVariants()
+
   return (
     <motion.section
       initial="hidden"
@@ -228,6 +234,8 @@ export function TechImplementationSection({
 }
 
 export function AchievementsSection({ title, items }: { title: string; items: Achievement[] }) {
+  const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+
   return (
     <motion.section
       initial="hidden"
@@ -252,6 +260,8 @@ export function AchievementsSection({ title, items }: { title: string; items: Ac
 }
 
 export function ConclusionSection({ data }: { data: ConclusionData }) {
+  const { containerVariants, itemVariants } = useAnimationVariants()
+
   return (
     <motion.section
       initial="hidden"
@@ -274,6 +284,8 @@ export function ConclusionSection({ data }: { data: ConclusionData }) {
 }
 
 export function ArchitectureDiagram({ diagramKey }: { diagramKey: DiagramKey }) {
+  const { containerVariants, itemVariants } = useAnimationVariants()
+
   return (
     <motion.section
       initial="hidden"
@@ -293,6 +305,8 @@ export function ArchitectureDiagram({ diagramKey }: { diagramKey: DiagramKey }) 
 }
 
 export function DeepDiveSection({ data }: { data: DeepDive }) {
+  const { containerVariants, itemVariants } = useAnimationVariants()
+
   return (
     <motion.section
       initial="hidden"
@@ -347,6 +361,8 @@ export function DeepDiveSection({ data }: { data: DeepDive }) {
 const learningIcons = [Lightbulb, GitBranch, Wrench]
 
 export function DecisionsSection({ decisions }: { decisions: Decision[] }) {
+  const { containerVariants, itemVariants } = useAnimationVariants()
+
   return (
     <motion.section
       initial="hidden"
@@ -378,6 +394,8 @@ export function DecisionsSection({ decisions }: { decisions: Decision[] }) {
 }
 
 export function LearningsSection({ learnings }: { learnings: Learning[] }) {
+  const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+
   return (
     <motion.section
       initial="hidden"

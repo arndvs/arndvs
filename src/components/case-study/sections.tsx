@@ -7,12 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MermaidDiagram } from "@/components/mermaid-diagram"
 import { AnimatedCounter } from "@/components/animated-counter"
-import {
-    containerVariants,
-    itemVariants,
-    cardVariants,
-    staggerContainerVariants,
-} from "@/lib/utils/animations"
+import { useAnimationVariants } from "@/lib/hooks/use-animation-variants"
 import type {
     HeroData,
     SituationData,
@@ -89,6 +84,8 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function HeroSection({ data }: { data: HeroData }) {
+        const { containerVariants, itemVariants } = useAnimationVariants()
+
         return (
             <motion.header
                 initial="hidden"
@@ -154,6 +151,8 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function SituationSection({ data }: { data: SituationData }) {
+        const { containerVariants, itemVariants, cardVariants } = useAnimationVariants()
+
         return (
             <motion.section
                 initial="hidden"
@@ -232,6 +231,8 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function ArchitectureSection({ data }: { data: ArchitectureData }) {
+        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+
         return (
             <motion.section
                 initial="hidden"
@@ -284,6 +285,8 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function DeepDiveSection({ data }: { data: DeepDive }) {
+        const { containerVariants, itemVariants } = useAnimationVariants()
+
         return (
             <motion.section
                 initial="hidden"
@@ -344,6 +347,8 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function DecisionLog({ decisions }: { decisions: Decision[] }) {
+        const { containerVariants, itemVariants } = useAnimationVariants()
+
         return (
             <motion.section
                 initial="hidden"
@@ -376,6 +381,8 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function LearningsGrid({ learnings }: { learnings: Learning[] }) {
+        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+
         return (
             <motion.section
                 initial="hidden"
@@ -420,6 +427,8 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function MetricsSection({ metrics }: { metrics: { hero: Metric[]; supporting: Metric[] } }) {
+        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+
         return (
             <motion.section
                 initial="hidden"
@@ -486,6 +495,8 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function GallerySection({ gallery }: { gallery: GalleryImage[] }) {
+        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+
         if (gallery.length === 0)
             return null
 
@@ -530,6 +541,8 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function CTASection({ data }: { data: CTAData }) {
+        const { containerVariants, itemVariants } = useAnimationVariants()
+
         return (
             <motion.section
                 initial="hidden"
