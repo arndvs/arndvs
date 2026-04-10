@@ -13,6 +13,7 @@ import {
     staggerContainerVariants,
 } from "@/lib/utils/animations"
 import { diagrams } from "./diagrams"
+import type { DiagramKey } from "./diagrams"
 import type {
     HeroData,
     SituationData,
@@ -210,7 +211,7 @@ export function ArchitectureSection({ data }: { data: ArchitectureData }) {
             </motion.p>
 
             <motion.div variants={itemVariants} className="mb-10">
-                <MermaidDiagram chart={diagrams[data.diagramKey]} />
+                <MermaidDiagram chart={diagrams[data.diagramKey as DiagramKey]} />
             </motion.div>
 
             <motion.div
@@ -266,7 +267,7 @@ export function DeepDiveSection({ data }: { data: DeepDive }) {
             </motion.div>
 
             <motion.div variants={itemVariants} className="mb-8">
-                <MermaidDiagram chart={diagrams[data.diagramKey]} />
+                <MermaidDiagram chart={diagrams[data.diagramKey as DiagramKey]} />
             </motion.div>
 
             <motion.div variants={containerVariants} className="mb-8 space-y-4">

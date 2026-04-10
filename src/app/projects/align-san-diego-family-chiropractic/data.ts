@@ -1,94 +1,33 @@
 import type { DiagramKey } from "./diagrams"
+import type {
+  PageData,
+  HeroData,
+  SituationData,
+  SubsystemCard,
+  ArchitectureData,
+  DeepDive,
+  Decision,
+  Learning,
+  Metric,
+  CTAData,
+  GalleryImage,
+} from "@/lib/types/case-study"
 
-export interface HeroData {
-  badge: string
-  title: string
-  tagline: string
-  stats: { label: string; value: string }[]
-  cta: { text: string; href: string }
-  screenshotSrc?: string
-  screenshotAlt?: string
+export type {
+  HeroData,
+  SituationData,
+  SubsystemCard,
+  ArchitectureData,
+  DeepDive,
+  Decision,
+  Learning,
+  Metric,
+  CTAData,
+  GalleryImage,
+  PageData,
 }
 
-export interface SituationData {
-  narrative: string[]
-  context: {
-    role: string
-    timeline: string
-    client: string
-    live: string
-    stack: string[]
-  }
-}
-
-export interface SubsystemCard {
-  title: string
-  description: string
-}
-
-export interface ArchitectureData {
-  intro: string
-  diagramKey: DiagramKey
-  subsystems: SubsystemCard[]
-}
-
-export interface DeepDive {
-  id: string
-  title: string
-  subtitle: string
-  problem: string
-  diagramKey: DiagramKey
-  walkthrough: string[]
-  insight: {
-    title: string
-    body: string
-  }
-  screenshotSrc?: string
-  screenshotAlt?: string
-}
-
-export interface Decision {
-  decision: string
-  alternatives: string
-  reasoning: string
-}
-
-export interface Learning {
-  title: string
-  body: string
-}
-
-export interface Metric {
-  value: number
-  label: string
-  suffix?: string
-  prefix?: string
-}
-
-export interface CTAData {
-  text: string
-  buttons: { text: string; href: string; variant: "default" | "outline" }[]
-}
-
-export interface GalleryImage {
-  src: string
-  alt: string
-  caption: string
-}
-
-export interface PageData {
-  hero: HeroData
-  situation: SituationData
-  architecture: ArchitectureData
-  deepDives: DeepDive[]
-  decisions: Decision[]
-  learnings: Learning[]
-  metrics: { hero: Metric[]; supporting: Metric[] }
-  gallery: GalleryImage[]
-  cta: CTAData
-}
-
-export const pageData: PageData = {
+export const pageData: PageData<DiagramKey> = {
   hero: {
     badge: "Healthcare / Web · In Production",
     title: "Align San Diego Family Chiropractic",
