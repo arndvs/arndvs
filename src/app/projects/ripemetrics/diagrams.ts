@@ -100,7 +100,7 @@ export const diagrams = {
 
     section Polish
     Preact widget embeds                  :done, 2024-01, 2024-03
-    Call center + Twilio                  :done, 2024-02, 2024-05
+    Twilio IVR call center                :done, 2024-02, 2024-05
     Performance optimization              :done, 2024-04, 2024-06`,
 
   onboardingPipeline: `flowchart LR
