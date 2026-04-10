@@ -26,6 +26,27 @@ const projectsPageData = {
   },
   projects: [
     {
+      id: "ctrl",
+      title: "ctrl",
+      description:
+        "Autonomous AI agent infrastructure — synced instructions, skills, and secrets from a single dotfiles repo. One git pull updates every machine. Agents load only what's relevant.",
+      category: "AI Infrastructure / Developer Tools",
+      color: "orange",
+      technologies: [
+        "Bash",
+        "TypeScript",
+        "Python",
+        "Docker",
+        "Claude Code",
+        "VS Code Copilot",
+        "GitHub CLI",
+      ],
+      featured: true,
+      role: "Solo Developer & Architect",
+      year: "2025-Present",
+      link: "https://github.com/arndvs/ctrl",
+    },
+    {
       id: "ripemetrics",
       title: "RipeMetrics",
       description:
