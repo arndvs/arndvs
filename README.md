@@ -19,7 +19,11 @@ AWS · Docker · CI/CD · DigitalOcean · PostgreSQL
 
 ---
 
-## Current projects
+## Current project
+
+### [ctrl](https://github.com/arndvs/ctrl)
+
+The system your AI agents are missing. One repo that syncs instructions, workflow skills, hardened secrets, and autonomous loops across every machine. Progressive context detection loads only the rules relevant to each stack. Includes a full planning pipeline (grill-me → write-a-prd → prd-to-issues → do-work) and shift — a bash-and-Docker autonomous agent loop that picks GitHub issues, implements them, commits, and moves to the next one while you're AFK.s
 
 ### [Align San Diego Family Chiropractic](https://alignsd.com)
 
@@ -30,10 +34,6 @@ _In development_
 ### Scorpion Percussion
 
 Cross-platform iOS and Android app for a professional drumstick manufacturer, replacing their legacy native iOS app. Turborepo monorepo, Koa.js/tRPC API, Expo React Native frontend. Custom stick builder resolving Shopify variants against a validated configuration engine, full e-commerce flow, drift-corrected metronome with custom audio engine, production status tracking, push notifications via APNs and FCM.
-
-### [AI Development Dotfiles](https://github.com/arndvs/dotfiles)
-
-Opinionated Claude Code and VS Code configuration shared across machines. Custom agent skills, automated context detection, cross-machine secrets management.
 
 ### [RISE Technologies](https://riseawake.com) _(coming soon)_
 
