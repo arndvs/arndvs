@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from "react"
 interface MermaidDiagramProps {
   chart: string
   className?: string
+  ariaLabel?: string
 }
 
-export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
+export function MermaidDiagram({ chart, className, ariaLabel }: MermaidDiagramProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [svg, setSvg] = useState("")
 
@@ -36,7 +37,7 @@ export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
   }, [chart])
 
   return (
-    <div className={className}>
+    <div className={className} role="img" aria-label={ariaLabel ?? "Architecture diagram"}>
       {svg ? (
         <div
           ref={ref}

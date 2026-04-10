@@ -112,9 +112,12 @@ export function GlitchName() {
         className="flex items-center gap-2 cursor-pointer select-none group"
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
+        role="img"
+        aria-label="Aaron Davis"
       >
-        <CodeXml className={`transition-all duration-300 ${isHovering ? "rotate-180 text-primary" : ""}`} />
+        <CodeXml className={`transition-all duration-300 ${isHovering ? "rotate-180 text-primary" : ""}`} aria-hidden="true" />
         <span
+          aria-hidden="true"
           className={`text-lg font-semibold tracking-tight transition-all duration-200 ${
             isHovering ? "text-primary" : ""
           }`}
