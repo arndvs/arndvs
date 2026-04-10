@@ -53,6 +53,17 @@ const pageData = {
     viewAllHref: "/projects",
     projects: [
       {
+        id: "ctrl",
+        title: "ctrl",
+        description:
+          "Autonomous AI agent infrastructure — synced instructions, skills, and secrets from a single dotfiles repo. 12 self-learning skills, 3-tier security model, and a Docker-sandboxed autonomous loop.",
+        category: "AI Infrastructure / Developer Tools",
+        statusColor: "orange" as const,
+        technologies: ["Bash", "TypeScript", "Docker", "Claude Code", "VS Code Copilot"],
+        link: "/projects/ctrl",
+        linkText: "View case study",
+      },
+      {
         id: "ripemetrics",
         title: "RipeMetrics",
         description:
@@ -98,7 +109,7 @@ interface ProjectCardProps {
   title: string
   description: string
   category: string
-  statusColor: "green" | "blue" | "purple" | "cyan"
+  statusColor: "green" | "blue" | "purple" | "cyan" | "orange"
   technologies: string[]
   link?: string
   linkText?: string
@@ -126,6 +137,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     blue: "bg-blue-500",
     purple: "bg-purple-500",
     cyan: "bg-cyan-500",
+    orange: "bg-orange-500",
   }
 
   return (
