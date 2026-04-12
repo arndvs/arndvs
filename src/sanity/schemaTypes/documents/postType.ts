@@ -144,6 +144,40 @@ export const postType = defineType({
             type: 'seo',
             description: 'Search engine optimization fields. AI-populated or manual.',
         }),
+        defineField({
+            name: 'aiEnhancement',
+            title: 'AI Enhancement',
+            type: 'object',
+            description: 'Tracks AI SEO enhancement status. Managed automatically.',
+            readOnly: true,
+            fields: [
+                defineField({
+                    name: 'status',
+                    title: 'Status',
+                    type: 'string',
+                    options: {
+                        list: ['pending', 'completed', 'failed'],
+                    },
+                }),
+                defineField({
+                    name: 'lastRunAt',
+                    title: 'Last Run',
+                    type: 'datetime',
+                }),
+                defineField({
+                    name: 'confidence',
+                    title: 'Confidence',
+                    type: 'number',
+                    description: 'AI confidence score (0–1).',
+                    validation: (rule) => rule.min(0).max(1),
+                }),
+                defineField({
+                    name: 'model',
+                    title: 'Model',
+                    type: 'string',
+                }),
+            ],
+        }),
     ],
     orderings: [
         {
