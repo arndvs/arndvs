@@ -1,4 +1,8 @@
 {
-  "version": "0.2",
-  "words": ["arndvs", "agentic", "SNOMED"]
+    "version": "0.2",
+    "words": [
+        "arndvs",
+        "agentic",
+        "SNOMED"
+    ]
 }
