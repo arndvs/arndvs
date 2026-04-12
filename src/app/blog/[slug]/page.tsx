@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { sanityFetch } from '@/sanity/lib/live'
 import { POST_QUERY, POST_SLUGS_QUERY } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
+import { safeJsonLdStringify } from '@/lib/utils/safe-json-ld'
 import { PostHeader } from '@/components/blog/post-header'
 import { PostBody } from '@/components/blog/post-body'
 
@@ -88,7 +89,11 @@ export default async function BlogPostPage(props: { params: Params }) {
         '@type': 'BlogPosting',
         headline: post.title,
         description: post.excerpt || '',
+        url: `https://arndvs.com/blog/${slug}`,
         datePublished: post.publishedAt || undefined,
+        dateModified: post._updatedAt || post.publishedAt || undefined,
+        wordCount,
+        inLanguage: 'en-US',
         author: {
             '@type': 'Person',
             '@id': 'https://arndvs.com/#person',
@@ -108,7 +113,10 @@ export default async function BlogPostPage(props: { params: Params }) {
             }
             : {}),
         ...(post.categories?.length
-            ? { keywords: post.categories.join(', ') }
+            ? {
+                keywords: post.categories.join(', '),
+                articleSection: post.categories[0],
+            }
             : {}),
     }
 
@@ -141,11 +149,11 @@ export default async function BlogPostPage(props: { params: Params }) {
         <main className="min-h-screen pt-24 pb-16">
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
             />
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+                dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(breadcrumbJsonLd) }}
             />
             <article className="mx-auto max-w-7xl px-6 lg:px-8">
                 <PostHeader

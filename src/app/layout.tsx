@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Suspense } from "react"
 import { Toaster } from "sonner"
 import { SanityLive } from "@/sanity/lib/live"
+import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld"
 export const metadata: Metadata = {
   metadataBase: new URL('https://arndvs.com'),
   title: {
@@ -87,7 +88,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: safeJsonLdStringify({
               "@context": "https://schema.org",
               "@graph": [
                 {
