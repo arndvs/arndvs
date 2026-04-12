@@ -1,0 +1,177 @@
+import { defineType, defineField } from 'sanity'
+
+export const postType = defineType({
+    name: 'post',
+    title: 'Post',
+    type: 'document',
+    fields: [
+        defineField({
+            name: 'title',
+            title: 'Title',
+            type: 'string',
+            validation: (rule) => rule.required(),
+        }),
+        defineField({
+            name: 'slug',
+            title: 'Slug',
+            type: 'slug',
+            options: {
+                source: 'title',
+                maxLength: 96,
+            },
+            validation: (rule) => rule.required(),
+        }),
+        defineField({
+            name: 'author',
+            title: 'Author',
+            type: 'string',
+            initialValue: 'Aaron Davis',
+        }),
+        defineField({
+            name: 'publishedAt',
+            title: 'Published At',
+            type: 'datetime',
+        }),
+        defineField({
+            name: 'excerpt',
+            title: 'Excerpt',
+            type: 'text',
+            rows: 3,
+            description: 'Brief summary for listing pages and meta descriptions.',
+            validation: (rule) => rule.max(300),
+        }),
+        defineField({
+            name: 'mainImage',
+            title: 'Main Image',
+            type: 'image',
+            options: {
+                hotspot: true,
+            },
+            fields: [
+                defineField({
+                    name: 'alt',
+                    title: 'Alt Text',
+                    type: 'string',
+                    description: 'Describe the image for accessibility and SEO.',
+                    validation: (rule) => rule.required(),
+                }),
+            ],
+        }),
+        defineField({
+            name: 'body',
+            title: 'Body',
+            type: 'array',
+            of: [
+                {
+                    type: 'block',
+                    styles: [
+                        { title: 'Normal', value: 'normal' },
+                        { title: 'H2', value: 'h2' },
+                        { title: 'H3', value: 'h3' },
+                        { title: 'H4', value: 'h4' },
+                        { title: 'Quote', value: 'blockquote' },
+                    ],
+                    marks: {
+                        decorators: [
+                            { title: 'Bold', value: 'strong' },
+                            { title: 'Italic', value: 'em' },
+                            { title: 'Code', value: 'code' },
+                            { title: 'Strikethrough', value: 'strike-through' },
+                        ],
+                        annotations: [
+                            {
+                                name: 'link',
+                                type: 'object',
+                                title: 'Link',
+                                fields: [
+                                    {
+                                        name: 'href',
+                                        type: 'url',
+                                        title: 'URL',
+                                        validation: (rule) =>
+                                            rule.uri({
+                                                allowRelative: true,
+                                                scheme: ['http', 'https', 'mailto'],
+                                            }),
+                                    },
+                                    {
+                                        name: 'blank',
+                                        type: 'boolean',
+                                        title: 'Open in new tab',
+                                        initialValue: false,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                },
+                defineField({
+                    type: 'image',
+                    name: 'inlineImage',
+                    options: { hotspot: true },
+                    fields: [
+                        defineField({
+                            name: 'alt',
+                            type: 'string',
+                            title: 'Alt Text',
+                            validation: (rule) => rule.required(),
+                        }),
+                        defineField({
+                            name: 'caption',
+                            type: 'string',
+                            title: 'Caption',
+                        }),
+                    ],
+                }),
+                {
+                    type: 'codeBlock',
+                },
+            ],
+        }),
+        defineField({
+            name: 'categories',
+            title: 'Categories',
+            type: 'array',
+            of: [{ type: 'string' }],
+            options: {
+                layout: 'tags',
+            },
+            description: 'Add tags like "Sanity", "Next.js", "AI", "SEO".',
+        }),
+        defineField({
+            name: 'seo',
+            title: 'SEO',
+            type: 'seo',
+            description: 'Search engine optimization fields. AI-populated or manual.',
+        }),
+    ],
+    orderings: [
+        {
+            title: 'Published Date, New',
+            name: 'publishedAtDesc',
+            by: [{ field: 'publishedAt', direction: 'desc' }],
+        },
+    ],
+    preview: {
+        select: {
+            title: 'title',
+            media: 'mainImage',
+            publishedAt: 'publishedAt',
+        },
+        prepare({ title, media, publishedAt }) {
+            const date = publishedAt
+                ? new Date(publishedAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                })
+                : 'Draft'
+
+            return {
+                title,
+                subtitle: date,
+                media,
+            }
+        },
+    },
+})
