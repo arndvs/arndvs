@@ -12,20 +12,16 @@ import {
 } from '@/components/ui/card'
 import { useAnimationVariants } from '@/lib/hooks/use-animation-variants'
 import { urlFor } from '@/sanity/lib/image'
-import type { SanityImageSource } from '@sanity/image-url'
+import type { SanityImageWithAlt } from '@/lib/types/sanity'
 
 interface PostCardProps {
     title: string
     slug: { current: string }
     excerpt?: string
     publishedAt?: string
-    mainImage?: SanityImageSource & { alt?: string }
+    mainImage?: SanityImageWithAlt
     categories?: string[]
-}
-
-function estimateReadingTime(excerpt?: string): string {
-    // Rough estimate — actual body isn't available on listing
-    return excerpt && excerpt.length > 200 ? '5 min read' : '3 min read'
+    readingTime?: string
 }
 
 export function PostCard({
@@ -35,6 +31,7 @@ export function PostCard({
     publishedAt,
     mainImage,
     categories,
+    readingTime,
 }: PostCardProps) {
     const { cardVariants } = useAnimationVariants()
 
@@ -64,7 +61,7 @@ export function PostCard({
                     <CardHeader className="space-y-3">
                         <div className="flex items-center justify-between text-xs text-muted-foreground">
                             {formattedDate && <time dateTime={publishedAt}>{formattedDate}</time>}
-                            <span>{estimateReadingTime(excerpt)}</span>
+                            <span>{readingTime}</span>
                         </div>
                         <CardTitle className="text-xl group-hover:text-primary transition-colors line-clamp-2">
                             {title}

@@ -4,6 +4,7 @@ import { sanityFetch } from '@/sanity/lib/live'
 import { POST_QUERY, POST_SLUGS_QUERY } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
 import { safeJsonLdStringify } from '@/lib/utils/safe-json-ld'
+import { estimateReadingTime } from '@/lib/utils'
 import { PostHeader } from '@/components/blog/post-header'
 import { PostBody } from '@/components/blog/post-body'
 
@@ -78,11 +79,9 @@ export default async function BlogPostPage(props: { params: Params }) {
 
     if (!post) notFound()
 
-    const wordsPerMinute = 200
     const charCount = post.bodyCharCount ?? 0
     const wordCount = Math.round(charCount / 5)
-    const readingMinutes = Math.max(Math.ceil(wordCount / wordsPerMinute), 1)
-    const readingTime = `${readingMinutes} min read`
+    const readingTime = estimateReadingTime(charCount)
 
     const jsonLd = {
         '@context': 'https://schema.org',

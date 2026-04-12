@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { PortableText, type PortableTextReactComponents } from 'next-sanity'
 import { urlFor } from '@/sanity/lib/image'
-import type { SanityImageSource } from '@sanity/image-url'
+import type { SanityImageWithAlt } from '@/lib/types/sanity'
 
 function slugify(text: string): string {
     return text
@@ -14,7 +14,7 @@ function slugify(text: string): string {
 
 const components: Partial<PortableTextReactComponents> = {
     types: {
-        inlineImage: ({ value }: { value: SanityImageSource & { alt?: string; caption?: string; asset?: { _ref: string } } }) => {
+        inlineImage: ({ value }: { value: SanityImageWithAlt & { caption?: string; asset?: { _ref: string } } }) => {
             if (!value?.asset) return null
             return (
                 <figure className="my-8">

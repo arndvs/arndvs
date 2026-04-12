@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { PostCard } from '@/components/blog/post-card'
 import { useAnimationVariants } from '@/lib/hooks/use-animation-variants'
 import { ContactForm } from '@/components/contact-form'
+import { estimateReadingTime } from '@/lib/utils'
 
 interface Post {
     _id: string
@@ -13,6 +14,7 @@ interface Post {
     publishedAt?: string
     mainImage?: { alt?: string; asset?: { _ref: string } }
     categories?: string[]
+    bodyCharCount?: number
 }
 
 export function BlogListContent({ posts }: { posts: Post[] }) {
@@ -63,6 +65,7 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                                 publishedAt={post.publishedAt}
                                 mainImage={post.mainImage}
                                 categories={post.categories}
+                                readingTime={estimateReadingTime(post.bodyCharCount ?? 0)}
                             />
                         ))}
                     </motion.div>

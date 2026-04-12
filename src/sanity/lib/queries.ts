@@ -8,7 +8,8 @@ export const POSTS_QUERY = defineQuery(`
     excerpt,
     publishedAt,
     mainImage,
-    categories
+    categories,
+    "bodyCharCount": length(pt::text(body))
   }
 `)
 

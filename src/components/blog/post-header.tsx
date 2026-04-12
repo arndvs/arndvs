@@ -1,13 +1,13 @@
 import Image from 'next/image'
 import { urlFor } from '@/sanity/lib/image'
-import type { SanityImageSource } from '@sanity/image-url'
+import type { SanityImageWithAlt } from '@/lib/types/sanity'
 
 interface PostHeaderProps {
     title: string
     publishedAt?: string
     author?: string
     categories?: string[]
-    mainImage?: SanityImageSource & { alt?: string }
+    mainImage?: SanityImageWithAlt
     readingTime?: string
 }
 
