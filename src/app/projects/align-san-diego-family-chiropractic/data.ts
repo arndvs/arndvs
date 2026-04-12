@@ -298,9 +298,10 @@ export const pageData: PageData<DiagramKey> = {
   ],
 
   cta: {
-    text: "Interested in what I could build for your business? I'm currently taking on full-stack web development and AI integration projects.",
+    text: "Interested in what I could build for your business? I'm currently taking on full-stack web development and AI integration projects. Read the full technical deep-dive on how I built this system.",
     buttons: [
       { text: "Get in Touch", href: "/#contact", variant: "default" },
+      { text: "Read the Blog Post", href: "/blog/building-production-sanity-cms-ai-content-ops", variant: "outline" },
       { text: "View More Projects", href: "/projects", variant: "outline" },
     ],
   },
