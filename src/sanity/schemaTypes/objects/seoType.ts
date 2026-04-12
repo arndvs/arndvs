@@ -33,5 +33,14 @@ export const seoType = defineType({
             description: 'The primary keyword this content targets.',
             validation: (rule) => rule.max(50),
         }),
+        defineField({
+            name: 'keywords',
+            title: 'Keywords',
+            type: 'array',
+            of: [{ type: 'string' }],
+            options: { layout: 'tags' },
+            description: 'Additional SEO keywords. Aim for 3–5 relevant terms.',
+            validation: (rule) => rule.max(10).warning('More than 10 keywords dilutes relevance.'),
+        }),
     ],
 })
