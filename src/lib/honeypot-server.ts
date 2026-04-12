@@ -1,12 +1,13 @@
 interface HoneypotResult {
   isValid: boolean
   reason?: string
-}export function validateHoneypotServer(
+}
+export function validateHoneypotServer(
   formData: Record<string, string>,
   serverTime: number = Date.now()
 ): HoneypotResult {
   // Check honeypot fields
-  if (formData.website || formData._honeypot || formData._honeypot_field) {
+  if (formData.website || formData._honeypot) {
     return {
       isValid: false,
       reason: "Honeypot field filled",

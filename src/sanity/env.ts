@@ -19,8 +19,11 @@ export const tokens = {
 } as const
 
 export const siteConfig = {
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://arndvs.com',
-    studioUrl: process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || '/studio',
+    url: assertValue(
+        process.env.NEXT_PUBLIC_SITE_URL,
+        'Missing environment variable: NEXT_PUBLIC_SITE_URL'
+    ),
+    studioUrl: process.env.NEXT_PUBLIC_SANITY_STUDIO_URL ?? '/studio',
 } as const
 
 function assertValue<T>(v: T | undefined, errorMessage: string): T {

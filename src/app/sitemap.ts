@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next"
 import { client } from "@/sanity/lib/client"
 import { POST_SLUGS_QUERY } from "@/sanity/lib/queries"
+import { siteConfig } from "@/sanity/env"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://arndvs.com"
+  const baseUrl = siteConfig.url
 
   // Fetch blog post slugs from Sanity
   let blogSlugs: string[] = []

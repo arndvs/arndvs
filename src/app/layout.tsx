@@ -11,8 +11,9 @@ import { Suspense } from "react"
 import { Toaster } from "sonner"
 import { SanityLive } from "@/sanity/lib/live"
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld"
+import { siteConfig } from "@/sanity/env"
 export const metadata: Metadata = {
-  metadataBase: new URL('https://arndvs.com'),
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: "Aaron Davis - Full Stack Software Engineer & AI Specialist",
     template: "%s | Aaron Davis",
@@ -32,12 +33,12 @@ export const metadata: Metadata = {
     "San Diego Developer",
     "Self-taught Engineer",
   ],
-  authors: [{ name: "Aaron Davis", url: "https://arndvs.com" }],
+  authors: [{ name: "Aaron Davis", url: siteConfig.url }],
   creator: "Aaron Davis",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://arndvs.com",
+    url: siteConfig.url,
     siteName: "Aaron Davis Portfolio",
     title: "Aaron Davis - Full Stack Software Engineer & AI Specialist",
     description:
@@ -93,9 +94,9 @@ export default function RootLayout({
               "@graph": [
                 {
                   "@type": "Person",
-                  "@id": "https://arndvs.com/#person",
+                  "@id": `${siteConfig.url}/#person`,
                   name: "Aaron Davis",
-                  url: "https://arndvs.com",
+                  url: siteConfig.url,
                   jobTitle: "Full-Stack Software Engineer",
                   description:
                     "Self-taught software engineer with 8+ years of experience building AI-powered SaaS platforms.",
@@ -114,10 +115,10 @@ export default function RootLayout({
                 },
                 {
                   "@type": "WebSite",
-                  "@id": "https://arndvs.com/#website",
-                  url: "https://arndvs.com",
+                  "@id": `${siteConfig.url}/#website`,
+                  url: siteConfig.url,
                   name: "Aaron Davis Portfolio",
-                  author: { "@id": "https://arndvs.com/#person" },
+                  author: { "@id": `${siteConfig.url}/#person` },
                 },
               ],
             }),

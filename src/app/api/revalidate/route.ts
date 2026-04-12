@@ -10,11 +10,11 @@ export async function POST(req: NextRequest) {
         }>(req, process.env.SANITY_WEBHOOK_SECRET)
 
         if (!isValidSignature) {
-            return new Response('Invalid signature', { status: 401 })
+            return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
         }
 
         if (!body?._type) {
-            return new Response('Bad Request', { status: 400 })
+            return NextResponse.json({ error: 'Bad Request' }, { status: 400 })
         }
 
         // Revalidate by document type
@@ -42,6 +42,6 @@ export async function POST(req: NextRequest) {
         })
     } catch (err) {
         console.error('Revalidation error:', err)
-        return new Response((err as Error).message, { status: 500 })
+        return NextResponse.json({ error: (err as Error).message }, { status: 500 })
     }
 }

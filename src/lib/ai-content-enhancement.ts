@@ -8,7 +8,7 @@ interface PostContent {
     categories?: string[]
 }
 
-interface EnhancementResult {
+export interface EnhancementResult {
     metaTitle: string
     metaDescription: string
     focusKeyword: string
@@ -78,5 +78,50 @@ export async function enhancePostSeo(post: PostContent): Promise<EnhancementResu
         keywords: Array.isArray(parsed.keywords) ? parsed.keywords.map(String) : [],
         excerpt: String(parsed.excerpt || post.excerpt || ''),
         confidence: typeof parsed.confidence === 'number' ? parsed.confidence : 0.5,
+    }
+}
+
+export async function writeEnhancementToSanity(
+    postId: string,
+    result: EnhancementResult,
+): Promise<void> {
+    const { getWriteClient } = await import('@/sanity/lib/write-client')
+    const writeClient = getWriteClient()
+
+    try {
+        await writeClient
+            .patch(postId)
+            .set({
+                seo: {
+                    _type: 'seo',
+                    metaTitle: result.metaTitle,
+                    metaDescription: result.metaDescription,
+                    focusKeyword: result.focusKeyword,
+                    keywords: result.keywords,
+                },
+                excerpt: result.excerpt,
+                'aiEnhancement': {
+                    status: 'completed',
+                    lastRunAt: new Date().toISOString(),
+                    confidence: result.confidence,
+                    model: 'gpt-4o-mini',
+                },
+            })
+            .commit()
+    } catch (err) {
+        console.error(`Failed to write enhancement for post ${postId}:`, err)
+        await writeClient
+            .patch(postId)
+            .set({
+                'aiEnhancement': {
+                    status: 'failed',
+                    lastRunAt: new Date().toISOString(),
+                    confidence: 0,
+                    model: 'gpt-4o-mini',
+                },
+            })
+            .commit()
+            .catch(() => {})
+        throw err
     }
 }

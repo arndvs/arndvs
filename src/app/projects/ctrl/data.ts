@@ -1,31 +1,5 @@
 import type { DiagramKey } from "./diagrams"
-import type {
-    PageData,
-    HeroData,
-    SituationData,
-    SubsystemCard,
-    ArchitectureData,
-    DeepDive,
-    Decision,
-    Learning,
-    Metric,
-    CTAData,
-    GalleryImage,
-} from "@/lib/types/case-study"
-
-export type {
-    HeroData,
-    SituationData,
-    SubsystemCard,
-    ArchitectureData,
-    DeepDive,
-    Decision,
-    Learning,
-    Metric,
-    CTAData,
-    GalleryImage,
-    PageData,
-}
+import type { PageData } from "@/lib/types/case-study"
 
 export const pageData: PageData<DiagramKey> = {
     hero: {

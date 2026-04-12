@@ -1,8 +1,15 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { parseBody } from 'next-sanity/webhook'
+import { siteConfig } from '@/sanity/env'
 
-const INDEXNOW_KEY = 'ccef7f04d7f138c3e50cae7d7f1ede5d'
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://arndvs.com'
+function getIndexNowKey(): string {
+    const key = process.env.INDEXNOW_KEY
+
+    if (!key)
+        throw new Error('Missing environment variable: INDEXNOW_KEY')
+
+    return key
+}
 
 interface WebhookBody {
     _type: string
@@ -10,15 +17,16 @@ interface WebhookBody {
 }
 
 async function submitToIndexNow(urls: string[]) {
-    const host = new URL(SITE_URL).host
+    const indexNowKey = getIndexNowKey()
+    const host = new URL(siteConfig.url).host
 
     const response = await fetch('https://api.indexnow.org/IndexNow', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
         body: JSON.stringify({
             host,
-            key: INDEXNOW_KEY,
-            keyLocation: `${SITE_URL}/${INDEXNOW_KEY}.txt`,
+            key: indexNowKey,
+            keyLocation: `${siteConfig.url}/${indexNowKey}.txt`,
             urlList: urls,
         }),
     })
@@ -34,18 +42,18 @@ export async function POST(req: NextRequest) {
         )
 
         if (!isValidSignature)
-            return new Response('Invalid signature', { status: 401 })
+            return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
 
         if (!body?._type)
-            return new Response('Bad Request', { status: 400 })
+            return NextResponse.json({ error: 'Bad Request' }, { status: 400 })
 
         const urls: string[] = []
 
         switch (body._type) {
             case 'post':
-                urls.push(`${SITE_URL}/blog`)
+                urls.push(`${siteConfig.url}/blog`)
                 if (body.slug?.current)
-                    urls.push(`${SITE_URL}/blog/${body.slug.current}`)
+                    urls.push(`${siteConfig.url}/blog/${body.slug.current}`)
                 break
             default:
                 return NextResponse.json({ status: 200, skipped: true, type: body._type })
@@ -66,6 +74,6 @@ export async function POST(req: NextRequest) {
         })
     } catch (err) {
         console.error('IndexNow webhook error:', err)
-        return new Response((err as Error).message, { status: 500 })
+        return NextResponse.json({ error: (err as Error).message }, { status: 500 })
     }
 }

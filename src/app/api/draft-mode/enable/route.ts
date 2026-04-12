@@ -1,5 +1,6 @@
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { NextResponse } from 'next/server'
 import { validatePreviewUrl } from '@sanity/preview-url-secret'
 import { client } from '@/sanity/lib/client'
 
@@ -14,7 +15,7 @@ export async function GET(request: Request) {
     )
 
     if (!isValid) {
-        return new Response('Invalid secret', { status: 401 })
+        return NextResponse.json({ error: 'Invalid secret' }, { status: 401 })
     }
 
     ;(await draftMode()).enable()

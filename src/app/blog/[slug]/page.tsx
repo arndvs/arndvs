@@ -5,6 +5,7 @@ import { POST_QUERY, POST_SLUGS_QUERY } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
 import { safeJsonLdStringify } from '@/lib/utils/safe-json-ld'
 import { estimateReadingTime } from '@/lib/utils'
+import { siteConfig } from '@/sanity/env'
 import { PostHeader } from '@/components/blog/post-header'
 import { PostBody } from '@/components/blog/post-body'
 
@@ -42,7 +43,7 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
             type: 'article',
             publishedTime: post.publishedAt || undefined,
             authors: [post.author || 'Aaron Davis'],
-            url: `https://arndvs.com/blog/${slug}`,
+            url: `${siteConfig.url}/blog/${slug}`,
             images: [
                 post.mainImage
                     ? {
@@ -88,23 +89,23 @@ export default async function BlogPostPage(props: { params: Params }) {
         '@type': 'BlogPosting',
         headline: post.title,
         description: post.excerpt || '',
-        url: `https://arndvs.com/blog/${slug}`,
+        url: `${siteConfig.url}/blog/${slug}`,
         datePublished: post.publishedAt || undefined,
         dateModified: post._updatedAt || post.publishedAt || undefined,
         wordCount,
         inLanguage: 'en-US',
         author: {
             '@type': 'Person',
-            '@id': 'https://arndvs.com/#person',
+            '@id': `${siteConfig.url}/#person`,
             name: post.author || 'Aaron Davis',
         },
         publisher: {
             '@type': 'Person',
-            '@id': 'https://arndvs.com/#person',
+            '@id': `${siteConfig.url}/#person`,
         },
         mainEntityOfPage: {
             '@type': 'WebPage',
-            '@id': `https://arndvs.com/blog/${slug}`,
+            '@id': `${siteConfig.url}/blog/${slug}`,
         },
         ...(post.mainImage
             ? {
@@ -127,19 +128,19 @@ export default async function BlogPostPage(props: { params: Params }) {
                 '@type': 'ListItem',
                 position: 1,
                 name: 'Home',
-                item: 'https://arndvs.com',
+                item: siteConfig.url,
             },
             {
                 '@type': 'ListItem',
                 position: 2,
                 name: 'Blog',
-                item: 'https://arndvs.com/blog',
+                item: `${siteConfig.url}/blog`,
             },
             {
                 '@type': 'ListItem',
                 position: 3,
                 name: post.title,
-                item: `https://arndvs.com/blog/${slug}`,
+                item: `${siteConfig.url}/blog/${slug}`,
             },
         ],
     }
