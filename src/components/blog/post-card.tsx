@@ -21,7 +21,6 @@ interface PostCardProps {
     publishedAt?: string
     mainImage?: SanityImageSource & { alt?: string }
     categories?: string[]
-    author?: string
 }
 
 function estimateReadingTime(excerpt?: string): string {

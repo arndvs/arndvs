@@ -8,13 +8,7 @@ interface PostHeaderProps {
     author?: string
     categories?: string[]
     mainImage?: SanityImageSource & { alt?: string }
-    excerpt?: string
-}
-
-function estimateReadingTime(bodyLength: number): string {
-    const wordsPerMinute = 200
-    const minutes = Math.ceil(bodyLength / wordsPerMinute)
-    return `${Math.max(minutes, 1)} min read`
+    readingTime?: string
 }
 
 export function PostHeader({
@@ -23,6 +17,7 @@ export function PostHeader({
     author,
     categories,
     mainImage,
+    readingTime,
 }: PostHeaderProps) {
     const formattedDate = publishedAt
         ? new Date(publishedAt).toLocaleDateString('en-US', {
@@ -59,7 +54,7 @@ export function PostHeader({
                 {author && formattedDate && <span aria-hidden="true">&middot;</span>}
                 {formattedDate && <time dateTime={publishedAt}>{formattedDate}</time>}
                 <span aria-hidden="true">&middot;</span>
-                <span>{estimateReadingTime(800)}</span>
+                <span>{readingTime}</span>
             </div>
 
             {/* Main Image */}

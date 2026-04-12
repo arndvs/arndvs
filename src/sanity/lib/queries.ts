@@ -8,14 +8,14 @@ export const POSTS_QUERY = defineQuery(`
     excerpt,
     publishedAt,
     mainImage,
-    categories,
-    author
+    categories
   }
 `)
 
 export const POST_QUERY = defineQuery(`
   *[_type == "post" && slug.current == $slug][0] {
     _id,
+    _updatedAt,
     title,
     slug,
     author,
@@ -29,6 +29,7 @@ export const POST_QUERY = defineQuery(`
         asset->
       }
     },
+    "bodyCharCount": length(pt::text(body)),
     categories,
     seo
   }

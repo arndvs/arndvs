@@ -9,8 +9,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let blogSlugs: string[] = []
   try {
     blogSlugs = await client.fetch(POST_SLUGS_QUERY)
-  } catch {
-    // Silently fail — blog posts just won't be in sitemap
+  } catch (error) {
+    console.error('Failed to fetch blog slugs for sitemap:', error)
   }
 
   const blogEntries: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({

@@ -13,7 +13,6 @@ interface Post {
     publishedAt?: string
     mainImage?: { alt?: string; asset?: { _ref: string } }
     categories?: string[]
-    author?: string
 }
 
 export function BlogListContent({ posts }: { posts: Post[] }) {
@@ -64,7 +63,6 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                                 publishedAt={post.publishedAt}
                                 mainImage={post.mainImage}
                                 categories={post.categories}
-                                author={post.author}
                             />
                         ))}
                     </motion.div>

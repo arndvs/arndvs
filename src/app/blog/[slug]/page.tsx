@@ -41,16 +41,21 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
             publishedTime: post.publishedAt || undefined,
             authors: [post.author || 'Aaron Davis'],
             url: `https://arndvs.com/blog/${slug}`,
-            images: post.mainImage
-                ? [
-                    {
+            images: [
+                post.mainImage
+                    ? {
                         url: urlFor(post.mainImage).width(1200).height(630).url(),
                         width: 1200,
                         height: 630,
                         alt: (post.mainImage as { alt?: string }).alt || post.title,
+                    }
+                    : {
+                        url: '/images/og-image.jpg',
+                        width: 1200,
+                        height: 630,
+                        alt: post.title,
                     },
-                ]
-                : undefined,
+            ],
         },
         twitter: {
             card: 'summary_large_image',
@@ -71,6 +76,12 @@ export default async function BlogPostPage(props: { params: Params }) {
     })
 
     if (!post) notFound()
+
+    const wordsPerMinute = 200
+    const charCount = post.bodyCharCount ?? 0
+    const wordCount = Math.round(charCount / 5)
+    const readingMinutes = Math.max(Math.ceil(wordCount / wordsPerMinute), 1)
+    const readingTime = `${readingMinutes} min read`
 
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -143,7 +154,7 @@ export default async function BlogPostPage(props: { params: Params }) {
                     author={post.author}
                     categories={post.categories}
                     mainImage={post.mainImage}
-                    excerpt={post.excerpt}
+                    readingTime={readingTime}
                 />
                 {post.body && <PostBody value={post.body} />}
             </article>

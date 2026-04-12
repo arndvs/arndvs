@@ -9,7 +9,9 @@ import { Footer } from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Suspense } from "react"
 import { Toaster } from "sonner"
+import { SanityLive } from "@/sanity/lib/live"
 export const metadata: Metadata = {
+  metadataBase: new URL('https://arndvs.com'),
   title: {
     default: "Aaron Davis - Full Stack Software Engineer & AI Specialist",
     template: "%s | Aaron Davis",
@@ -126,6 +128,7 @@ export default function RootLayout({
           <Footer />
         </Suspense>
         <Toaster position="top-right" richColors closeButton />
+        <SanityLive />
         </ThemeProvider>
         <Analytics />
       </body>

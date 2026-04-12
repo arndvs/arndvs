@@ -15,12 +15,6 @@ export const client = createClient({
     useCdn: true,
 })
 
-export const writeClient = createClient({
-    ...baseConfig,
-    useCdn: false,
-    token: process.env.SANITY_API_TOKEN,
-})
-
 export const liveClient = createClient({
     ...baseConfig,
     useCdn: true,
