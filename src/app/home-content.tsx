@@ -243,7 +243,10 @@ export default function HomeContent() {
                                     <pageData.hero.cta.primary.icon className="ml-2 h-4 w-4" />
                                 </Link>
                             </Button>
-                            <ContactForm triggerText={pageData.hero.cta.secondary.text} triggerVariant={pageData.hero.cta.secondary.variant} />
+                            <ContactForm
+                                triggerText={pageData.hero.cta.secondary.text}
+                                triggerVariant={pageData.hero.cta.secondary.variant}
+                            />
                         </div>
                     </div>
 
