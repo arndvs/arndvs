@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import {
     Award,
     BookOpen,
+    Briefcase,
     Code2,
     GraduationCap,
     type LucideIcon,
@@ -74,6 +75,15 @@ const aboutPageData = {
     },
     education: {
         title: "Education & Continuous Learning",
+        accelerator: {
+            id: "csd16",
+            program: "CSD16 Startup Accelerator (formerly Canopy San Diego)",
+            company: "RipeMetrics",
+            period: "Mar 2017 - Jul 2017",
+            location: "San Diego, CA",
+            description:
+                "Pitched and secured a spot for RipeMetrics in the competitive CSD16 Spring 2017 cohort, a VC-backed program for early-stage software companies in regulated markets. Completed an intensive 5-month program refining business model, go-to-market strategy, and key partnerships with industry experts and mentors. Graduated with a polished pitch deck, investor network, and clear roadmap for scaling operations.",
+        },
         formal: [
             {
                 id: "ucsd",
@@ -198,17 +208,17 @@ const aboutPageData = {
                 location: "San Diego, CA",
                 date: "Q4 2025",
                 description:
-                    "Walked attendees through building a reusable AI system that captures unique voice and generates authentic marketing content \u2014 from gathering existing content to creating a writing profile to deploying with Claude Projects.",
+                    "Walked attendees through building a reusable AI system that captures unique voice and generates authentic marketing content  from gathering existing content to creating a writing profile to deploying with Claude Projects.",
             },
             {
                 id: "cto-coffee-2023",
                 type: "speaking" as const,
                 title: "Building an AI Assistant to Supercharge Developer Velocity",
-                venue: "R\u0113lentless Software Solutions CTO Coffee",
+                venue: "Rlentless Software Solutions CTO Coffee",
                 location: "San Diego, CA",
                 date: "Aug 2023",
                 description:
-                    "Co-presented with Andrew Carrigan. Demonstrated how we built an internal AI assistant at RipeMetrics using LangChain and Flowise to boost developer productivity.",
+                    "Demonstrated how I built an internal AI assistant at RipeMetrics using LangChain and Flowise to boost developer productivity.",
             },
             {
                 id: "going-up-2014",
@@ -224,7 +234,7 @@ const aboutPageData = {
     differentiators: {
         title: "How I Work",
         paragraphs: [
-            "My path from sales to engineering means I build software with the end user in mind, not just the spec. Seven years of selling enterprise software taught me how businesses actually buy and what makes them stick around \u2014 that instinct doesn't go away when you switch to the terminal. I ship fast, communicate clearly, and treat every project like it's my own product.",
+            "My path from sales to engineering means I build software with the end user in mind, not just the spec. Seven years of selling enterprise software taught me how businesses actually buy and what makes them stick around  that instinct doesn't go away when you switch to the terminal. I ship fast, communicate clearly, and treat every project like it's my own product.",
             "I also bring genuine customer experience expertise. I completed UC San Diego's CX Leadership program, then built RipeMetrics into a Customer Experience Management platform that used NPS scores, retention analytics, and behavioral data to help 50+ businesses improve how they treat their customers. Most engineers optimize for the system. I optimize for the person using it.",
         ],
     },
@@ -405,7 +415,7 @@ const SpeakingItem: React.FC<SpeakingItemProps> = ({
                             <CardTitle className="text-base">{title}</CardTitle>
                             <CardDescription className="text-xs">
                                 {venue}
-                                {location ? ` \u2014 ${location}` : ""} \u00B7 {date}
+                                {location ? `  ${location}` : ""} {date}
                             </CardDescription>
                         </div>
                     </div>
@@ -497,6 +507,31 @@ export default function AboutContent() {
                     >
                         {aboutPageData.education.title}
                     </motion.h2>
+
+                    {/* Startup Accelerator */}
+                    <motion.div variants={itemVariants} className="mb-6">
+                        <Card>
+                            <CardHeader>
+                                <div className="flex items-center gap-3">
+                                    <Briefcase className="text-primary h-8 w-8 shrink-0" />
+                                    <div>
+                                        <CardTitle className="text-base">
+                                            {aboutPageData.education.accelerator.program}
+                                        </CardTitle>
+                                        <CardDescription>
+                                            {aboutPageData.education.accelerator.company} &middot;{" "}
+                                            {aboutPageData.education.accelerator.period} &middot;{" "}
+                                            {aboutPageData.education.accelerator.location}
+                                        </CardDescription>
+                                    </div>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="text-muted-foreground text-sm">
+                                <p>{aboutPageData.education.accelerator.description}</p>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
+
                     <div className="grid gap-6 md:grid-cols-2" role="list">
                         <motion.div variants={itemVariants}>
                             <Card className="h-full">
