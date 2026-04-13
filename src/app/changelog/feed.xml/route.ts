@@ -1,0 +1,43 @@
+import { Feed } from 'feed'
+import { client } from '@/sanity/lib/client'
+import { CHANGELOG_QUERY } from '@/sanity/lib/queries'
+import { siteConfig } from '@/sanity/env'
+import type { ChangelogEntry } from '@/lib/types/sanity'
+
+export async function GET() {
+    const entries: ChangelogEntry[] = await client.fetch(CHANGELOG_QUERY)
+
+    const feed = new Feed({
+        title: 'arndvs.com Changelog',
+        description: 'What\'s new on arndvs.com — features, improvements, fixes, and infrastructure updates.',
+        id: `${siteConfig.url}/changelog`,
+        link: `${siteConfig.url}/changelog`,
+        language: 'en',
+        copyright: `© ${new Date().getFullYear()} Aaron Davis`,
+        feedLinks: {
+            rss2: `${siteConfig.url}/changelog/feed.xml`,
+        },
+        author: {
+            name: 'Aaron Davis',
+            link: siteConfig.url,
+        },
+    })
+
+    for (const entry of entries) {
+        feed.addItem({
+            title: entry.title,
+            id: `${siteConfig.url}/changelog#${entry.slug.current}`,
+            link: `${siteConfig.url}/changelog#${entry.slug.current}`,
+            description: entry.summary,
+            date: new Date(entry.date),
+            category: [{ name: entry.type }],
+        })
+    }
+
+    return new Response(feed.rss2(), {
+        headers: {
+            'Content-Type': 'application/xml; charset=utf-8',
+            'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+        },
+    })
+}

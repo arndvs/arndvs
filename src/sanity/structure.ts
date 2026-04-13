@@ -1,4 +1,4 @@
-import { BookText } from 'lucide-react'
+import { BookText, History } from 'lucide-react'
 import type { StructureResolver } from 'sanity/structure'
 
 export const structure: StructureResolver = (S) =>
@@ -12,5 +12,13 @@ export const structure: StructureResolver = (S) =>
                     S.documentTypeList('post')
                         .title('Posts')
                         .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+                ),
+            S.listItem()
+                .title('Changelog')
+                .icon(History)
+                .child(
+                    S.documentTypeList('changelogEntry')
+                        .title('Changelog Entries')
+                        .defaultOrdering([{ field: 'date', direction: 'desc' }])
                 ),
         ])
