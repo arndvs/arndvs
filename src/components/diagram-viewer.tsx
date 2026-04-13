@@ -1,6 +1,7 @@
 "use client";
 
 import { Maximize2, Minus, Plus, RotateCcw } from "lucide-react";
+
 import { useCallback, useRef, useState } from "react";
 
 import { MermaidDiagram } from "@/components/mermaid-diagram";
@@ -46,15 +47,14 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
     function handleOpenChange(nextOpen: boolean) {
         setOpen(nextOpen);
 
-        if (nextOpen)
-            setZoomIndex(DEFAULT_ZOOM_INDEX);
+        if (nextOpen) setZoomIndex(DEFAULT_ZOOM_INDEX);
     }
 
     return (
         <div className={cn("group relative", className)}>
             <MermaidDiagram chart={chart} ariaLabel={title} />
 
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-end bg-gradient-to-t from-background/80 to-transparent p-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+            <div className="from-background/80 pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-end bg-gradient-to-t to-transparent p-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                 <Dialog open={open} onOpenChange={handleOpenChange}>
                     <DialogTrigger asChild>
                         <Button
@@ -120,10 +120,7 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
                             </div>
                         </DialogHeader>
 
-                        <div
-                            ref={scrollRef}
-                            className="flex-1 overflow-auto p-6"
-                        >
+                        <div ref={scrollRef} className="flex-1 overflow-auto p-6">
                             <div
                                 className="origin-top-left transition-transform duration-150 ease-out [&_svg]:max-w-none"
                                 style={{ transform: `scale(${zoom})` }}

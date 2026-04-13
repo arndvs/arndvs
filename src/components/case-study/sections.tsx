@@ -263,13 +263,21 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 </motion.p>
 
                 <motion.div variants={itemVariants} className="mb-10">
-                    <DiagramViewer chart={diagrams[data.diagramKey] ?? ""} title="System Architecture" />
+                    <DiagramViewer
+                        chart={diagrams[data.diagramKey] ?? ""}
+                        title="System Architecture"
+                    />
                 </motion.div>
 
                 {data.secondaryDiagramKey && (
                     <motion.div variants={itemVariants} className="mb-10">
-                        <h3 className="mb-4 text-xl font-semibold">{data.secondaryDiagramTitle ?? "Diagram"}</h3>
-                        <DiagramViewer chart={diagrams[data.secondaryDiagramKey] ?? ""} title={data.secondaryDiagramTitle ?? "Diagram"} />
+                        <h3 className="mb-4 text-xl font-semibold">
+                            {data.secondaryDiagramTitle ?? "Diagram"}
+                        </h3>
+                        <DiagramViewer
+                            chart={diagrams[data.secondaryDiagramKey] ?? ""}
+                            title={data.secondaryDiagramTitle ?? "Diagram"}
+                        />
                     </motion.div>
                 )}
 
