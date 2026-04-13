@@ -36,7 +36,6 @@ export const metadata: Metadata = {
         "RAG Systems",
         "LLM Engineering",
         "San Diego Developer",
-        "Self-taught Engineer",
     ],
     authors: [{ name: "Aaron Davis", url: siteConfig.url }],
     creator: "Aaron Davis",

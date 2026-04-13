@@ -2,9 +2,8 @@
 
 import { Maximize2, Minus, Plus, RotateCcw } from "lucide-react";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { MermaidDiagram } from "@/components/mermaid-diagram";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -14,10 +13,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { useMermaidSvg } from "@/lib/hooks/use-mermaid-svg";
 import { cn } from "@/lib/utils";
 
-const ZOOM_LEVELS = [0.5, 0.75, 1, 1.25, 1.5, 2] as const;
-const DEFAULT_ZOOM_INDEX = 2; // 100%
+const ZOOM_STEP = 0.25;
+const MIN_ZOOM = 0.25;
+const MAX_ZOOM = 3;
 
 interface DiagramViewerProps {
     chart: string;
@@ -27,34 +28,64 @@ interface DiagramViewerProps {
 
 export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
     const [open, setOpen] = useState(false);
-    const [zoomIndex, setZoomIndex] = useState(DEFAULT_ZOOM_INDEX);
+    const [zoom, setZoom] = useState(1);
+    const [fitZoom, setFitZoom] = useState(1);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const result = useMermaidSvg(chart);
 
-    const zoom = ZOOM_LEVELS[zoomIndex] ?? 1;
+    // Calculate fit-to-width zoom when dialog opens
+    useEffect(() => {
+        if (!open || !result || !scrollRef.current) return;
+
+        const observer = new ResizeObserver((entries) => {
+            const entry = entries[0];
+            if (!entry) return;
+            const containerWidth = entry.contentRect.width - 48; // minus p-6 padding
+            const fit = Math.min(containerWidth / result.naturalWidth, 1);
+            setFitZoom(fit);
+            setZoom(fit);
+        });
+
+        observer.observe(scrollRef.current);
+        return () => observer.disconnect();
+    }, [open, result]);
 
     const zoomIn = useCallback(() => {
-        setZoomIndex((prev) => Math.min(prev + 1, ZOOM_LEVELS.length - 1));
+        setZoom((z) => Math.min(z + ZOOM_STEP, MAX_ZOOM));
     }, []);
 
     const zoomOut = useCallback(() => {
-        setZoomIndex((prev) => Math.max(prev - 1, 0));
+        setZoom((z) => Math.max(z - ZOOM_STEP, MIN_ZOOM));
     }, []);
 
     const resetZoom = useCallback(() => {
-        setZoomIndex(DEFAULT_ZOOM_INDEX);
-    }, []);
+        setZoom(fitZoom);
+    }, [fitZoom]);
 
     function handleOpenChange(nextOpen: boolean) {
         setOpen(nextOpen);
-
-        if (nextOpen) setZoomIndex(DEFAULT_ZOOM_INDEX);
     }
 
-    return (
-        <div className={cn("group relative", className)}>
-            <MermaidDiagram chart={chart} ariaLabel={title} />
+    const displayPercent = result
+        ? Math.round((zoom / fitZoom) * 100)
+        : 100;
 
-            <div className="from-background/80 pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-end bg-gradient-to-t to-transparent p-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+    return (
+        <div className={cn("group relative overflow-hidden rounded-lg border", className)}>
+            <div className="overflow-hidden" role="img" aria-label={title}>
+                {result ? (
+                    <div
+                        className="mx-auto"
+                        dangerouslySetInnerHTML={{ __html: result.svg }}
+                    />
+                ) : (
+                    <div className="bg-muted flex h-64 items-center justify-center rounded-lg">
+                        <div className="border-muted-foreground/20 border-t-muted-foreground h-8 w-8 animate-spin rounded-full border-4" />
+                    </div>
+                )}
+            </div>
+
+            <div className="from-background/80 pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-end justify-end bg-gradient-to-t to-transparent p-4 opacity-60 transition-opacity duration-200 group-hover:opacity-100">
                 <Dialog open={open} onOpenChange={handleOpenChange}>
                     <DialogTrigger asChild>
                         <Button
@@ -86,14 +117,14 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
                                         size="icon"
                                         className="h-8 w-8"
                                         onClick={zoomOut}
-                                        disabled={zoomIndex === 0}
+                                        disabled={zoom <= MIN_ZOOM}
                                         aria-label="Zoom out"
                                     >
                                         <Minus className="h-4 w-4" />
                                     </Button>
 
                                     <span className="text-muted-foreground w-14 text-center text-sm tabular-nums">
-                                        {Math.round(zoom * 100)}%
+                                        {displayPercent}%
                                     </span>
 
                                     <Button
@@ -101,7 +132,7 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
                                         size="icon"
                                         className="h-8 w-8"
                                         onClick={zoomIn}
-                                        disabled={zoomIndex === ZOOM_LEVELS.length - 1}
+                                        disabled={zoom >= MAX_ZOOM}
                                         aria-label="Zoom in"
                                     >
                                         <Plus className="h-4 w-4" />
@@ -112,7 +143,7 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
                                         size="icon"
                                         className="h-8 w-8"
                                         onClick={resetZoom}
-                                        aria-label="Reset zoom"
+                                        aria-label="Fit to width"
                                     >
                                         <RotateCcw className="h-3.5 w-3.5" />
                                     </Button>
@@ -121,12 +152,15 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
                         </DialogHeader>
 
                         <div ref={scrollRef} className="flex-1 overflow-auto p-6">
-                            <div
-                                className="origin-top-left transition-transform duration-150 ease-out [&_svg]:max-w-none"
-                                style={{ transform: `scale(${zoom})` }}
-                            >
-                                <MermaidDiagram chart={chart} ariaLabel={title} />
-                            </div>
+                            {result && (
+                                <div
+                                    className="transition-[width] duration-150 ease-out [&_svg]:!max-w-none [&_svg]:w-full"
+                                    style={{
+                                        width: result.naturalWidth * zoom,
+                                    }}
+                                    dangerouslySetInnerHTML={{ __html: result.svg }}
+                                />
+                            )}
                         </div>
                     </DialogContent>
                 </Dialog>
