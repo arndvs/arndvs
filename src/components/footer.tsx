@@ -19,7 +19,6 @@ const footerData = {
         { name: "About", href: "/about" },
         { name: "Projects", href: "/projects" },
         { name: "Blog", href: "/blog" },
-        { name: "Changelog", href: "/changelog", ariaLabel: "View site changelog" },
     ],
     social: [
         {

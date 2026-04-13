@@ -65,7 +65,7 @@ const aboutPageData = {
                 color: "purple",
                 description: [
                     "Completed AI Engineering Bootcamp (Maven) and LLM Engineering course (AI Makerspace), going deep on transformer architectures, fine-tuning, and RAG systems.",
-                    "Now building client projects: a Next.js 15 wellness platform for AlignSD with Sanity CMS and structured data, and Scorpion Percussion's e-commerce stack with Turborepo, tRPC, and React Native.",
+                    "Now building client projects: a Next.js 16 wellness platform for AlignSD with Sanity CMS and structured data, and Scorpion Percussion's e-commerce stack with Turborepo, tRPC, and React Native.",
                     "Focused on agentic engineering — wiring LLMs, tool-use, and structured outputs into systems that run autonomously.",
                 ],
             },

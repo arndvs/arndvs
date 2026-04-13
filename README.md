@@ -27,7 +27,7 @@ The system your AI agents are missing. One repo that syncs instructions, workflo
 
 ### [Align San Diego Family Chiropractic](https://alignsd.com)
 
-Website for a San Diego chiropractic clinic, built well beyond what the brief required. Next.js 15, Sanity CMS, 2,000+ TypeScript files. Five AI integrations: GPT-4o Vision insurance verification, OpenAI content enhancement pipeline, LLM review sentiment analysis, AI spam detection, and AEO endpoints. Custom JSON-LD composition architecture with 68 Schema.org types including medical schemas with ICD-10/SNOMED-CT codes. Programmatic SEO engine generating 163+ pages. 55 automated tests, 4 CI/CD pipelines. Credit on the footer.
+Website for a San Diego chiropractic clinic, built well beyond what the brief required. Next.js 16, Sanity CMS, 2,000+ TypeScript files. Five AI integrations: GPT-4o Vision insurance verification, OpenAI content enhancement pipeline, LLM review sentiment analysis, AI spam detection, and AEO endpoints. Custom JSON-LD composition architecture with 68 Schema.org types including medical schemas with ICD-10/SNOMED-CT codes. Programmatic SEO engine generating 163+ pages. 55 automated tests, 4 CI/CD pipelines. Credit on the footer.
 
 _In development_
 

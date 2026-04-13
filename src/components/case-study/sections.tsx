@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { AnimatedCounter } from "@/components/animated-counter";
-import { MermaidDiagram } from "@/components/mermaid-diagram";
+import { DiagramViewer } from "@/components/diagram-viewer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
@@ -263,8 +263,15 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 </motion.p>
 
                 <motion.div variants={itemVariants} className="mb-10">
-                    <MermaidDiagram chart={diagrams[data.diagramKey] ?? ""} />
+                    <DiagramViewer chart={diagrams[data.diagramKey] ?? ""} title="System Architecture" />
                 </motion.div>
+
+                {data.secondaryDiagramKey && (
+                    <motion.div variants={itemVariants} className="mb-10">
+                        <h3 className="mb-4 text-xl font-semibold">{data.secondaryDiagramTitle ?? "Diagram"}</h3>
+                        <DiagramViewer chart={diagrams[data.secondaryDiagramKey] ?? ""} title={data.secondaryDiagramTitle ?? "Diagram"} />
+                    </motion.div>
+                )}
 
                 <motion.div
                     variants={staggerContainerVariants}
@@ -323,7 +330,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 </motion.div>
 
                 <motion.div variants={itemVariants} className="mb-8">
-                    <MermaidDiagram chart={diagrams[data.diagramKey] ?? ""} />
+                    <DiagramViewer chart={diagrams[data.diagramKey] ?? ""} title={data.title} />
                 </motion.div>
 
                 <motion.div variants={containerVariants} className="mb-8 space-y-4">
