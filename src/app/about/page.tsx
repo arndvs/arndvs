@@ -50,9 +50,9 @@ export default function AboutPage() {
                 "@id": `${siteConfig.url}/#person`,
                 name: "Aaron Davis",
                 url: siteConfig.url,
-                jobTitle: "Full-Stack Software Engineer",
+                jobTitle: "Full-Stack Engineer & AI Builder",
                 description:
-                    "Self-taught software engineer with 8+ years of experience building AI-powered SaaS platforms.",
+                    "Full-stack engineer with 8+ years of experience building AI-powered SaaS platforms and agentic systems.",
                 sameAs: ["https://github.com/arndvs", "https://linkedin.com/in/arndvs"],
                 knowsAbout: [
                     "React",
@@ -64,6 +64,8 @@ export default function AboutPage() {
                     "RAG Systems",
                     "OpenAI",
                     "Sanity CMS",
+                    "Model Context Protocol",
+                    "Agentic Engineering",
                     "Full-Stack Development",
                 ],
                 alumniOf: [
@@ -74,6 +76,10 @@ export default function AboutPage() {
                     {
                         "@type": "EducationalOrganization",
                         name: "Stanford University Online",
+                    },
+                    {
+                        "@type": "EducationalOrganization",
+                        name: "California State University, East Bay",
                     },
                 ],
             },

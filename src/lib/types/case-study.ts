@@ -27,6 +27,8 @@ export interface SubsystemCard {
 export interface ArchitectureData<TDiagramKey extends string = string> {
     intro: string;
     diagramKey: TDiagramKey;
+    secondaryDiagramKey?: TDiagramKey;
+    secondaryDiagramTitle?: string;
     subsystems: SubsystemCard[];
 }
 

@@ -71,7 +71,8 @@ export const diagrams = {
     API --> IPHUB
     SANITY --> GROQ
     SANITY --> TYPEGEN
-    JSONLD --> RSC`,
+    JSONLD --> RSC
+    ISR --> INDEXNOW`,
 
     insuranceVerification: `sequenceDiagram
     participant P as Patient Browser
@@ -272,6 +273,153 @@ export const diagrams = {
     VALIDATE -->|"Invalid data"| ERROR["400 Bad Request"]
 
     VALIDATE -->|"Valid"| PROCESS["Process Form\\nCRM + Email + Slack"]`,
+
+    emailSystem: `graph TB
+    subgraph Triggers["Trigger Events"]
+        T1["Insurance Verification"]
+        T2["Contact Form"]
+        T3["Newsletter Signup"]
+        T4["Career Application"]
+        T5["Event Approval"]
+        T6["Lead Magnet Download"]
+        T7["Patient Reactivation"]
+        T8["Form Failure"]
+    end
+
+    subgraph Templates["27 React Email Templates"]
+        direction TB
+        subgraph Insurance["Insurance Verification (5)"]
+            IV1["patient-confirmation"]
+            IV2["staff-notification"]
+            IV3["bizops-summary"]
+            IV4["spam-alert"]
+            IV5["blocked-alert"]
+        end
+        subgraph Contact["Contact & Forms (4)"]
+            C1["contact-confirmation"]
+            C2["contact-staff"]
+            C3["career-application"]
+            C4["career-staff"]
+        end
+        subgraph Marketing["Marketing (6)"]
+            M1["newsletter-welcome"]
+            M2["lead-magnet-delivery"]
+            M3["first-visit-followup"]
+            M4["patient-reactivation"]
+            M5["special-offer"]
+            M6["event-registration"]
+        end
+        subgraph Internal["Internal Alerts (5)"]
+            I1["form-failure-alert"]
+            I2["spam-notification"]
+            I3["blocked-submission"]
+            I4["event-approval-request"]
+            I5["review-notification"]
+        end
+        subgraph Shared["30+ Shared Components"]
+            S1["Header \\u00b7 Footer \\u00b7 Button"]
+            S2["Logo \\u00b7 Divider \\u00b7 Badge"]
+            S3["InfoRow \\u00b7 Section \\u00b7 CTA"]
+        end
+    end
+
+    subgraph Delivery["Delivery"]
+        RESEND["Resend API"]
+        RETRY["Auto Retry"]
+    end
+
+    T1 --> Insurance
+    T2 --> Contact
+    T3 --> Marketing
+    T4 --> Contact
+    T5 --> Internal
+    T6 --> Marketing
+    T7 --> Marketing
+    T8 --> Internal
+
+    Templates --> Delivery`,
+
+    aiEnhancement: `sequenceDiagram
+    participant Editor as Sanity Studio Editor
+    participant Action as Custom Document Action
+    participant API as /api/enhance-post
+    participant ZOD as Zod Schema<br/>Validator
+    participant OAI as OpenAI GPT-4o<br/>(Structured Output)
+    participant SANITY as Sanity<br/>Document
+
+    Editor->>Action: Click "Enhance" button
+    Action->>API: POST { documentId, content }
+
+    API->>OAI: Send content + system prompt<br/>response_format: json_schema
+
+    Note over OAI: Generates structured output:<br/>- SEO title and description<br/>- Summary and excerpt<br/>- Related topics<br/>- Reading time<br/>- Category suggestions<br/>- FAQ pairs
+
+    OAI-->>API: JSON response
+
+    API->>ZOD: Validate against schema
+
+    alt Validation Failed
+        ZOD-->>API: Parse error
+        API-->>Action: Error response
+        Action-->>Editor: Show error toast
+    end
+
+    ZOD-->>API: Typed data
+
+    API->>SANITY: Patch document with<br/>enhanced metadata
+
+    SANITY-->>API: Updated document
+    API-->>Action: Success response
+    Action-->>Editor: Show success toast<br/>+ refreshed preview
+
+    Note over Editor,SANITY: Same flow for /api/enhance-event<br/>with event-specific Zod schema`,
+
+    requestLifecycle: `graph TB
+    subgraph Request["Incoming Request"]
+        BROWSER["Browser Request"]
+    end
+
+    subgraph Vercel["Vercel Platform"]
+        EDGE["Edge Middleware\\nGeolocation headers"]
+        CDN["CDN / Static Cache"]
+    end
+
+    subgraph NextJS["Next.js 16 Runtime"]
+        ROUTER["App Router\\nRoute Groups: (frontend)/(main)"]
+
+        subgraph Rendering["Rendering Strategy"]
+            SSR["Server Components\\n(default)"]
+            CLIENT["'use client' Islands\\nFramer Motion \\u00b7 Forms \\u00b7 Shaders"]
+            STREAM["Suspense Boundaries\\nStreaming SSR"]
+        end
+
+        subgraph DataLayer["Data Layer"]
+            GROQ2["GROQ Queries\\n(cached + revalidated)"]
+            ACTIONS["Server Actions\\nForm handlers"]
+            ROUTES["API Routes\\n53 endpoints"]
+        end
+    end
+
+    subgraph Sanity["Sanity v5"]
+        CDN_SANITY["API CDN"]
+        DATASET["Production Dataset"]
+        DRAFTS["Draft Documents"]
+    end
+
+    subgraph Response["Response Assembly"]
+        HTML["HTML + JSON-LD\\nMeta + OG Tags"]
+        HYDRATE["Client Hydration\\nInteractive Islands"]
+    end
+
+    BROWSER --> EDGE
+    EDGE --> CDN
+    CDN -->|"MISS"| ROUTER
+    CDN -->|"HIT"| Response
+    ROUTER --> Rendering
+    SSR --> DataLayer
+    GROQ2 --> Sanity
+    DataLayer --> Response
+    Response --> BROWSER`,
 } as const;
 
 export type DiagramKey = keyof typeof diagrams;

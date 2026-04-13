@@ -43,6 +43,7 @@
         "react": "19.2.5",
         "react-dom": "19.2.5",
         "react-hook-form": "^7.60.0",
+        "react-zoom-pan-pinch": "^4.0.3",
         "resend": "^6.1.2",
         "sanity": "^5.20.0",
         "sonner": "^1.7.4",

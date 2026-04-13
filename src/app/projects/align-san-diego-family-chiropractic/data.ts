@@ -45,8 +45,10 @@ export const pageData: PageData<DiagramKey> = {
     },
 
     architecture: {
-        intro: "The system coordinates 10+ external services through 53 API routes. The core architectural principle: every form submission passes through the same security pipeline (honeypot → rate limit → geo-block → validate → process) regardless of which integration it triggers downstream.",
+        intro: "The system coordinates 10+ external services through 53 API routes. When content publishes in Sanity, the revalidation webhook invalidates caches and fires IndexNow submissions to Bing — search engines learn about changes in seconds, not days. The core architectural principle: every form submission passes through the same security pipeline (honeypot → rate limit → geo-block → validate → process) regardless of which integration it triggers downstream.",
         diagramKey: "systemArchitecture",
+        secondaryDiagramKey: "requestLifecycle",
+        secondaryDiagramTitle: "Request Lifecycle",
         subsystems: [
             {
                 title: "Content & CMS",
@@ -155,6 +157,46 @@ export const pageData: PageData<DiagramKey> = {
             },
             screenshotSrc: "/projects/alignsd/contact-page.png",
             screenshotAlt: "AlignSD contact page with honeypot spam prevention",
+        },
+        {
+            id: "ai-enhancement",
+            title: "AI Content Enhancement Pipeline",
+            subtitle: "From Publish Button to SEO-Ready in Seconds",
+            problem:
+                "Publishing a blog post or community event required manually writing SEO titles, meta descriptions, summaries, and category tags. For a solo non-technical editor publishing weekly content, this added 15-20 minutes per post and often resulted in suboptimal metadata that hurt search rankings.",
+            diagramKey: "aiEnhancement",
+            walkthrough: [
+                'A custom Sanity Studio document action adds an "Enhance" button to blog posts and events. One click sends the document content to an API route that orchestrates the full enhancement pipeline: content extraction, AI processing, validation, and document patching.',
+                "The API route sends the content to OpenAI with response_format: json_schema for structured output. The system prompt positions the AI as an expert SEO specialist for wellness content. Critically, it receives the full list of existing categories and tags with their Sanity _ids \u2014 the model selects from real references rather than inventing names.",
+                "The AI response is validated against a Zod schema (AIResponseSchema) before any data touches the document. A post-processing guard (isSanityDocumentId()) validates every returned reference. Any unrecognized ID is silently dropped rather than creating a broken reference in the CMS.",
+                "If OpenAI fails or returns invalid data, a fallback system truncates the content into basic SEO metadata with aiEnhancementStatus: 'failed' and aiMetadata.fallbackUsed: true. The editor always sees results \u2014 the pipeline self-heals rather than blocking the publish flow.",
+            ],
+            insight: {
+                title: "Constrain the Model, Trust the Output",
+                body: "The biggest lesson from building AI integrations: structured output + Zod validation + reference-only category selection eliminates the three most common failure modes (hallucinated fields, type mismatches, broken references). The AI never invents a category name \u2014 it picks from what exists. This makes the output trustworthy enough to patch the document automatically without human review.",
+            },
+            screenshotSrc: "/projects/alignsd/services-categories.png",
+            screenshotAlt: "AlignSD AI-enhanced content with auto-generated SEO metadata",
+        },
+        {
+            id: "email-system",
+            title: "React Email Template System",
+            subtitle: "27 Templates, 30+ Shared Components, One Logo Change",
+            problem:
+                "The practice used three separate tools for transactional email, marketing, and internal alerts. Templates were scattered across SendGrid, Mailchimp, and hardcoded HTML strings. Updating the brand logo required changes in three places, and there was no version control, no TypeScript, and no way to preview emails during development.",
+            diagramKey: "emailSystem",
+            walkthrough: [
+                "All 27 email templates are React components built with React Email and rendered through Resend. The templates share 30+ components \u2014 Header, Footer, Button, Logo, Divider, Badge, InfoRow, Section, CTA \u2014 so a brand update propagates everywhere from a single change.",
+                "Templates are organized by domain: 5 for insurance verification (patient confirmation, staff notification, bizops summary, spam alert, blocked alert), 4 for contact and career forms, 6 for marketing automation, and 5 for internal alerts. Each template is a typed React component that receives strongly-typed props.",
+                "The email pipeline uses Promise.allSettled for parallel sends \u2014 a failure in the staff notification email never blocks the patient confirmation. The system sends up to 5 emails per insurance verification submission, all in parallel with independent error handling.",
+                "Every email trigger is traceable: Sentry captures send failures, Slack receives alerts for blocked or spam submissions, and the bizops summary email gives the practice owner a daily digest of patient interactions.",
+            ],
+            insight: {
+                title: "Email Is Infrastructure, Not an Afterthought",
+                body: "Most projects treat email as a last-mile hack \u2014 hardcoded HTML strings or drag-and-drop builder templates that nobody version-controls. Building emails as React components with a shared component library turned email into maintainable infrastructure. The practice updated their brand colors once, and 27 templates updated in the same deploy. That's the ROI of treating email as code.",
+            },
+            screenshotSrc: "/projects/alignsd/start-here-wellness-system.png",
+            screenshotAlt: "AlignSD multi-step form triggering email automation",
         },
     ],
 
