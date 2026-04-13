@@ -2,7 +2,7 @@
 
 import { Maximize2, X } from "lucide-react";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useMermaidSvg } from "@/lib/hooks/use-mermaid-svg";
@@ -14,9 +14,31 @@ interface DiagramViewerProps {
     className?: string;
 }
 
+/**
+ * Rewrite the SVG to have explicit width/height from the viewBox and remove
+ * the inline max-width style. This gives the SVG intrinsic dimensions so
+ * flex layout + max-width/max-height CSS can scale it properly.
+ *
+ * The coordinate system is entirely defined by viewBox — setting width/height
+ * to match it is safe and doesn't change rendering.
+ */
+function makeExplicitlySized(svg: string, w: number, h: number): string {
+    return svg
+        .replace(/(<svg[^>]*)\swidth="[^"]*"/, `$1 width="${w}"`)
+        .replace(/(<svg[^>]*)\sheight="[^"]*"/, `$1 height="${h}"`)
+        .replace(/(<svg[^>]*style="[^"]*?)max-width:\s*[\d.]+px;\s*/, "$1");
+}
+
 export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
     const [open, setOpen] = useState(false);
     const result = useMermaidSvg(chart);
+
+    // Build a fullscreen-friendly SVG with explicit intrinsic dimensions.
+    // Inline preview uses the raw SVG (sized by page container).
+    const fullscreenSvg = useMemo(() => {
+        if (!result) return null;
+        return makeExplicitlySized(result.svg, result.naturalWidth, result.naturalHeight);
+    }, [result]);
 
     // Lock body scroll and handle ESC when fullscreen is open
     useEffect(() => {
@@ -39,13 +61,10 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
 
     return (
         <div className={cn("group relative overflow-hidden rounded-lg border", className)}>
-            {/* Inline preview */}
+            {/* Inline preview — raw SVG, sized by page container */}
             <div className="overflow-hidden" role="img" aria-label={title}>
                 {result ? (
-                    <div
-                        className="mx-auto"
-                        dangerouslySetInnerHTML={{ __html: result.svg }}
-                    />
+                    <div className="mx-auto" dangerouslySetInnerHTML={{ __html: result.svg }} />
                 ) : (
                     <div className="bg-muted flex h-64 items-center justify-center rounded-lg">
                         <div className="border-muted-foreground/20 border-t-muted-foreground h-8 w-8 animate-spin rounded-full border-4" />
@@ -66,8 +85,8 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
                 </Button>
             </div>
 
-            {/* Fullscreen lightbox — entire viewport, diagram scales to fit */}
-            {open && result && (
+            {/* Fullscreen lightbox — inline SVG with explicit dimensions */}
+            {open && fullscreenSvg && (
                 <div
                     className="animate-in fade-in fixed inset-0 z-50 flex flex-col bg-black/90 duration-200"
                     role="dialog"
@@ -88,15 +107,15 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
                         </Button>
                     </div>
 
-                    {/* Diagram — flex-1 fills remaining viewport, SVG fits via viewBox */}
+                    {/* Diagram — SVG has explicit intrinsic dimensions, CSS constrains to viewport */}
                     <div
                         className="flex min-h-0 flex-1 items-center justify-center px-6 pb-6"
                         onClick={close}
                     >
                         <div
-                            className="max-h-full max-w-full [&_svg]:h-auto [&_svg]:max-h-[calc(100vh-6rem)] [&_svg]:max-w-full [&_svg]:rounded-lg [&_svg]:!bg-white [&_svg]:p-4"
+                            className="[&_svg]:h-auto [&_svg]:max-h-[calc(100vh-6rem)] [&_svg]:max-w-[calc(100vw-3rem)] [&_svg]:rounded-lg [&_svg]:bg-white [&_svg]:p-4"
                             onClick={(e) => e.stopPropagation()}
-                            dangerouslySetInnerHTML={{ __html: result.svg }}
+                            dangerouslySetInnerHTML={{ __html: fullscreenSvg }}
                         />
                     </div>
                 </div>
