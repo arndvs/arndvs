@@ -508,45 +508,52 @@ export default function AboutContent() {
                         {aboutPageData.education.title}
                     </motion.h2>
 
-                    {/* Startup Accelerator */}
-                    <motion.div variants={itemVariants} className="mb-6">
-                        <Card>
-                            <CardHeader>
-                                <div className="flex items-center gap-3">
-                                    <Briefcase className="text-primary h-8 w-8 shrink-0" />
-                                    <div>
-                                        <CardTitle className="text-base">
-                                            {aboutPageData.education.accelerator.program}
-                                        </CardTitle>
-                                        <CardDescription>
-                                            {aboutPageData.education.accelerator.company} &middot;{" "}
-                                            {aboutPageData.education.accelerator.period} &middot;{" "}
-                                            {aboutPageData.education.accelerator.location}
-                                        </CardDescription>
-                                    </div>
-                                </div>
-                            </CardHeader>
-                            <CardContent className="text-muted-foreground text-sm">
-                                <p>{aboutPageData.education.accelerator.description}</p>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
-
                     <div className="grid gap-6 md:grid-cols-2" role="list">
-                        <motion.div variants={itemVariants}>
-                            <Card className="h-full">
-                                <CardHeader>
-                                    <GraduationCap className="text-primary mb-2 h-8 w-8" />
-                                    <CardTitle>Formal Education</CardTitle>
-                                </CardHeader>
-                                <CardContent className="text-muted-foreground space-y-4 text-sm">
-                                    {aboutPageData.education.formal.map((item) => (
-                                        <EducationItem key={item.id} {...item} />
-                                    ))}
-                                </CardContent>
-                            </Card>
-                        </motion.div>
+                        {/* Left column: Accelerator + Formal Education */}
+                        <div className="flex flex-col gap-6">
+                            <motion.div variants={itemVariants}>
+                                <Card className="h-full">
+                                    <CardHeader>
+                                        <div className="flex items-center gap-3">
+                                            <Briefcase className="text-primary h-8 w-8 shrink-0" />
+                                            <div>
+                                                <CardTitle className="text-base">
+                                                    {aboutPageData.education.accelerator.program}
+                                                </CardTitle>
+                                                <CardDescription>
+                                                    {aboutPageData.education.accelerator.company}{" "}
+                                                    &middot;{" "}
+                                                    {aboutPageData.education.accelerator.period}{" "}
+                                                    &middot;{" "}
+                                                    {aboutPageData.education.accelerator.location}
+                                                </CardDescription>
+                                            </div>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent className="text-muted-foreground text-sm">
+                                        <p>
+                                            {aboutPageData.education.accelerator.description}
+                                        </p>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
 
+                            <motion.div variants={itemVariants}>
+                                <Card className="h-full">
+                                    <CardHeader>
+                                        <GraduationCap className="text-primary mb-2 h-8 w-8" />
+                                        <CardTitle>Formal Education</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="text-muted-foreground space-y-4 text-sm">
+                                        {aboutPageData.education.formal.map((item) => (
+                                            <EducationItem key={item.id} {...item} />
+                                        ))}
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        </div>
+
+                        {/* Right column: Certifications */}
                         <motion.div variants={itemVariants}>
                             <Card className="h-full">
                                 <CardHeader>
