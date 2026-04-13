@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PostBody } from "@/components/blog/post-body";
 import { PostHeader } from "@/components/blog/post-header";
 import { TableOfContents } from "@/components/blog/table-of-contents";
+import { TldrBox } from "@/components/blog/tldr-box";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { estimateReadingTime } from "@/lib/utils";
 import { extractHeadingsFromPortableText } from "@/lib/utils/extract-headings";
@@ -152,6 +153,12 @@ export default async function BlogPostPage(props: { params: Params }) {
                     mainImage={post.mainImage}
                     readingTime={readingTime}
                 />
+
+                {post.tldr && (
+                    <div className="mx-auto max-w-3xl">
+                        <TldrBox tldr={post.tldr} />
+                    </div>
+                )}
 
                 {showToc && (
                     <div className="mx-auto max-w-3xl lg:hidden">

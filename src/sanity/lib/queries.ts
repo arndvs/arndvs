@@ -1,4 +1,4 @@
-import { defineQuery } from 'next-sanity'
+import { defineQuery } from "next-sanity";
 
 export const POSTS_QUERY = defineQuery(`
   *[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {
@@ -11,7 +11,7 @@ export const POSTS_QUERY = defineQuery(`
     categories,
     "bodyCharCount": length(pt::text(body))
   }
-`)
+`);
 
 export const POST_QUERY = defineQuery(`
   *[_type == "post" && slug.current == $slug][0] {
@@ -22,6 +22,7 @@ export const POST_QUERY = defineQuery(`
     author,
     publishedAt,
     excerpt,
+    tldr,
     mainImage,
     body[] {
       ...,
@@ -34,11 +35,11 @@ export const POST_QUERY = defineQuery(`
     categories,
     seo
   }
-`)
+`);
 
 export const POST_SLUGS_QUERY = defineQuery(`
   *[_type == "post" && defined(slug.current)][].slug.current
-`)
+`);
 
 export const CHANGELOG_QUERY = defineQuery(`
   *[_type == "changelogEntry"] | order(date desc) {
@@ -55,8 +56,8 @@ export const CHANGELOG_QUERY = defineQuery(`
     isHighlight,
     source
   }
-`)
+`);
 
 export const CHANGELOG_LATEST_DATE_QUERY = defineQuery(`
   *[_type == "changelogEntry"] | order(date desc) [0].date
-`)
+`);
