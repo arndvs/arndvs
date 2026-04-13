@@ -81,19 +81,20 @@ const projectsPageData = {
             link: "https://alignsd.com",
             thumbnail: "/projects/alignsd/hero-webgl-shader.png",
         },
-        {
-            id: "scorpion-percussion",
-            title: "Scorpion Percussion",
-            description:
-                "E-commerce platform for a percussion instrument brand. Monorepo architecture with shared type-safe API layer and native mobile storefront.",
-            category: "E-commerce / Mobile",
-            color: "purple",
-            technologies: ["Turborepo", "tRPC", "Expo", "React Native", "TypeScript"],
-            featured: true,
-            role: "Full-Stack Developer",
-            year: "2025-Present",
-            comingSoon: true,
-        },
+        // TODO: Re-enable when Scorpion Percussion project is further along
+        // {
+        //     id: "scorpion-percussion",
+        //     title: "Scorpion Percussion",
+        //     description:
+        //         "E-commerce platform for a percussion instrument brand. Monorepo architecture with shared type-safe API layer and native mobile storefront.",
+        //     category: "E-commerce / Mobile",
+        //     color: "purple",
+        //     technologies: ["Turborepo", "tRPC", "Expo", "React Native", "TypeScript"],
+        //     featured: true,
+        //     role: "Full-Stack Developer",
+        //     year: "2025-Present",
+        //     comingSoon: true,
+        // },
     ],
     cta: {
         title: "Interested in working together?",

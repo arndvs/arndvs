@@ -35,7 +35,7 @@ const pageData = {
         title: "About",
         paragraphs: [
             "I founded RipeMetrics in 2017 and along with the team helped scale it from a prototype to an AI-native customer growth platform. That meant building everything \u2014 React frontends, Node/Python backends, OpenAI integrations, RAG pipelines with Pinecone, and real-time messaging systems processing thousands of interactions daily.",
-            "Right now I\u2019m building a Next.js 16 wellness platform for AlignSD with Sanity CMS, structured data, and AI-assisted content, and architecting Scorpion Percussion\u2019s e-commerce stack with Turborepo, tRPC, and React Native.",
+            "Right now I\u2019m building a Next.js 16 wellness platform for AlignSD with Sanity CMS, structured data, and AI-assisted content.",
             "I\u2019m most interested in agentic engineering \u2014 wiring LLMs, tool-use, and structured outputs into systems that run autonomously. When AI handles the repetitive work, I focus on architecture and the problems that actually need a human.",
         ],
         techStack: {
@@ -81,15 +81,16 @@ const pageData = {
                 link: "/projects/align-san-diego-family-chiropractic",
                 linkText: "View case study",
             },
-            {
-                id: "scorpion-percussion",
-                title: "Scorpion Percussion",
-                description:
-                    "E-commerce platform for a percussion instrument brand. Monorepo architecture with shared type-safe API layer and native mobile storefront.",
-                category: "E-commerce / Mobile",
-                statusColor: "purple" as const,
-                technologies: ["Turborepo", "tRPC", "Expo", "React Native", "TypeScript"],
-            },
+            // TODO: Re-enable when Scorpion Percussion project is further along
+            // {
+            //     id: "scorpion-percussion",
+            //     title: "Scorpion Percussion",
+            //     description:
+            //         "E-commerce platform for a percussion instrument brand. Monorepo architecture with shared type-safe API layer and native mobile storefront.",
+            //     category: "E-commerce / Mobile",
+            //     statusColor: "purple" as const,
+            //     technologies: ["Turborepo", "tRPC", "Expo", "React Native", "TypeScript"],
+            // },
         ],
     },
     contact: {
