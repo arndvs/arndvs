@@ -1,10 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Github, Linkedin } from "lucide-react";
+import { ArrowRight, Beer, Github, Linkedin, MapPin } from "lucide-react";
 
+import Image from "next/image";
 import Link from "next/link";
 
+import aaronPint from "@/../public/images/aaron-pint.webp";
 import { ContactForm } from "@/components/contact-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,17 +17,26 @@ const pageData = {
     hero: {
         title: "Full-Stack Engineer & AI Builder",
         description:
-            "8+ years shipping production software. I founded RipeMetrics, an AI-native customer growth platform serving 50+ enterprise clients. Now I build full-stack applications and agentic AI systems for clients who need software that actually works.",
+            "8+ years shipping production software. I founded RipeMetrics, an AI-native customer growth platform. Now I build full-stack applications and agentic AI systems for clients who need software that actually works.",
         cta: {
             primary: { text: "View Projects", href: "/projects", icon: ArrowRight },
+            secondary: { text: "Contact", variant: "outline" as const },
+        },
+        image: {
+            src: aaronPint,
+            alt: "Aaron Davis enjoying a birthday pint at Europe\u2019s longest bar in Ireland",
+            caption: "Birthday pint in Dublin, Ireland",
+            location: "Hole in the Wall, Europe\u2019s Longest Pub",
+            icon: Beer,
+            locationIcon: MapPin,
         },
     },
     about: {
         title: "About",
         paragraphs: [
-            "I founded RipeMetrics in 2017 and along with the team helped scale it from a prototype to an AI-native customer growth platform. That meant building everything — React frontends, Node/Python backends, OpenAI integrations, RAG pipelines with Pinecone, and real-time messaging systems processing thousands of interactions daily.",
-            "Right now I'm building a Next.js 15 wellness platform for AlignSD with Sanity CMS, structured data, and AI-assisted content, and architecting Scorpion Percussion's e-commerce stack with Turborepo, tRPC, and React Native.",
-            "I'm most interested in agentic engineering — wiring LLMs, tool-use, and structured outputs into systems that run autonomously. When AI handles the repetitive work, I focus on architecture and the problems that actually need a human.",
+            "I founded RipeMetrics in 2017 and along with the team helped scale it from a prototype to an AI-native customer growth platform. That meant building everything \u2014 React frontends, Node/Python backends, OpenAI integrations, RAG pipelines with Pinecone, and real-time messaging systems processing thousands of interactions daily.",
+            "Right now I\u2019m building a Next.js 15 wellness platform for AlignSD with Sanity CMS, structured data, and AI-assisted content, and architecting Scorpion Percussion\u2019s e-commerce stack with Turborepo, tRPC, and React Native.",
+            "I\u2019m most interested in agentic engineering \u2014 wiring LLMs, tool-use, and structured outputs into systems that run autonomously. When AI handles the repetitive work, I focus on architecture and the problems that actually need a human.",
         ],
         techStack: {
             title: "Technologies I work with",
@@ -41,7 +52,7 @@ const pageData = {
                 id: "ctrl",
                 title: "ctrl",
                 description:
-                    "Autonomous AI agent infrastructure — synced instructions, skills, and secrets from a single dotfiles repo. 12 self-learning skills, 3-tier security model, and a Docker-sandboxed autonomous loop.",
+                    "Autonomous AI agent infrastructure \u2014 synced instructions, skills, and secrets from a single dotfiles repo. 12 self-learning skills, 3-tier security model, and a Docker-sandboxed autonomous loop.",
                 category: "AI Infrastructure / Developer Tools",
                 statusColor: "orange" as const,
                 technologies: ["Bash", "TypeScript", "Docker", "Claude Code", "VS Code Copilot"],
@@ -63,7 +74,7 @@ const pageData = {
                 id: "alignsd-wellness",
                 title: "AlignSD Wellness Center",
                 description:
-                    "A 44,000-line healthcare platform serving 5,000+ families — 5 AI integrations, 81 JSON-LD schemas, 158 programmatic pages, and 27 email templates. Built solo.",
+                    "A 44,000-line healthcare platform serving 5,000+ families \u2014 5 AI integrations, 81 JSON-LD schemas, 158 programmatic pages, and 27 email templates. Built solo.",
                 category: "Healthcare / Web",
                 statusColor: "cyan" as const,
                 technologies: ["Next.js 16", "Sanity v5", "TypeScript", "OpenAI", "React Email"],
@@ -82,8 +93,9 @@ const pageData = {
         ],
     },
     contact: {
-        title: "Let's work together",
-        description: "I'm always interested in hearing about new projects and opportunities.",
+        title: "Let\u2019s work together",
+        description: "I\u2019m always interested in hearing about new projects and opportunities.",
+        ctaText: "Get in touch",
         socialLinks: [
             { type: "github", text: "GitHub", href: "https://github.com/arndvs", icon: Github },
             {
@@ -95,6 +107,7 @@ const pageData = {
         ],
     },
 };
+
 interface ProjectCardProps {
     title: string;
     description: string;
@@ -104,15 +117,18 @@ interface ProjectCardProps {
     link?: string;
     linkText?: string;
 }
+
 interface SocialLinkProps {
     type: string;
     text: string;
     href: string;
     icon: React.ElementType;
 }
+
 interface TechStackProps {
     technologies: string[];
 }
+
 const ProjectCard: React.FC<ProjectCardProps> = ({
     title,
     description,
@@ -157,6 +173,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                             </span>
                         ))}
                     </div>
+
                     {link && (
                         <Button asChild variant="link" className="mt-4 p-0">
                             <Link href={link}>
@@ -169,6 +186,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </motion.div>
     );
 };
+
 const SocialLink: React.FC<SocialLinkProps> = ({ text, href, icon: Icon }) => {
     return (
         <Button asChild size="lg" variant="outline">
@@ -179,6 +197,7 @@ const SocialLink: React.FC<SocialLinkProps> = ({ text, href, icon: Icon }) => {
         </Button>
     );
 };
+
 const TechStack: React.FC<TechStackProps> = ({ technologies }) => {
     const { itemVariants } = useAnimationVariants();
 
@@ -197,38 +216,68 @@ const TechStack: React.FC<TechStackProps> = ({ technologies }) => {
         </div>
     );
 };
+
 export default function HomeContent() {
     const { containerVariants, itemVariants } = useAnimationVariants();
 
     return (
-        <main className="min-h-screen pt-16" role="main">
-            {/* Hero Section */}
-            <motion.section
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={containerVariants}
-                className="mx-auto max-w-7xl px-6 py-24 lg:px-8 lg:py-32"
+        <main className="min-h-screen pt-16">
+            {/* Hero -- instant render, no Framer Motion (above-the-fold) */}
+            <section
+                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
                 aria-label="Hero section"
             >
-                <motion.div variants={itemVariants} className="max-w-3xl">
-                    <h1 className="text-5xl font-bold tracking-tight text-balance lg:text-6xl">
-                        {pageData.hero.title}
-                    </h1>
-                    <p className="text-muted-foreground mt-6 text-xl leading-relaxed text-pretty">
-                        {pageData.hero.description}
-                    </p>
-                    <div className="mt-10 flex items-center gap-4">
-                        <Button asChild size="lg">
-                            <Link href={pageData.hero.cta.primary.href}>
-                                {pageData.hero.cta.primary.text}{" "}
-                                <pageData.hero.cta.primary.icon className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
-                        <ContactForm triggerText="Contact" triggerVariant="outline" />
+                <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+                    {/* Content Column */}
+                    <div>
+                        <h1 className="text-5xl font-bold tracking-tight text-balance lg:text-7xl">
+                            {pageData.hero.title}
+                        </h1>
+                        <p className="text-muted-foreground mt-6 text-2xl leading-relaxed text-pretty">
+                            {pageData.hero.description}
+                        </p>
+                        <div className="mt-10 flex items-center gap-4">
+                            <Button asChild size="lg">
+                                <Link href={pageData.hero.cta.primary.href}>
+                                    {pageData.hero.cta.primary.text}{" "}
+                                    <pageData.hero.cta.primary.icon className="ml-2 h-4 w-4" />
+                                </Link>
+                            </Button>
+                            <ContactForm triggerText={pageData.hero.cta.secondary.text} triggerVariant={pageData.hero.cta.secondary.variant} />
+                        </div>
                     </div>
-                </motion.div>
-            </motion.section>
+
+                    {/* Image Column */}
+                    <div>
+                        <div className="relative aspect-4/5 overflow-hidden rounded-2xl shadow-xl">
+                            <Image
+                                alt={pageData.hero.image.alt}
+                                src={pageData.hero.image.src}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 100vw, 50vw"
+                                priority
+                            />
+                            <div className="absolute right-4 bottom-4 left-4 z-20 rounded-xl border border-white/20 bg-black/60 p-4 backdrop-blur-md md:right-6 md:bottom-6 md:left-6">
+                                <div className="flex items-start gap-3">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500/20">
+                                        <pageData.hero.image.icon className="h-5 w-5 text-amber-400" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-semibold text-white">
+                                            {pageData.hero.image.caption}
+                                        </p>
+                                        <div className="mt-1 flex items-center gap-1 text-xs text-white/70">
+                                            <pageData.hero.image.locationIcon className="h-3 w-3" />
+                                            <span>{pageData.hero.image.location}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             {/* About Section */}
             <motion.section
@@ -236,7 +285,7 @@ export default function HomeContent() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
                 aria-label="About Aaron Davis"
             >
                 <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
@@ -264,7 +313,7 @@ export default function HomeContent() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
                 aria-label="Featured projects"
             >
                 <motion.div variants={itemVariants} className="flex items-center justify-between">
@@ -291,7 +340,7 @@ export default function HomeContent() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
                 aria-label="Contact information"
             >
                 <motion.div
@@ -303,7 +352,7 @@ export default function HomeContent() {
                         {pageData.contact.description}
                     </p>
                     <div className="mt-8 flex flex-wrap gap-4">
-                        <ContactForm />
+                        <ContactForm triggerText={pageData.contact.ctaText} />
                         {pageData.contact.socialLinks.map((link) => (
                             <SocialLink key={link.type} {...link} />
                         ))}
