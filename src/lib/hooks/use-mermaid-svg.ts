@@ -8,7 +8,15 @@ interface MermaidSvgResult {
     naturalHeight: number;
 }
 
-export function useMermaidSvg(chart: string): MermaidSvgResult | null {
+interface UseMermaidSvgOptions {
+    theme?: "neutral" | "dark" | "default" | "forest" | "base";
+}
+
+export function useMermaidSvg(
+    chart: string,
+    options?: UseMermaidSvgOptions,
+): MermaidSvgResult | null {
+    const theme = options?.theme ?? "neutral";
     const [result, setResult] = useState<MermaidSvgResult | null>(null);
 
     useEffect(() => {
@@ -18,7 +26,7 @@ export function useMermaidSvg(chart: string): MermaidSvgResult | null {
             const mermaid = (await import("mermaid")).default;
             mermaid.initialize({
                 startOnLoad: false,
-                theme: "neutral",
+                theme,
                 fontFamily: "var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif)",
                 flowchart: { htmlLabels: true, curve: "basis" },
                 sequence: { actorMargin: 50, messageFontSize: 13 },
@@ -74,7 +82,7 @@ export function useMermaidSvg(chart: string): MermaidSvgResult | null {
         return () => {
             cancelled = true;
         };
-    }, [chart]);
+    }, [chart, theme]);
 
     return result;
 }

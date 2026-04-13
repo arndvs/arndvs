@@ -208,13 +208,13 @@ const aboutPageData = {
                 location: "San Diego, CA",
                 date: "Q4 2025",
                 description:
-                    "Walked attendees through building a reusable AI system that captures unique voice and generates authentic marketing content  from gathering existing content to creating a writing profile to deploying with Claude Projects.",
+                    "Walked attendees through building a reusable AI system that captures unique voice and generates authentic marketing content—from gathering existing content to creating a writing profile to deploying with Claude Projects.",
             },
             {
                 id: "cto-coffee-2023",
                 type: "speaking" as const,
                 title: "Building an AI Assistant to Supercharge Developer Velocity",
-                venue: "Rlentless Software Solutions CTO Coffee",
+                venue: "Relentless Software Solutions CTO Coffee",
                 location: "San Diego, CA",
                 date: "Aug 2023",
                 description:
@@ -415,7 +415,7 @@ const SpeakingItem: React.FC<SpeakingItemProps> = ({
                             <CardTitle className="text-base">{title}</CardTitle>
                             <CardDescription className="text-xs">
                                 {venue}
-                                {location ? `  ${location}` : ""} {date}
+                                {location ? ` ${location}` : ""} {date}
                             </CardDescription>
                         </div>
                     </div>
@@ -531,9 +531,7 @@ export default function AboutContent() {
                                         </div>
                                     </CardHeader>
                                     <CardContent className="text-muted-foreground text-sm">
-                                        <p>
-                                            {aboutPageData.education.accelerator.description}
-                                        </p>
+                                        <p>{aboutPageData.education.accelerator.description}</p>
                                     </CardContent>
                                 </Card>
                             </motion.div>
