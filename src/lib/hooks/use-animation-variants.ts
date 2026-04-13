@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { useReducedMotion } from "framer-motion"
+import { useReducedMotion } from "framer-motion";
 
 import {
+    cardVariants,
     containerVariants,
     itemVariants,
-    cardVariants,
     staggerContainerVariants,
-} from "@/lib/utils/animations"
+} from "@/lib/utils/animations";
 
-const instantTransition = { duration: 0, delay: 0 }
+const instantTransition = { duration: 0, delay: 0 };
 
 const reducedContainer = {
     hidden: { opacity: 1 },
@@ -17,15 +17,15 @@ const reducedContainer = {
         opacity: 1,
         transition: { staggerChildren: 0, delayChildren: 0 },
     },
-}
+};
 
 const reducedItem = {
     hidden: { opacity: 1, y: 0 },
     visible: { opacity: 1, y: 0, transition: instantTransition },
-}
+};
 
 export function useAnimationVariants() {
-    const shouldReduce = useReducedMotion()
+    const shouldReduce = useReducedMotion();
 
     if (shouldReduce)
         return {
@@ -33,12 +33,12 @@ export function useAnimationVariants() {
             staggerContainerVariants: reducedContainer,
             itemVariants: reducedItem,
             cardVariants: reducedItem,
-        }
+        };
 
     return {
         containerVariants,
         staggerContainerVariants,
         itemVariants,
         cardVariants,
-    }
+    };
 }

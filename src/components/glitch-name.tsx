@@ -1,133 +1,135 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { CodeXml } from "lucide-react"
+import { CodeXml } from "lucide-react";
+
+import { useEffect, useRef, useState } from "react";
 
 const nameVariations = [
-  { text: "Aaron Davis", style: "normal" },
-  { text: "arndvs.com", style: "binary" },
-]
+    { text: "Aaron Davis", style: "normal" },
+    { text: "arndvs.com", style: "binary" },
+];
 
-const glitchChars = "!<>-_\\/[]{}—=+*^?#________"
+const glitchChars = "!<>-_\\/[]{}—=+*^?#________";
 
 export function GlitchName() {
-  const [isHovering, setIsHovering] = useState(false)
-  const [displayText, setDisplayText] = useState("Aaron Davis")
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const glitchIntervalRef = useRef<NodeJS.Timeout | null>(null)
-  const identityIndexRef = useRef(0)
+    const [isHovering, setIsHovering] = useState(false);
+    const [displayText, setDisplayText] = useState("Aaron Davis");
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const glitchIntervalRef = useRef<NodeJS.Timeout | null>(null);
+    const identityIndexRef = useRef(0);
 
-  const scrambleText = (target: string, progress: number) => {
-    return target
-      .split("")
-      .map((char, index) => {
-        if (char === " ") return " "
-        if (index < progress) return target[index]
-        return glitchChars[Math.floor(Math.random() * glitchChars.length)]
-      })
-      .join("")
-  }
+    const scrambleText = (target: string, progress: number) => {
+        return target
+            .split("")
+            .map((char, index) => {
+                if (char === " ") return " ";
+                if (index < progress) return target[index];
+                return glitchChars[Math.floor(Math.random() * glitchChars.length)];
+            })
+            .join("");
+    };
 
-  useEffect(() => {
-    if (isHovering) {
-      let progress = 0
-      const targetIndex = (identityIndexRef.current + 1) % nameVariations.length
-      const variation = nameVariations[targetIndex]
+    useEffect(() => {
+        if (isHovering) {
+            let progress = 0;
+            const targetIndex = (identityIndexRef.current + 1) % nameVariations.length;
+            const variation = nameVariations[targetIndex];
 
-      if (!variation)
-        return
+            if (!variation) return;
 
-      const target = variation.text
+            const target = variation.text;
 
-      glitchIntervalRef.current = setInterval(() => {
-        progress += 1
-        if (progress <= target.length) {
-          setDisplayText(scrambleText(target, progress))
+            glitchIntervalRef.current = setInterval(() => {
+                progress += 1;
+                if (progress <= target.length) {
+                    setDisplayText(scrambleText(target, progress));
+                } else {
+                    setDisplayText(target);
+                    identityIndexRef.current = targetIndex;
+                    if (glitchIntervalRef.current) {
+                        clearInterval(glitchIntervalRef.current);
+                    }
+                }
+            }, 50);
+
+            intervalRef.current = setInterval(() => {
+                const nextIndex = (identityIndexRef.current + 1) % nameVariations.length;
+                const nextVariation = nameVariations[nextIndex];
+
+                if (!nextVariation) return;
+
+                const nextTarget = nextVariation.text;
+                let nextProgress = 0;
+
+                if (glitchIntervalRef.current) {
+                    clearInterval(glitchIntervalRef.current);
+                }
+
+                glitchIntervalRef.current = setInterval(() => {
+                    nextProgress += 1;
+                    if (nextProgress <= nextTarget.length) {
+                        setDisplayText(scrambleText(nextTarget, nextProgress));
+                    } else {
+                        setDisplayText(nextTarget);
+                        identityIndexRef.current = nextIndex;
+                        if (glitchIntervalRef.current) {
+                            clearInterval(glitchIntervalRef.current);
+                        }
+                    }
+                }, 50);
+            }, 2000);
         } else {
-          setDisplayText(target)
-          identityIndexRef.current = targetIndex
-          if (glitchIntervalRef.current) {
-            clearInterval(glitchIntervalRef.current)
-          }
-        }
-      }, 50)
+            if (intervalRef.current) clearInterval(intervalRef.current);
+            if (glitchIntervalRef.current) clearInterval(glitchIntervalRef.current);
 
-      intervalRef.current = setInterval(() => {
-        const nextIndex = (identityIndexRef.current + 1) % nameVariations.length
-        const nextVariation = nameVariations[nextIndex]
+            let progress = 0;
+            const target = "Aaron Davis";
 
-        if (!nextVariation)
-          return
-
-        const nextTarget = nextVariation.text
-        let nextProgress = 0
-
-        if (glitchIntervalRef.current) {
-          clearInterval(glitchIntervalRef.current)
+            glitchIntervalRef.current = setInterval(() => {
+                progress += 1;
+                if (progress <= target.length) {
+                    setDisplayText(scrambleText(target, progress));
+                } else {
+                    setDisplayText(target);
+                    identityIndexRef.current = 0;
+                    if (glitchIntervalRef.current) {
+                        clearInterval(glitchIntervalRef.current);
+                    }
+                }
+            }, 50);
         }
 
-        glitchIntervalRef.current = setInterval(() => {
-          nextProgress += 1
-          if (nextProgress <= nextTarget.length) {
-            setDisplayText(scrambleText(nextTarget, nextProgress))
-          } else {
-            setDisplayText(nextTarget)
-            identityIndexRef.current = nextIndex
-            if (glitchIntervalRef.current) {
-              clearInterval(glitchIntervalRef.current)
-            }
-          }
-        }, 50)
-      }, 2000)
-    } else {
-      if (intervalRef.current) clearInterval(intervalRef.current)
-      if (glitchIntervalRef.current) clearInterval(glitchIntervalRef.current)
+        return () => {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+            if (glitchIntervalRef.current) clearInterval(glitchIntervalRef.current);
+        };
+    }, [isHovering]);
 
-      let progress = 0
-      const target = "Aaron Davis"
-
-      glitchIntervalRef.current = setInterval(() => {
-        progress += 1
-        if (progress <= target.length) {
-          setDisplayText(scrambleText(target, progress))
-        } else {
-          setDisplayText(target)
-          identityIndexRef.current = 0
-          if (glitchIntervalRef.current) {
-            clearInterval(glitchIntervalRef.current)
-          }
-        }
-      }, 50)
-    }
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current)
-      if (glitchIntervalRef.current) clearInterval(glitchIntervalRef.current)
-    }
-  }, [isHovering])
-
-  return (
-    <>
-      <div
-        className="flex items-center gap-2 cursor-pointer select-none group"
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-        role="img"
-        aria-label="Aaron Davis"
-      >
-        <CodeXml className={`transition-all duration-300 ${isHovering ? "rotate-180 text-primary" : ""}`} aria-hidden="true" />
-        <span
-          aria-hidden="true"
-          className={`text-lg font-semibold tracking-tight transition-all duration-200 ${
-            isHovering ? "text-primary" : ""
-          }`}
-          style={{
-            fontFamily: "monospace",
-          }}
-        >
-          {displayText}
-        </span>
-      </div>
-    </>
-  )
+    return (
+        <>
+            <div
+                className="group flex cursor-pointer items-center gap-2 select-none"
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+                role="img"
+                aria-label="Aaron Davis"
+            >
+                <CodeXml
+                    className={`transition-all duration-300 ${isHovering ? "text-primary rotate-180" : ""}`}
+                    aria-hidden="true"
+                />
+                <span
+                    aria-hidden="true"
+                    className={`text-lg font-semibold tracking-tight transition-all duration-200 ${
+                        isHovering ? "text-primary" : ""
+                    }`}
+                    style={{
+                        fontFamily: "monospace",
+                    }}
+                >
+                    {displayText}
+                </span>
+            </div>
+        </>
+    );
 }

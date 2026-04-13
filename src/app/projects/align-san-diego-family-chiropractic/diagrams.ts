@@ -1,5 +1,5 @@
 export const diagrams = {
-  systemArchitecture: `graph TB
+    systemArchitecture: `graph TB
     subgraph Client["Browser / Client"]
         APP["Next.js 16 App Router\\n158 Pages · 256 Components"]
         FM["Framer Motion"]
@@ -73,7 +73,7 @@ export const diagrams = {
     SANITY --> TYPEGEN
     JSONLD --> RSC`,
 
-  insuranceVerification: `sequenceDiagram
+    insuranceVerification: `sequenceDiagram
     participant P as Patient Browser
     participant HP as Honeypot Validator
     participant RL as Rate Limiter
@@ -133,7 +133,7 @@ export const diagrams = {
 
     API-->>P: Verification submitted`,
 
-  jsonldComposer: `graph LR
+    jsonldComposer: `graph LR
     subgraph L1["Layer 1: Core"]
         direction TB
         TYPES["types.ts\\nBase interfaces"]
@@ -195,7 +195,7 @@ export const diagrams = {
     L4 --> L5
     L5 --> Output`,
 
-  programmaticSeo: `graph TB
+    programmaticSeo: `graph TB
     subgraph Hub["/areas — Hub Page"]
         AREAS["Areas Served\\nSan Diego Neighborhoods"]
     end
@@ -251,7 +251,7 @@ export const diagrams = {
 
     MV -.-> PageSections`,
 
-  spamPrevention: `flowchart TD
+    spamPrevention: `flowchart TD
     REQ["Incoming Form Submission"] --> HP{"Honeypot\\nValidation"}
 
     HP -->|"Hidden field filled"| SPAM_SILENT["Silent Rejection\\n+ Spam Alert Email"]
@@ -272,6 +272,6 @@ export const diagrams = {
     VALIDATE -->|"Invalid data"| ERROR["400 Bad Request"]
 
     VALIDATE -->|"Valid"| PROCESS["Process Form\\nCRM + Email + Slack"]`,
-} as const
+} as const;
 
-export type DiagramKey = keyof typeof diagrams
+export type DiagramKey = keyof typeof diagrams;

@@ -1,15 +1,10 @@
-"use client"
+"use client";
 
-import { createCaseStudySections } from "@/components/case-study/sections"
-import { diagrams } from "./diagrams"
-import {
-    Workflow,
-    Radar,
-    Shield,
-    Brain,
-    Bot,
-    Terminal,
-} from "lucide-react"
+import { Bot, Brain, Radar, Shield, Terminal, Workflow } from "lucide-react";
+
+import { createCaseStudySections } from "@/components/case-study/sections";
+
+import { diagrams } from "./diagrams";
 
 const subsystemIcons: Record<string, React.ElementType> = {
     "The Pipeline": Workflow,
@@ -18,7 +13,7 @@ const subsystemIcons: Record<string, React.ElementType> = {
     "Skill System": Brain,
     "shift Loop": Bot,
     Bootstrap: Terminal,
-}
+};
 
 export const {
     BackButton,
@@ -36,4 +31,4 @@ export const {
     diagrams: diagrams as Record<string, string>,
     subsystemIcons,
     fallbackIcon: Terminal,
-})
+});

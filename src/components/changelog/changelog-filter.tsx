@@ -1,20 +1,20 @@
-'use client'
+"use client";
 
-import { cn } from '@/lib/utils'
-import type { ChangelogEntryType } from '@/lib/types/sanity'
+import type { ChangelogEntryType } from "@/lib/types/sanity";
+import { cn } from "@/lib/utils";
 
 const filterLabels: Record<ChangelogEntryType, string> = {
-    feature: 'Features',
-    improvement: 'Improvements',
-    fix: 'Fixes',
-    content: 'Content',
-    infrastructure: 'Infrastructure',
-}
+    feature: "Features",
+    improvement: "Improvements",
+    fix: "Fixes",
+    content: "Content",
+    infrastructure: "Infrastructure",
+};
 
 interface ChangelogFilterProps {
-    types: ChangelogEntryType[]
-    active: ChangelogEntryType | null
-    onChange: (type: ChangelogEntryType | null) => void
+    types: ChangelogEntryType[];
+    active: ChangelogEntryType | null;
+    onChange: (type: ChangelogEntryType | null) => void;
 }
 
 export function ChangelogFilter({ types, active, onChange }: ChangelogFilterProps) {
@@ -23,10 +23,10 @@ export function ChangelogFilter({ types, active, onChange }: ChangelogFilterProp
             <button
                 onClick={() => onChange(null)}
                 className={cn(
-                    'rounded-full border px-3 py-1 text-xs font-medium transition-colors',
+                    "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
                     active === null
-                        ? 'border-primary bg-primary text-primary-foreground'
-                        : 'border-border bg-card text-muted-foreground hover:text-foreground hover:border-foreground/20',
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border bg-card text-muted-foreground hover:text-foreground hover:border-foreground/20",
                 )}
                 aria-pressed={active === null}
             >
@@ -38,10 +38,10 @@ export function ChangelogFilter({ types, active, onChange }: ChangelogFilterProp
                     key={type}
                     onClick={() => onChange(active === type ? null : type)}
                     className={cn(
-                        'rounded-full border px-3 py-1 text-xs font-medium transition-colors',
+                        "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
                         active === type
-                            ? 'border-primary bg-primary text-primary-foreground'
-                            : 'border-border bg-card text-muted-foreground hover:text-foreground hover:border-foreground/20',
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-card text-muted-foreground hover:text-foreground hover:border-foreground/20",
                     )}
                     aria-pressed={active === type}
                 >
@@ -49,5 +49,5 @@ export function ChangelogFilter({ types, active, onChange }: ChangelogFilterProp
                 </button>
             ))}
         </div>
-    )
+    );
 }

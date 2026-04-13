@@ -1,24 +1,25 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import { PostCard } from '@/components/blog/post-card'
-import { useAnimationVariants } from '@/lib/hooks/use-animation-variants'
-import { ContactForm } from '@/components/contact-form'
-import { estimateReadingTime } from '@/lib/utils'
+import { motion } from "framer-motion";
+
+import { PostCard } from "@/components/blog/post-card";
+import { ContactForm } from "@/components/contact-form";
+import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
+import { estimateReadingTime } from "@/lib/utils";
 
 interface Post {
-    _id: string
-    title: string
-    slug: { current: string }
-    excerpt?: string
-    publishedAt?: string
-    mainImage?: { alt?: string; asset?: { _ref: string } }
-    categories?: string[]
-    bodyCharCount?: number
+    _id: string;
+    title: string;
+    slug: { current: string };
+    excerpt?: string;
+    publishedAt?: string;
+    mainImage?: { alt?: string; asset?: { _ref: string } };
+    categories?: string[];
+    bodyCharCount?: number;
 }
 
 export function BlogListContent({ posts }: { posts: Post[] }) {
-    const { containerVariants, itemVariants } = useAnimationVariants()
+    const { containerVariants, itemVariants } = useAnimationVariants();
 
     return (
         <main className="min-h-screen pt-24 pb-16">
@@ -38,10 +39,10 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                     </motion.h1>
                     <motion.p
                         variants={itemVariants}
-                        className="max-w-2xl text-lg text-muted-foreground"
+                        className="text-muted-foreground max-w-2xl text-lg"
                     >
-                        Technical deep-dives on Sanity CMS, Next.js, AI engineering, and
-                        lessons from building production software.
+                        Technical deep-dives on Sanity CMS, Next.js, AI engineering, and lessons
+                        from building production software.
                     </motion.p>
                 </motion.div>
             </section>
@@ -70,8 +71,8 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                         ))}
                     </motion.div>
                 ) : (
-                    <div className="text-center py-20">
-                        <p className="text-lg text-muted-foreground">
+                    <div className="py-20 text-center">
+                        <p className="text-muted-foreground text-lg">
                             No posts yet. Check back soon.
                         </p>
                     </div>
@@ -85,15 +86,12 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
-                    className="text-center space-y-4"
+                    className="space-y-4 text-center"
                 >
                     <motion.h2 variants={itemVariants} className="text-2xl font-bold">
                         Interested in working together?
                     </motion.h2>
-                    <motion.p
-                        variants={itemVariants}
-                        className="text-muted-foreground"
-                    >
+                    <motion.p variants={itemVariants} className="text-muted-foreground">
                         I&apos;m available for freelance Sanity CMS and Next.js work.
                     </motion.p>
                     <motion.div variants={itemVariants}>
@@ -102,5 +100,5 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                 </motion.div>
             </section>
         </main>
-    )
+    );
 }

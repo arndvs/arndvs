@@ -1,27 +1,23 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import Image from 'next/image'
-import { motion } from 'framer-motion'
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card'
-import { useAnimationVariants } from '@/lib/hooks/use-animation-variants'
-import { urlFor } from '@/sanity/lib/image'
-import type { SanityImageWithAlt } from '@/lib/types/sanity'
+import { motion } from "framer-motion";
+
+import Image from "next/image";
+import Link from "next/link";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
+import type { SanityImageWithAlt } from "@/lib/types/sanity";
+import { urlFor } from "@/sanity/lib/image";
 
 interface PostCardProps {
-    title: string
-    slug: { current: string }
-    excerpt?: string
-    publishedAt?: string
-    mainImage?: SanityImageWithAlt
-    categories?: string[]
-    readingTime?: string
+    title: string;
+    slug: { current: string };
+    excerpt?: string;
+    publishedAt?: string;
+    mainImage?: SanityImageWithAlt;
+    categories?: string[];
+    readingTime?: string;
 }
 
 export function PostCard({
@@ -33,20 +29,20 @@ export function PostCard({
     categories,
     readingTime,
 }: PostCardProps) {
-    const { cardVariants } = useAnimationVariants()
+    const { cardVariants } = useAnimationVariants();
 
     const formattedDate = publishedAt
-        ? new Date(publishedAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        })
-        : null
+        ? new Date(publishedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+          })
+        : null;
 
     return (
         <motion.div variants={cardVariants}>
             <Link href={`/blog/${slug.current}`}>
-                <Card className="group h-full overflow-hidden transition-all hover:border-primary/50 hover:shadow-lg">
+                <Card className="group hover:border-primary/50 h-full overflow-hidden transition-all hover:shadow-lg">
                     {mainImage && (
                         <div className="overflow-hidden border-b">
                             <Image
@@ -59,15 +55,15 @@ export function PostCard({
                         </div>
                     )}
                     <CardHeader className="space-y-3">
-                        <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <div className="text-muted-foreground flex items-center justify-between text-xs">
                             {formattedDate && <time dateTime={publishedAt}>{formattedDate}</time>}
                             <span>{readingTime}</span>
                         </div>
-                        <CardTitle className="text-xl group-hover:text-primary transition-colors line-clamp-2">
+                        <CardTitle className="group-hover:text-primary line-clamp-2 text-xl transition-colors">
                             {title}
                         </CardTitle>
                         {excerpt && (
-                            <CardDescription className="text-sm leading-relaxed line-clamp-3">
+                            <CardDescription className="line-clamp-3 text-sm leading-relaxed">
                                 {excerpt}
                             </CardDescription>
                         )}
@@ -78,7 +74,7 @@ export function PostCard({
                                 {categories.map((cat) => (
                                     <span
                                         key={cat}
-                                        className="inline-flex items-center rounded-md border px-2 py-0.5 text-xs text-muted-foreground"
+                                        className="text-muted-foreground inline-flex items-center rounded-md border px-2 py-0.5 text-xs"
                                     >
                                         {cat}
                                     </span>
@@ -89,5 +85,5 @@ export function PostCard({
                 </Card>
             </Link>
         </motion.div>
-    )
+    );
 }

@@ -1,8 +1,9 @@
-import { createImageUrlBuilder, type SanityImageSource } from '@sanity/image-url'
-import { dataset, projectId } from '../env'
+import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url";
 
-const imageBuilder = createImageUrlBuilder({ projectId, dataset })
+import { dataset, projectId } from "../env";
+
+const imageBuilder = createImageUrlBuilder({ projectId, dataset });
 
 export function urlFor(source: SanityImageSource) {
-    return imageBuilder.image(source).auto('format').fit('max')
+    return imageBuilder.image(source).auto("format").fit("max");
 }

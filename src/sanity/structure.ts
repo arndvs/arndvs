@@ -1,24 +1,24 @@
-import { BookText, History } from 'lucide-react'
-import type { StructureResolver } from 'sanity/structure'
+import { BookText, History } from "lucide-react";
+import type { StructureResolver } from "sanity/structure";
 
 export const structure: StructureResolver = (S) =>
     S.list()
-        .title('Content')
+        .title("Content")
         .items([
             S.listItem()
-                .title('Blog')
+                .title("Blog")
                 .icon(BookText)
                 .child(
-                    S.documentTypeList('post')
-                        .title('Posts')
-                        .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+                    S.documentTypeList("post")
+                        .title("Posts")
+                        .defaultOrdering([{ field: "publishedAt", direction: "desc" }]),
                 ),
             S.listItem()
-                .title('Changelog')
+                .title("Changelog")
                 .icon(History)
                 .child(
-                    S.documentTypeList('changelogEntry')
-                        .title('Changelog Entries')
-                        .defaultOrdering([{ field: 'date', direction: 'desc' }])
+                    S.documentTypeList("changelogEntry")
+                        .title("Changelog Entries")
+                        .defaultOrdering([{ field: "date", direction: "desc" }]),
                 ),
-        ])
+        ]);

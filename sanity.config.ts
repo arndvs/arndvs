@@ -1,16 +1,17 @@
-import { apiVersion, dataset, projectId, siteConfig } from './src/sanity/env'
-import { defineConfig } from 'sanity'
-import { presentationTool } from 'sanity/presentation'
-import { structureTool } from 'sanity/structure'
-import { visionTool } from '@sanity/vision'
-import { schema } from './src/sanity/schemaTypes'
-import { structure } from './src/sanity/structure'
+import { visionTool } from "@sanity/vision";
+import { defineConfig } from "sanity";
+import { presentationTool } from "sanity/presentation";
+import { structureTool } from "sanity/structure";
+
+import { apiVersion, dataset, projectId, siteConfig } from "./src/sanity/env";
+import { schema } from "./src/sanity/schemaTypes";
+import { structure } from "./src/sanity/structure";
 
 export default defineConfig({
-    name: 'default',
-    title: 'arndvs Studio',
+    name: "default",
+    title: "arndvs Studio",
 
-    basePath: '/studio',
+    basePath: "/studio",
     projectId,
     dataset,
 
@@ -22,13 +23,13 @@ export default defineConfig({
         presentationTool({
             previewUrl: {
                 origin: siteConfig.url,
-                preview: '/',
+                preview: "/",
                 previewMode: {
-                    enable: '/api/draft-mode/enable',
+                    enable: "/api/draft-mode/enable",
                 },
             },
         }),
 
         visionTool({ defaultApiVersion: apiVersion }),
     ],
-})
+});

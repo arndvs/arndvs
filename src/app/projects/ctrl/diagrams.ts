@@ -293,6 +293,6 @@ export const diagrams = {
     end
 
     PHASE4 -.->|"Anti-Rationalization"| PressureTests`,
-} as const
+} as const;
 
-export type DiagramKey = keyof typeof diagrams
+export type DiagramKey = keyof typeof diagrams;

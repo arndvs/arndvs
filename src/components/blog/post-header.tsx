@@ -1,14 +1,15 @@
-import Image from 'next/image'
-import { urlFor } from '@/sanity/lib/image'
-import type { SanityImageWithAlt } from '@/lib/types/sanity'
+import Image from "next/image";
+
+import type { SanityImageWithAlt } from "@/lib/types/sanity";
+import { urlFor } from "@/sanity/lib/image";
 
 interface PostHeaderProps {
-    title: string
-    publishedAt?: string
-    author?: string
-    categories?: string[]
-    mainImage?: SanityImageWithAlt
-    readingTime?: string
+    title: string;
+    publishedAt?: string;
+    author?: string;
+    categories?: string[];
+    mainImage?: SanityImageWithAlt;
+    readingTime?: string;
 }
 
 export function PostHeader({
@@ -20,12 +21,12 @@ export function PostHeader({
     readingTime,
 }: PostHeaderProps) {
     const formattedDate = publishedAt
-        ? new Date(publishedAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        })
-        : null
+        ? new Date(publishedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+          })
+        : null;
 
     return (
         <header className="mx-auto max-w-3xl space-y-6 pb-8">
@@ -35,7 +36,7 @@ export function PostHeader({
                     {categories.map((cat) => (
                         <span
                             key={cat}
-                            className="inline-flex items-center rounded-md border px-2.5 py-1 text-xs font-medium text-muted-foreground"
+                            className="text-muted-foreground inline-flex items-center rounded-md border px-2.5 py-1 text-xs font-medium"
                         >
                             {cat}
                         </span>
@@ -44,12 +45,10 @@ export function PostHeader({
             )}
 
             {/* Title */}
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-                {title}
-            </h1>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">{title}</h1>
 
             {/* Meta */}
-            <div className="flex items-center gap-3 text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-3 text-sm">
                 {author && <span>{author}</span>}
                 {author && formattedDate && <span aria-hidden="true">&middot;</span>}
                 {formattedDate && <time dateTime={publishedAt}>{formattedDate}</time>}
@@ -71,5 +70,5 @@ export function PostHeader({
                 </div>
             )}
         </header>
-    )
+    );
 }

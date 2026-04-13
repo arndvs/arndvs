@@ -1,37 +1,37 @@
-import { type NextRequest, NextResponse } from 'next/server'
-import { parseBody } from 'next-sanity/webhook'
-import { siteConfig } from '@/sanity/env'
+import { parseBody } from "next-sanity/webhook";
+import { type NextRequest, NextResponse } from "next/server";
+
+import { siteConfig } from "@/sanity/env";
 
 function getIndexNowKey(): string {
-    const key = process.env.INDEXNOW_KEY
+    const key = process.env.INDEXNOW_KEY;
 
-    if (!key)
-        throw new Error('Missing environment variable: INDEXNOW_KEY')
+    if (!key) throw new Error("Missing environment variable: INDEXNOW_KEY");
 
-    return key
+    return key;
 }
 
 interface WebhookBody {
-    _type: string
-    slug?: { current?: string }
+    _type: string;
+    slug?: { current?: string };
 }
 
 async function submitToIndexNow(urls: string[]) {
-    const indexNowKey = getIndexNowKey()
-    const host = new URL(siteConfig.url).host
+    const indexNowKey = getIndexNowKey();
+    const host = new URL(siteConfig.url).host;
 
-    const response = await fetch('https://api.indexnow.org/IndexNow', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    const response = await fetch("https://api.indexnow.org/IndexNow", {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=utf-8" },
         body: JSON.stringify({
             host,
             key: indexNowKey,
             keyLocation: `${siteConfig.url}/${indexNowKey}.txt`,
             urlList: urls,
         }),
-    })
+    });
 
-    return { status: response.status, ok: response.ok }
+    return { status: response.status, ok: response.ok };
 }
 
 export async function POST(req: NextRequest) {
@@ -39,41 +39,39 @@ export async function POST(req: NextRequest) {
         const { body, isValidSignature } = await parseBody<WebhookBody>(
             req,
             process.env.SANITY_WEBHOOK_SECRET,
-        )
+        );
 
         if (!isValidSignature)
-            return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
+            return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
 
-        if (!body?._type)
-            return NextResponse.json({ error: 'Bad Request' }, { status: 400 })
+        if (!body?._type) return NextResponse.json({ error: "Bad Request" }, { status: 400 });
 
-        const urls: string[] = []
+        const urls: string[] = [];
 
         switch (body._type) {
-            case 'post':
-                urls.push(`${siteConfig.url}/blog`)
-                if (body.slug?.current)
-                    urls.push(`${siteConfig.url}/blog/${body.slug.current}`)
-                break
+            case "post":
+                urls.push(`${siteConfig.url}/blog`);
+                if (body.slug?.current) urls.push(`${siteConfig.url}/blog/${body.slug.current}`);
+                break;
             default:
-                return NextResponse.json({ status: 200, skipped: true, type: body._type })
+                return NextResponse.json({ status: 200, skipped: true, type: body._type });
         }
 
-        if (urls.length === 0)
-            return NextResponse.json({ status: 200, skipped: true })
+        if (urls.length === 0) return NextResponse.json({ status: 200, skipped: true });
 
-        const result = await submitToIndexNow(urls)
+        const result = await submitToIndexNow(urls);
 
-        console.log(`IndexNow submitted ${urls.length} URLs:`, { urls, result })
+        // eslint-disable-next-line no-console -- Operational logging for webhook submissions
+        console.log(`IndexNow submitted ${urls.length} URLs:`, { urls, result });
 
         return NextResponse.json({
             status: 200,
             submitted: true,
             urls,
             indexNowStatus: result.status,
-        })
+        });
     } catch (err) {
-        console.error('IndexNow webhook error:', err)
-        return NextResponse.json({ error: (err as Error).message }, { status: 500 })
+        console.error("IndexNow webhook error:", err);
+        return NextResponse.json({ error: (err as Error).message }, { status: 500 });
     }
 }
