@@ -7,6 +7,7 @@ import {
     Code2,
     GraduationCap,
     type LucideIcon,
+    Mic2,
     Rocket,
     Sparkles,
 } from "lucide-react";
@@ -79,14 +80,28 @@ const aboutPageData = {
                 institution: "UC San Diego Extended Studies",
                 period: "Sep 2018 - Jan 2019",
                 description:
-                    "Customer Experience Leadership Course - Explored strategic importance of CX, evaluation methods, and best practices from industry leaders like Apple, Amazon, and Tesla.",
+                    "Customer Experience Leadership Course — Explored strategic importance of CX, evaluation methods, and best practices from industry leaders like Apple, Amazon, and Tesla.",
             },
             {
-                id: "stanford",
+                id: "stanford-tech",
                 institution: "Stanford University Online",
                 period: "Oct 2016 - Jan 2017",
                 description:
-                    "Technology Entrepreneurship - Studied entrepreneurship process for high-impact enterprises, team formation, and Silicon Valley startup ecosystem.",
+                    "Technology Entrepreneurship — Studied entrepreneurship process for high-impact enterprises, team formation, and Silicon Valley startup ecosystem.",
+            },
+            {
+                id: "stanford-adv",
+                institution: "Stanford University Online",
+                period: "Aug 2016 - Oct 2016",
+                description:
+                    "Advanced Entrepreneurship — Transforming ideas into viable business concepts using Stanford GSB's Startup Canvas methodology for customer identification and go-to-market strategy.",
+            },
+            {
+                id: "csueb",
+                institution: "California State University, East Bay",
+                period: "2000 - 2003",
+                description:
+                    "Mass Communications — Content creation and storytelling across media types including documentaries, press releases, films, and marketing campaigns.",
             },
         ],
         certifications: [
@@ -122,12 +137,96 @@ const aboutPageData = {
                 description:
                     "6-week course on transformer architectures, fine-tuning techniques (LoRA, QLoRA), model alignment (DPO, RLHF), and SLM optimization.",
             },
+            {
+                id: "sanity-ai",
+                title: "AI-Powered Sanity Development",
+                issuer: "Sanity",
+                date: "Mar 2025",
+                description:
+                    "Official Sanity certification covering CMS architecture, GROQ queries, schema design, and AI-powered content workflows.",
+            },
+            {
+                id: "landing-page",
+                title: "Landing Page Academy",
+                issuer: "Learn UI Design",
+                date: "Feb 2025",
+                description:
+                    "Design-focused course on high-converting landing page patterns, visual hierarchy, and conversion optimization.",
+            },
+            {
+                id: "cursor-ai",
+                title: "Cursor AI Bootcamp",
+                issuer: "Maven",
+                date: "Jan 2025",
+                description:
+                    "Intensive bootcamp on AI-assisted development workflows, prompt engineering for code generation, and IDE-integrated AI tooling.",
+            },
+            {
+                id: "communication",
+                title: "Effective Communication For Engineers",
+                issuer: "Taro (YC S22)",
+                date: "Sep 2024",
+                description:
+                    "YC-backed program on technical communication, stakeholder management, and career growth strategies for engineers.",
+            },
+            {
+                id: "redux-rtk",
+                title: "Modern Redux with RTK & TypeScript",
+                issuer: "egghead.io",
+                date: "Oct 2022",
+                description:
+                    "Advanced Redux patterns using Redux Toolkit with TypeScript for type-safe state management in React applications.",
+            },
+            {
+                id: "nextjs-intro",
+                title: "Introduction to Next.js",
+                issuer: "Frontend Masters",
+                date: "Jul 2022",
+                description:
+                    "Foundational course on the Next.js framework covering SSR, SSG, API routes, and the pages router architecture.",
+            },
+        ],
+    },
+    speakingAndPublications: {
+        title: "Speaking & Publications",
+        items: [
+            {
+                id: "birth-workers-2025",
+                type: "speaking" as const,
+                title: "Building an AI Content System That Captures Your Voice",
+                venue: "Inspired Birth Workers Alliance Quarterly Social",
+                location: "San Diego, CA",
+                date: "Q4 2025",
+                description:
+                    "Walked attendees through building a reusable AI system that captures unique voice and generates authentic marketing content \u2014 from gathering existing content to creating a writing profile to deploying with Claude Projects.",
+            },
+            {
+                id: "cto-coffee-2023",
+                type: "speaking" as const,
+                title: "Building an AI Assistant to Supercharge Developer Velocity",
+                venue: "R\u0113lentless Software Solutions CTO Coffee",
+                location: "San Diego, CA",
+                date: "Aug 2023",
+                description:
+                    "Co-presented with Andrew Carrigan. Demonstrated how we built an internal AI assistant at RipeMetrics using LangChain and Flowise to boost developer productivity.",
+            },
+            {
+                id: "going-up-2014",
+                type: "publication" as const,
+                title: "How To Use Cause Marketing To Grow Your Business",
+                venue: "Going Up: Proven Strategies for Reaching Higher Levels in Business (Business Excellence Press)",
+                date: "Apr 2014",
+                description:
+                    "Published book chapter on leveraging cause marketing partnerships between for-profit businesses and nonprofits to boost revenue, increase lifetime customer value, and reduce customer acquisition costs.",
+            },
         ],
     },
     differentiators: {
         title: "How I Work",
-        content:
-            "My path from sales to engineering means I build software with the end user in mind, not just the spec. Seven years of selling enterprise software taught me how businesses actually buy and what makes them stick around — that instinct doesn't go away when you switch to the terminal. I ship fast, communicate clearly, and treat every project like it's my own product.",
+        paragraphs: [
+            "My path from sales to engineering means I build software with the end user in mind, not just the spec. Seven years of selling enterprise software taught me how businesses actually buy and what makes them stick around \u2014 that instinct doesn't go away when you switch to the terminal. I ship fast, communicate clearly, and treat every project like it's my own product.",
+            "I also bring genuine customer experience expertise. I completed UC San Diego's CX Leadership program, then built RipeMetrics into a Customer Experience Management platform that used NPS scores, retention analytics, and behavioral data to help 50+ businesses improve how they treat their customers. Most engineers optimize for the system. I optimize for the person using it.",
+        ],
     },
     techStack: {
         title: "Technologies I Work With",
@@ -199,6 +298,14 @@ interface EducationItemProps {
 interface CertificationItemProps {
     title: string;
     issuer: string;
+    date: string;
+    description: string;
+}
+interface SpeakingItemProps {
+    type: "speaking" | "publication";
+    title: string;
+    venue: string;
+    location?: string;
     date: string;
     description: string;
 }
@@ -277,6 +384,39 @@ const CertificationItem: React.FC<CertificationItemProps> = ({
         <p>{description}</p>
     </div>
 );
+const SpeakingItem: React.FC<SpeakingItemProps> = ({
+    type,
+    title,
+    venue,
+    location,
+    date,
+    description,
+}) => {
+    const { itemVariants } = useAnimationVariants();
+    const Icon = type === "speaking" ? Mic2 : BookOpen;
+
+    return (
+        <motion.div variants={itemVariants}>
+            <Card className="h-full">
+                <CardHeader>
+                    <div className="flex items-center gap-3">
+                        <Icon className="text-primary h-6 w-6 shrink-0" />
+                        <div>
+                            <CardTitle className="text-base">{title}</CardTitle>
+                            <CardDescription className="text-xs">
+                                {venue}
+                                {location ? ` \u2014 ${location}` : ""} \u00B7 {date}
+                            </CardDescription>
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent className="text-muted-foreground text-sm">
+                    <p>{description}</p>
+                </CardContent>
+            </Card>
+        </motion.div>
+    );
+};
 const TechCategory: React.FC<TechCategoryProps> = ({ title, technologies }) => {
     const { itemVariants } = useAnimationVariants();
 
@@ -376,7 +516,7 @@ export default function AboutContent() {
                             <Card className="h-full">
                                 <CardHeader>
                                     <Award className="text-primary mb-2 h-8 w-8" />
-                                    <CardTitle>Recent Certifications</CardTitle>
+                                    <CardTitle>Certifications</CardTitle>
                                 </CardHeader>
                                 <CardContent className="text-muted-foreground space-y-4 text-sm">
                                     {aboutPageData.education.certifications.map((cert) => (
@@ -403,12 +543,39 @@ export default function AboutContent() {
                     >
                         {aboutPageData.differentiators.title}
                     </motion.h2>
-                    <motion.p
+                    <div className="max-w-3xl space-y-4">
+                        {aboutPageData.differentiators.paragraphs.map((paragraph, index) => (
+                            <motion.p
+                                key={index}
+                                variants={itemVariants}
+                                className="text-muted-foreground text-lg leading-relaxed"
+                            >
+                                {paragraph}
+                            </motion.p>
+                        ))}
+                    </div>
+                </motion.div>
+
+                {/* Speaking & Publications */}
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    variants={containerVariants}
+                    className="mt-24"
+                    aria-label="Speaking engagements and publications"
+                >
+                    <motion.h2
                         variants={itemVariants}
-                        className="text-muted-foreground max-w-3xl text-lg leading-relaxed"
+                        className="mb-8 text-3xl font-bold tracking-tight"
                     >
-                        {aboutPageData.differentiators.content}
-                    </motion.p>
+                        {aboutPageData.speakingAndPublications.title}
+                    </motion.h2>
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" role="list">
+                        {aboutPageData.speakingAndPublications.items.map((item) => (
+                            <SpeakingItem key={item.id} {...item} />
+                        ))}
+                    </div>
                 </motion.div>
 
                 {/* Tech Stack */}
