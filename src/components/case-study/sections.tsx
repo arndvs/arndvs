@@ -1,34 +1,36 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { MermaidDiagram } from "@/components/mermaid-diagram"
-import { AnimatedCounter } from "@/components/animated-counter"
-import { useAnimationVariants } from "@/lib/hooks/use-animation-variants"
+import { motion } from "framer-motion";
+import { ArrowLeft, ExternalLink, Layers, RefreshCcw, Wrench } from "lucide-react";
+
+import Image from "next/image";
+import Link from "next/link";
+
+import { AnimatedCounter } from "@/components/animated-counter";
+import { MermaidDiagram } from "@/components/mermaid-diagram";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 import type {
-    HeroData,
-    SituationData,
     ArchitectureData,
-    DeepDive,
+    CTAData,
     Decision,
+    DeepDive,
+    GalleryImage,
+    HeroData,
     Learning,
     Metric,
-    CTAData,
-    GalleryImage,
-} from "@/lib/types/case-study"
-import { ExternalLink, ArrowLeft, RefreshCcw, Layers, Wrench } from "lucide-react"
+    SituationData,
+} from "@/lib/types/case-study";
 
-export type AccentColor = "orange" | "cyan" | "green"
+export type AccentColor = "orange" | "cyan" | "green";
 
 interface AccentClasses {
-    dot: string
-    text: string
-    textSubtle: string
-    borderL: string
-    link: string
+    dot: string;
+    text: string;
+    textSubtle: string;
+    borderL: string;
+    link: string;
 }
 
 const accentMap: Record<AccentColor, AccentClasses> = {
@@ -53,26 +55,30 @@ const accentMap: Record<AccentColor, AccentClasses> = {
         borderL: "border-l-green-500",
         link: "text-green-600",
     },
-}
+};
 
-const defaultLearningIcons = [RefreshCcw, Layers, Wrench]
+const defaultLearningIcons = [RefreshCcw, Layers, Wrench];
 
 export interface CaseStudyConfig {
-    accentColor: AccentColor
-    diagrams: Record<string, string>
-    subsystemIcons: Record<string, React.ElementType>
-    fallbackIcon: React.ElementType
-    learningIcons?: React.ElementType[]
+    accentColor: AccentColor;
+    diagrams: Record<string, string>;
+    subsystemIcons: Record<string, React.ElementType>;
+    fallbackIcon: React.ElementType;
+    learningIcons?: React.ElementType[];
 }
 
 export function createCaseStudySections(config: CaseStudyConfig) {
-    const accent = accentMap[config.accentColor]
-    const { diagrams, subsystemIcons, fallbackIcon } = config
-    const learningIcons = config.learningIcons ?? defaultLearningIcons
+    const accent = accentMap[config.accentColor];
+    const { diagrams, subsystemIcons, fallbackIcon } = config;
+    const learningIcons = config.learningIcons ?? defaultLearningIcons;
 
     function BackButton() {
         return (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+            >
                 <Button asChild variant="ghost" className="mb-8">
                     <Link href="/projects">
                         <ArrowLeft className="mr-2 h-4 w-4" />
@@ -80,11 +86,11 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     </Link>
                 </Button>
             </motion.div>
-        )
+        );
     }
 
     function HeroSection({ data }: { data: HeroData }) {
-        const { containerVariants, itemVariants } = useAnimationVariants()
+        const { containerVariants, itemVariants } = useAnimationVariants();
 
         return (
             <motion.header
@@ -96,7 +102,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
             >
                 <motion.div variants={itemVariants} className="mb-4 flex items-center gap-2">
                     <div className={`h-2 w-2 rounded-full ${accent.dot}`} />
-                    <span className="text-sm font-medium text-muted-foreground">{data.badge}</span>
+                    <span className="text-muted-foreground text-sm font-medium">{data.badge}</span>
                 </motion.div>
 
                 <motion.h1
@@ -108,18 +114,18 @@ export function createCaseStudySections(config: CaseStudyConfig) {
 
                 <motion.p
                     variants={itemVariants}
-                    className="mt-6 text-xl leading-relaxed text-muted-foreground text-pretty"
+                    className="text-muted-foreground mt-6 text-xl leading-relaxed text-pretty"
                 >
                     {data.tagline}
                 </motion.p>
 
                 <motion.div
                     variants={itemVariants}
-                    className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground"
+                    className="text-muted-foreground mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm"
                 >
                     {data.stats.map((stat) => (
                         <span key={stat.label} className="flex items-center gap-1.5">
-                            <span className="font-semibold text-foreground">{stat.value}</span>
+                            <span className="text-foreground font-semibold">{stat.value}</span>
                             {stat.label}
                         </span>
                     ))}
@@ -135,7 +141,10 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 </motion.div>
 
                 {data.screenshotSrc && (
-                    <motion.div variants={itemVariants} className="mt-12 overflow-hidden rounded-lg border border-border">
+                    <motion.div
+                        variants={itemVariants}
+                        className="border-border mt-12 overflow-hidden rounded-lg border"
+                    >
                         <Image
                             src={data.screenshotSrc}
                             alt={data.screenshotAlt ?? ""}
@@ -147,11 +156,11 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     </motion.div>
                 )}
             </motion.header>
-        )
+        );
     }
 
     function SituationSection({ data }: { data: SituationData }) {
-        const { containerVariants, itemVariants, cardVariants } = useAnimationVariants()
+        const { containerVariants, itemVariants, cardVariants } = useAnimationVariants();
 
         return (
             <motion.section
@@ -171,7 +180,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                             <motion.p
                                 key={i}
                                 variants={itemVariants}
-                                className="leading-relaxed text-muted-foreground"
+                                className="text-muted-foreground leading-relaxed"
                             >
                                 {paragraph}
                             </motion.p>
@@ -215,7 +224,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                                         {data.context.stack.map((tech) => (
                                             <span
                                                 key={tech}
-                                                className="rounded-md bg-secondary px-2 py-0.5 text-xs font-medium"
+                                                className="bg-secondary rounded-md px-2 py-0.5 text-xs font-medium"
                                             >
                                                 {tech}
                                             </span>
@@ -227,11 +236,12 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     </motion.div>
                 </div>
             </motion.section>
-        )
+        );
     }
 
     function ArchitectureSection({ data }: { data: ArchitectureData }) {
-        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } =
+            useAnimationVariants();
 
         return (
             <motion.section
@@ -245,7 +255,10 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     System Architecture
                 </motion.h2>
 
-                <motion.p variants={itemVariants} className="mb-8 leading-relaxed text-muted-foreground">
+                <motion.p
+                    variants={itemVariants}
+                    className="text-muted-foreground mb-8 leading-relaxed"
+                >
                     {data.intro}
                 </motion.p>
 
@@ -261,7 +274,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
                 >
                     {data.subsystems.map((sub) => {
-                        const Icon = subsystemIcons[sub.title] ?? fallbackIcon
+                        const Icon = subsystemIcons[sub.title] ?? fallbackIcon;
 
                         return (
                             <motion.div key={sub.title} variants={cardVariants}>
@@ -273,19 +286,21 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                                         </div>
                                     </CardHeader>
                                     <CardContent>
-                                        <p className="text-sm text-muted-foreground">{sub.description}</p>
+                                        <p className="text-muted-foreground text-sm">
+                                            {sub.description}
+                                        </p>
                                     </CardContent>
                                 </Card>
                             </motion.div>
-                        )
+                        );
                     })}
                 </motion.div>
             </motion.section>
-        )
+        );
     }
 
     function DeepDiveSection({ data }: { data: DeepDive }) {
-        const { containerVariants, itemVariants } = useAnimationVariants()
+        const { containerVariants, itemVariants } = useAnimationVariants();
 
         return (
             <motion.section
@@ -297,14 +312,14 @@ export function createCaseStudySections(config: CaseStudyConfig) {
             >
                 <motion.div variants={itemVariants} className="mb-6">
                     <h3 className="text-2xl font-bold">{data.title}</h3>
-                    <p className="text-sm font-medium text-muted-foreground">{data.subtitle}</p>
+                    <p className="text-muted-foreground text-sm font-medium">{data.subtitle}</p>
                 </motion.div>
 
                 <motion.div variants={itemVariants} className="mb-6">
-                    <h4 className="mb-2 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                    <h4 className="text-muted-foreground mb-2 text-sm font-semibold tracking-wider uppercase">
                         The Problem
                     </h4>
-                    <p className="leading-relaxed text-muted-foreground">{data.problem}</p>
+                    <p className="text-muted-foreground leading-relaxed">{data.problem}</p>
                 </motion.div>
 
                 <motion.div variants={itemVariants} className="mb-8">
@@ -316,7 +331,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                         <motion.p
                             key={i}
                             variants={itemVariants}
-                            className="leading-relaxed text-muted-foreground"
+                            className="text-muted-foreground leading-relaxed"
                         >
                             {paragraph}
                         </motion.p>
@@ -328,11 +343,16 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     className={`rounded-lg border-l-4 ${accent.borderL} bg-muted/50 p-6`}
                 >
                     <p className="mb-2 text-sm font-semibold">{data.insight.title}</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground italic">{data.insight.body}</p>
+                    <p className="text-muted-foreground text-sm leading-relaxed italic">
+                        {data.insight.body}
+                    </p>
                 </motion.div>
 
                 {data.screenshotSrc && (
-                    <motion.div variants={itemVariants} className="mt-8 overflow-hidden rounded-lg border">
+                    <motion.div
+                        variants={itemVariants}
+                        className="mt-8 overflow-hidden rounded-lg border"
+                    >
                         <Image
                             src={data.screenshotSrc}
                             alt={data.screenshotAlt ?? `${data.title} screenshot`}
@@ -343,11 +363,11 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     </motion.div>
                 )}
             </motion.section>
-        )
+        );
     }
 
     function DecisionLog({ decisions }: { decisions: Decision[] }) {
-        const { containerVariants, itemVariants } = useAnimationVariants()
+        const { containerVariants, itemVariants } = useAnimationVariants();
 
         return (
             <motion.section
@@ -369,19 +389,23 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                             className={`rounded-lg p-5 ${i % 2 === 0 ? "bg-muted/30" : "bg-muted/60"}`}
                         >
                             <p className="mb-1 font-semibold">{d.decision}</p>
-                            <p className="mb-2 text-sm text-muted-foreground">
-                                <span className="font-medium text-foreground/70">Considered:</span> {d.alternatives}
+                            <p className="text-muted-foreground mb-2 text-sm">
+                                <span className="text-foreground/70 font-medium">Considered:</span>{" "}
+                                {d.alternatives}
                             </p>
-                            <p className="text-sm leading-relaxed text-muted-foreground">{d.reasoning}</p>
+                            <p className="text-muted-foreground text-sm leading-relaxed">
+                                {d.reasoning}
+                            </p>
                         </motion.div>
                     ))}
                 </motion.div>
             </motion.section>
-        )
+        );
     }
 
     function LearningsGrid({ learnings }: { learnings: Learning[] }) {
-        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } =
+            useAnimationVariants();
 
         return (
             <motion.section
@@ -403,7 +427,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     className="grid gap-6 md:grid-cols-3"
                 >
                     {learnings.map((learning, i) => {
-                        const Icon = learningIcons[i] ?? Wrench
+                        const Icon = learningIcons[i] ?? Wrench;
 
                         return (
                             <motion.div key={i} variants={cardVariants}>
@@ -411,23 +435,28 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                                     <CardHeader className="pb-2">
                                         <div className="flex items-center gap-2">
                                             <Icon className={`h-4 w-4 ${accent.text}`} />
-                                            <CardTitle className="text-sm">{learning.title}</CardTitle>
+                                            <CardTitle className="text-sm">
+                                                {learning.title}
+                                            </CardTitle>
                                         </div>
                                     </CardHeader>
                                     <CardContent>
-                                        <p className="text-sm leading-relaxed text-muted-foreground">{learning.body}</p>
+                                        <p className="text-muted-foreground text-sm leading-relaxed">
+                                            {learning.body}
+                                        </p>
                                     </CardContent>
                                 </Card>
                             </motion.div>
-                        )
+                        );
                     })}
                 </motion.div>
             </motion.section>
-        )
+        );
     }
 
     function MetricsSection({ metrics }: { metrics: { hero: Metric[]; supporting: Metric[] } }) {
-        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } =
+            useAnimationVariants();
 
         return (
             <motion.section
@@ -459,7 +488,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                                             suffix={m.suffix}
                                         />
                                     </CardTitle>
-                                    <p className="text-sm text-muted-foreground">{m.label}</p>
+                                    <p className="text-muted-foreground text-sm">{m.label}</p>
                                 </CardHeader>
                             </Card>
                         </motion.div>
@@ -477,28 +506,30 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                         <motion.div key={m.label} variants={cardVariants}>
                             <Card>
                                 <CardHeader className="pb-3">
-                                    <CardTitle className={`text-2xl font-bold ${accent.textSubtle}`}>
+                                    <CardTitle
+                                        className={`text-2xl font-bold ${accent.textSubtle}`}
+                                    >
                                         <AnimatedCounter
                                             value={m.value}
                                             prefix={m.prefix}
                                             suffix={m.suffix}
                                         />
                                     </CardTitle>
-                                    <p className="text-xs text-muted-foreground">{m.label}</p>
+                                    <p className="text-muted-foreground text-xs">{m.label}</p>
                                 </CardHeader>
                             </Card>
                         </motion.div>
                     ))}
                 </motion.div>
             </motion.section>
-        )
+        );
     }
 
     function GallerySection({ gallery }: { gallery: GalleryImage[] }) {
-        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } = useAnimationVariants()
+        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } =
+            useAnimationVariants();
 
-        if (gallery.length === 0)
-            return null
+        if (gallery.length === 0) return null;
 
         return (
             <motion.section
@@ -520,7 +551,11 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
                 >
                     {gallery.map((img) => (
-                        <motion.figure key={img.src} variants={cardVariants} className="overflow-hidden rounded-lg border">
+                        <motion.figure
+                            key={img.src}
+                            variants={cardVariants}
+                            className="overflow-hidden rounded-lg border"
+                        >
                             <Image
                                 src={img.src}
                                 alt={img.alt}
@@ -529,7 +564,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                                 className="w-full"
                             />
                             {img.caption && (
-                                <figcaption className="bg-muted/50 px-4 py-3 text-sm text-muted-foreground">
+                                <figcaption className="bg-muted/50 text-muted-foreground px-4 py-3 text-sm">
                                     {img.caption}
                                 </figcaption>
                             )}
@@ -537,11 +572,11 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     ))}
                 </motion.div>
             </motion.section>
-        )
+        );
     }
 
     function CTASection({ data }: { data: CTAData }) {
-        const { containerVariants, itemVariants } = useAnimationVariants()
+        const { containerVariants, itemVariants } = useAnimationVariants();
 
         return (
             <motion.section
@@ -553,7 +588,9 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 <motion.div variants={itemVariants}>
                     <Card className="bg-muted/50">
                         <CardContent className="flex flex-col items-center gap-6 py-12 text-center">
-                            <p className="max-w-lg leading-relaxed text-muted-foreground">{data.text}</p>
+                            <p className="text-muted-foreground max-w-lg leading-relaxed">
+                                {data.text}
+                            </p>
                             <div className="flex gap-4">
                                 {data.buttons.map((btn) => (
                                     <Button key={btn.text} asChild variant={btn.variant}>
@@ -565,7 +602,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     </Card>
                 </motion.div>
             </motion.section>
-        )
+        );
     }
 
     return {
@@ -579,5 +616,5 @@ export function createCaseStudySections(config: CaseStudyConfig) {
         MetricsSection,
         GallerySection,
         CTASection,
-    }
+    };
 }

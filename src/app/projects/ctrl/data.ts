@@ -1,31 +1,6 @@
-import type { DiagramKey } from "./diagrams"
-import type {
-    PageData,
-    HeroData,
-    SituationData,
-    SubsystemCard,
-    ArchitectureData,
-    DeepDive,
-    Decision,
-    Learning,
-    Metric,
-    CTAData,
-    GalleryImage,
-} from "@/lib/types/case-study"
+import type { PageData } from "@/lib/types/case-study";
 
-export type {
-    HeroData,
-    SituationData,
-    SubsystemCard,
-    ArchitectureData,
-    DeepDive,
-    Decision,
-    Learning,
-    Metric,
-    CTAData,
-    GalleryImage,
-    PageData,
-}
+import type { DiagramKey } from "./diagrams";
 
 export const pageData: PageData<DiagramKey> = {
     hero: {
@@ -66,19 +41,16 @@ export const pageData: PageData<DiagramKey> = {
     },
 
     architecture: {
-        intro:
-            "ctrl coordinates three consumers — VS Code Copilot, Claude Code, and the shift autonomous loop — from a single source of truth. The core principle: every agent on every machine loads the same rules, but only sees instructions relevant to the current workspace via progressive disclosure.",
+        intro: "ctrl coordinates three consumers — VS Code Copilot, Claude Code, and the shift autonomous loop — from a single source of truth. The core principle: every agent on every machine loads the same rules, but only sees instructions relevant to the current workspace via progressive disclosure.",
         diagramKey: "systemArchitecture",
         subsystems: [
             {
                 title: "The Pipeline",
-                description:
-                    "12 skills chained from idea extraction through autonomous execution",
+                description: "12 skills chained from idea extraction through autonomous execution",
             },
             {
                 title: "Context Detection",
-                description:
-                    "detect-context.sh hooked into cd() — agents auto-adapt per project",
+                description: "detect-context.sh hooked into cd() — agents auto-adapt per project",
             },
             {
                 title: "Hardened Secrets",
@@ -87,13 +59,11 @@ export const pageData: PageData<DiagramKey> = {
             },
             {
                 title: "Skill System",
-                description:
-                    "Auto-discovered, self-learning skills that improve through use",
+                description: "Auto-discovered, self-learning skills that improve through use",
             },
             {
                 title: "shift Loop",
-                description:
-                    "Docker-sandboxed autonomous agent consuming a GitHub issues backlog",
+                description: "Docker-sandboxed autonomous agent consuming a GitHub issues backlog",
             },
             {
                 title: "Bootstrap",
@@ -113,7 +83,7 @@ export const pageData: PageData<DiagramKey> = {
             diagramKey: "pipeline",
             walkthrough: [
                 "The pipeline starts with grill-me: a Socratic interview that asks one question at a time, provides recommended answers, and explores the codebase instead of asking the user when possible. The output is a shared understanding of the problem — not a spec, but the raw material for one.",
-                "write-a-prd takes that understanding and produces a formal Product Requirements Document. It sketches module interfaces, test boundaries, and deep module opportunities inspired by Ousterhout's \"A Philosophy of Software Design.\" The PRD is submitted as a GitHub issue — not a Google Doc — so it lives where the work happens.",
+                'write-a-prd takes that understanding and produces a formal Product Requirements Document. It sketches module interfaces, test boundaries, and deep module opportunities inspired by Ousterhout\'s "A Philosophy of Software Design." The PRD is submitted as a GitHub issue — not a Google Doc — so it lives where the work happens.',
                 "prd-to-issues breaks the PRD into vertical slices. Each slice touches all layers end-to-end rather than building layer by layer. Every issue is classified AFK (agent can ship alone) or HITL (human must review). A final QA issue is always created. The user is quizzed on granularity before issues are created.",
                 "do-work implements a single issue: read the task, implement, auto-detect and run feedback loops (tsc, lint, test), commit with conventional format. shift/afk.sh chains this into an autonomous loop — pick an issue, assign it, implement, commit, close, repeat until the backlog is empty or max iterations hit.",
             ],
@@ -148,7 +118,7 @@ export const pageData: PageData<DiagramKey> = {
                 "A monolithic instruction file means every agent sees every rule — PHP instructions when writing Next.js, Sentry setup when not using Sentry. Context pollution wastes tokens and causes hallucinated imports, wrong framework APIs, and phantom configuration that doesn't exist in the project.",
             diagramKey: "progressiveDisclosure",
             walkthrough: [
-                "bootstrap.sh wires a cd() override into ~/.bashrc and ~/.zshrc. Every time you change directories, detect-context.sh runs automatically. It scans for 11 file signatures — next.config.ts, composer.json, sanity.config.ts, prisma/schema.prisma, Dockerfile, and more — and exports ACTIVE_CONTEXTS as a comma-separated string like \"general,nextjs,node,typescript.\"",
+                'bootstrap.sh wires a cd() override into ~/.bashrc and ~/.zshrc. Every time you change directories, detect-context.sh runs automatically. It scans for 11 file signatures — next.config.ts, composer.json, sanity.config.ts, prisma/schema.prisma, Dockerfile, and more — and exports ACTIVE_CONTEXTS as a comma-separated string like "general,nextjs,node,typescript."',
                 "CLAUDE.base.md reads $ACTIVE_CONTEXTS and loads only matching instruction files. A Next.js project loads nextjs.instructions.md with React 19, use cache, Server Actions. A PHP project loads php.instructions.md with PHP 8.4, strict_types, #[Override]. A Sanity project loads sanity.instructions.md with GROQ, Visual Editing, MCP tools.",
                 "Service-triggered instructions load conditionally on the task: working with Sentry loads sentry.instructions.md, working with Google Sheets loads google-docs.instructions.md, CSS work loads css.instructions.md. These never pollute unrelated contexts.",
                 "Skills are auto-discovered via the ~/.claude/skills symlink that bootstrap.sh creates pointing to ~/dotfiles/skills/. Claude Code and VS Code Copilot both discover skills from this directory. No per-project configuration needed — new terminal in a different repo means instant context switch.",
@@ -187,7 +157,7 @@ export const pageData: PageData<DiagramKey> = {
                 "The methodology enforces four phases: Root Cause Investigation (read errors, reproduce, check recent changes, add diagnostic instrumentation), Hypothesis Formation (single testable hypothesis with predicted observable outcome), Targeted Fix (minimal change, one thing at a time), and Verification (original bug fixed, no regressions, all feedback loops pass).",
                 "The Iron Law gates everything: NO FIXES WITHOUT ROOT CAUSE. If you don't understand why the bug exists, you go back to Phase 1. No exceptions. This prevents the most common AI agent failure mode — applying 15 speculative patches that each introduce new bugs.",
                 "The 3-strike rule adds a circuit breaker: if three targeted fixes fail, STOP. The problem is architectural, not a surface bug. Revisit the design. This prevents the sunk cost spiral where agents keep throwing patches at a fundamentally broken approach.",
-                "Three adversarial pressure tests red-team the agent's discipline: Scenario 1 is $15k/minute production loss (follow process or skip to fix?), Scenario 2 is 8 hours of sunk cost plus exhaustion (stay systematic or try one more thing?), Scenario 3 is a senior engineer saying \"just deploy the workaround.\" The correct answer is always follow the process. This is AI alignment testing applied to debugging methodology.",
+                'Three adversarial pressure tests red-team the agent\'s discipline: Scenario 1 is $15k/minute production loss (follow process or skip to fix?), Scenario 2 is 8 hours of sunk cost plus exhaustion (stay systematic or try one more thing?), Scenario 3 is a senior engineer saying "just deploy the workaround." The correct answer is always follow the process. This is AI alignment testing applied to debugging methodology.',
             ],
             insight: {
                 title: "Pressure Tests Are Red-Team Alignment",
@@ -288,4 +258,4 @@ export const pageData: PageData<DiagramKey> = {
             },
         ],
     },
-}
+};

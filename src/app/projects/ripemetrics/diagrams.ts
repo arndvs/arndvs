@@ -1,7 +1,7 @@
-export type DiagramKey = keyof typeof diagrams
+export type DiagramKey = keyof typeof diagrams;
 
 export const diagrams = {
-  systemArchitecture: `graph TB
+    systemArchitecture: `graph TB
     subgraph Client["Browser / Client"]
         SPA["React SPA\\nRTK Query · TypeScript"]
         MUI["Material UI + Tailwind"]
@@ -56,7 +56,7 @@ export const diagrams = {
     FAST --> SENTRY
     SPA --> PH`,
 
-  chatbotArchitecture: `sequenceDiagram
+    chatbotArchitecture: `sequenceDiagram
     participant U as End User
     participant W as Chat Widget
     participant API as FastAPI Server
@@ -77,7 +77,7 @@ export const diagrams = {
     API->>PS: Broadcast to agent dashboard
     PS-->>W: Real-time typing indicator`,
 
-  migrationTimeline: `gantt
+    migrationTimeline: `gantt
     title Laravel Livewire → React/Next.js Migration
     dateFormat YYYY-MM
     axisFormat %b %Y
@@ -103,7 +103,7 @@ export const diagrams = {
     Twilio IVR call center                :done, 2024-02, 2024-05
     Performance optimization              :done, 2024-04, 2024-06`,
 
-  onboardingPipeline: `flowchart LR
+    onboardingPipeline: `flowchart LR
     subgraph Input["Client Onboarding"]
         URL["Client Website URL"]
         CONFIG["Extraction Config"]
@@ -129,4 +129,4 @@ export const diagrams = {
     URL --> CRAWL --> PARSE --> CHUNK
     CONFIG --> CRAWL
     CHUNK --> EMB --> NS --> UPSERT --> VDB --> BOT`,
-} as const
+} as const;
