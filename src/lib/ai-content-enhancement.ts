@@ -79,6 +79,14 @@ export async function enhancePostSeo(post: PostContent): Promise<EnhancementResu
     };
 }
 
+export async function enhanceAndPersistPost(post: PostContent): Promise<EnhancementResult> {
+    const result = await enhancePostSeo(post);
+
+    await writeEnhancementToSanity(post._id, result);
+
+    return result;
+}
+
 export async function writeEnhancementToSanity(
     postId: string,
     result: EnhancementResult,

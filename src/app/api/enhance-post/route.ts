@@ -1,7 +1,7 @@
 import { parseBody } from "next-sanity/webhook";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { enhancePostSeo, writeEnhancementToSanity } from "@/lib/ai-content-enhancement";
+import { enhanceAndPersistPost } from "@/lib/ai-content-enhancement";
 
 interface WebhookBody {
     _id: string;
@@ -28,15 +28,13 @@ export async function POST(req: NextRequest) {
         if (!body._id || !body.title)
             return NextResponse.json({ error: "Missing _id or title" }, { status: 400 });
 
-        const result = await enhancePostSeo({
+        const result = await enhanceAndPersistPost({
             _id: body._id,
             title: body.title,
             excerpt: body.excerpt,
             bodyText: body.bodyText || "",
             categories: body.categories,
         });
-
-        await writeEnhancementToSanity(body._id, result);
 
         return NextResponse.json({
             status: 200,

@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { enhancePostSeo, writeEnhancementToSanity } from "@/lib/ai-content-enhancement";
+import { enhanceAndPersistPost } from "@/lib/ai-content-enhancement";
 import { safeCompare } from "@/lib/auth";
 import { client } from "@/sanity/lib/client";
 
@@ -18,7 +18,19 @@ export async function POST(req: NextRequest) {
     try {
         if (!isAuthorized(req.headers.get("authorization")))
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        const { postId } = (await req.json()) as { postId?: string };
+
+        let body: unknown;
+        try {
+            body = await req.json();
+        } catch {
+            return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+        }
+
+        if (!body || typeof body !== "object" || Array.isArray(body))
+            return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+
+        const rawPostId = (body as { postId?: unknown }).postId;
+        const postId = typeof rawPostId === "string" ? rawPostId.trim() : "";
 
         if (!postId)
             return NextResponse.json({ error: "Missing postId in request body" }, { status: 400 });
@@ -37,15 +49,13 @@ export async function POST(req: NextRequest) {
         if (!post)
             return NextResponse.json({ error: `Post not found: ${postId}` }, { status: 404 });
 
-        const result = await enhancePostSeo({
+        const result = await enhanceAndPersistPost({
             _id: post._id,
             title: post.title,
             excerpt: post.excerpt,
             bodyText: post.bodyText || "",
             categories: post.categories,
         });
-
-        await writeEnhancementToSanity(post._id, result);
 
         return NextResponse.json({
             status: 200,
