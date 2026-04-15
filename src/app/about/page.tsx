@@ -50,9 +50,9 @@ export default function AboutPage() {
                 "@id": `${siteConfig.url}/#person`,
                 name: "Aaron Davis",
                 url: siteConfig.url,
-                jobTitle: "Full-Stack Engineer & AI Builder",
+                jobTitle: "Full-Stack Engineer & AI Systems Consultant",
                 description:
-                    "Full-stack engineer with 8+ years of experience building AI-powered SaaS platforms and agentic systems.",
+                    "Full-stack engineer and AI systems consultant with 8+ years of experience building AI-powered SaaS platforms and agentic systems.",
                 sameAs: ["https://github.com/arndvs", "https://linkedin.com/in/arndvs"],
                 knowsAbout: [
                     "React",

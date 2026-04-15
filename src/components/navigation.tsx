@@ -9,7 +9,6 @@ import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
-import { ContactForm } from "./contact-form";
 import { GlitchName } from "./glitch-name";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
@@ -58,12 +57,9 @@ export function Navigation() {
                                 {item.name}
                             </Link>
                         ))}
-                        <ContactForm
-                            triggerText="Contact"
-                            triggerVariant="default"
-                            triggerSize="sm"
-                            showIcon={false}
-                        />
+                        <Button asChild variant="default" size="sm">
+                            <Link href="/work-with-me">Work with me</Link>
+                        </Button>
                         <ThemeToggle />
                     </div>
 
@@ -96,12 +92,9 @@ export function Navigation() {
                                         {item.name}
                                     </Link>
                                 ))}
-                                <ContactForm
-                                    triggerText="Contact"
-                                    triggerVariant="default"
-                                    triggerSize="default"
-                                    showIcon={false}
-                                />
+                                <Button asChild variant="default">
+                                    <Link href="/work-with-me">Work with me</Link>
+                                </Button>
                                 <ThemeToggle />
                             </div>
                         </SheetContent>

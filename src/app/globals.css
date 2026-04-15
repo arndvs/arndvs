@@ -122,3 +122,12 @@
         @apply bg-background text-foreground;
     }
 }
+
+@keyframes slide {
+    0% {
+        margin-left: -40%;
+    }
+    100% {
+        margin-left: 100%;
+    }
+}

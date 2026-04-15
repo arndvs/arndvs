@@ -12,7 +12,7 @@ import { ContactForm } from "./contact-form";
 const footerData = {
     brand: {
         name: "Aaron Davis",
-        description: "Full-stack engineer building AI systems that work in production.",
+        description: "AI systems engineer and consultant. Building agent infrastructure for businesses that need reliable results, not just impressive demos.",
     },
     navigation: [
         { name: "Home", href: "/" },
@@ -20,6 +20,7 @@ const footerData = {
         { name: "Projects", href: "/projects" },
         { name: "Blog", href: "/blog" },
         { name: "Changelog", href: "/changelog" },
+        { name: "Work with me", href: "/work-with-me" },
     ],
     social: [
         {

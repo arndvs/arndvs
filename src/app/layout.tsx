@@ -20,11 +20,11 @@ import "./globals.css";
 export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.url),
     title: {
-        default: "Aaron Davis - Full Stack Software Engineer & AI Specialist",
+        default: "Aaron Davis - Full-Stack Engineer & AI Systems Consultant",
         template: "%s | Aaron Davis",
     },
     description:
-        "Full-stack engineer and AI builder based in San Diego. Founded RipeMetrics (50+ enterprise clients), built a 44k-line healthcare platform with 5 AI integrations. React, Next.js, TypeScript, OpenAI, RAG systems.",
+        "Full-stack engineer and AI systems consultant based in San Diego. Founded RipeMetrics (50+ enterprise clients), built a 44k-line healthcare platform with 5 AI integrations. AI agent architecture, React, Next.js, TypeScript, OpenAI, RAG systems.",
     keywords: [
         "Full Stack Developer",
         "Software Engineer",
@@ -109,9 +109,9 @@ export default function RootLayout({
                                         "@id": `${siteConfig.url}/#person`,
                                         name: "Aaron Davis",
                                         url: siteConfig.url,
-                                        jobTitle: "Full-Stack Engineer & AI Builder",
+                                        jobTitle: "Full-Stack Engineer & AI Systems Consultant",
                                         description:
-                                            "Full-stack engineer with 8+ years of experience building AI-powered SaaS platforms and agentic systems.",
+                                            "Full-stack engineer and AI systems consultant with 8+ years of experience building AI-powered SaaS platforms, agentic systems, and specialist agent architectures.",
                                         sameAs: [
                                             "https://github.com/arndvs",
                                             "https://linkedin.com/in/arndvs",
