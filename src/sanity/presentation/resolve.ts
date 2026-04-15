@@ -1,8 +1,8 @@
 import {
-    defineDocuments,
-    defineLocations,
     type DocumentLocation,
     type PresentationPluginOptions,
+    defineDocuments,
+    defineLocations,
 } from "sanity/presentation";
 
 const homeLocation = {
@@ -39,10 +39,7 @@ export const resolve: PresentationPluginOptions["resolve"] = {
                 title: "title",
             },
             resolve: (doc) => ({
-                locations: [
-                    { title: "Changelog", href: "/changelog" },
-                    homeLocation,
-                ],
+                locations: [{ title: "Changelog", href: "/changelog" }, homeLocation],
             }),
         }),
     },

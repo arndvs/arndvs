@@ -5,9 +5,8 @@ import { motion } from "framer-motion";
 import { PostCard } from "@/components/blog/post-card";
 import { ContactForm } from "@/components/contact-form";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
-import { estimateReadingTime } from "@/lib/utils";
-
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
+import { estimateReadingTime } from "@/lib/utils";
 
 interface Post {
     _id: string;

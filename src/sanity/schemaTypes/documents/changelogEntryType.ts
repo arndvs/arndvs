@@ -1,5 +1,5 @@
-import { defineArrayMember, defineField, defineType } from "sanity";
 import { CalendarIcon } from "@sanity/icons";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const changelogEntryType = defineType({
     name: "changelogEntry",

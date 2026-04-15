@@ -1,5 +1,5 @@
-import { defineField, defineType } from "sanity";
 import { CodeBlockIcon } from "@sanity/icons";
+import { defineField, defineType } from "sanity";
 
 export const codeBlockType = defineType({
     name: "codeBlock",

@@ -173,10 +173,14 @@ export default async function BlogPostPage(props: { params: Params }) {
                     </div>
                 )}
 
-                <div className={showToc ? "lg:grid lg:grid-cols-[1fr_220px] lg:gap-10 lg:max-w-4xl lg:mx-auto" : ""}>
-                    <div>
-                        {post.body && <PostBody value={post.body} />}
-                    </div>
+                <div
+                    className={
+                        showToc
+                            ? "lg:mx-auto lg:grid lg:max-w-4xl lg:grid-cols-[1fr_220px] lg:gap-10"
+                            : ""
+                    }
+                >
+                    <div>{post.body && <PostBody value={post.body} />}</div>
 
                     {showToc && (
                         <aside className="hidden lg:block">

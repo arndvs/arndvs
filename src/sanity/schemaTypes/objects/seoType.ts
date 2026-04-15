@@ -1,5 +1,5 @@
-import { defineField, defineType } from "sanity";
 import { SearchIcon } from "@sanity/icons";
+import { defineField, defineType } from "sanity";
 
 export const seoType = defineType({
     name: "seo",
@@ -46,7 +46,8 @@ export const seoType = defineType({
             name: "image",
             title: "Social Image",
             type: "image",
-            description: "Override image for social sharing (1200×630 recommended). Falls back to main image.",
+            description:
+                "Override image for social sharing (1200×630 recommended). Falls back to main image.",
             options: { hotspot: true },
         }),
         defineField({

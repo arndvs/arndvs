@@ -1,5 +1,5 @@
-import { defineArrayMember, defineField, defineType } from "sanity";
 import { DocumentTextIcon } from "@sanity/icons";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const postType = defineType({
     name: "post",
@@ -47,7 +47,8 @@ export const postType = defineType({
             title: "TL;DR",
             type: "text",
             rows: 3,
-            description: "Brief summary for quick readers. Shown as a callout at the top of the post.",
+            description:
+                "Brief summary for quick readers. Shown as a callout at the top of the post.",
             validation: (rule) => rule.max(500),
         }),
         defineField({

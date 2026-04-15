@@ -10,7 +10,15 @@ const components: Partial<PortableTextReactComponents> = {
         inlineImage: ({
             value,
         }: {
-            value: SanityImageWithAlt & { caption?: string; asset?: { _ref?: string; _id?: string; url?: string; metadata?: { dimensions?: { width: number; height: number }; lqip?: string } } };
+            value: SanityImageWithAlt & {
+                caption?: string;
+                asset?: {
+                    _ref?: string;
+                    _id?: string;
+                    url?: string;
+                    metadata?: { dimensions?: { width: number; height: number }; lqip?: string };
+                };
+            };
         }) => {
             if (!value?.asset) return null;
             return (

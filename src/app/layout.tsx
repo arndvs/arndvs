@@ -1,14 +1,14 @@
 import { Analytics } from "@vercel/analytics/next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
-import { VisualEditing } from "next-sanity/visual-editing";
-import { draftMode } from "next/headers";
 import { Toaster } from "sonner";
 
 import type React from "react";
 import { Suspense } from "react";
 
 import type { Metadata } from "next";
+import { VisualEditing } from "next-sanity/visual-editing";
+import { draftMode } from "next/headers";
 
 import { DisableDraftMode } from "@/components/disable-draft-mode";
 import { Footer } from "@/components/footer";

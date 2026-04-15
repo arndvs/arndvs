@@ -16,7 +16,7 @@ export function DisableDraftMode() {
             onClick={() =>
                 fetch("/api/draft-mode/disable", { method: "GET" }).then(() => router.refresh())
             }
-            className="fixed bottom-4 right-4 z-50 rounded-md bg-blue-500 px-4 py-2 text-sm text-white shadow-lg hover:bg-blue-600"
+            className="fixed right-4 bottom-4 z-50 rounded-md bg-blue-500 px-4 py-2 text-sm text-white shadow-lg hover:bg-blue-600"
         >
             Disable Draft Mode
         </button>
