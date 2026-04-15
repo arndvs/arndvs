@@ -16,6 +16,7 @@ export function MermaidDiagram({ chart, className, ariaLabel }: MermaidDiagramPr
             {result ? (
                 <div
                     className="overflow-x-auto [&_svg]:mx-auto"
+                    // SAFETY: SVG is rendered by mermaid from hardcoded chart strings, not user input
                     dangerouslySetInnerHTML={{ __html: result.svg }}
                 />
             ) : (

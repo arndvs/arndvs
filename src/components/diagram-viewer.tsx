@@ -136,6 +136,7 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
             {/* Inline preview — neutral theme SVG, sized by page container */}
             <div className="overflow-hidden" role="img" aria-label={title}>
                 {result ? (
+                    // SAFETY: SVG is rendered by mermaid from hardcoded chart strings, not user input
                     <div className="mx-auto" dangerouslySetInnerHTML={{ __html: result.svg }} />
                 ) : (
                     <div className="bg-muted flex h-64 items-center justify-center rounded-lg">
@@ -189,6 +190,7 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
                                 cursor: "grab",
                             }}
                         >
+                            {/* SAFETY: SVG is rendered by mermaid from hardcoded chart strings, not user input */}
                             <div dangerouslySetInnerHTML={{ __html: fullscreenSvg }} />
                         </TransformComponent>
                     </TransformWrapper>

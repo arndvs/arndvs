@@ -1,49 +1,26 @@
 import type { NextConfig } from "next";
 
-const securityHeaders = [
-    { key: "X-Content-Type-Options", value: "nosniff" },
-    { key: "X-Frame-Options", value: "DENY" },
-    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-    {
-        key: "Strict-Transport-Security",
-        value: "max-age=63072000; includeSubDomains; preload",
-    },
-    {
-        key: "Permissions-Policy",
-        value: "camera=(), microphone=(), geolocation=()",
-    },
-    { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-];
+type Header = { key: string; value: string };
 
-const studioSecurityHeaders = [
-    { key: "X-Content-Type-Options", value: "nosniff" },
-    { key: "X-Frame-Options", value: "SAMEORIGIN" },
-    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-    {
-        key: "Strict-Transport-Security",
-        value: "max-age=63072000; includeSubDomains; preload",
-    },
-    {
-        key: "Permissions-Policy",
-        value: "camera=(), microphone=(), geolocation=()",
-    },
-    { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-];
-
-const transcribeSecurityHeaders = [
-    { key: "X-Content-Type-Options", value: "nosniff" },
-    { key: "X-Frame-Options", value: "DENY" },
-    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-    {
-        key: "Strict-Transport-Security",
-        value: "max-age=63072000; includeSubDomains; preload",
-    },
-    {
-        key: "Permissions-Policy",
-        value: "camera=(), microphone=(self), geolocation=()",
-    },
-    { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-];
+function buildSecurityHeaders({
+    frameOptions = "DENY",
+    permissionsPolicy = "camera=(), microphone=(), geolocation=()",
+}: {
+    frameOptions?: string;
+    permissionsPolicy?: string;
+} = {}): Header[] {
+    return [
+        { key: "X-Content-Type-Options", value: "nosniff" },
+        { key: "X-Frame-Options", value: frameOptions },
+        { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+        },
+        { key: "Permissions-Policy", value: permissionsPolicy },
+        { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+    ];
+}
 
 const nextConfig: NextConfig = {
     logging: {
@@ -61,15 +38,17 @@ const nextConfig: NextConfig = {
         return [
             {
                 source: "/studio/:path*",
-                headers: studioSecurityHeaders,
+                headers: buildSecurityHeaders({ frameOptions: "SAMEORIGIN" }),
             },
             {
                 source: "/transcribe",
-                headers: transcribeSecurityHeaders,
+                headers: buildSecurityHeaders({
+                    permissionsPolicy: "camera=(), microphone=(self), geolocation=()",
+                }),
             },
             {
                 source: "/((?!studio|transcribe).*)",
-                headers: securityHeaders,
+                headers: buildSecurityHeaders(),
             },
             {
                 source: "/_next/static/:path*",

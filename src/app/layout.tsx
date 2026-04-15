@@ -14,6 +14,7 @@ import { DisableDraftMode } from "@/components/disable-draft-mode";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
+import { personJsonLd } from "@/lib/data/json-ld";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
 import { SanityLive } from "@/sanity/lib/live";
@@ -108,47 +109,7 @@ export default async function RootLayout({
                             __html: safeJsonLdStringify({
                                 "@context": "https://schema.org",
                                 "@graph": [
-                                    {
-                                        "@type": "Person",
-                                        "@id": `${siteConfig.url}/#person`,
-                                        name: "Aaron Davis",
-                                        url: siteConfig.url,
-                                        jobTitle: "Full-Stack Engineer & AI Systems Consultant",
-                                        description:
-                                            "Full-stack engineer and AI systems consultant with 8+ years of experience building AI-powered SaaS platforms, agentic systems, and specialist agent architectures.",
-                                        sameAs: [
-                                            "https://github.com/arndvs",
-                                            "https://linkedin.com/in/arndvs",
-                                        ],
-                                        knowsAbout: [
-                                            "React",
-                                            "Next.js",
-                                            "TypeScript",
-                                            "Node.js",
-                                            "Python",
-                                            "AI Engineering",
-                                            "RAG Systems",
-                                            "OpenAI",
-                                            "Sanity CMS",
-                                            "Model Context Protocol",
-                                            "Agentic Engineering",
-                                            "Full-Stack Development",
-                                        ],
-                                        alumniOf: [
-                                            {
-                                                "@type": "EducationalOrganization",
-                                                name: "UC San Diego Extended Studies",
-                                            },
-                                            {
-                                                "@type": "EducationalOrganization",
-                                                name: "Stanford University Online",
-                                            },
-                                            {
-                                                "@type": "EducationalOrganization",
-                                                name: "California State University, East Bay",
-                                            },
-                                        ],
-                                    },
+                                    personJsonLd,
                                     {
                                         "@type": "WebSite",
                                         "@id": `${siteConfig.url}/#website`,
