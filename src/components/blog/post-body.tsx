@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
 import { slugify } from "@/lib/utils/extract-headings";
 import { urlFor } from "@/sanity/lib/image";
+import type { POST_QUERY_RESULT } from "@/sanity/types";
 
 const components: Partial<PortableTextReactComponents> = {
     types: {
@@ -138,7 +139,7 @@ const components: Partial<PortableTextReactComponents> = {
 };
 
 interface PostBodyProps {
-    value: any[];
+    value: NonNullable<NonNullable<POST_QUERY_RESULT>["body"]>;
 }
 
 export function PostBody({ value }: PostBodyProps) {
