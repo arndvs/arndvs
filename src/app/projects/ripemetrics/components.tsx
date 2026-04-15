@@ -5,25 +5,34 @@ import { ArrowLeft, GitBranch, Lightbulb, Wrench } from "lucide-react";
 
 import Link from "next/link";
 
+import { createCaseStudySections } from "@/components/case-study/sections";
 import { MermaidDiagram } from "@/components/mermaid-diagram";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
 import type {
     Achievement,
     ConclusionData,
-    Decision,
     DeepDive,
     Feature,
     HeaderData,
     ImpactMetric,
-    Learning,
     OverviewData,
     TechSection,
 } from "./data";
 import { diagrams } from "./diagrams";
 import type { DiagramKey } from "./diagrams";
+
+const factorySections = createCaseStudySections({
+    accentColor: "green",
+    diagrams: diagrams as Record<string, string>,
+    subsystemIcons: {},
+    fallbackIcon: Wrench,
+    learningIcons: [Lightbulb, GitBranch, Wrench],
+});
+
+export const { DecisionLog, LearningsGrid } = factorySections;
 
 export function BackButton() {
     return (
@@ -411,87 +420,4 @@ export function DeepDiveSection({ data }: { data: DeepDive }) {
     );
 }
 
-const learningIcons = [Lightbulb, GitBranch, Wrench];
 
-export function DecisionsSection({ decisions }: { decisions: Decision[] }) {
-    const { containerVariants, itemVariants } = useAnimationVariants();
-
-    return (
-        <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-            className="mx-auto max-w-5xl px-6 py-16 lg:px-8"
-        >
-            <motion.h2 variants={itemVariants} className="mb-8 text-3xl font-bold tracking-tight">
-                Engineering Decisions
-            </motion.h2>
-            <motion.div variants={containerVariants} className="space-y-4">
-                {decisions.map((d, i) => (
-                    <motion.div
-                        key={i}
-                        variants={itemVariants}
-                        className={`rounded-lg p-5 ${i % 2 === 0 ? "bg-muted/30" : "bg-muted/60"}`}
-                    >
-                        <p className="mb-1 font-semibold">{d.decision}</p>
-                        <p className="text-muted-foreground mb-2 text-sm">
-                            <span className="text-foreground/70 font-medium">Considered:</span>{" "}
-                            {d.alternatives}
-                        </p>
-                        <p className="text-muted-foreground text-sm leading-relaxed">
-                            {d.reasoning}
-                        </p>
-                    </motion.div>
-                ))}
-            </motion.div>
-        </motion.section>
-    );
-}
-
-export function LearningsSection({ learnings }: { learnings: Learning[] }) {
-    const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } =
-        useAnimationVariants();
-
-    return (
-        <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-            className="mx-auto max-w-5xl px-6 py-16 lg:px-8"
-        >
-            <motion.h2 variants={itemVariants} className="mb-8 text-3xl font-bold tracking-tight">
-                What I Learned
-            </motion.h2>
-            <motion.div
-                variants={staggerContainerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                className="grid gap-6 md:grid-cols-3"
-            >
-                {learnings.map((learning, i) => {
-                    const Icon = learningIcons[i] ?? Wrench;
-                    return (
-                        <motion.div key={i} variants={cardVariants}>
-                            <Card className="h-full">
-                                <CardHeader className="pb-2">
-                                    <div className="flex items-center gap-2">
-                                        <Icon className="h-4 w-4 text-green-500" />
-                                        <CardTitle className="text-sm">{learning.title}</CardTitle>
-                                    </div>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-muted-foreground text-sm leading-relaxed">
-                                        {learning.body}
-                                    </p>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    );
-                })}
-            </motion.div>
-        </motion.section>
-    );
-}
