@@ -1,3 +1,5 @@
+import { timingSafeEqual } from "node:crypto";
+
 import OpenAI from "openai";
 
 import { NextRequest, NextResponse } from "next/server";
@@ -12,7 +14,6 @@ const ALLOWED_MIME_TYPES = new Set([
     "audio/webm",
     "audio/flac",
     "audio/aac",
-    "audio/x-m4a",
     "video/mp4",
     "video/webm",
 ]);
@@ -28,6 +29,13 @@ type PythonApiConfig = {
     url: string;
     token?: string;
 };
+
+function safeCompare(a: string, b: string): boolean {
+    const bufA = Buffer.from(a);
+    const bufB = Buffer.from(b);
+    if (bufA.length !== bufB.length) return false;
+    return timingSafeEqual(bufA, bufB);
+}
 
 function slugify(value: string): string {
     return value
@@ -194,8 +202,8 @@ export async function POST(request: NextRequest) {
                 { error: "Too many requests. Try again later." },
                 { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } },
             );
-    } catch {
-        // Fail open
+    } catch (error) {
+        console.error("Rate limit check failed, allowing request:", error);
     }
 
     const transcribePassword = process.env.TRANSCRIBE_PASSWORD;
@@ -204,20 +212,26 @@ export async function POST(request: NextRequest) {
         console.error("Missing environment variable: TRANSCRIBE_PASSWORD");
 
         return NextResponse.json(
-            { error: "Server misconfigured: TRANSCRIBE_PASSWORD missing" },
+            { error: "Internal server error" },
             { status: 500 },
         );
     }
 
     const password = request.headers.get("x-transcribe-password");
 
-    if (!password || password !== transcribePassword)
+    if (!password || !safeCompare(password, transcribePassword))
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     if (request.headers.get("x-transcribe-auth-check") === "true")
         return NextResponse.json({ success: true }, { status: 200 });
 
-    const formData = await request.formData();
+    let formData: FormData;
+    try {
+        formData = await request.formData();
+    } catch {
+        return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+    }
+
     const file = formData.get("audio") as File | null;
 
     if (!file) return NextResponse.json({ error: "No audio file provided" }, { status: 400 });
@@ -229,10 +243,12 @@ export async function POST(request: NextRequest) {
         );
 
     const rawMime = file.type || guessMimeType(file.name);
-    const mimeType = rawMime.split(";")[0]?.trim();
+    const parsedMime = rawMime.split(";")[0]?.trim();
 
-    if (!mimeType)
+    if (!parsedMime)
         return NextResponse.json({ error: `Unsupported file type: ${rawMime}` }, { status: 400 });
+
+    const mimeType = parsedMime === "audio/x-m4a" ? "audio/mp4" : parsedMime;
 
     if (!ALLOWED_MIME_TYPES.has(mimeType))
         return NextResponse.json({ error: `Unsupported file type: ${mimeType}` }, { status: 400 });
@@ -258,7 +274,7 @@ export async function POST(request: NextRequest) {
         console.error("Missing environment variable: OPENAI_API_KEY");
 
         return NextResponse.json(
-            { error: "Server misconfigured: OPENAI_API_KEY missing" },
+            { error: "Internal server error" },
             { status: 500 },
         );
     }

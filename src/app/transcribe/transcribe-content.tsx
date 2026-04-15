@@ -54,9 +54,17 @@ export default function TranscribeContent() {
     const [isDragOver, setIsDragOver] = useState(false);
 
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+    const streamRef = useRef<MediaStream | null>(null);
     const chunksRef = useRef<Blob[]>([]);
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        return () => {
+            streamRef.current?.getTracks().forEach((t) => t.stop());
+            if (timerRef.current) clearInterval(timerRef.current);
+        };
+    }, []);
 
     useEffect(() => {
         const saved = sessionStorage.getItem("transcribe_pw");
@@ -121,8 +129,10 @@ export default function TranscribeContent() {
 
     const startRecording = useCallback(async () => {
         setError("");
+        let stream: MediaStream | undefined;
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            streamRef.current = stream;
             const mediaRecorder = new MediaRecorder(stream, {
                 mimeType: MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "audio/mp4",
             });
@@ -142,7 +152,7 @@ export default function TranscribeContent() {
                 });
 
                 selectFile(recorded);
-                stream.getTracks().forEach((t) => t.stop());
+                streamRef.current?.getTracks().forEach((t) => t.stop());
 
                 if (timerRef.current) {
                     clearInterval(timerRef.current);
@@ -155,6 +165,7 @@ export default function TranscribeContent() {
             setRecordingTime(0);
             timerRef.current = setInterval(() => setRecordingTime((t) => t + 1), 1000);
         } catch {
+            stream?.getTracks().forEach((t) => t.stop());
             setError("Microphone access denied");
         }
     }, [selectFile]);

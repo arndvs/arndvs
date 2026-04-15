@@ -102,7 +102,7 @@ describe("POST /api/transcribe", () => {
         const body = (await response.json()) as { error: string };
 
         expect(response.status).toBe(500);
-        expect(body.error).toBe("Server misconfigured: TRANSCRIBE_PASSWORD missing");
+        expect(body.error).toBe("Internal server error");
     });
 
     it("returns 401 when password is invalid", async () => {
@@ -151,7 +151,7 @@ describe("POST /api/transcribe", () => {
         const body = (await response.json()) as { error: string };
 
         expect(response.status).toBe(500);
-        expect(body.error).toBe("Server misconfigured: OPENAI_API_KEY missing");
+        expect(body.error).toBe("Internal server error");
     });
 
     it("uses open-source transcriber when configured", async () => {
