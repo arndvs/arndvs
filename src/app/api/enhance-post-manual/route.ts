@@ -34,7 +34,8 @@ export async function POST(req: NextRequest) {
             { id: postId },
         );
 
-        if (!post) return NextResponse.json({ error: `Post not found: ${postId}` }, { status: 404 });
+        if (!post)
+            return NextResponse.json({ error: `Post not found: ${postId}` }, { status: 404 });
 
         const result = await enhancePostSeo({
             _id: post._id,

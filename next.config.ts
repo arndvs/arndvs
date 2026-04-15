@@ -46,6 +46,9 @@ const transcribeSecurityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+    logging: {
+        browserToTerminal: "error",
+    },
     images: {
         remotePatterns: [
             {
