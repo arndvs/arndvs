@@ -1,9 +1,10 @@
 "use client";
 
 import { Copy, Download, Lock, Mic, MicOff, RotateCcw, Upload } from "lucide-react";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { parseApiResponse, type TranscribeApiSuccess } from "./transcribe-client-utils";
+import { type TranscribeApiSuccess, parseApiResponse } from "./transcribe-client-utils";
 
 type Screen = "auth" | "main" | "transcribing" | "result";
 
@@ -17,7 +18,7 @@ function RecordingEqualizer() {
                         height: `${8 + (index % 3) * 3}px`,
                         animationDelay: `${index * 0.12}s`,
                     }}
-                    className="w-0.5 rounded-full bg-current animate-pulse"
+                    className="w-0.5 animate-pulse rounded-full bg-current"
                 />
             ))}
         </span>
@@ -100,23 +101,31 @@ export default function TranscribeContent() {
         setError("");
     }, []);
 
-    const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const f = e.target.files?.[0];
-        if (f) selectFile(f);
-    }, [selectFile]);
+    const handleFileChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            const f = e.target.files?.[0];
+            if (f) selectFile(f);
+        },
+        [selectFile],
+    );
 
-    const handleDrop = useCallback((e: React.DragEvent) => {
-        e.preventDefault();
-        setIsDragOver(false);
-        const f = e.dataTransfer.files[0];
-        if (f) selectFile(f);
-    }, [selectFile]);
+    const handleDrop = useCallback(
+        (e: React.DragEvent) => {
+            e.preventDefault();
+            setIsDragOver(false);
+            const f = e.dataTransfer.files[0];
+            if (f) selectFile(f);
+        },
+        [selectFile],
+    );
 
     const startRecording = useCallback(async () => {
         setError("");
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            const mediaRecorder = new MediaRecorder(stream, { mimeType: MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "audio/mp4" });
+            const mediaRecorder = new MediaRecorder(stream, {
+                mimeType: MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "audio/mp4",
+            });
 
             chunksRef.current = [];
             mediaRecorderRef.current = mediaRecorder;
@@ -128,7 +137,9 @@ export default function TranscribeContent() {
             mediaRecorder.onstop = () => {
                 const blob = new Blob(chunksRef.current, { type: mediaRecorder.mimeType });
                 const ext = mediaRecorder.mimeType.includes("webm") ? "webm" : "m4a";
-                const recorded = new File([blob], `recording.${ext}`, { type: mediaRecorder.mimeType });
+                const recorded = new File([blob], `recording.${ext}`, {
+                    type: mediaRecorder.mimeType,
+                });
 
                 selectFile(recorded);
                 stream.getTracks().forEach((t) => t.stop());
@@ -230,11 +241,14 @@ export default function TranscribeContent() {
                 {/* ── AUTH ── */}
                 {screen === "auth" && (
                     <div className="animate-in fade-in slide-in-from-bottom-1 duration-200">
-                        <p className="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                        <p className="text-muted-foreground mb-8 font-mono text-xs tracking-widest uppercase">
                             <span className="text-foreground">Transcribe</span> / auth
                         </p>
 
-                        <label htmlFor="pass-input" className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                        <label
+                            htmlFor="pass-input"
+                            className="text-muted-foreground mb-2 block font-mono text-[11px] tracking-wider uppercase"
+                        >
                             Passphrase
                         </label>
                         <input
@@ -242,28 +256,32 @@ export default function TranscribeContent() {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            onKeyDown={(e) => { if (e.key === "Enter") handleLogin(); }}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") handleLogin();
+                            }}
                             placeholder="enter passphrase"
                             autoComplete="current-password"
-                            className="mb-5 w-full rounded border border-border bg-card px-3.5 py-3 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-ring"
+                            className="border-border bg-card text-foreground placeholder:text-muted-foreground/50 focus:border-ring mb-5 w-full rounded border px-3.5 py-3 font-mono text-sm transition-colors outline-none"
                         />
 
                         <button
                             type="button"
                             onClick={handleLogin}
-                            className="w-full rounded bg-foreground py-3 font-mono text-xs font-medium uppercase tracking-wider text-background transition-colors hover:bg-foreground/80"
+                            className="bg-foreground text-background hover:bg-foreground/80 w-full rounded py-3 font-mono text-xs font-medium tracking-wider uppercase transition-colors"
                         >
                             Continue
                         </button>
 
-                        {error && <p className="mt-3 font-mono text-xs text-destructive">{error}</p>}
+                        {error && (
+                            <p className="text-destructive mt-3 font-mono text-xs">{error}</p>
+                        )}
                     </div>
                 )}
 
                 {/* ── MAIN ── */}
                 {screen === "main" && (
                     <div className="animate-in fade-in slide-in-from-bottom-1 duration-200">
-                        <p className="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                        <p className="text-muted-foreground mb-8 font-mono text-xs tracking-widest uppercase">
                             <span className="text-foreground">Transcribe</span>
                         </p>
 
@@ -272,11 +290,16 @@ export default function TranscribeContent() {
                             role="button"
                             tabIndex={0}
                             onClick={() => !recording && fileInputRef.current?.click()}
-                            onKeyDown={(e) => { if (e.key === "Enter" && !recording) fileInputRef.current?.click(); }}
-                            onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" && !recording) fileInputRef.current?.click();
+                            }}
+                            onDragOver={(e) => {
+                                e.preventDefault();
+                                setIsDragOver(true);
+                            }}
                             onDragLeave={() => setIsDragOver(false)}
                             onDrop={handleDrop}
-                            className={`mb-5 cursor-pointer rounded-md border border-dashed bg-card p-8 text-center transition-colors ${isDragOver ? "border-ring bg-card/80" : "border-border hover:border-muted-foreground/40"}`}
+                            className={`bg-card mb-5 cursor-pointer rounded-md border border-dashed p-8 text-center transition-colors ${isDragOver ? "border-ring bg-card/80" : "border-border hover:border-muted-foreground/40"}`}
                         >
                             <input
                                 ref={fileInputRef}
@@ -285,12 +308,15 @@ export default function TranscribeContent() {
                                 onChange={handleFileChange}
                                 className="hidden"
                             />
-                            <Upload className="mx-auto mb-3 size-7 text-muted-foreground/40" />
-                            <p className="font-mono text-xs text-muted-foreground">
-                                <span className="font-medium text-foreground">Tap to choose audio</span> or drag here
+                            <Upload className="text-muted-foreground/40 mx-auto mb-3 size-7" />
+                            <p className="text-muted-foreground font-mono text-xs">
+                                <span className="text-foreground font-medium">
+                                    Tap to choose audio
+                                </span>{" "}
+                                or drag here
                             </p>
                             {file && (
-                                <p className="mt-2 break-all font-mono text-xs text-primary">
+                                <p className="text-primary mt-2 font-mono text-xs break-all">
                                     {file.name} ({formatSize(file.size)})
                                 </p>
                             )}
@@ -300,7 +326,7 @@ export default function TranscribeContent() {
                         <button
                             type="button"
                             onClick={recording ? stopRecording : startRecording}
-                            className={`mb-5 flex w-full items-center justify-center gap-2 rounded border py-3 font-mono text-xs uppercase tracking-wider transition-colors ${recording ? "border-destructive/50 bg-destructive/10 text-destructive hover:bg-destructive/20" : "border-border bg-card text-muted-foreground hover:border-muted-foreground/40 hover:text-foreground"}`}
+                            className={`mb-5 flex w-full items-center justify-center gap-2 rounded border py-3 font-mono text-xs tracking-wider uppercase transition-colors ${recording ? "border-destructive/50 bg-destructive/10 text-destructive hover:bg-destructive/20" : "border-border bg-card text-muted-foreground hover:border-muted-foreground/40 hover:text-foreground"}`}
                         >
                             {recording ? (
                                 <>
@@ -321,15 +347,21 @@ export default function TranscribeContent() {
                             type="button"
                             onClick={transcribe}
                             disabled={!file || recording}
-                            className="w-full rounded bg-foreground py-3 font-mono text-xs font-medium uppercase tracking-wider text-background transition-colors hover:bg-foreground/80 disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground"
+                            className="bg-foreground text-background hover:bg-foreground/80 disabled:bg-muted disabled:text-muted-foreground w-full rounded py-3 font-mono text-xs font-medium tracking-wider uppercase transition-colors disabled:cursor-not-allowed"
                         >
                             Transcribe
                         </button>
 
-                        {error && <p className="mt-3 font-mono text-xs text-destructive">{error}</p>}
+                        {error && (
+                            <p className="text-destructive mt-3 font-mono text-xs">{error}</p>
+                        )}
 
-                        <div className="mt-6 flex items-center justify-end border-t border-border pt-4">
-                            <button type="button" onClick={lock} className="flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground transition-colors hover:text-foreground">
+                        <div className="border-border mt-6 flex items-center justify-end border-t pt-4">
+                            <button
+                                type="button"
+                                onClick={lock}
+                                className="text-muted-foreground hover:text-foreground flex items-center gap-1.5 font-mono text-[11px] transition-colors"
+                            >
                                 <Lock className="size-3" />
                                 Lock
                             </button>
@@ -340,17 +372,19 @@ export default function TranscribeContent() {
                 {/* ── TRANSCRIBING ── */}
                 {screen === "transcribing" && (
                     <div className="animate-in fade-in slide-in-from-bottom-1 duration-200">
-                        <p className="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                        <p className="text-muted-foreground mb-8 font-mono text-xs tracking-widest uppercase">
                             <span className="text-foreground">Transcribe</span> / processing
                         </p>
 
                         <div className="mb-4 flex items-center gap-2">
                             <span className="size-1.5 animate-pulse rounded-full bg-amber-500" />
-                            <span className="font-mono text-[11px] text-muted-foreground">transcribing…</span>
+                            <span className="text-muted-foreground font-mono text-[11px]">
+                                transcribing…
+                            </span>
                         </div>
 
-                        <div className="h-0.5 overflow-hidden rounded-full bg-border">
-                            <div className="h-full w-2/5 animate-[slide_1.4s_ease-in-out_infinite] rounded-full bg-foreground" />
+                        <div className="bg-border h-0.5 overflow-hidden rounded-full">
+                            <div className="bg-foreground h-full w-2/5 animate-[slide_1.4s_ease-in-out_infinite] rounded-full" />
                         </div>
                     </div>
                 )}
@@ -358,15 +392,15 @@ export default function TranscribeContent() {
                 {/* ── RESULT ── */}
                 {screen === "result" && (
                     <div className="animate-in fade-in slide-in-from-bottom-1 duration-200">
-                        <p className="mb-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                        <p className="text-muted-foreground mb-8 font-mono text-xs tracking-widest uppercase">
                             <span className="text-foreground">Transcribe</span> / done
                         </p>
 
-                        <div className="mb-3 rounded-md border border-border bg-card px-3 py-2 font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
+                        <div className="border-border bg-card text-muted-foreground mb-3 rounded-md border px-3 py-2 font-mono text-[11px] tracking-wide uppercase">
                             {summary} · {downloadName}
                         </div>
 
-                        <div className="mb-4 max-h-[52vh] overflow-y-auto rounded-md border border-border bg-card p-4 font-mono text-sm leading-relaxed text-foreground scrollbar-thin">
+                        <div className="border-border bg-card text-foreground scrollbar-thin mb-4 max-h-[52vh] overflow-y-auto rounded-md border p-4 font-mono text-sm leading-relaxed">
                             {transcription}
                         </div>
 
@@ -374,7 +408,7 @@ export default function TranscribeContent() {
                             <button
                                 type="button"
                                 onClick={copyText}
-                                className="flex flex-1 items-center justify-center gap-2 rounded bg-foreground py-3 font-mono text-xs font-medium uppercase tracking-wider text-background transition-colors hover:bg-foreground/80"
+                                className="bg-foreground text-background hover:bg-foreground/80 flex flex-1 items-center justify-center gap-2 rounded py-3 font-mono text-xs font-medium tracking-wider uppercase transition-colors"
                             >
                                 <Copy className="size-3.5" />
                                 {copied ? "Copied" : "Copy"}
@@ -382,7 +416,7 @@ export default function TranscribeContent() {
                             <button
                                 type="button"
                                 onClick={downloadTxt}
-                                className="flex items-center justify-center gap-2 rounded border border-border px-4 py-3 font-mono text-xs uppercase tracking-wider text-muted-foreground transition-colors hover:border-muted-foreground/40 hover:text-foreground"
+                                className="border-border text-muted-foreground hover:border-muted-foreground/40 hover:text-foreground flex items-center justify-center gap-2 rounded border px-4 py-3 font-mono text-xs tracking-wider uppercase transition-colors"
                             >
                                 <Download className="size-3.5" />
                             </button>
@@ -391,7 +425,7 @@ export default function TranscribeContent() {
                         <button
                             type="button"
                             onClick={reset}
-                            className="flex w-full items-center justify-center gap-2 rounded border border-border py-3 font-mono text-xs uppercase tracking-wider text-muted-foreground transition-colors hover:border-muted-foreground/40 hover:text-foreground"
+                            className="border-border text-muted-foreground hover:border-muted-foreground/40 hover:text-foreground flex w-full items-center justify-center gap-2 rounded border py-3 font-mono text-xs tracking-wider uppercase transition-colors"
                         >
                             <RotateCcw className="size-3.5" />
                             Transcribe Another

@@ -12,7 +12,8 @@ import { ContactForm } from "./contact-form";
 const footerData = {
     brand: {
         name: "Aaron Davis",
-        description: "AI systems engineer and consultant. Building agent infrastructure for businesses that need reliable results, not just impressive demos.",
+        description:
+            "AI systems engineer and consultant. Building agent infrastructure for businesses that need reliable results, not just impressive demos.",
     },
     navigation: [
         { name: "Home", href: "/" },

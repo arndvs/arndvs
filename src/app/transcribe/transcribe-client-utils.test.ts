@@ -39,7 +39,9 @@ describe("parseApiResponse", () => {
             headers: { "content-type": "text/html" },
         });
 
-        await expect(parseApiResponse(response)).rejects.toThrow("<!DOCTYPE html><html><body>Oops</body></html>");
+        await expect(parseApiResponse(response)).rejects.toThrow(
+            "<!DOCTYPE html><html><body>Oops</body></html>",
+        );
         expect(consoleSpy).toHaveBeenCalled();
 
         consoleSpy.mockRestore();

@@ -6,13 +6,7 @@ import { ArrowRight, Mail } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
 const pageData = {
@@ -225,7 +219,7 @@ export default function WorkWithMeContent() {
                 aria-label="Work with me — hero"
             >
                 <div className="max-w-3xl">
-                    <p className="text-primary text-sm font-medium uppercase tracking-widest">
+                    <p className="text-primary text-sm font-medium tracking-widest uppercase">
                         {pageData.hero.eyebrow}
                     </p>
                     <h1 className="mt-4 text-5xl font-bold tracking-tight text-balance lg:text-7xl">
@@ -263,7 +257,7 @@ export default function WorkWithMeContent() {
             >
                 <motion.p
                     variants={itemVariants}
-                    className="text-primary text-sm font-medium uppercase tracking-widest"
+                    className="text-primary text-sm font-medium tracking-widest uppercase"
                 >
                     {pageData.fit.label}
                 </motion.p>
@@ -279,14 +273,11 @@ export default function WorkWithMeContent() {
                 >
                     {pageData.fit.intro}
                 </motion.p>
-                <motion.div
-                    variants={containerVariants}
-                    className="mt-8 grid gap-6 md:grid-cols-2"
-                >
+                <motion.div variants={containerVariants} className="mt-8 grid gap-6 md:grid-cols-2">
                     <motion.div variants={cardVariants}>
                         <Card className="h-full border-l-4 border-l-green-500">
                             <CardHeader>
-                                <p className="text-xs font-medium uppercase tracking-widest text-green-500">
+                                <p className="text-xs font-medium tracking-widest text-green-500 uppercase">
                                     {pageData.fit.yes.label}
                                 </p>
                                 <CardTitle className="text-xl">
@@ -311,14 +302,12 @@ export default function WorkWithMeContent() {
                         </Card>
                     </motion.div>
                     <motion.div variants={cardVariants}>
-                        <Card className="h-full border-l-4 border-l-muted-foreground/30">
+                        <Card className="border-l-muted-foreground/30 h-full border-l-4">
                             <CardHeader>
-                                <p className="text-muted-foreground text-xs font-medium uppercase tracking-widest">
+                                <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
                                     {pageData.fit.no.label}
                                 </p>
-                                <CardTitle className="text-xl">
-                                    {pageData.fit.no.heading}
-                                </CardTitle>
+                                <CardTitle className="text-xl">{pageData.fit.no.heading}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <ul className="space-y-3">
@@ -351,7 +340,7 @@ export default function WorkWithMeContent() {
             >
                 <motion.p
                     variants={itemVariants}
-                    className="text-primary text-sm font-medium uppercase tracking-widest"
+                    className="text-primary text-sm font-medium tracking-widest uppercase"
                 >
                     How an engagement works
                 </motion.p>
@@ -369,17 +358,12 @@ export default function WorkWithMeContent() {
                     operation actually needs to a system running reliably and a team that knows how
                     to use it.
                 </motion.p>
-                <motion.div
-                    variants={containerVariants}
-                    className="mt-8 grid gap-6 md:grid-cols-2"
-                >
+                <motion.div variants={containerVariants} className="mt-8 grid gap-6 md:grid-cols-2">
                     {pageData.phases.map((phase) => (
                         <motion.div key={phase.id} variants={cardVariants}>
-                            <Card
-                                className={`h-full border-l-4 ${phaseColorMap[phase.color]}`}
-                            >
+                            <Card className={`h-full border-l-4 ${phaseColorMap[phase.color]}`}>
                                 <CardHeader>
-                                    <p className="text-muted-foreground font-mono text-xs uppercase tracking-widest">
+                                    <p className="text-muted-foreground font-mono text-xs tracking-widest uppercase">
                                         {phase.number}
                                     </p>
                                     <CardTitle className="text-2xl">{phase.title}</CardTitle>
@@ -403,7 +387,7 @@ export default function WorkWithMeContent() {
                                         ))}
                                     </ul>
                                     {phase.callout && (
-                                        <div className="bg-muted rounded-md p-4 text-sm italic leading-relaxed text-muted-foreground">
+                                        <div className="bg-muted text-muted-foreground rounded-md p-4 text-sm leading-relaxed italic">
                                             {phase.callout}
                                         </div>
                                     )}
@@ -425,7 +409,7 @@ export default function WorkWithMeContent() {
             >
                 <motion.p
                     variants={itemVariants}
-                    className="text-primary text-sm font-medium uppercase tracking-widest"
+                    className="text-primary text-sm font-medium tracking-widest uppercase"
                 >
                     {pageData.judgment.label}
                 </motion.p>
@@ -441,15 +425,12 @@ export default function WorkWithMeContent() {
                 >
                     {pageData.judgment.intro}
                 </motion.p>
-                <motion.div
-                    variants={containerVariants}
-                    className="mt-8 grid gap-6 md:grid-cols-2"
-                >
+                <motion.div variants={containerVariants} className="mt-8 grid gap-6 md:grid-cols-2">
                     {pageData.judgment.points.map((point) => (
                         <motion.div key={point.id} variants={cardVariants}>
                             <Card className="h-full">
                                 <CardHeader>
-                                    <p className="text-muted-foreground text-xs font-medium uppercase tracking-widest">
+                                    <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
                                         {point.label}
                                     </p>
                                     <CardTitle className="text-xl">{point.title}</CardTitle>
@@ -476,7 +457,7 @@ export default function WorkWithMeContent() {
             >
                 <motion.p
                     variants={itemVariants}
-                    className="text-primary text-sm font-medium uppercase tracking-widest"
+                    className="text-primary text-sm font-medium tracking-widest uppercase"
                 >
                     {pageData.proof.label}
                 </motion.p>
@@ -517,7 +498,7 @@ export default function WorkWithMeContent() {
                         <motion.div key={project.id} variants={cardVariants}>
                             <Card className="hover:bg-muted/50 h-full rounded-none border-0 transition-colors">
                                 <CardHeader>
-                                    <p className="text-muted-foreground text-xs font-medium uppercase tracking-widest">
+                                    <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
                                         {project.tag}
                                     </p>
                                     <CardTitle className="text-xl">{project.title}</CardTitle>
@@ -528,8 +509,7 @@ export default function WorkWithMeContent() {
                                 <CardContent>
                                     <Button asChild variant="link" className="p-0">
                                         <Link href={project.href}>
-                                            View case study{" "}
-                                            <ArrowRight className="ml-2 h-4 w-4" />
+                                            View case study <ArrowRight className="ml-2 h-4 w-4" />
                                         </Link>
                                     </Button>
                                 </CardContent>
@@ -543,7 +523,7 @@ export default function WorkWithMeContent() {
                     variants={itemVariants}
                     className="border-border bg-muted mt-px rounded-b-lg border border-t-0 p-6"
                 >
-                    <p className="text-muted-foreground/60 font-mono text-xs uppercase tracking-widest">
+                    <p className="text-muted-foreground/60 font-mono text-xs tracking-widest uppercase">
                         Consulting case studies — coming soon
                     </p>
                     <p className="text-muted-foreground mt-2 text-sm">

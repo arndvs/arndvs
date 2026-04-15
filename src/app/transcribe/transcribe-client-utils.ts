@@ -19,7 +19,9 @@ export async function parseApiResponse<T>(response: Response): Promise<T> {
         const payload = (await response.json()) as T | ApiErrorPayload;
 
         if (!response.ok) {
-            const message = (payload as ApiErrorPayload).error?.trim() || `Request failed with status ${response.status}`;
+            const message =
+                (payload as ApiErrorPayload).error?.trim() ||
+                `Request failed with status ${response.status}`;
             throw new Error(message);
         }
 

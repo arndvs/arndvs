@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
+
+import { NextRequest, NextResponse } from "next/server";
 
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
@@ -86,9 +87,11 @@ function getPublicTranscriptionError(error: unknown): string {
             ? (error as { status?: number }).status
             : undefined;
 
-    if (status === 401) return "Transcription provider authentication failed. Check OPENAI_API_KEY.";
+    if (status === 401)
+        return "Transcription provider authentication failed. Check OPENAI_API_KEY.";
 
-    if (status === 429) return "Transcription provider rate limit reached. Please try again shortly.";
+    if (status === 429)
+        return "Transcription provider rate limit reached. Please try again shortly.";
 
     if (typeof status === "number" && status >= 500)
         return "Transcription provider is currently unavailable. Please try again.";
@@ -165,7 +168,9 @@ async function transcribeWithOpenSourceService(params: {
 
     if (!response.ok) {
         const providerMessage = payload?.error?.trim();
-        throw new Error(providerMessage || `Open-source transcriber failed with status ${response.status}`);
+        throw new Error(
+            providerMessage || `Open-source transcriber failed with status ${response.status}`,
+        );
     }
 
     const transcriptionText = (payload?.text ?? payload?.transcript ?? "").trim();
@@ -179,7 +184,10 @@ export async function POST(request: NextRequest) {
     const ip = getClientIp(request.headers);
 
     try {
-        const { allowed, retryAfterSeconds } = checkRateLimit(ip, { windowMs: 60 * 60 * 1000, maxRequests: 20 });
+        const { allowed, retryAfterSeconds } = checkRateLimit(ip, {
+            windowMs: 60 * 60 * 1000,
+            maxRequests: 20,
+        });
 
         if (!allowed)
             return NextResponse.json(
@@ -195,7 +203,10 @@ export async function POST(request: NextRequest) {
     if (!transcribePassword) {
         console.error("Missing environment variable: TRANSCRIBE_PASSWORD");
 
-        return NextResponse.json({ error: "Server misconfigured: TRANSCRIBE_PASSWORD missing" }, { status: 500 });
+        return NextResponse.json(
+            { error: "Server misconfigured: TRANSCRIBE_PASSWORD missing" },
+            { status: 500 },
+        );
     }
 
     const password = request.headers.get("x-transcribe-password");
@@ -212,12 +223,16 @@ export async function POST(request: NextRequest) {
     if (!file) return NextResponse.json({ error: "No audio file provided" }, { status: 400 });
 
     if (file.size > MAX_FILE_SIZE)
-        return NextResponse.json({ error: `File too large. Maximum ${MAX_FILE_SIZE / 1024 / 1024}MB.` }, { status: 400 });
+        return NextResponse.json(
+            { error: `File too large. Maximum ${MAX_FILE_SIZE / 1024 / 1024}MB.` },
+            { status: 400 },
+        );
 
     const rawMime = file.type || guessMimeType(file.name);
     const mimeType = rawMime.split(";")[0]?.trim();
 
-    if (!mimeType) return NextResponse.json({ error: `Unsupported file type: ${rawMime}` }, { status: 400 });
+    if (!mimeType)
+        return NextResponse.json({ error: `Unsupported file type: ${rawMime}` }, { status: 400 });
 
     if (!ALLOWED_MIME_TYPES.has(mimeType))
         return NextResponse.json({ error: `Unsupported file type: ${mimeType}` }, { status: 400 });
@@ -227,9 +242,13 @@ export async function POST(request: NextRequest) {
     try {
         const openSourceResult = await transcribeWithOpenSourceService({ file, mimeType });
 
-        if (openSourceResult?.text) return toSuccessResponse(openSourceResult.text, openSourceResult.warnings);
+        if (openSourceResult?.text)
+            return toSuccessResponse(openSourceResult.text, openSourceResult.warnings);
     } catch (error) {
-        console.warn("Python API transcriber failed, falling back to OpenAI:", error instanceof Error ? error.message : error);
+        console.warn(
+            "Python API transcriber failed, falling back to OpenAI:",
+            error instanceof Error ? error.message : error,
+        );
         fallbackWarnings = ["Python API transcription unavailable. Used fallback provider."];
     }
 
@@ -238,7 +257,10 @@ export async function POST(request: NextRequest) {
     if (!openAiApiKey) {
         console.error("Missing environment variable: OPENAI_API_KEY");
 
-        return NextResponse.json({ error: "Server misconfigured: OPENAI_API_KEY missing" }, { status: 500 });
+        return NextResponse.json(
+            { error: "Server misconfigured: OPENAI_API_KEY missing" },
+            { status: 500 },
+        );
     }
 
     const openai = new OpenAI({ apiKey: openAiApiKey });
@@ -248,13 +270,13 @@ export async function POST(request: NextRequest) {
             file,
             model: "whisper-1",
             response_format: "text",
-            prompt:
-                "Transcribe the complete audio verbatim from start to finish. Do not summarize, shorten, or omit spoken content.",
+            prompt: "Transcribe the complete audio verbatim from start to finish. Do not summarize, shorten, or omit spoken content.",
         });
 
         const transcriptionText = getTranscriptionText(transcriptionResponse);
 
-        if (!transcriptionText) return NextResponse.json({ error: "Empty transcription returned" }, { status: 502 });
+        if (!transcriptionText)
+            return NextResponse.json({ error: "Empty transcription returned" }, { status: 502 });
 
         return toSuccessResponse(transcriptionText, fallbackWarnings);
     } catch (error) {

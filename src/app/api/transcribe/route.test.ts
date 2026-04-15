@@ -1,13 +1,15 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const { transcriptionCreateMock, checkRateLimitMock, getClientIpMock, fetchMock } = vi.hoisted(() => {
-    return {
-        transcriptionCreateMock: vi.fn(),
-        checkRateLimitMock: vi.fn(),
-        getClientIpMock: vi.fn(),
-        fetchMock: vi.fn(),
-    };
-});
+const { transcriptionCreateMock, checkRateLimitMock, getClientIpMock, fetchMock } = vi.hoisted(
+    () => {
+        return {
+            transcriptionCreateMock: vi.fn(),
+            checkRateLimitMock: vi.fn(),
+            getClientIpMock: vi.fn(),
+            fetchMock: vi.fn(),
+        };
+    },
+);
 
 vi.mock("openai", () => {
     class OpenAI {
@@ -112,7 +114,9 @@ describe("POST /api/transcribe", () => {
 
     it("returns 200 for auth-check and does not call transcription provider", async () => {
         const { POST } = await importRoute();
-        const response = await POST(createRequest({ password: "correct-pass", authCheck: true }) as never);
+        const response = await POST(
+            createRequest({ password: "correct-pass", authCheck: true }) as never,
+        );
 
         expect(response.status).toBe(200);
         expect(transcriptionCreateMock).not.toHaveBeenCalled();
@@ -130,7 +134,9 @@ describe("POST /api/transcribe", () => {
         const bigFile = new File([bigPayload], "big.wav", { type: "audio/wav" });
 
         const { POST } = await importRoute();
-        const response = await POST(createRequest({ password: "correct-pass", file: bigFile }) as never);
+        const response = await POST(
+            createRequest({ password: "correct-pass", file: bigFile }) as never,
+        );
 
         expect(response.status).toBe(400);
     });
@@ -152,10 +158,13 @@ describe("POST /api/transcribe", () => {
         process.env.PY_API_BASE_URL = "http://localhost:8000";
         process.env.PY_API_TOKEN = "py-api-token";
         fetchMock.mockResolvedValue(
-            new Response(JSON.stringify({ text: "Speaker one said hello and speaker two replied." }), {
-                status: 200,
-                headers: { "content-type": "application/json" },
-            }),
+            new Response(
+                JSON.stringify({ text: "Speaker one said hello and speaker two replied." }),
+                {
+                    status: 200,
+                    headers: { "content-type": "application/json" },
+                },
+            ),
         );
 
         const file = new File(["audio"], "recording.wav", { type: "audio/wav" });
@@ -200,7 +209,9 @@ describe("POST /api/transcribe", () => {
 
         expect(response.status).toBe(200);
         expect(body.text).toBe("Fallback transcript from OpenAI.");
-        expect(body.warnings).toEqual(["Python API transcription unavailable. Used fallback provider."]);
+        expect(body.warnings).toEqual([
+            "Python API transcription unavailable. Used fallback provider.",
+        ]);
         expect(transcriptionCreateMock).toHaveBeenCalledTimes(1);
     });
 
@@ -230,7 +241,9 @@ describe("POST /api/transcribe", () => {
     });
 
     it("accepts codec-suffixed MIME and returns text, summary, and unique filename", async () => {
-        transcriptionCreateMock.mockResolvedValue("Discussed launch checklist and onboarding tasks for this week.");
+        transcriptionCreateMock.mockResolvedValue(
+            "Discussed launch checklist and onboarding tasks for this week.",
+        );
 
         const file = new File(["audio"], "recording.webm", { type: "audio/webm;codecs=opus" });
 
@@ -273,7 +286,10 @@ describe("POST /api/transcribe", () => {
     });
 
     it("returns sanitized auth error when provider rejects API key", async () => {
-        transcriptionCreateMock.mockRejectedValue({ status: 401, message: "Incorrect API key provided" });
+        transcriptionCreateMock.mockRejectedValue({
+            status: 401,
+            message: "Incorrect API key provided",
+        });
 
         const file = new File(["audio"], "recording.wav", { type: "audio/wav" });
 
@@ -282,7 +298,9 @@ describe("POST /api/transcribe", () => {
         const body = (await response.json()) as { error: string };
 
         expect(response.status).toBe(502);
-        expect(body.error).toBe("Transcription provider authentication failed. Check OPENAI_API_KEY.");
+        expect(body.error).toBe(
+            "Transcription provider authentication failed. Check OPENAI_API_KEY.",
+        );
     });
 
     it("returns 429 when rate limit is exceeded", async () => {
