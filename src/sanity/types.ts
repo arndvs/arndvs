@@ -437,6 +437,14 @@ export type POST_QUERY_RESULT = {
 export type POST_SLUGS_QUERY_RESULT = Array<string>;
 
 // Source: src/sanity/lib/queries.ts
+// Variable: SITEMAP_POSTS_QUERY
+// Query: *[_type == "post" && defined(slug.current)] {    "slug": slug.current,    _updatedAt  }
+export type SITEMAP_POSTS_QUERY_RESULT = Array<{
+    slug: string;
+    _updatedAt: string;
+}>;
+
+// Source: src/sanity/lib/queries.ts
 // Variable: CHANGELOG_QUERY
 // Query: *[_type == "changelogEntry"] | order(date desc) [0...50] {    _id,    title,    slug,    date,    type,    summary,    body,    relatedProject,    commitHash,    commitRange,    isHighlight,    source  }
 export type CHANGELOG_QUERY_RESULT = Array<{
@@ -481,6 +489,7 @@ declare module "@sanity/client" {
         '\n  *[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {\n    _id,\n    title,\n    slug,\n    excerpt,\n    publishedAt,\n    mainImage {\n      ...,\n      asset-> { _id, url, metadata { dimensions, lqip } }\n    },\n    categories,\n    "bodyCharCount": length(pt::text(body))\n  }\n': POSTS_QUERY_RESULT;
         '\n  *[_type == "post" && slug.current == $slug][0] {\n    _id,\n    _updatedAt,\n    title,\n    slug,\n    author,\n    publishedAt,\n    excerpt,\n    tldr,\n    mainImage {\n      ...,\n      asset-> { _id, url, metadata { dimensions, lqip } }\n    },\n    body[] {\n      ...,\n      _type == "image" => {\n        ...,\n        asset-> { _id, url, metadata { dimensions, lqip } }\n      }\n    },\n    "bodyCharCount": length(pt::text(body)),\n    categories,\n    seo {\n      ...,\n      image { ..., asset-> { _id, url, metadata { dimensions } } }\n    }\n  }\n': POST_QUERY_RESULT;
         '\n  *[_type == "post" && defined(slug.current)][].slug.current\n': POST_SLUGS_QUERY_RESULT;
+        '\n  *[_type == "post" && defined(slug.current)] {\n    "slug": slug.current,\n    _updatedAt\n  }\n': SITEMAP_POSTS_QUERY_RESULT;
         '\n  *[_type == "changelogEntry"] | order(date desc) [0...50] {\n    _id,\n    title,\n    slug,\n    date,\n    type,\n    summary,\n    body,\n    relatedProject,\n    commitHash,\n    commitRange,\n    isHighlight,\n    source\n  }\n': CHANGELOG_QUERY_RESULT;
         '\n  *[_type == "changelogEntry"] | order(date desc) [0].date\n': CHANGELOG_LATEST_DATE_QUERY_RESULT;
     }

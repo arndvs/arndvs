@@ -50,6 +50,13 @@ export const POST_SLUGS_QUERY = defineQuery(`
   *[_type == "post" && defined(slug.current)][].slug.current
 `);
 
+export const SITEMAP_POSTS_QUERY = defineQuery(`
+  *[_type == "post" && defined(slug.current)] {
+    "slug": slug.current,
+    _updatedAt
+  }
+`);
+
 export const CHANGELOG_QUERY = defineQuery(`
   *[_type == "changelogEntry"] | order(date desc) [0...50] {
     _id,
