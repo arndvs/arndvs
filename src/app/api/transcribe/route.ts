@@ -1,9 +1,8 @@
-import { timingSafeEqual } from "node:crypto";
-
 import OpenAI from "openai";
 
 import { NextRequest, NextResponse } from "next/server";
 
+import { safeCompare } from "@/lib/auth";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 const ALLOWED_MIME_TYPES = new Set([
@@ -29,13 +28,6 @@ type PythonApiConfig = {
     url: string;
     token?: string;
 };
-
-function safeCompare(a: string, b: string): boolean {
-    const bufA = Buffer.from(a);
-    const bufB = Buffer.from(b);
-    if (bufA.length !== bufB.length) return false;
-    return timingSafeEqual(bufA, bufB);
-}
 
 function slugify(value: string): string {
     return value
@@ -211,10 +203,7 @@ export async function POST(request: NextRequest) {
     if (!transcribePassword) {
         console.error("Missing environment variable: TRANSCRIBE_PASSWORD");
 
-        return NextResponse.json(
-            { error: "Internal server error" },
-            { status: 500 },
-        );
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 
     const password = request.headers.get("x-transcribe-password");
@@ -273,10 +262,7 @@ export async function POST(request: NextRequest) {
     if (!openAiApiKey) {
         console.error("Missing environment variable: OPENAI_API_KEY");
 
-        return NextResponse.json(
-            { error: "Internal server error" },
-            { status: 500 },
-        );
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 
     const openai = new OpenAI({ apiKey: openAiApiKey });

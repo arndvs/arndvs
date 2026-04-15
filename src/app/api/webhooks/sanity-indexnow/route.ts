@@ -72,6 +72,6 @@ export async function POST(req: NextRequest) {
         });
     } catch (err) {
         console.error("IndexNow webhook error:", err);
-        return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }

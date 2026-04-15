@@ -18,8 +18,8 @@ export async function POST(request: NextRequest) {
                     { error: "Too many requests. Please try again later." },
                     { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } },
                 );
-        } catch {
-            // Fail open — don't block legitimate users if rate limiting errors
+        } catch (error) {
+            console.error("Rate limit check failed, allowing request:", error);
         }
 
         const body = await request.json();
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
 
         const resend = new Resend(process.env.RESEND_API_KEY);
 
-        const { data, error } = await resend.emails.send({
+        const { error } = await resend.emails.send({
             from: "Portfolio Contact <onboarding@resend.dev>",
             to: process.env.CONTACT_EMAIL,
             replyTo: email,
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
         }
 
-        return NextResponse.json({ success: true, data }, { status: 200 });
+        return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
         console.error("Contact form error:", error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });

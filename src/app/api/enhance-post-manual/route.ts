@@ -1,8 +1,7 @@
-import { timingSafeEqual } from "node:crypto";
-
 import { type NextRequest, NextResponse } from "next/server";
 
 import { enhancePostSeo, writeEnhancementToSanity } from "@/lib/ai-content-enhancement";
+import { safeCompare } from "@/lib/auth";
 import { client } from "@/sanity/lib/client";
 
 function isAuthorized(authHeader: string | null): boolean {
@@ -12,55 +11,55 @@ function isAuthorized(authHeader: string | null): boolean {
 
     if (!authHeader?.startsWith("Bearer ")) return false;
 
-    const token = authHeader.slice(7);
-
-    if (token.length !== secret.length) return false;
-
-    return timingSafeEqual(Buffer.from(token), Buffer.from(secret));
+    return safeCompare(authHeader.slice(7), secret);
 }
 
 export async function POST(req: NextRequest) {
-    if (!isAuthorized(req.headers.get("authorization")))
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    try {
+        if (!isAuthorized(req.headers.get("authorization")))
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        const { postId } = (await req.json()) as { postId?: string };
 
-    const { postId } = (await req.json()) as { postId?: string };
+        if (!postId)
+            return NextResponse.json({ error: "Missing postId in request body" }, { status: 400 });
 
-    if (!postId)
-        return NextResponse.json({ error: "Missing postId in request body" }, { status: 400 });
+        const post = await client.fetch(
+            `*[_type == "post" && _id == $id][0]{
+                _id,
+                title,
+                excerpt,
+                "bodyText": pt::text(body),
+                categories
+            }`,
+            { id: postId },
+        );
 
-    const post = await client.fetch(
-        `*[_type == "post" && _id == $id][0]{
-            _id,
-            title,
-            excerpt,
-            "bodyText": pt::text(body),
-            categories
-        }`,
-        { id: postId },
-    );
+        if (!post) return NextResponse.json({ error: `Post not found: ${postId}` }, { status: 404 });
 
-    if (!post) return NextResponse.json({ error: `Post not found: ${postId}` }, { status: 404 });
+        const result = await enhancePostSeo({
+            _id: post._id,
+            title: post.title,
+            excerpt: post.excerpt,
+            bodyText: post.bodyText || "",
+            categories: post.categories,
+        });
 
-    const result = await enhancePostSeo({
-        _id: post._id,
-        title: post.title,
-        excerpt: post.excerpt,
-        bodyText: post.bodyText || "",
-        categories: post.categories,
-    });
+        await writeEnhancementToSanity(post._id, result);
 
-    await writeEnhancementToSanity(post._id, result);
-
-    return NextResponse.json({
-        status: 200,
-        enhanced: true,
-        postId: post._id,
-        confidence: result.confidence,
-        seo: {
-            metaTitle: result.metaTitle,
-            metaDescription: result.metaDescription,
-            focusKeyword: result.focusKeyword,
-            keywords: result.keywords,
-        },
-    });
+        return NextResponse.json({
+            status: 200,
+            enhanced: true,
+            postId: post._id,
+            confidence: result.confidence,
+            seo: {
+                metaTitle: result.metaTitle,
+                metaDescription: result.metaDescription,
+                focusKeyword: result.focusKeyword,
+                keywords: result.keywords,
+            },
+        });
+    } catch (err) {
+        console.error("Manual enhancement error:", err);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    }
 }
