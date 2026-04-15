@@ -7,7 +7,10 @@ export const POSTS_QUERY = defineQuery(`
     slug,
     excerpt,
     publishedAt,
-    mainImage,
+    mainImage {
+      ...,
+      asset-> { _id, url, metadata { dimensions, lqip } }
+    },
     categories,
     "bodyCharCount": length(pt::text(body))
   }
@@ -23,17 +26,23 @@ export const POST_QUERY = defineQuery(`
     publishedAt,
     excerpt,
     tldr,
-    mainImage,
+    mainImage {
+      ...,
+      asset-> { _id, url, metadata { dimensions, lqip } }
+    },
     body[] {
       ...,
       _type == "image" => {
         ...,
-        asset->
+        asset-> { _id, url, metadata { dimensions, lqip } }
       }
     },
     "bodyCharCount": length(pt::text(body)),
     categories,
-    seo
+    seo {
+      ...,
+      image { ..., asset-> { _id, url, metadata { dimensions } } }
+    }
   }
 `);
 
@@ -42,7 +51,7 @@ export const POST_SLUGS_QUERY = defineQuery(`
 `);
 
 export const CHANGELOG_QUERY = defineQuery(`
-  *[_type == "changelogEntry"] | order(date desc) {
+  *[_type == "changelogEntry"] | order(date desc) [0...50] {
     _id,
     title,
     slug,

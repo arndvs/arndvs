@@ -66,6 +66,10 @@ export function PostHeader({
                         height={630}
                         className="w-full object-cover"
                         priority
+                        {...(mainImage.asset?.metadata?.lqip && {
+                            placeholder: "blur" as const,
+                            blurDataURL: mainImage.asset.metadata.lqip,
+                        })}
                     />
                 </div>
             )}

@@ -51,6 +51,10 @@ export function PostCard({
                                 width={800}
                                 height={450}
                                 className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                {...(mainImage.asset?.metadata?.lqip && {
+                                    placeholder: "blur" as const,
+                                    blurDataURL: mainImage.asset.metadata.lqip,
+                                })}
                             />
                         </div>
                     )}

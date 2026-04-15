@@ -1,12 +1,11 @@
 import { Feed } from "feed";
 
-import type { ChangelogEntry } from "@/lib/types/sanity";
 import { siteConfig } from "@/sanity/env";
 import { client } from "@/sanity/lib/client";
 import { CHANGELOG_QUERY } from "@/sanity/lib/queries";
 
 export async function GET() {
-    const entries: ChangelogEntry[] = await client.fetch(CHANGELOG_QUERY);
+    const entries = await client.withConfig({ useCdn: false }).fetch(CHANGELOG_QUERY);
 
     const feed = new Feed({
         title: "arndvs.com Changelog",

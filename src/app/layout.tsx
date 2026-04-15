@@ -1,6 +1,8 @@
 import { Analytics } from "@vercel/analytics/next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
+import { VisualEditing } from "next-sanity/visual-editing";
+import { draftMode } from "next/headers";
 import { Toaster } from "sonner";
 
 import type React from "react";
@@ -8,6 +10,7 @@ import { Suspense } from "react";
 
 import type { Metadata } from "next";
 
+import { DisableDraftMode } from "@/components/disable-draft-mode";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -84,11 +87,12 @@ export const metadata: Metadata = {
     },
     manifest: "/site.webmanifest",
 };
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const { isEnabled: isDraftMode } = await draftMode();
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
@@ -169,6 +173,12 @@ export default function RootLayout({
                     </Suspense>
                     <Toaster position="top-right" richColors closeButton />
                     <SanityLive />
+                    {isDraftMode && (
+                        <>
+                            <VisualEditing />
+                            <DisableDraftMode />
+                        </>
+                    )}
                 </ThemeProvider>
                 <Analytics />
             </body>

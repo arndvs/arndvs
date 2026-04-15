@@ -4,6 +4,7 @@ import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 
 import { apiVersion, dataset, projectId, siteConfig } from "./src/sanity/env";
+import { resolve } from "./src/sanity/presentation/resolve";
 import { schema } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
 
@@ -21,6 +22,7 @@ export default defineConfig({
         structureTool({ structure }),
 
         presentationTool({
+            resolve,
             previewUrl: {
                 origin: siteConfig.url,
                 preview: "/",

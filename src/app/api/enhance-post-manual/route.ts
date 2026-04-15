@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
         if (!postId)
             return NextResponse.json({ error: "Missing postId in request body" }, { status: 400 });
 
-        const post = await client.fetch(
+        const post = await client.withConfig({ useCdn: false }).fetch(
             `*[_type == "post" && _id == $id][0]{
                 _id,
                 title,

@@ -18,6 +18,6 @@ export const client = createClient({
 
 export const liveClient = createClient({
     ...baseConfig,
-    useCdn: true,
+    useCdn: false,
     token: process.env.SANITY_API_READ_TOKEN,
 });

@@ -119,7 +119,7 @@ export async function writeEnhancementToSanity(
                 },
             })
             .commit()
-            .catch(() => {});
+            .catch((e) => console.error("Could not write failure status:", e));
         throw err;
     }
 }

@@ -1,9 +1,11 @@
 import { defineField, defineType } from "sanity";
+import { SearchIcon } from "@sanity/icons";
 
 export const seoType = defineType({
     name: "seo",
     title: "SEO",
     type: "object",
+    icon: SearchIcon,
     fields: [
         defineField({
             name: "metaTitle",
@@ -39,6 +41,20 @@ export const seoType = defineType({
             options: { layout: "tags" },
             description: "Additional SEO keywords. Aim for 3–5 relevant terms.",
             validation: (rule) => rule.max(10).warning("More than 10 keywords dilutes relevance."),
+        }),
+        defineField({
+            name: "image",
+            title: "Social Image",
+            type: "image",
+            description: "Override image for social sharing (1200×630 recommended). Falls back to main image.",
+            options: { hotspot: true },
+        }),
+        defineField({
+            name: "noIndex",
+            title: "No Index",
+            type: "boolean",
+            description: "Hide this page from search engines.",
+            initialValue: false,
         }),
     ],
 });

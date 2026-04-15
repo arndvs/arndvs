@@ -1,9 +1,11 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
+import { DocumentTextIcon } from "@sanity/icons";
 
 export const postType = defineType({
     name: "post",
     title: "Post",
     type: "document",
+    icon: DocumentTextIcon,
     fields: [
         defineField({
             name: "title",
@@ -70,7 +72,7 @@ export const postType = defineType({
             title: "Body",
             type: "array",
             of: [
-                {
+                defineArrayMember({
                     type: "block",
                     styles: [
                         { title: "Normal", value: "normal" },
@@ -112,8 +114,8 @@ export const postType = defineType({
                             },
                         ],
                     },
-                },
-                defineField({
+                }),
+                defineArrayMember({
                     type: "image",
                     name: "inlineImage",
                     options: { hotspot: true },
@@ -131,9 +133,9 @@ export const postType = defineType({
                         }),
                     ],
                 }),
-                {
+                defineArrayMember({
                     type: "codeBlock",
-                },
+                }),
             ],
         }),
         defineField({

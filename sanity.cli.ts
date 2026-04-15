@@ -24,4 +24,10 @@ export default defineCliConfig({
         projectId: requiredEnvVars.NEXT_PUBLIC_SANITY_PROJECT_ID,
         dataset: requiredEnvVars.NEXT_PUBLIC_SANITY_DATASET,
     },
+    typegen: {
+        enabled: true,
+        path: "./src/**/*.{ts,tsx}",
+        generates: "./src/sanity/types.ts",
+        overloadClientMethods: true,
+    },
 });

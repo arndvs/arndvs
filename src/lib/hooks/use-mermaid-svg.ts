@@ -23,18 +23,19 @@ export function useMermaidSvg(
         let cancelled = false;
 
         async function render() {
-            const mermaid = (await import("mermaid")).default;
-            mermaid.initialize({
-                startOnLoad: false,
-                theme,
-                fontFamily: "var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif)",
-                flowchart: { htmlLabels: true, curve: "basis" },
-                sequence: { actorMargin: 50, messageFontSize: 13 },
-            });
+            try {
+                const mermaid = (await import("mermaid")).default;
+                mermaid.initialize({
+                    startOnLoad: false,
+                    theme,
+                    fontFamily: "var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif)",
+                    flowchart: { htmlLabels: true, curve: "basis" },
+                    sequence: { actorMargin: 50, messageFontSize: 13 },
+                });
 
-            const id = `mermaid-${crypto.randomUUID().slice(0, 8)}`;
-            const { svg: rendered } = await mermaid.render(id, chart);
-            if (cancelled) return;
+                const id = `mermaid-${crypto.randomUUID().slice(0, 8)}`;
+                const { svg: rendered } = await mermaid.render(id, chart);
+                if (cancelled) return;
 
             // Parse natural dimensions from the rendered SVG.
             // Mermaid outputs: <svg width="100%" style="max-width: Wpx;" viewBox="0 0 W H">
@@ -73,8 +74,14 @@ export function useMermaidSvg(
                 }
             }
 
-            // Return the SVG unmodified — container CSS controls sizing
-            setResult({ svg: rendered, naturalWidth, naturalHeight });
+                // Return the SVG unmodified — container CSS controls sizing
+                setResult({ svg: rendered, naturalWidth, naturalHeight });
+            } catch (err) {
+                if (!cancelled) {
+                    console.error("Mermaid render failed:", err);
+                    setResult(null);
+                }
+            }
         }
 
         setResult(null);

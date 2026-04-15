@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { generateSiteMetadata } from "@/lib/metadata";
+import type { ChangelogEntry } from "@/lib/types/sanity";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -49,7 +50,7 @@ export default async function ChangelogPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(collectionJsonLd) }}
             />
-            <ChangelogContent entries={entries} />
+            <ChangelogContent entries={entries as unknown as ChangelogEntry[]} />
         </>
     );
 }

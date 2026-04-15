@@ -1,4 +1,4 @@
-import { BookText, History } from "lucide-react";
+import { CalendarIcon, DocumentTextIcon } from "@sanity/icons";
 import type { StructureResolver } from "sanity/structure";
 
 export const structure: StructureResolver = (S) =>
@@ -7,7 +7,7 @@ export const structure: StructureResolver = (S) =>
         .items([
             S.listItem()
                 .title("Blog")
-                .icon(BookText)
+                .icon(DocumentTextIcon)
                 .child(
                     S.documentTypeList("post")
                         .title("Posts")
@@ -15,7 +15,7 @@ export const structure: StructureResolver = (S) =>
                 ),
             S.listItem()
                 .title("Changelog")
-                .icon(History)
+                .icon(CalendarIcon)
                 .child(
                     S.documentTypeList("changelogEntry")
                         .title("Changelog Entries")

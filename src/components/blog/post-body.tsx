@@ -10,7 +10,7 @@ const components: Partial<PortableTextReactComponents> = {
         inlineImage: ({
             value,
         }: {
-            value: SanityImageWithAlt & { caption?: string; asset?: { _ref: string } };
+            value: SanityImageWithAlt & { caption?: string; asset?: { _ref?: string; _id?: string; url?: string; metadata?: { dimensions?: { width: number; height: number }; lqip?: string } } };
         }) => {
             if (!value?.asset) return null;
             return (
@@ -21,6 +21,10 @@ const components: Partial<PortableTextReactComponents> = {
                         width={1200}
                         height={675}
                         className="rounded-lg"
+                        {...(value.asset?.metadata?.lqip && {
+                            placeholder: "blur" as const,
+                            blurDataURL: value.asset.metadata.lqip,
+                        })}
                     />
                     {value.caption && (
                         <figcaption className="text-muted-foreground mt-2 text-center text-sm">

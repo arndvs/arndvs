@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Fetch blog post slugs from Sanity
     let blogSlugs: string[] = [];
     try {
-        blogSlugs = await client.fetch(POST_SLUGS_QUERY);
+        blogSlugs = await client.withConfig({ useCdn: false }).fetch(POST_SLUGS_QUERY);
     } catch (error) {
         console.error("Failed to fetch blog slugs for sitemap:", error);
     }
