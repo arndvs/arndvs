@@ -35,10 +35,10 @@ export default function RipeMetricsContent() {
             {pageData.deepDives.map((dive) => (
                 <DeepDiveSection key={dive.id} data={dive} />
             ))}
-            <div className="mx-auto max-w-5xl px-6 pt-16 lg:px-8">
+            <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-8">
                 <DecisionLog decisions={pageData.decisions} />
             </div>
-            <div className="mx-auto max-w-5xl px-6 pt-16 lg:px-8">
+            <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-8">
                 <LearningsGrid learnings={pageData.learnings} />
             </div>
             <TechImplementationSection

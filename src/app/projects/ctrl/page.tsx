@@ -77,7 +77,7 @@ export default function CtrlPage() {
                 dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
             />
             <main className="min-h-screen pt-16">
-                <article className="mx-auto max-w-5xl px-6 py-24 lg:px-8">
+                <article className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
                     <BackButton />
                     <HeroSection data={pageData.hero} />
                     <SituationSection data={pageData.situation} />
