@@ -37,6 +37,7 @@ const projectsPageData = {
             role: "Solo Developer & Architect",
             year: "2025-Present",
             link: "https://github.com/arndvs/ctrl",
+            thumbnail: "/projects/ctrlshft/ctrl-shft.jpg",
         },
         {
             id: "ripemetrics",
