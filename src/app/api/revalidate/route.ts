@@ -2,7 +2,7 @@ import { parseBody } from "next-sanity/webhook";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { webhookSecret } from "@/sanity/env";
+import { webhookSecret } from "@/sanity/env.server";
 
 export async function POST(req: NextRequest) {
     try {
