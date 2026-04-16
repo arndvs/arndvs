@@ -255,7 +255,6 @@ export default function ProjectsContent() {
                     viewport={{ once: true, margin: "-100px" }}
                     variants={containerVariants}
                     className="mt-16 grid gap-8 md:grid-cols-2"
-                    role="list"
                     aria-label="Projects"
                 >
                     {projectsPageData.projects.map((project) => (

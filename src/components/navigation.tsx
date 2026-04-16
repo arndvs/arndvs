@@ -40,7 +40,7 @@ export function Navigation() {
                     </Link>
 
                     {/* Desktop nav */}
-                    <div className="hidden items-center gap-8 md:flex" role="navigation">
+                    <div className="hidden items-center gap-8 md:flex">
                         {navItems.map((item) => (
                             <Link
                                 key={item.href}

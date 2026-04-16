@@ -80,7 +80,7 @@ export function Footer() {
                     {/* Connect */}
                     <motion.div variants={itemVariants} className="space-y-4">
                         <h3 className="text-lg font-semibold">Connect</h3>
-                        <div className="flex gap-4" role="list" aria-label="Social media links">
+                        <div className="flex gap-4" aria-label="Social media links">
                             {footerData.social.map((social) => {
                                 const Icon = social.icon;
                                 return (

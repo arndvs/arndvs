@@ -52,7 +52,7 @@ export function PostHeader({
                 {author && <span>{author}</span>}
                 {author && formattedDate && <span aria-hidden="true">&middot;</span>}
                 {formattedDate && <time dateTime={publishedAt}>{formattedDate}</time>}
-                <span aria-hidden="true">&middot;</span>
+                {(author || formattedDate) && <span aria-hidden="true">&middot;</span>}
                 <span>{readingTime}</span>
             </div>
 
