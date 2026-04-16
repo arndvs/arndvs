@@ -1,6 +1,6 @@
 import { createClient } from "next-sanity";
 
-import { apiVersion, dataset, projectId, siteConfig, token } from "../env";
+import { apiVersion, dataset, projectId, siteConfig } from "../env";
 
 const baseConfig = {
     projectId,
@@ -16,8 +16,4 @@ export const client = createClient({
     useCdn: true,
 });
 
-export const liveClient = createClient({
-    ...baseConfig,
-    useCdn: false,
-    token,
-});
+export { baseConfig };

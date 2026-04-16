@@ -1,7 +1,8 @@
 import { parseBody } from "next-sanity/webhook";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { siteConfig, webhookSecret } from "@/sanity/env";
+import { siteConfig } from "@/sanity/env";
+import { webhookSecret } from "@/sanity/env.server";
 
 function getIndexNowKey(): string {
     const key = process.env.INDEXNOW_KEY;

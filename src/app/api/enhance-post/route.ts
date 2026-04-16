@@ -2,7 +2,7 @@ import { parseBody } from "next-sanity/webhook";
 import { type NextRequest, NextResponse } from "next/server";
 
 import { enhanceAndPersistPost } from "@/lib/ai-content-enhancement";
-import { webhookSecret } from "@/sanity/env";
+import { webhookSecret } from "@/sanity/env.server";
 
 interface WebhookBody {
     _id: string;
