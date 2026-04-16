@@ -50,7 +50,7 @@ export function getClientIp(headers: Headers): string {
 
     if (fallbackFingerprint) return fallbackFingerprint;
 
-    return crypto.randomUUID();
+    return "anonymous";
 }
 
 export function checkRateLimit(

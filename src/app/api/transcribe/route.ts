@@ -221,9 +221,10 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
     }
 
-    const file = formData.get("audio") as File | null;
+    const file = formData.get("audio");
 
-    if (!file) return NextResponse.json({ error: "No audio file provided" }, { status: 400 });
+    if (!file || !(file instanceof File))
+        return NextResponse.json({ error: "No audio file provided" }, { status: 400 });
 
     if (file.size > MAX_FILE_SIZE)
         return NextResponse.json(
