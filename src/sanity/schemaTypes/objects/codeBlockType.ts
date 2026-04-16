@@ -12,11 +12,13 @@ export const codeBlockType = defineType({
             title: "Code",
             type: "text",
             rows: 10,
+            validation: (rule) => rule.required(),
         }),
         defineField({
             name: "language",
             title: "Language",
             type: "string",
+            validation: (rule) => rule.required(),
             options: {
                 list: [
                     { title: "TypeScript", value: "typescript" },
