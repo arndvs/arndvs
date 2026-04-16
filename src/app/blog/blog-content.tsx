@@ -12,11 +12,11 @@ interface Post {
     _id: string;
     title: string;
     slug: string;
-    excerpt?: string | null;
-    publishedAt?: string | null;
+    excerpt: string | null;
+    publishedAt: string;
     mainImage?: SanityImageWithAlt | null;
-    categories?: string[] | null;
-    bodyCharCount?: number | null;
+    categories: string[] | null;
+    bodyCharCount: number;
 }
 
 export function BlogListContent({ posts }: { posts: Post[] }) {
@@ -64,10 +64,10 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                                 title={post.title}
                                 slug={post.slug}
                                 excerpt={post.excerpt ?? undefined}
-                                publishedAt={post.publishedAt ?? undefined}
+                                publishedAt={post.publishedAt}
                                 mainImage={post.mainImage ?? undefined}
                                 categories={post.categories ?? undefined}
-                                readingTime={estimateReadingTime(post.bodyCharCount ?? 0)}
+                                readingTime={estimateReadingTime(post.bodyCharCount)}
                             />
                         ))}
                     </motion.div>

@@ -16,7 +16,7 @@ import { useState } from "react";
 import { PortableText } from "next-sanity";
 
 import type { ChangelogEntry, ChangelogEntryType } from "@/lib/types/sanity";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 const typeConfig: Record<ChangelogEntryType, { icon: typeof Plus; color: string; label: string }> =
     {
@@ -47,14 +47,6 @@ const typeConfig: Record<ChangelogEntryType, { icon: typeof Plus; color: string;
         },
     };
 
-function formatDate(dateStr: string): string {
-    return new Date(dateStr).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-    });
-}
-
 export function ChangelogEntryCard({ entry }: { entry: ChangelogEntry }) {
     const [expanded, setExpanded] = useState(false);
     const config = typeConfig[entry.type] ?? typeConfig.feature;
@@ -83,7 +75,7 @@ export function ChangelogEntryCard({ entry }: { entry: ChangelogEntry }) {
                 <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0 flex-1">
                         <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
-                            <time dateTime={entry.date}>{formatDate(entry.date)}</time>
+                            <time dateTime={entry.date}>{formatDate(entry.date, "short")}</time>
                             <span
                                 className={cn(
                                     "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium",

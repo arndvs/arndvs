@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
+import { formatDate } from "@/lib/utils";
 import { urlFor } from "@/sanity/lib/image";
 
 interface PostHeaderProps {
@@ -20,13 +21,7 @@ export function PostHeader({
     mainImage,
     readingTime,
 }: PostHeaderProps) {
-    const formattedDate = publishedAt
-        ? new Date(publishedAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-          })
-        : null;
+    const formattedDate = publishedAt ? formatDate(publishedAt) : null;
 
     return (
         <header className="mx-auto max-w-3xl space-y-6 pb-8">
@@ -61,7 +56,7 @@ export function PostHeader({
                 <div className="overflow-hidden rounded-lg">
                     <Image
                         src={urlFor(mainImage).width(1200).height(630).url()}
-                        alt={(mainImage as { alt?: string }).alt || title}
+                        alt={mainImage.alt || title}
                         width={1200}
                         height={630}
                         className="w-full object-cover"
