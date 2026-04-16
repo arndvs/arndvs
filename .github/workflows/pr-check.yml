@@ -37,6 +37,13 @@ jobs:
             - name: Format check
               run: pnpm format:check
 
+            - name: Debug env vars
+              run: |
+                  echo "SANITY_API_VERSION is set: ${{ vars.NEXT_PUBLIC_SANITY_API_VERSION != '' }}"
+                  echo "SANITY_PROJECT_ID is set: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID != '' }}"
+                  echo "SANITY_DATASET is set: ${{ vars.NEXT_PUBLIC_SANITY_DATASET != '' }}"
+                  echo "SITE_URL is set: ${{ vars.NEXT_PUBLIC_SITE_URL != '' }}"
+
             - name: Build
               run: pnpm build
               env:
