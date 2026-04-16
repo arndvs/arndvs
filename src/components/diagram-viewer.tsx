@@ -2,7 +2,7 @@
 
 import { Maximize2, Minus, Plus, RotateCcw, X } from "lucide-react";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TransformComponent, TransformWrapper, useControls } from "react-zoom-pan-pinch";
 
 import { useTheme } from "next-themes";
@@ -103,6 +103,8 @@ function CanvasHint() {
 
 export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
     const [open, setOpen] = useState(false);
+    const dialogRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLButtonElement>(null);
     const { resolvedTheme } = useTheme();
     const mermaidTheme = resolvedTheme === "dark" ? "dark" : "neutral";
     const result = useMermaidSvg(chart, { theme: mermaidTheme });
@@ -112,20 +114,48 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
         return makeExplicitlySized(result.svg, result.naturalWidth, result.naturalHeight);
     }, [result]);
 
-    // Lock body scroll and handle ESC when fullscreen is open
+    // Lock body scroll, handle ESC, and trap focus when fullscreen is open
     useEffect(() => {
         if (!open) return;
 
         document.body.style.overflow = "hidden";
+        const previouslyFocused = document.activeElement as HTMLElement | null;
+
+        // Focus the dialog container
+        requestAnimationFrame(() => dialogRef.current?.focus());
 
         function onKeyDown(e: KeyboardEvent) {
-            if (e.key === "Escape") setOpen(false);
+            if (e.key === "Escape") {
+                setOpen(false);
+                return;
+            }
+            if (e.key !== "Tab") return;
+
+            const dialog = dialogRef.current;
+            if (!dialog) return;
+
+            const focusable = dialog.querySelectorAll<HTMLElement>(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+            );
+            if (focusable.length === 0) return;
+
+            const first = focusable[0]!;
+            const last = focusable[focusable.length - 1]!;
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
         }
 
         document.addEventListener("keydown", onKeyDown);
         return () => {
             document.body.style.overflow = "";
             document.removeEventListener("keydown", onKeyDown);
+            previouslyFocused?.focus();
         };
     }, [open]);
 
@@ -152,6 +182,7 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
                     size="sm"
                     className="pointer-events-auto shadow-md"
                     onClick={() => setOpen(true)}
+                    ref={triggerRef}
                 >
                     <Maximize2 className="mr-2 h-4 w-4" />
                     Expand Diagram
@@ -161,6 +192,8 @@ export function DiagramViewer({ chart, title, className }: DiagramViewerProps) {
             {/* Fullscreen dark canvas — like mermaid.live editor */}
             {open && fullscreenSvg && (
                 <div
+                    ref={dialogRef}
+                    tabIndex={-1}
                     className="animate-in fade-in bg-background fixed inset-0 z-50 duration-200"
                     role="dialog"
                     aria-label={`${title} — fullscreen view`}

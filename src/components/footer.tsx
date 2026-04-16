@@ -80,7 +80,7 @@ export function Footer() {
                     {/* Connect */}
                     <motion.div variants={itemVariants} className="space-y-4">
                         <h3 className="text-lg font-semibold">Connect</h3>
-                        <div className="flex gap-4" aria-label="Social media links">
+                        <nav className="flex gap-4" aria-label="Social links">
                             {footerData.social.map((social) => {
                                 const Icon = social.icon;
                                 return (
@@ -104,7 +104,7 @@ export function Footer() {
                                 triggerText=""
                                 showIcon={false}
                             />
-                        </div>
+                        </nav>
                         <p className="text-muted-foreground text-sm">{footerData.location}</p>
                     </motion.div>
                 </div>
