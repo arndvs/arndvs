@@ -1,7 +1,7 @@
 import { parseBody } from "next-sanity/webhook";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { siteConfig } from "@/sanity/env";
+import { siteConfig, webhookSecret } from "@/sanity/env";
 
 function getIndexNowKey(): string {
     const key = process.env.INDEXNOW_KEY;
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     try {
         const { body, isValidSignature } = await parseBody<WebhookBody>(
             req,
-            process.env.SANITY_WEBHOOK_SECRET,
+            webhookSecret,
         );
 
         if (!isValidSignature)

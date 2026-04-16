@@ -2,6 +2,7 @@ import { parseBody } from "next-sanity/webhook";
 import { type NextRequest, NextResponse } from "next/server";
 
 import { enhanceAndPersistPost } from "@/lib/ai-content-enhancement";
+import { webhookSecret } from "@/sanity/env";
 
 interface WebhookBody {
     _id: string;
@@ -16,7 +17,7 @@ export async function POST(req: NextRequest) {
     try {
         const { body, isValidSignature } = await parseBody<WebhookBody>(
             req,
-            process.env.SANITY_WEBHOOK_SECRET,
+            webhookSecret,
         );
 
         if (!isValidSignature)

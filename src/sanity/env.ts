@@ -18,6 +18,11 @@ export const token = assertValue(
     "Missing environment variable: SANITY_API_READ_TOKEN",
 );
 
+export const webhookSecret = assertValue(
+    process.env.SANITY_WEBHOOK_SECRET,
+    "Missing environment variable: SANITY_WEBHOOK_SECRET",
+);
+
 export const siteConfig = {
     url: assertValue(
         process.env.NEXT_PUBLIC_SITE_URL,
