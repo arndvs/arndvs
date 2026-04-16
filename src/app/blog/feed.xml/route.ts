@@ -27,8 +27,8 @@ export async function GET() {
     for (const post of posts) {
         feed.addItem({
             title: post.title,
-            id: `${siteConfig.url}/blog/${post.slug.current}`,
-            link: `${siteConfig.url}/blog/${post.slug.current}`,
+            id: `${siteConfig.url}/blog/${post.slug}`,
+            link: `${siteConfig.url}/blog/${post.slug}`,
             description: post.excerpt ?? "",
             date: new Date(post.publishedAt),
         });

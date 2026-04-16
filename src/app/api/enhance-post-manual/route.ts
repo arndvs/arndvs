@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { enhanceAndPersistPost } from "@/lib/ai-content-enhancement";
 import { safeCompare } from "@/lib/auth";
 import { client } from "@/sanity/lib/client";
+import { ENHANCE_POST_QUERY } from "@/sanity/lib/queries";
 
 function isAuthorized(authHeader: string | null): boolean {
     const secret = process.env.ENHANCE_POST_SECRET;
@@ -36,13 +37,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Missing postId in request body" }, { status: 400 });
 
         const post = await client.withConfig({ useCdn: false }).fetch(
-            `*[_type == "post" && _id == $id][0]{
-                _id,
-                title,
-                excerpt,
-                "bodyText": pt::text(body),
-                categories
-            }`,
+            ENHANCE_POST_QUERY,
             { id: postId },
         );
 
@@ -52,9 +47,9 @@ export async function POST(req: NextRequest) {
         const result = await enhanceAndPersistPost({
             _id: post._id,
             title: post.title,
-            excerpt: post.excerpt,
+            excerpt: post.excerpt ?? undefined,
             bodyText: post.bodyText || "",
-            categories: post.categories,
+            categories: post.categories ?? undefined,
         });
 
         return NextResponse.json({

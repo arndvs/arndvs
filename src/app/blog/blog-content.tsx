@@ -11,7 +11,7 @@ import { estimateReadingTime } from "@/lib/utils";
 interface Post {
     _id: string;
     title: string;
-    slug: { current: string };
+    slug: string;
     excerpt?: string | null;
     publishedAt?: string | null;
     mainImage?: SanityImageWithAlt | null;

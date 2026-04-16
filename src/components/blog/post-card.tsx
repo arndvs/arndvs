@@ -12,7 +12,7 @@ import { urlFor } from "@/sanity/lib/image";
 
 interface PostCardProps {
     title: string;
-    slug: { current: string };
+    slug: string;
     excerpt?: string;
     publishedAt?: string;
     mainImage?: SanityImageWithAlt;
@@ -41,7 +41,7 @@ export function PostCard({
 
     return (
         <motion.div variants={cardVariants}>
-            <Link href={`/blog/${slug.current}`}>
+            <Link href={`/blog/${slug}`}>
                 <Card className="group hover:border-primary/50 h-full overflow-hidden transition-all hover:shadow-lg">
                     {mainImage && (
                         <div className="overflow-hidden border-b">

@@ -62,7 +62,7 @@ export function ChangelogEntryCard({ entry }: { entry: ChangelogEntry }) {
     const hasBody = entry.body && entry.body.length > 0;
 
     return (
-        <div id={entry.slug.current} className="relative pl-10">
+        <div id={entry.slug} className="relative pl-10">
             {/* Timeline dot */}
             <div
                 className={cn(

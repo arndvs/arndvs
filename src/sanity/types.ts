@@ -113,7 +113,7 @@ export type Post = {
     title: string;
     slug: Slug;
     author?: string;
-    publishedAt?: string;
+    publishedAt: string;
     excerpt?: string;
     tldr?: string;
     mainImage?: {
@@ -301,11 +301,11 @@ export type AllSanitySchemaTypes =
 
 // Source: src/sanity/lib/queries.ts
 // Variable: POSTS_QUERY
-// Query: *[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {    _id,    title,    slug,    excerpt,    publishedAt,    mainImage {      ...,      asset-> { _id, url, metadata { dimensions, lqip } }    },    categories,    "bodyCharCount": length(pt::text(body))  }
+// Query: *[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {    _id,    title,    "slug": slug.current,    excerpt,    publishedAt,    mainImage {        asset->{ _id, url, metadata { dimensions, lqip } },  hotspot,  crop,      alt    },    categories,    "bodyCharCount": length(pt::text(body))  }
 export type POSTS_QUERY_RESULT = Array<{
     _id: string;
     title: string;
-    slug: Slug;
+    slug: string;
     excerpt: string | null;
     publishedAt: string;
     mainImage: {
@@ -317,11 +317,9 @@ export type POSTS_QUERY_RESULT = Array<{
                 lqip: string | null;
             } | null;
         } | null;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
+        hotspot: SanityImageHotspot | null;
+        crop: SanityImageCrop | null;
         alt: string;
-        _type: "image";
     } | null;
     categories: Array<string> | null;
     bodyCharCount: number;
@@ -329,14 +327,14 @@ export type POSTS_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: POST_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0] {    _id,    _updatedAt,    title,    slug,    author,    publishedAt,    excerpt,    tldr,    mainImage {      ...,      asset-> { _id, url, metadata { dimensions, lqip } }    },    body[] {      ...,      _type == "image" => {        ...,        asset-> { _id, url, metadata { dimensions, lqip } }      }    },    "bodyCharCount": length(pt::text(body)),    categories,    seo {      ...,      image { ..., asset-> { _id, url, metadata { dimensions } } }    }  }
+// Query: *[_type == "post" && slug.current == $slug][0] {    _id,    _updatedAt,    title,    "slug": slug.current,    author,    publishedAt,    excerpt,    tldr,    mainImage {        asset->{ _id, url, metadata { dimensions, lqip } },  hotspot,  crop,      alt    },    body[] {      ...,      _type == "inlineImage" => {        ...,          asset->{ _id, url, metadata { dimensions, lqip } },  hotspot,  crop      }    },    "bodyCharCount": length(pt::text(body)),    categories,    seo {      metaTitle,      metaDescription,      focusKeyword,      keywords,      noIndex,      image {        asset->{ _id, url, metadata { dimensions } },        hotspot,        crop      }    }  }
 export type POST_QUERY_RESULT = {
     _id: string;
     _updatedAt: string;
     title: string;
-    slug: Slug;
+    slug: string;
     author: string | null;
-    publishedAt: string | null;
+    publishedAt: string;
     excerpt: string | null;
     tldr: string | null;
     mainImage: {
@@ -348,11 +346,9 @@ export type POST_QUERY_RESULT = {
                 lqip: string | null;
             } | null;
         } | null;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
+        hotspot: SanityImageHotspot | null;
+        crop: SanityImageCrop | null;
         alt: string;
-        _type: "image";
     } | null;
     body: Array<
         | {
@@ -396,10 +392,17 @@ export type POST_QUERY_RESULT = {
               filename?: string;
           }
         | {
-              asset?: SanityImageAssetReference;
+              asset: {
+                  _id: string;
+                  url: string;
+                  metadata: {
+                      dimensions: SanityImageDimensions | null;
+                      lqip: string | null;
+                  } | null;
+              } | null;
               media?: unknown;
-              hotspot?: SanityImageHotspot;
-              crop?: SanityImageCrop;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
               alt: string;
               caption?: string;
               _type: "inlineImage";
@@ -409,11 +412,11 @@ export type POST_QUERY_RESULT = {
     bodyCharCount: number;
     categories: Array<string> | null;
     seo: {
-        _type: "seo";
-        metaTitle?: string;
-        metaDescription?: string;
-        focusKeyword?: string;
-        keywords?: Array<string>;
+        metaTitle: string | null;
+        metaDescription: string | null;
+        focusKeyword: string | null;
+        keywords: Array<string> | null;
+        noIndex: boolean | null;
         image: {
             asset: {
                 _id: string;
@@ -422,12 +425,9 @@ export type POST_QUERY_RESULT = {
                     dimensions: SanityImageDimensions | null;
                 } | null;
             } | null;
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: "image";
+            hotspot: SanityImageHotspot | null;
+            crop: SanityImageCrop | null;
         } | null;
-        noIndex?: boolean;
     } | null;
 } | null;
 
@@ -446,11 +446,11 @@ export type SITEMAP_POSTS_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: CHANGELOG_QUERY
-// Query: *[_type == "changelogEntry"] | order(date desc) [0...50] {    _id,    title,    slug,    date,    type,    summary,    body,    relatedProject,    commitHash,    commitRange,    isHighlight,    source  }
+// Query: *[_type == "changelogEntry"] | order(date desc) [0...50] {    _id,    title,    "slug": slug.current,    date,    type,    summary,    body,    relatedProject,    commitHash,    commitRange,    isHighlight,    source  }
 export type CHANGELOG_QUERY_RESULT = Array<{
     _id: string;
     title: string;
-    slug: Slug;
+    slug: string;
     date: string;
     type: "content" | "feature" | "fix" | "improvement" | "infrastructure";
     summary: string;
@@ -484,13 +484,25 @@ export type CHANGELOG_QUERY_RESULT = Array<{
 // Query: *[_type == "changelogEntry"] | order(date desc) [0].date
 export type CHANGELOG_LATEST_DATE_QUERY_RESULT = string | null;
 
+// Source: src/sanity/lib/queries.ts
+// Variable: ENHANCE_POST_QUERY
+// Query: *[_type == "post" && _id == $id][0] {    _id,    title,    excerpt,    "bodyText": pt::text(body),    categories  }
+export type ENHANCE_POST_QUERY_RESULT = {
+    _id: string;
+    title: string;
+    excerpt: string | null;
+    bodyText: string;
+    categories: Array<string> | null;
+} | null;
+
 declare module "@sanity/client" {
     interface SanityQueries {
-        '\n  *[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {\n    _id,\n    title,\n    slug,\n    excerpt,\n    publishedAt,\n    mainImage {\n      ...,\n      asset-> { _id, url, metadata { dimensions, lqip } }\n    },\n    categories,\n    "bodyCharCount": length(pt::text(body))\n  }\n': POSTS_QUERY_RESULT;
-        '\n  *[_type == "post" && slug.current == $slug][0] {\n    _id,\n    _updatedAt,\n    title,\n    slug,\n    author,\n    publishedAt,\n    excerpt,\n    tldr,\n    mainImage {\n      ...,\n      asset-> { _id, url, metadata { dimensions, lqip } }\n    },\n    body[] {\n      ...,\n      _type == "image" => {\n        ...,\n        asset-> { _id, url, metadata { dimensions, lqip } }\n      }\n    },\n    "bodyCharCount": length(pt::text(body)),\n    categories,\n    seo {\n      ...,\n      image { ..., asset-> { _id, url, metadata { dimensions } } }\n    }\n  }\n': POST_QUERY_RESULT;
+        '\n  *[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    publishedAt,\n    mainImage {\n      \n  asset->{ _id, url, metadata { dimensions, lqip } },\n  hotspot,\n  crop\n,\n      alt\n    },\n    categories,\n    "bodyCharCount": length(pt::text(body))\n  }\n': POSTS_QUERY_RESULT;
+        '\n  *[_type == "post" && slug.current == $slug][0] {\n    _id,\n    _updatedAt,\n    title,\n    "slug": slug.current,\n    author,\n    publishedAt,\n    excerpt,\n    tldr,\n    mainImage {\n      \n  asset->{ _id, url, metadata { dimensions, lqip } },\n  hotspot,\n  crop\n,\n      alt\n    },\n    body[] {\n      ...,\n      _type == "inlineImage" => {\n        ...,\n        \n  asset->{ _id, url, metadata { dimensions, lqip } },\n  hotspot,\n  crop\n\n      }\n    },\n    "bodyCharCount": length(pt::text(body)),\n    categories,\n    seo {\n      metaTitle,\n      metaDescription,\n      focusKeyword,\n      keywords,\n      noIndex,\n      image {\n        asset->{ _id, url, metadata { dimensions } },\n        hotspot,\n        crop\n      }\n    }\n  }\n': POST_QUERY_RESULT;
         '\n  *[_type == "post" && defined(slug.current)][].slug.current\n': POST_SLUGS_QUERY_RESULT;
         '\n  *[_type == "post" && defined(slug.current)] {\n    "slug": slug.current,\n    _updatedAt\n  }\n': SITEMAP_POSTS_QUERY_RESULT;
-        '\n  *[_type == "changelogEntry"] | order(date desc) [0...50] {\n    _id,\n    title,\n    slug,\n    date,\n    type,\n    summary,\n    body,\n    relatedProject,\n    commitHash,\n    commitRange,\n    isHighlight,\n    source\n  }\n': CHANGELOG_QUERY_RESULT;
+        '\n  *[_type == "changelogEntry"] | order(date desc) [0...50] {\n    _id,\n    title,\n    "slug": slug.current,\n    date,\n    type,\n    summary,\n    body,\n    relatedProject,\n    commitHash,\n    commitRange,\n    isHighlight,\n    source\n  }\n': CHANGELOG_QUERY_RESULT;
         '\n  *[_type == "changelogEntry"] | order(date desc) [0].date\n': CHANGELOG_LATEST_DATE_QUERY_RESULT;
+        '\n  *[_type == "post" && _id == $id][0] {\n    _id,\n    title,\n    excerpt,\n    "bodyText": pt::text(body),\n    categories\n  }\n': ENHANCE_POST_QUERY_RESULT;
     }
 }

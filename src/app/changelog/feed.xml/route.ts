@@ -27,8 +27,8 @@ export async function GET() {
     for (const entry of entries) {
         feed.addItem({
             title: entry.title,
-            id: `${siteConfig.url}/changelog#${entry.slug.current}`,
-            link: `${siteConfig.url}/changelog#${entry.slug.current}`,
+            id: `${siteConfig.url}/changelog#${entry.slug}`,
+            link: `${siteConfig.url}/changelog#${entry.slug}`,
             description: entry.summary,
             date: new Date(entry.date),
             category: [{ name: entry.type }],
