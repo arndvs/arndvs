@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
             status: 200,
             revalidated: true,
             now: Date.now(),
-            body,
+            type: body._type,
         });
     } catch (err) {
         console.error("Revalidation error:", err);

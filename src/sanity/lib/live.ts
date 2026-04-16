@@ -1,11 +1,11 @@
 import { defineLive } from "next-sanity/live";
 
-import { tokens } from "../env";
+import { token } from "../env";
 import { liveClient } from "./client";
 
 const liveConfig = defineLive({
     client: liveClient,
-    serverToken: tokens.read,
+    serverToken: token,
 });
 
 export const { sanityFetch, SanityLive } = liveConfig;

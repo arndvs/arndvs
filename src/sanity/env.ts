@@ -13,10 +13,10 @@ export const projectId = assertValue(
     "Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID",
 );
 
-export const tokens = {
-    read: process.env.SANITY_API_READ_TOKEN,
-    write: process.env.SANITY_API_TOKEN,
-} as const;
+export const token = assertValue(
+    process.env.SANITY_API_READ_TOKEN,
+    "Missing environment variable: SANITY_API_READ_TOKEN",
+);
 
 export const siteConfig = {
     url: assertValue(

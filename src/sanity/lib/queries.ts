@@ -32,7 +32,7 @@ export const POST_QUERY = defineQuery(`
     },
     body[] {
       ...,
-      _type == "image" => {
+      _type == "inlineImage" => {
         ...,
         asset-> { _id, url, metadata { dimensions, lqip } }
       }
