@@ -16,6 +16,9 @@ export const pageData: PageData<DiagramKey> = {
             { label: "Framework Detections", value: "11" },
         ],
         cta: { text: "View on GitHub", href: "https://github.com/arndvs/ctrl" },
+        screenshotSrc: "/projects/ctrlshft/ctrl-hero.png",
+        screenshotAlt:
+            "CTRL+SHFT homepage showing the bootstrap terminal output and tagline",
     },
 
     situation: {
