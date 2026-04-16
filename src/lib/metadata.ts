@@ -12,6 +12,7 @@ interface SiteMetadataOptions {
     type?: "website" | "article";
     publishedTime?: string;
     authors?: string[];
+    feedUrl?: string;
 }
 
 const defaultOgImage = {
@@ -31,6 +32,7 @@ export function generateSiteMetadata({
     type = "website",
     publishedTime,
     authors,
+    feedUrl,
 }: SiteMetadataOptions): Metadata {
     const url = `${siteConfig.url}${path}`;
     const resolvedCanonical = canonical ?? path;
@@ -41,9 +43,9 @@ export function generateSiteMetadata({
         description,
         alternates: {
             canonical: resolvedCanonical,
-            types: {
-                "application/rss+xml": "/blog/feed.xml",
-            },
+            ...(feedUrl && {
+                types: { "application/rss+xml": feedUrl },
+            }),
         },
         openGraph: {
             title,

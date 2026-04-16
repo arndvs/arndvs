@@ -1,9 +1,11 @@
-import { defineField, defineType } from "sanity";
+import { DocumentTextIcon } from "@sanity/icons";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const postType = defineType({
     name: "post",
     title: "Post",
     type: "document",
+    icon: DocumentTextIcon,
     fields: [
         defineField({
             name: "title",
@@ -31,6 +33,7 @@ export const postType = defineType({
             name: "publishedAt",
             title: "Published At",
             type: "datetime",
+            validation: (rule) => rule.required(),
         }),
         defineField({
             name: "excerpt",
@@ -45,7 +48,8 @@ export const postType = defineType({
             title: "TL;DR",
             type: "text",
             rows: 3,
-            description: "Brief summary for quick readers. Shown as a callout at the top of the post.",
+            description:
+                "Brief summary for quick readers. Shown as a callout at the top of the post.",
             validation: (rule) => rule.max(500),
         }),
         defineField({
@@ -70,7 +74,7 @@ export const postType = defineType({
             title: "Body",
             type: "array",
             of: [
-                {
+                defineArrayMember({
                     type: "block",
                     styles: [
                         { title: "Normal", value: "normal" },
@@ -112,8 +116,8 @@ export const postType = defineType({
                             },
                         ],
                     },
-                },
-                defineField({
+                }),
+                defineArrayMember({
                     type: "image",
                     name: "inlineImage",
                     options: { hotspot: true },
@@ -131,9 +135,9 @@ export const postType = defineType({
                         }),
                     ],
                 }),
-                {
+                defineArrayMember({
                     type: "codeBlock",
-                },
+                }),
             ],
         }),
         defineField({

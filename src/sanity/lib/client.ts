@@ -1,13 +1,13 @@
 import { createClient } from "next-sanity";
 
-import { apiVersion, dataset, projectId } from "../env";
+import { apiVersion, dataset, projectId, siteConfig, token } from "../env";
 
 const baseConfig = {
     projectId,
     dataset,
     apiVersion,
     stega: {
-        studioUrl: process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || "/studio",
+        studioUrl: siteConfig.studioUrl,
     },
 };
 
@@ -18,6 +18,6 @@ export const client = createClient({
 
 export const liveClient = createClient({
     ...baseConfig,
-    useCdn: true,
-    token: process.env.SANITY_API_READ_TOKEN,
+    useCdn: false,
+    token,
 });

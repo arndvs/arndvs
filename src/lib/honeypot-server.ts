@@ -1,7 +1,5 @@
-interface HoneypotResult {
-    isValid: boolean;
-    reason?: string;
-}
+import type { HoneypotResult } from "@/lib/types/honeypot";
+
 export function validateHoneypotServer(
     formData: Record<string, string>,
     serverTime: number = Date.now(),

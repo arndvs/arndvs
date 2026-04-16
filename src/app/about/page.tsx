@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { personJsonLd } from "@/lib/data/json-ld";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
@@ -45,44 +46,7 @@ export default function AboutPage() {
                     },
                 ],
             },
-            {
-                "@type": "Person",
-                "@id": `${siteConfig.url}/#person`,
-                name: "Aaron Davis",
-                url: siteConfig.url,
-                jobTitle: "Full-Stack Engineer & AI Builder",
-                description:
-                    "Full-stack engineer with 8+ years of experience building AI-powered SaaS platforms and agentic systems.",
-                sameAs: ["https://github.com/arndvs", "https://linkedin.com/in/arndvs"],
-                knowsAbout: [
-                    "React",
-                    "Next.js",
-                    "TypeScript",
-                    "Node.js",
-                    "Python",
-                    "AI Engineering",
-                    "RAG Systems",
-                    "OpenAI",
-                    "Sanity CMS",
-                    "Model Context Protocol",
-                    "Agentic Engineering",
-                    "Full-Stack Development",
-                ],
-                alumniOf: [
-                    {
-                        "@type": "EducationalOrganization",
-                        name: "UC San Diego Extended Studies",
-                    },
-                    {
-                        "@type": "EducationalOrganization",
-                        name: "Stanford University Online",
-                    },
-                    {
-                        "@type": "EducationalOrganization",
-                        name: "California State University, East Bay",
-                    },
-                ],
-            },
+            personJsonLd,
         ],
     };
 

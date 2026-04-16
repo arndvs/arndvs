@@ -5,17 +5,18 @@ import { motion } from "framer-motion";
 import { PostCard } from "@/components/blog/post-card";
 import { ContactForm } from "@/components/contact-form";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
+import type { SanityImageWithAlt } from "@/lib/types/sanity";
 import { estimateReadingTime } from "@/lib/utils";
 
 interface Post {
     _id: string;
     title: string;
-    slug: { current: string };
-    excerpt?: string;
-    publishedAt?: string;
-    mainImage?: { alt?: string; asset?: { _ref: string } };
-    categories?: string[];
-    bodyCharCount?: number;
+    slug: string;
+    excerpt: string | null;
+    publishedAt: string;
+    mainImage?: SanityImageWithAlt | null;
+    categories: string[] | null;
+    bodyCharCount: number;
 }
 
 export function BlogListContent({ posts }: { posts: Post[] }) {
@@ -62,11 +63,11 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                                 key={post._id}
                                 title={post.title}
                                 slug={post.slug}
-                                excerpt={post.excerpt}
+                                excerpt={post.excerpt ?? undefined}
                                 publishedAt={post.publishedAt}
-                                mainImage={post.mainImage}
-                                categories={post.categories}
-                                readingTime={estimateReadingTime(post.bodyCharCount ?? 0)}
+                                mainImage={post.mainImage ?? undefined}
+                                categories={post.categories ?? undefined}
+                                readingTime={estimateReadingTime(post.bodyCharCount)}
                             />
                         ))}
                     </motion.div>

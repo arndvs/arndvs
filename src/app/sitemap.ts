@@ -3,22 +3,22 @@ import type { MetadataRoute } from "next";
 import { PROJECTS } from "@/lib/data/projects";
 import { siteConfig } from "@/sanity/env";
 import { client } from "@/sanity/lib/client";
-import { POST_SLUGS_QUERY } from "@/sanity/lib/queries";
+import { SITEMAP_POSTS_QUERY } from "@/sanity/lib/queries";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = siteConfig.url;
 
-    // Fetch blog post slugs from Sanity
-    let blogSlugs: string[] = [];
+    // Fetch blog posts with their last-updated timestamp from Sanity
+    let blogPosts: Array<{ slug: string; _updatedAt: string }> = [];
     try {
-        blogSlugs = await client.fetch(POST_SLUGS_QUERY);
+        blogPosts = await client.withConfig({ useCdn: false }).fetch(SITEMAP_POSTS_QUERY);
     } catch (error) {
         console.error("Failed to fetch blog slugs for sitemap:", error);
     }
 
-    const blogEntries: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({
-        url: `${baseUrl}/blog/${slug}`,
-        lastModified: new Date(),
+    const blogEntries: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+        url: `${baseUrl}/blog/${post.slug}`,
+        lastModified: new Date(post._updatedAt),
         changeFrequency: "weekly",
         priority: 0.7,
     }));
@@ -60,6 +60,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             lastModified: new Date(),
             changeFrequency: "weekly",
             priority: 0.6,
+        },
+        {
+            url: `${baseUrl}/work-with-me`,
+            lastModified: new Date(),
+            changeFrequency: "monthly",
+            priority: 0.9,
         },
         ...projectEntries,
         ...blogEntries,

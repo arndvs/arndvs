@@ -1,7 +1,7 @@
 import { parseBody } from "next-sanity/webhook";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { siteConfig } from "@/sanity/env";
+import { siteConfig, webhookSecret } from "@/sanity/env";
 
 function getIndexNowKey(): string {
     const key = process.env.INDEXNOW_KEY;
@@ -36,10 +36,7 @@ async function submitToIndexNow(urls: string[]) {
 
 export async function POST(req: NextRequest) {
     try {
-        const { body, isValidSignature } = await parseBody<WebhookBody>(
-            req,
-            process.env.SANITY_WEBHOOK_SECRET,
-        );
+        const { body, isValidSignature } = await parseBody<WebhookBody>(req, webhookSecret);
 
         if (!isValidSignature)
             return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
@@ -72,6 +69,6 @@ export async function POST(req: NextRequest) {
         });
     } catch (err) {
         console.error("IndexNow webhook error:", err);
-        return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }

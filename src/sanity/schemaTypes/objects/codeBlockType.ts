@@ -1,20 +1,24 @@
+import { CodeBlockIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
 export const codeBlockType = defineType({
     name: "codeBlock",
     title: "Code Block",
     type: "object",
+    icon: CodeBlockIcon,
     fields: [
         defineField({
             name: "code",
             title: "Code",
             type: "text",
             rows: 10,
+            validation: (rule) => rule.required(),
         }),
         defineField({
             name: "language",
             title: "Language",
             type: "string",
+            validation: (rule) => rule.required(),
             options: {
                 list: [
                     { title: "TypeScript", value: "typescript" },

@@ -6,7 +6,6 @@ import { ArrowRight, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { ContactForm } from "@/components/contact-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
@@ -20,9 +19,9 @@ const projectsPageData = {
     projects: [
         {
             id: "ctrl",
-            title: "ctrl",
+            title: "ctrl+shft",
             description:
-                "Autonomous AI agent infrastructure — synced instructions, skills, and secrets from a single dotfiles repo. One git pull updates every machine. Agents load only what's relevant.",
+                "The infrastructure behind my consulting practice. Autonomous agent architecture — synced instructions, specialist skills, and hardened secrets from a single source of truth. The same system I implement for clients, open source and in production.",
             category: "AI Infrastructure / Developer Tools",
             color: "orange",
             technologies: [
@@ -97,10 +96,11 @@ const projectsPageData = {
         // },
     ],
     cta: {
-        title: "Interested in working together?",
+        title: "Work with me",
         description:
-            "I'm currently taking on freelance projects and exploring full-time opportunities in AI-first companies.",
-        buttonText: "Get in touch",
+            "I work with a small number of clients on AI systems consulting and full-stack development. If you have something worth building, let's talk.",
+        buttonText: "Work with me",
+        buttonHref: "/work-with-me",
     },
 };
 interface Project {
@@ -255,7 +255,6 @@ export default function ProjectsContent() {
                     viewport={{ once: true, margin: "-100px" }}
                     variants={containerVariants}
                     className="mt-16 grid gap-8 md:grid-cols-2"
-                    role="list"
                     aria-label="Projects"
                 >
                     {projectsPageData.projects.map((project) => (
@@ -281,7 +280,12 @@ export default function ProjectsContent() {
                                     {projectsPageData.cta.description}
                                 </p>
                                 <div className="mt-6">
-                                    <ContactForm triggerText={projectsPageData.cta.buttonText} />
+                                    <Button asChild size="lg">
+                                        <Link href={projectsPageData.cta.buttonHref}>
+                                            {projectsPageData.cta.buttonText}{" "}
+                                            <ArrowRight className="ml-2 h-4 w-4" />
+                                        </Link>
+                                    </Button>
                                 </div>
                             </CardContent>
                         </Card>

@@ -1,7 +1,8 @@
 import { parseBody } from "next-sanity/webhook";
 import { type NextRequest, NextResponse } from "next/server";
 
-import { enhancePostSeo, writeEnhancementToSanity } from "@/lib/ai-content-enhancement";
+import { enhanceAndPersistPost } from "@/lib/ai-content-enhancement";
+import { webhookSecret } from "@/sanity/env";
 
 interface WebhookBody {
     _id: string;
@@ -14,10 +15,7 @@ interface WebhookBody {
 
 export async function POST(req: NextRequest) {
     try {
-        const { body, isValidSignature } = await parseBody<WebhookBody>(
-            req,
-            process.env.SANITY_WEBHOOK_SECRET,
-        );
+        const { body, isValidSignature } = await parseBody<WebhookBody>(req, webhookSecret);
 
         if (!isValidSignature)
             return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
@@ -28,15 +26,13 @@ export async function POST(req: NextRequest) {
         if (!body._id || !body.title)
             return NextResponse.json({ error: "Missing _id or title" }, { status: 400 });
 
-        const result = await enhancePostSeo({
+        const result = await enhanceAndPersistPost({
             _id: body._id,
             title: body.title,
             excerpt: body.excerpt,
             bodyText: body.bodyText || "",
             categories: body.categories,
         });
-
-        await writeEnhancementToSanity(body._id, result);
 
         return NextResponse.json({
             status: 200,
@@ -46,6 +42,6 @@ export async function POST(req: NextRequest) {
         });
     } catch (err) {
         console.error("AI enhancement webhook error:", err);
-        return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }

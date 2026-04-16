@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import aaronPint from "@/../public/images/aaron-pint.webp";
-import { ContactForm } from "@/components/contact-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { technologiesData } from "@/lib/data/technologies";
@@ -15,12 +14,12 @@ import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
 const pageData = {
     hero: {
-        title: "Full-Stack Engineer & AI Builder",
+        title: "Full-Stack Engineer & AI Systems Consultant",
         description:
-            "8+ years shipping production software. I founded RipeMetrics, an AI-native customer growth platform. Now I build full-stack applications and agentic AI systems for clients who need software that actually works.",
+            "8+ years building production software. I founded RipeMetrics — an AI-native customer growth platform — and now design and implement agentic AI systems for businesses that need more than a demo. I also build full-stack applications for clients who need software that actually works.",
         cta: {
             primary: { text: "View Projects", href: "/projects", icon: ArrowRight },
-            secondary: { text: "Contact", variant: "outline" as const },
+            secondary: { text: "Work with me", href: "/work-with-me", variant: "outline" as const },
         },
         image: {
             src: aaronPint,
@@ -35,8 +34,8 @@ const pageData = {
         title: "About",
         paragraphs: [
             "I founded RipeMetrics in 2017 and along with the team helped scale it from a prototype to an AI-native customer growth platform. That meant building everything \u2014 React frontends, Node/Python backends, OpenAI integrations, RAG pipelines with Pinecone, and real-time messaging systems processing thousands of interactions daily.",
-            "Right now I\u2019m building a Next.js 16 wellness platform for AlignSD with Sanity CMS, structured data, and AI-assisted content.",
-            "I\u2019m most interested in agentic engineering \u2014 wiring LLMs, tool-use, and structured outputs into systems that run autonomously. When AI handles the repetitive work, I focus on architecture and the problems that actually need a human.",
+            "Right now I\u2019m building agent systems for businesses alongside full-stack client work \u2014 the infrastructure layer that makes AI reliable in production rather than just impressive in a demo.",
+            "I\u2019m most interested in agentic engineering: specialist agent architectures, progressive context loading, and the operational patterns that let AI systems run autonomously at the quality level a real business needs. When the agents handle the repetitive cognitive work, I focus on the architecture and the judgment calls that actually need a human.",
         ],
         techStack: {
             title: "Technologies I work with",
@@ -50,9 +49,9 @@ const pageData = {
         projects: [
             {
                 id: "ctrl",
-                title: "ctrl",
+                title: "ctrl+shft",
                 description:
-                    "Autonomous AI agent infrastructure \u2014 synced instructions, skills, and secrets from a single dotfiles repo. 12 self-learning skills, 3-tier security model, and a Docker-sandboxed autonomous loop.",
+                    "The infrastructure behind my consulting practice. Autonomous agent architecture \u2014 synced instructions, specialist skills, and hardened secrets from a single source of truth. The same system I implement for clients, open source and in production.",
                 category: "AI Infrastructure / Developer Tools",
                 statusColor: "orange" as const,
                 technologies: ["Bash", "TypeScript", "Docker", "Claude Code", "VS Code Copilot"],
@@ -94,9 +93,13 @@ const pageData = {
         ],
     },
     contact: {
-        title: "Let\u2019s work together",
-        description: "I\u2019m always interested in hearing about new projects and opportunities.",
-        ctaText: "Get in touch",
+        title: "Work with me",
+        description:
+            "I design and implement AI agent systems for businesses, and build full-stack applications for clients who need production-grade software.",
+        descriptionCta:
+            "If you\u2019re a business looking to systematize how your team works with AI \u2014 or a developer who needs a technical partner \u2014 let\u2019s talk.",
+        ctaText: "Work with me",
+        ctaHref: "/work-with-me",
         socialLinks: [
             { type: "github", text: "GitHub", href: "https://github.com/arndvs", icon: Github },
             {
@@ -244,10 +247,11 @@ export default function HomeContent() {
                                     <pageData.hero.cta.primary.icon className="ml-2 h-4 w-4" />
                                 </Link>
                             </Button>
-                            <ContactForm
-                                triggerText={pageData.hero.cta.secondary.text}
-                                triggerVariant={pageData.hero.cta.secondary.variant}
-                            />
+                            <Button asChild size="lg" variant={pageData.hero.cta.secondary.variant}>
+                                <Link href={pageData.hero.cta.secondary.href}>
+                                    {pageData.hero.cta.secondary.text}
+                                </Link>
+                            </Button>
                         </div>
                     </div>
 
@@ -355,8 +359,15 @@ export default function HomeContent() {
                     <p className="text-muted-foreground mt-4 text-lg">
                         {pageData.contact.description}
                     </p>
+                    <p className="text-muted-foreground mt-2 text-lg">
+                        {pageData.contact.descriptionCta}
+                    </p>
                     <div className="mt-8 flex flex-wrap gap-4">
-                        <ContactForm triggerText={pageData.contact.ctaText} />
+                        <Button asChild size="lg">
+                            <Link href={pageData.contact.ctaHref}>
+                                {pageData.contact.ctaText} <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
                         {pageData.contact.socialLinks.map((link) => (
                             <SocialLink key={link.type} {...link} />
                         ))}

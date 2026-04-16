@@ -13,6 +13,7 @@ export const metadata: Metadata = generateSiteMetadata({
     description:
         "Technical articles on Sanity CMS, Next.js, AI engineering, and modern web development by Aaron Davis.",
     path: "/blog",
+    feedUrl: "/blog/feed.xml",
 });
 
 export default async function BlogPage() {
@@ -33,14 +34,12 @@ export default async function BlogPage() {
         mainEntity: {
             "@type": "ItemList",
             numberOfItems: posts.length,
-            itemListElement: posts.map(
-                (post: { slug: { current: string }; title: string }, index: number) => ({
-                    "@type": "ListItem",
-                    position: index + 1,
-                    url: `${siteConfig.url}/blog/${post.slug.current}`,
-                    name: post.title,
-                }),
-            ),
+            itemListElement: posts.map((post: { slug: string; title: string }, index: number) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                url: `${siteConfig.url}/blog/${post.slug}`,
+                name: post.title,
+            })),
         },
     };
 

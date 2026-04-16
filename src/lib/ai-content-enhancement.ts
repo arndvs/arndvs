@@ -8,7 +8,7 @@ interface PostContent {
     categories?: string[];
 }
 
-export interface EnhancementResult {
+interface EnhancementResult {
     metaTitle: string;
     metaDescription: string;
     focusKeyword: string;
@@ -42,7 +42,7 @@ ${bodyPreview}
 Generate SEO metadata as JSON with keys: metaTitle, metaDescription, focusKeyword, keywords, excerpt, confidence`;
 }
 
-export async function enhancePostSeo(post: PostContent): Promise<EnhancementResult> {
+async function enhancePostSeo(post: PostContent): Promise<EnhancementResult> {
     const apiKey = process.env.OPENAI_API_KEY;
 
     if (!apiKey) throw new Error("Missing environment variable: OPENAI_API_KEY");
@@ -79,10 +79,15 @@ export async function enhancePostSeo(post: PostContent): Promise<EnhancementResu
     };
 }
 
-export async function writeEnhancementToSanity(
-    postId: string,
-    result: EnhancementResult,
-): Promise<void> {
+export async function enhanceAndPersistPost(post: PostContent): Promise<EnhancementResult> {
+    const result = await enhancePostSeo(post);
+
+    await writeEnhancementToSanity(post._id, result);
+
+    return result;
+}
+
+async function writeEnhancementToSanity(postId: string, result: EnhancementResult): Promise<void> {
     const { getWriteClient } = await import("@/sanity/lib/write-client");
     const writeClient = getWriteClient();
 
@@ -119,7 +124,7 @@ export async function writeEnhancementToSanity(
                 },
             })
             .commit()
-            .catch(() => {});
+            .catch((e) => console.error("Could not write failure status:", e));
         throw err;
     }
 }

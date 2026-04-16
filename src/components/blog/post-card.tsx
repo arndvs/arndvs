@@ -8,11 +8,12 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
+import { formatDate } from "@/lib/utils";
 import { urlFor } from "@/sanity/lib/image";
 
 interface PostCardProps {
     title: string;
-    slug: { current: string };
+    slug: string;
     excerpt?: string;
     publishedAt?: string;
     mainImage?: SanityImageWithAlt;
@@ -31,26 +32,24 @@ export function PostCard({
 }: PostCardProps) {
     const { cardVariants } = useAnimationVariants();
 
-    const formattedDate = publishedAt
-        ? new Date(publishedAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-          })
-        : null;
+    const formattedDate = publishedAt ? formatDate(publishedAt) : null;
 
     return (
         <motion.div variants={cardVariants}>
-            <Link href={`/blog/${slug.current}`}>
+            <Link href={`/blog/${slug}`}>
                 <Card className="group hover:border-primary/50 h-full overflow-hidden transition-all hover:shadow-lg">
                     {mainImage && (
                         <div className="overflow-hidden border-b">
                             <Image
                                 src={urlFor(mainImage).width(800).height(450).url()}
-                                alt={(mainImage as { alt?: string }).alt || title}
+                                alt={mainImage.alt || title}
                                 width={800}
                                 height={450}
                                 className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                {...(mainImage.asset?.metadata?.lqip && {
+                                    placeholder: "blur" as const,
+                                    blurDataURL: mainImage.asset.metadata.lqip,
+                                })}
                             />
                         </div>
                     )}

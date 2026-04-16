@@ -485,7 +485,7 @@ export default function AboutContent() {
                     >
                         {aboutPageData.journey.title}
                     </motion.h2>
-                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4" role="list">
+                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                         {aboutPageData.journey.phases.map((phase) => (
                             <JourneyPhaseCard key={phase.id} {...phase} />
                         ))}
@@ -508,7 +508,7 @@ export default function AboutContent() {
                         {aboutPageData.education.title}
                     </motion.h2>
 
-                    <div className="grid gap-6 md:grid-cols-2" role="list">
+                    <div className="grid gap-6 md:grid-cols-2">
                         {/* Left column: Accelerator + Formal Education */}
                         <div className="flex flex-col gap-6">
                             <motion.div variants={itemVariants}>
@@ -611,7 +611,7 @@ export default function AboutContent() {
                     >
                         {aboutPageData.speakingAndPublications.title}
                     </motion.h2>
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" role="list">
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {aboutPageData.speakingAndPublications.items.map((item) => (
                             <SpeakingItem key={item.id} {...item} />
                         ))}
@@ -633,7 +633,7 @@ export default function AboutContent() {
                     >
                         {aboutPageData.techStack.title}
                     </motion.h2>
-                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3" role="list">
+                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                         {aboutPageData.techStack.categories.map((category) => (
                             <TechCategory key={category.id} {...category} />
                         ))}

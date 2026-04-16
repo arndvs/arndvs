@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-
 import { List } from "lucide-react";
+
+import { useEffect, useRef, useState } from "react";
 
 import type { ExtractedHeading } from "@/lib/utils/extract-headings";
 
@@ -72,7 +72,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
     return (
         <nav aria-label="Table of contents">
             {/* Mobile: collapsible */}
-            <details className="lg:hidden rounded-lg border p-4 mb-8">
+            <details className="mb-8 rounded-lg border p-4 lg:hidden">
                 <summary className="flex cursor-pointer items-center gap-2 text-sm font-medium">
                     <List className="h-4 w-4" />
                     Table of Contents
@@ -99,7 +99,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
             </details>
 
             {/* Desktop: sticky sidebar */}
-            <div className="hidden lg:block sticky top-24">
+            <div className="sticky top-24 hidden lg:block">
                 <p className="mb-3 flex items-center gap-2 text-sm font-medium">
                     <List className="h-4 w-4" />
                     Table of Contents
@@ -110,12 +110,12 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
                             <a
                                 href={`#${heading.id}`}
                                 onClick={handleClick(heading.id)}
-                                className={`block border-l-2 -ml-px py-1 text-sm transition-colors ${
+                                className={`-ml-px block border-l-2 py-1 text-sm transition-colors ${
                                     heading.level === 3 ? "pl-6" : "pl-4"
                                 } ${
                                     activeId === heading.id
                                         ? "border-primary text-primary font-medium"
-                                        : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/50"
+                                        : "text-muted-foreground hover:text-foreground hover:border-muted-foreground/50 border-transparent"
                                 }`}
                             >
                                 {heading.title}

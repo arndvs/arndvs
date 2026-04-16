@@ -8,7 +8,7 @@
  */
 import { createClient } from "@sanity/client";
 import { config } from "dotenv";
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import OpenAI from "openai";
 
 config({ path: ".env.local" });
@@ -79,9 +79,11 @@ function parseConventionalCommit(
 
 function getCommitsSince(sinceDate: string): Commit[] {
     const format = "%H %s";
-    const raw = execSync(`git log --since="${sinceDate}" --format="${format}" --no-merges`, {
-        encoding: "utf-8",
-    }).trim();
+    const raw = execFileSync(
+        "git",
+        ["log", `--since=${sinceDate}`, `--format=${format}`, "--no-merges"],
+        { encoding: "utf-8" },
+    ).trim();
 
     if (!raw) return [];
 
@@ -196,7 +198,7 @@ Generate the changelog digest as JSON with keys: title, summary, body (Portable 
         ],
         response_format: { type: "json_object" },
         temperature: 0.3,
-        max_tokens: 1500,
+        max_completion_tokens: 1500,
     });
 
     const content = response.choices[0]?.message?.content;

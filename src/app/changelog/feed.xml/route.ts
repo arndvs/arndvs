@@ -1,12 +1,20 @@
 import { Feed } from "feed";
 
-import type { ChangelogEntry } from "@/lib/types/sanity";
 import { siteConfig } from "@/sanity/env";
 import { client } from "@/sanity/lib/client";
 import { CHANGELOG_QUERY } from "@/sanity/lib/queries";
 
 export async function GET() {
-    const entries: ChangelogEntry[] = await client.fetch(CHANGELOG_QUERY);
+    let entries;
+    try {
+        entries = await client.withConfig({ useCdn: false }).fetch(CHANGELOG_QUERY);
+    } catch (err) {
+        console.error("Changelog feed: Sanity fetch failed", err);
+        return new Response("Service Unavailable", {
+            status: 503,
+            headers: { "Retry-After": "60" },
+        });
+    }
 
     const feed = new Feed({
         title: "arndvs.com Changelog",
@@ -28,8 +36,8 @@ export async function GET() {
     for (const entry of entries) {
         feed.addItem({
             title: entry.title,
-            id: `${siteConfig.url}/changelog#${entry.slug.current}`,
-            link: `${siteConfig.url}/changelog#${entry.slug.current}`,
+            id: `${siteConfig.url}/changelog#${entry.slug}`,
+            link: `${siteConfig.url}/changelog#${entry.slug}`,
             description: entry.summary,
             date: new Date(entry.date),
             category: [{ name: entry.type }],

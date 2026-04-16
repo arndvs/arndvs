@@ -1,9 +1,11 @@
-import { defineField, defineType } from "sanity";
+import { CalendarIcon } from "@sanity/icons";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const changelogEntryType = defineType({
     name: "changelogEntry",
     title: "Changelog Entry",
     type: "document",
+    icon: CalendarIcon,
     fields: [
         defineField({
             name: "title",
@@ -58,7 +60,7 @@ export const changelogEntryType = defineType({
             type: "array",
             description: "Optional detailed breakdown with grouped bullet points.",
             of: [
-                {
+                defineArrayMember({
                     type: "block",
                     styles: [
                         { title: "Normal", value: "normal" },
@@ -91,7 +93,7 @@ export const changelogEntryType = defineType({
                             },
                         ],
                     },
-                },
+                }),
             ],
         }),
         defineField({

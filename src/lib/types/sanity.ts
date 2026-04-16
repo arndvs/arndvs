@@ -1,22 +1,20 @@
 import type { SanityImageSource } from "@sanity/image-url";
 
-import type { PortableTextBlock } from "next-sanity";
+import type { CHANGELOG_QUERY_RESULT } from "@/sanity/types";
 
-export type SanityImageWithAlt = SanityImageSource & { alt?: string };
+export type SanityImageWithAlt = SanityImageSource & {
+    alt?: string;
+    asset?: {
+        _ref?: string;
+        _id?: string;
+        url?: string;
+        metadata?: {
+            dimensions?: { width: number; height: number } | null;
+            lqip?: string | null;
+        } | null;
+    } | null;
+};
 
-export type ChangelogEntryType = "feature" | "improvement" | "fix" | "content" | "infrastructure";
+export type ChangelogEntry = CHANGELOG_QUERY_RESULT[number];
 
-export interface ChangelogEntry {
-    _id: string;
-    title: string;
-    slug: { current: string };
-    date: string;
-    type: ChangelogEntryType;
-    summary: string;
-    body?: PortableTextBlock[];
-    relatedProject?: string;
-    commitHash?: string;
-    commitRange?: string;
-    isHighlight?: boolean;
-    source?: "manual" | "automated";
-}
+export type ChangelogEntryType = ChangelogEntry["type"];

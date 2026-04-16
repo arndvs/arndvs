@@ -12,7 +12,8 @@ import { ContactForm } from "./contact-form";
 const footerData = {
     brand: {
         name: "Aaron Davis",
-        description: "Full-stack engineer building AI systems that work in production.",
+        description:
+            "AI systems engineer and consultant. Building agent infrastructure for businesses that need reliable results, not just impressive demos.",
     },
     navigation: [
         { name: "Home", href: "/" },
@@ -20,6 +21,7 @@ const footerData = {
         { name: "Projects", href: "/projects" },
         { name: "Blog", href: "/blog" },
         { name: "Changelog", href: "/changelog" },
+        { name: "Work with me", href: "/work-with-me" },
     ],
     social: [
         {
@@ -78,7 +80,7 @@ export function Footer() {
                     {/* Connect */}
                     <motion.div variants={itemVariants} className="space-y-4">
                         <h3 className="text-lg font-semibold">Connect</h3>
-                        <div className="flex gap-4" role="list" aria-label="Social media links">
+                        <nav className="flex gap-4" aria-label="Social links">
                             {footerData.social.map((social) => {
                                 const Icon = social.icon;
                                 return (
@@ -102,7 +104,7 @@ export function Footer() {
                                 triggerText=""
                                 showIcon={false}
                             />
-                        </div>
+                        </nav>
                         <p className="text-muted-foreground text-sm">{footerData.location}</p>
                     </motion.div>
                 </div>
