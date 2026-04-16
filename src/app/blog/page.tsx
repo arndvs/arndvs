@@ -13,6 +13,7 @@ export const metadata: Metadata = generateSiteMetadata({
     description:
         "Technical articles on Sanity CMS, Next.js, AI engineering, and modern web development by Aaron Davis.",
     path: "/blog",
+    feedUrl: "/blog/feed.xml",
 });
 
 export default async function BlogPage() {

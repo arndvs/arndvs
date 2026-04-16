@@ -58,6 +58,7 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
         type: "article",
         publishedTime: post.publishedAt || undefined,
         authors: [post.author || "Aaron Davis"],
+        feedUrl: "/blog/feed.xml",
         ...(image && { images: [image] }),
         ...(post.seo?.noIndex && { robots: { index: false, follow: false } }),
     });

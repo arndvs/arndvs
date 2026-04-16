@@ -5,7 +5,16 @@ import { client } from "@/sanity/lib/client";
 import { CHANGELOG_QUERY } from "@/sanity/lib/queries";
 
 export async function GET() {
-    const entries = await client.withConfig({ useCdn: false }).fetch(CHANGELOG_QUERY);
+    let entries;
+    try {
+        entries = await client.withConfig({ useCdn: false }).fetch(CHANGELOG_QUERY);
+    } catch (err) {
+        console.error("Changelog feed: Sanity fetch failed", err);
+        return new Response("Service Unavailable", {
+            status: 503,
+            headers: { "Retry-After": "60" },
+        });
+    }
 
     const feed = new Feed({
         title: "arndvs.com Changelog",

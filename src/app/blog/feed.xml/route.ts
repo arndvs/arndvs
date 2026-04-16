@@ -5,7 +5,16 @@ import { client } from "@/sanity/lib/client";
 import { POSTS_QUERY } from "@/sanity/lib/queries";
 
 export async function GET() {
-    const posts = await client.withConfig({ useCdn: false }).fetch(POSTS_QUERY);
+    let posts;
+    try {
+        posts = await client.withConfig({ useCdn: false }).fetch(POSTS_QUERY);
+    } catch (err) {
+        console.error("Blog feed: Sanity fetch failed", err);
+        return new Response("Service Unavailable", {
+            status: 503,
+            headers: { "Retry-After": "60" },
+        });
+    }
 
     const feed = new Feed({
         title: "Aaron Davis Blog",

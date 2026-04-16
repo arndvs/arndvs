@@ -13,6 +13,7 @@ export const metadata: Metadata = generateSiteMetadata({
     description:
         "What's new on arndvs.com — features, improvements, fixes, and infrastructure updates.",
     path: "/changelog",
+    feedUrl: "/changelog/feed.xml",
 });
 
 export default async function ChangelogPage() {
