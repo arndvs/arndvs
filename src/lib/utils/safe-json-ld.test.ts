@@ -33,7 +33,14 @@ describe("safeJsonLdStringify", () => {
 
         expect(result).not.toContain("<");
         expect(result).not.toContain("&");
-        expect(JSON.parse(result.replace(/\\u003c/g, "<").replace(/\\u003e/g, ">").replace(/\\u0026/g, "&"))).toEqual({
+        expect(
+            JSON.parse(
+                result
+                    .replace(/\\u003c/g, "<")
+                    .replace(/\\u003e/g, ">")
+                    .replace(/\\u0026/g, "&"),
+            ),
+        ).toEqual({
             "@context": "https://schema.org",
             name: "Test <b>bold</b>",
             nested: { value: "a & b" },

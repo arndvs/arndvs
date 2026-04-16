@@ -36,10 +36,9 @@ export async function POST(req: NextRequest) {
         if (!postId)
             return NextResponse.json({ error: "Missing postId in request body" }, { status: 400 });
 
-        const post = await client.withConfig({ useCdn: false }).fetch(
-            ENHANCE_POST_QUERY,
-            { id: postId },
-        );
+        const post = await client
+            .withConfig({ useCdn: false })
+            .fetch(ENHANCE_POST_QUERY, { id: postId });
 
         if (!post)
             return NextResponse.json({ error: `Post not found: ${postId}` }, { status: 404 });

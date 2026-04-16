@@ -27,9 +27,24 @@ describe("slugify", () => {
 describe("extractHeadingsFromPortableText", () => {
     it("extracts h2 and h3 headings", () => {
         const body = [
-            { _type: "block", _key: "a", style: "h2", children: [{ _type: "span", text: "Introduction" }] },
-            { _type: "block", _key: "b", style: "normal", children: [{ _type: "span", text: "Some text" }] },
-            { _type: "block", _key: "c", style: "h3", children: [{ _type: "span", text: "Sub Topic" }] },
+            {
+                _type: "block",
+                _key: "a",
+                style: "h2",
+                children: [{ _type: "span", text: "Introduction" }],
+            },
+            {
+                _type: "block",
+                _key: "b",
+                style: "normal",
+                children: [{ _type: "span", text: "Some text" }],
+            },
+            {
+                _type: "block",
+                _key: "c",
+                style: "h3",
+                children: [{ _type: "span", text: "Sub Topic" }],
+            },
         ];
 
         const headings = extractHeadingsFromPortableText(body as any);
@@ -41,7 +56,12 @@ describe("extractHeadingsFromPortableText", () => {
 
     it("returns empty array for no headings", () => {
         const body = [
-            { _type: "block", _key: "a", style: "normal", children: [{ _type: "span", text: "Text" }] },
+            {
+                _type: "block",
+                _key: "a",
+                style: "normal",
+                children: [{ _type: "span", text: "Text" }],
+            },
         ];
 
         expect(extractHeadingsFromPortableText(body as any)).toEqual([]);
@@ -53,8 +73,18 @@ describe("extractHeadingsFromPortableText", () => {
 
     it("deduplicates heading IDs", () => {
         const body = [
-            { _type: "block", _key: "a", style: "h2", children: [{ _type: "span", text: "Setup" }] },
-            { _type: "block", _key: "b", style: "h2", children: [{ _type: "span", text: "Setup" }] },
+            {
+                _type: "block",
+                _key: "a",
+                style: "h2",
+                children: [{ _type: "span", text: "Setup" }],
+            },
+            {
+                _type: "block",
+                _key: "b",
+                style: "h2",
+                children: [{ _type: "span", text: "Setup" }],
+            },
         ];
 
         const headings = extractHeadingsFromPortableText(body as any);

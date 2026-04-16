@@ -34,14 +34,12 @@ export default async function BlogPage() {
         mainEntity: {
             "@type": "ItemList",
             numberOfItems: posts.length,
-            itemListElement: posts.map(
-                (post: { slug: string; title: string }, index: number) => ({
-                    "@type": "ListItem",
-                    position: index + 1,
-                    url: `${siteConfig.url}/blog/${post.slug}`,
-                    name: post.title,
-                }),
-            ),
+            itemListElement: posts.map((post: { slug: string; title: string }, index: number) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                url: `${siteConfig.url}/blog/${post.slug}`,
+                name: post.title,
+            })),
         },
     };
 

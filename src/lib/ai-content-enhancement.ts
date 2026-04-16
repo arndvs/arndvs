@@ -87,10 +87,7 @@ export async function enhanceAndPersistPost(post: PostContent): Promise<Enhancem
     return result;
 }
 
-async function writeEnhancementToSanity(
-    postId: string,
-    result: EnhancementResult,
-): Promise<void> {
+async function writeEnhancementToSanity(postId: string, result: EnhancementResult): Promise<void> {
     const { getWriteClient } = await import("@/sanity/lib/write-client");
     const writeClient = getWriteClient();
 

@@ -36,10 +36,7 @@ async function submitToIndexNow(urls: string[]) {
 
 export async function POST(req: NextRequest) {
     try {
-        const { body, isValidSignature } = await parseBody<WebhookBody>(
-            req,
-            webhookSecret,
-        );
+        const { body, isValidSignature } = await parseBody<WebhookBody>(req, webhookSecret);
 
         if (!isValidSignature)
             return NextResponse.json({ error: "Invalid signature" }, { status: 401 });

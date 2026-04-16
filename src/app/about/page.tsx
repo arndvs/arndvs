@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import { generateSiteMetadata } from "@/lib/metadata";
 import { personJsonLd } from "@/lib/data/json-ld";
+import { generateSiteMetadata } from "@/lib/metadata";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
 

@@ -419,5 +419,3 @@ export function DeepDiveSection({ data }: { data: DeepDive }) {
         </motion.section>
     );
 }
-
-

@@ -31,10 +31,7 @@ describe("validateHoneypotServer", () => {
     });
 
     it("rejects form submitted too quickly (< 3s)", () => {
-        const result = validateHoneypotServer(
-            { _honeypot_timestamp: "1000" },
-            2000,
-        );
+        const result = validateHoneypotServer({ _honeypot_timestamp: "1000" }, 2000);
 
         expect(result.isValid).toBe(false);
         expect(result.reason).toContain("too quickly");
