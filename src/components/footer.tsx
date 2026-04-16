@@ -20,7 +20,6 @@ const footerData = {
         { name: "About", href: "/about" },
         { name: "Projects", href: "/projects" },
         { name: "Blog", href: "/blog" },
-        { name: "Changelog", href: "/changelog" },
         { name: "Work with me", href: "/work-with-me" },
     ],
     social: [

@@ -19,7 +19,6 @@ const navItems = [
     { name: "About", href: "/about", ariaLabel: "Learn more about Aaron" },
     { name: "Projects", href: "/projects", ariaLabel: "View project portfolio" },
     { name: "Blog", href: "/blog", ariaLabel: "Read blog posts" },
-    { name: "Changelog", href: "/changelog", ariaLabel: "View site changelog" },
 ];
 export function Navigation() {
     const pathname = usePathname();
