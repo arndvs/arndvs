@@ -2,15 +2,13 @@
 
 import { useEffect, useRef } from "react";
 
+import type { HoneypotResult } from "@/lib/types/honeypot";
+
 interface HoneypotConfig {
     minSubmitTime?: number; // Minimum time in ms before form can be submitted
     enableTimeValidation?: boolean;
 }
 
-interface HoneypotResult {
-    isValid: boolean;
-    reason?: string;
-}
 export function useHoneypot(config: HoneypotConfig = {}) {
     const { minSubmitTime = 3000, enableTimeValidation = true } = config;
     const formStartTime = useRef<number>(0);
