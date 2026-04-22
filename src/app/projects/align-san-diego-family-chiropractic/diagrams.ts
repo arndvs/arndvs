@@ -15,7 +15,7 @@ export const diagrams = {
     subgraph Server["Next.js Server"]
         RSC["React Server Components"]
         SA["Server Actions"]
-        API["53 API Routes"]
+        API["34 API Routes"]
         ISR["ISR / On-Demand Revalidation"]
     end
 
@@ -44,7 +44,7 @@ export const diagrams = {
     end
 
     subgraph SEO["SEO & Structured Data"]
-        JSONLD["81 JSON-LD Schema Files"]
+        JSONLD["76 JSON-LD Schema Files"]
         SITEMAP["Dynamic Sitemap"]
         AREAS["Programmatic Area Pages"]
         AEO["/llms.txt · /llms-full.txt"]
@@ -73,6 +73,15 @@ export const diagrams = {
     SANITY --> TYPEGEN
     JSONLD --> RSC
     ISR --> INDEXNOW`,
+
+    insuranceVerificationBefore: `flowchart TD
+    A["Patient calls front desk\\nOften no answer — office closed"]
+    A -->|"Wait up to 4 days for callback"| B["Front desk calls back\\nSends email requesting documents"]
+    B -->|"Wait 1–3 days for patient reply"| C["Front desk receives docs\\nForwards to biller manually"]
+    C -->|"Biller processes — 1–2 days"| D["Biller replies to front desk\\nFront desk emails patient result"]
+    D --> E["Total: up to 7 days\\n4 handoffs · patient left waiting"]
+
+    style E fill:#F5C4B3,stroke:#993C1D,color:#4A1B0C`,
 
     insuranceVerification: `sequenceDiagram
     participant P as Patient Browser
@@ -396,7 +405,7 @@ export const diagrams = {
         subgraph DataLayer["Data Layer"]
             GROQ2["GROQ Queries\\n(cached + revalidated)"]
             ACTIONS["Server Actions\\nForm handlers"]
-            ROUTES["API Routes\\n53 endpoints"]
+            ROUTES["API Routes\n34 endpoints"]
         end
     end
 
@@ -420,6 +429,101 @@ export const diagrams = {
     GROQ2 --> Sanity
     DataLayer --> Response
     Response --> BROWSER`,
+
+    eventApprovalWorkflow: `graph TD
+    subgraph Studio["Sanity Studio"]
+        DRAFT["Draft Event Created"]
+        FIELDS["Required Fields\\nTitle · Date · Location · Image"]
+        VALIDATE["Validation Rules\\nMin length · Date future · Image required"]
+    end
+
+    subgraph Approval["Approval Pipeline"]
+        REVIEW["Editor Reviews Draft"]
+        ENHANCE["AI Enhance Button\\nSEO title · Description · Tags"]
+        PUBLISH["Publish Action"]
+    end
+
+    subgraph PostPublish["Post-Publish Automation"]
+        WEBHOOK["Sanity Webhook Fires"]
+        REVALIDATE["Next.js Revalidation\\n/events · /events/[slug]"]
+        INDEXNOW["IndexNow Submission\\nBing · Yandex"]
+        JSONLD["JSON-LD Generated\\nEvent schema + BreadcrumbList"]
+    end
+
+    DRAFT --> FIELDS
+    FIELDS --> VALIDATE
+    VALIDATE -->|"Pass"| REVIEW
+    REVIEW --> ENHANCE
+    ENHANCE --> PUBLISH
+    PUBLISH --> WEBHOOK
+    WEBHOOK --> REVALIDATE
+    WEBHOOK --> INDEXNOW
+    REVALIDATE --> JSONLD`,
+
+    progressiveEnhancement: `graph TD
+    subgraph ServerFirst["Server-First Rendering"]
+        SSR_HTML["Full HTML from Server\\nNo JS required for content"]
+        SEMANTIC["Semantic HTML\\nLandmarks · Headings · ARIA"]
+        REDUCED["prefers-reduced-motion\\nCSS media query check"]
+    end
+
+    subgraph Enhancement["Progressive Enhancement Layers"]
+        CSS_ANIM["CSS Animations\\nTransitions · Keyframes"]
+        FRAMER["Framer Motion Islands\\n'use client' boundary"]
+        WEBGL["WebGL Shader Hero\\nCanvas with fallback"]
+        INTERSECTION["Intersection Observer\\nScroll-triggered reveals"]
+    end
+
+    subgraph Accessibility["Accessibility Guards"]
+        MOTION_PREF["useReducedMotion()\\nDisables all animations"]
+        FOCUS["Focus Management\\nKeyboard navigation"]
+        CONTRAST["Color Contrast\\nWCAG AA minimum"]
+        SCREEN["Screen Reader\\naria-live regions"]
+    end
+
+    SSR_HTML --> CSS_ANIM
+    CSS_ANIM --> FRAMER
+    FRAMER --> WEBGL
+    FRAMER --> INTERSECTION
+    REDUCED -->|"Reduced"| MOTION_PREF
+    MOTION_PREF --> FRAMER
+    SEMANTIC --> FOCUS
+    SEMANTIC --> CONTRAST
+    SEMANTIC --> SCREEN`,
+
+    revalidationCascade: `graph LR
+    subgraph Trigger["Content Change"]
+        SANITY_PUBLISH["Sanity Document Published"]
+        MANUAL["Manual Revalidation\\nAPI endpoint"]
+    end
+
+    subgraph Webhook["Webhook Handler"]
+        PARSE["Parse Webhook Payload\\nDocument type + ID"]
+        AUTH["Verify Webhook Secret"]
+        ROUTE["Route by Document Type"]
+    end
+
+    subgraph Invalidation["Cache Invalidation"]
+        TAG["revalidateTag()\\nGranular tag-based"]
+        PATH["revalidatePath()\\nFull page rebuild"]
+        RELATED["Related Pages\\nBlog index · Sitemap · RSS"]
+    end
+
+    subgraph Notification["Search Engine Notification"]
+        INDEXNOW2["IndexNow API\\nBing · Yandex"]
+        SITEMAP["Sitemap Regeneration\\nAuto on next request"]
+    end
+
+    SANITY_PUBLISH --> PARSE
+    MANUAL --> PARSE
+    PARSE --> AUTH
+    AUTH --> ROUTE
+    ROUTE -->|"Blog Post"| TAG
+    ROUTE -->|"Service Page"| PATH
+    TAG --> RELATED
+    PATH --> RELATED
+    RELATED --> INDEXNOW2
+    RELATED --> SITEMAP`,
 } as const;
 
 export type DiagramKey = keyof typeof diagrams;

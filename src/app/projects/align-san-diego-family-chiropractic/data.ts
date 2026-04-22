@@ -7,13 +7,13 @@ export const pageData: PageData<DiagramKey> = {
         badge: "Healthcare / Web · In Production",
         title: "Align San Diego Family Chiropractic",
         tagline:
-            "A 44,000-line Next.js healthcare platform serving 5,000+ families — built solo from schema design to production deployment.",
+            "A 277K-line Next.js healthcare platform serving 5,000+ families — built solo from schema design to production deployment.",
         stats: [
-            { label: "Pages", value: "158" },
-            { label: "JSON-LD Schemas", value: "81" },
+            { label: "Pages", value: "203" },
+            { label: "JSON-LD Schemas", value: "76" },
             { label: "Email Templates", value: "27" },
-            { label: "Integrations", value: "10+" },
-            { label: "Commits", value: "1,800" },
+            { label: "Integrations", value: "12+" },
+            { label: "Commits", value: "1,877" },
         ],
         cta: { text: "Visit Live Site", href: "https://alignsd.com" },
         screenshotSrc: "/projects/alignsd/hero-webgl-shader.png",
@@ -23,7 +23,7 @@ export const pageData: PageData<DiagramKey> = {
     situation: {
         narrative: [
             "A San Diego chiropractor with 17 years of practice and 5,000+ patients had outgrown her WordPress site. She needed a platform that could handle insurance verification with document upload, programmatic SEO for 15+ neighborhoods, a Sanity-powered blog with AI-assisted content, and a transactional email system that replaced three separate tools.",
-            "The constraint: she's the only person who edits content. The CMS had to be intuitive enough that a non-technical practitioner could manage 158 pages of content without developer support. Every architectural decision flowed from that constraint.",
+            "The constraint: she's the only person who edits content. The CMS had to be intuitive enough that a non-technical practitioner could manage 203 pages of content without developer support. Every architectural decision flowed from that constraint.",
         ],
         context: {
             role: "Solo Developer (design → deploy)",
@@ -40,12 +40,15 @@ export const pageData: PageData<DiagramKey> = {
                 "Stripe",
                 "Resend",
                 "Sentry",
+                "PostHog",
+                "Clerk",
+                "Fullscript",
             ],
         },
     },
 
     architecture: {
-        intro: "The system coordinates 10+ external services through 53 API routes. When content publishes in Sanity, the revalidation webhook invalidates caches and fires IndexNow submissions to Bing — search engines learn about changes in seconds, not days. The core architectural principle: every form submission passes through the same security pipeline (honeypot → rate limit → geo-block → validate → process) regardless of which integration it triggers downstream.",
+        intro: "The system coordinates 12+ external services through 34 API routes. When content publishes in Sanity, the revalidation webhook invalidates caches and fires IndexNow submissions to Bing — search engines learn about changes in seconds, not days. The core architectural principle: every form submission passes through the same security pipeline (honeypot → rate limit → geo-block → validate → process) regardless of which integration it triggers downstream.",
         diagramKey: "systemArchitecture",
         secondaryDiagramKey: "requestLifecycle",
         secondaryDiagramTitle: "Request Lifecycle",
@@ -60,7 +63,7 @@ export const pageData: PageData<DiagramKey> = {
             },
             {
                 title: "SEO Engine",
-                description: "81 JSON-LD schemas + programmatic area pages",
+                description: "76 JSON-LD schemas + programmatic area pages",
             },
             {
                 title: "AI Services",
@@ -84,17 +87,20 @@ export const pageData: PageData<DiagramKey> = {
             title: "Insurance Verification",
             subtitle: "Orchestrating 7 Services in 60 Seconds",
             problem:
-                "Patients called the front desk to verify insurance coverage, consuming 15-20 minutes of staff time per inquiry. The practice needed a self-service flow that collected patient data, verified insurance documents with AI, created a CRM contact, sent confirmation emails, and notified staff — all without the patient picking up the phone.",
+                'Patients called the front desk to verify insurance coverage — and often got no answer because the office was closed. A Thursday voicemail was the worst case: it stacked three separate "wait until next business day" delays before anything useful happened. When the front desk did pick up, each inquiry consumed 15-20 minutes of staff time, then required a manual handoff to the biller, who had her own 1-2 day processing queue. Total time from patient call to verified result: up to 7 days, 4 handoffs, and zero visibility for the patient in between. The practice needed a self-service flow that collapsed this entire chain into a single automated loop — collecting patient data, verifying insurance documents with AI, creating a CRM contact, sending confirmation emails, and notifying staff — all without the patient picking up the phone.',
+            beforeDiagramKey: "insuranceVerificationBefore",
+            beforeDiagramTitle: "Before — Up to 7 Days",
             diagramKey: "insuranceVerification",
             walkthrough: [
+                "The old workflow wasn't just slow — it was compounding latency. Each handoff required the previous step to be complete before it could start, and every step had its own overnight or weekend gap. The front desk couldn't forward documents until the patient replied, the biller couldn't process until she received the forward, and the patient heard nothing until the biller's result made the return trip through the front desk.",
                 "The form collects patient info, insurance details, and card photos across a multi-step UX with per-step validation using React Hook Form and Zod. Each step validates independently before advancing.",
+                "The security pipeline is load-bearing to the business case — not just a nice-to-have. By blocking spam before it reaches OpenAI or the CRM, it protects the biller's time, which was the original bottleneck. A biller drowning in junk submissions would have killed the efficiency gain even if the automation worked perfectly. Honeypot multi-field validation, rate limiting, and IPHub geo-blocking run in sequence, each ordered by cost: honeypot is free (client-side), rate limiting is cheap (in-memory), and IPHub costs an API call — so you only pay for submissions that passed the first two walls.",
                 "Uploaded insurance card images are sent to OpenAI GPT-4o Vision with response_format: json_schema — not free-text extraction, but Zod-validated structured output. The schema constrains what the model can return, eliminating hallucinated fields entirely.",
-                "Downstream orchestration runs in parallel: CRM contact creation in GoHighLevel with deduplication by email, 4 separate emails (patient confirmation, staff notification, bizops summary, failure alerts), and a Slack notification — all wrapped in a 60-second maxDuration API route.",
-                "The security pipeline runs before any of this: honeypot multi-field validation, rate limiting, IPHub geo-blocking. A spam submission never touches OpenAI or the CRM.",
+                "Downstream orchestration runs in parallel: CRM contact creation in GoHighLevel with deduplication by email, 4 separate emails (patient confirmation, staff notification, bizops summary, failure alerts), and a Slack notification — all wrapped in a 60-second maxDuration API route. Each of the 7 services fails independently, so a flaky CRM call doesn't leave a patient wondering if their insurance was received.",
             ],
             insight: {
                 title: "Partial Success > Total Rollback",
-                body: "The hardest part of multi-service orchestration isn't calling the APIs — it's deciding what happens when service #4 of 7 fails. I built each downstream call to be independently failable: if the CRM call fails, the patient still gets their confirmation email and staff still gets the Slack notification. Partial success is better than total rollback for a non-transactional flow.",
+                body: "The hardest part of multi-service orchestration isn't calling the APIs — it's deciding what happens when service #4 of 7 fails at 2am on a Saturday. I built each downstream call to be independently failable: if GoHighLevel has an outage, the patient still gets their confirmation email and staff still gets the Slack notification. For a non-transactional flow like insurance verification, partial success is always better than total rollback — the patient needs to know their submission was received, even if one backend system is degraded.",
             },
             screenshotSrc: "/projects/alignsd/start-here-hero.png",
             screenshotAlt: "AlignSD insurance verification start-here page",
@@ -198,6 +204,66 @@ export const pageData: PageData<DiagramKey> = {
             screenshotSrc: "/projects/alignsd/start-here-wellness-system.png",
             screenshotAlt: "AlignSD multi-step form triggering email automation",
         },
+        {
+            id: "event-approval-workflow",
+            title: "Event Approval Workflow",
+            subtitle: "From Draft to Google in Under 60 Seconds",
+            problem:
+                "The practice hosts weekly community events — workshops, health fairs, kids' spine checks. Each event needed a page with SEO metadata, JSON-LD Event schema, and search engine indexing. The old workflow: the client emailed event details, the developer manually created a page, deployed, and submitted to Google Search Console. Turnaround: 2-3 business days. The practice needed same-day publishing with zero developer involvement.",
+            diagramKey: "eventApprovalWorkflow",
+            walkthrough: [
+                "Events are Sanity documents with a structured schema: title, date/time, location (with lat/lng for LocalBusiness JSON-LD), featured image, rich text description, category tags, and registration link. Validation rules enforce minimum content quality — no publishing without an image, no past dates, no empty descriptions.",
+                "The AI Enhance button (shared with blog posts) generates SEO title variants, meta descriptions, Open Graph text, and selects from existing category tags. The editor clicks once, reviews the suggestions, and publishes — the entire metadata workflow that used to take 15 minutes is now 10 seconds.",
+                "On publish, the Sanity webhook triggers Next.js revalidation for /events and /events/[slug], regenerates the Event JSON-LD schema (with proper startDate, location, organizer, and offers fields), and fires an IndexNow submission. Bing and Yandex learn about the event within minutes.",
+                "The cascade means the client can publish a Saturday workshop on Thursday afternoon and have it indexed by Friday morning — without touching code, without waiting for a developer, without manually submitting URLs to search engines.",
+            ],
+            insight: {
+                title: "The CMS Is the Workflow Engine",
+                body: "Most headless CMS implementations treat the CMS as a data store. This system treats Sanity as a workflow engine — validation rules enforce content quality, document actions add AI capabilities, and webhooks trigger the entire post-publish pipeline. The developer is removed from the content lifecycle entirely, which is the whole point of a CMS.",
+            },
+            screenshotSrc: "/projects/alignsd/services-categories.png",
+            screenshotAlt: "AlignSD event management in Sanity Studio",
+        },
+        {
+            id: "revalidation-cascade",
+            title: "Real-Time Revalidation + IndexNow",
+            subtitle: "Search Engines Learn in Seconds, Not Days",
+            problem:
+                "Traditional Next.js ISR uses time-based revalidation — pages rebuild every 60 seconds or every hour regardless of whether content changed. For a healthcare site with 203 pages, time-based revalidation means either stale content (long intervals) or wasted compute (short intervals). Worse, search engines don't know about content changes until their next crawl — which could be days or weeks for a small business site.",
+            diagramKey: "revalidationCascade",
+            walkthrough: [
+                "The webhook handler receives Sanity publish events, verifies the webhook secret, and routes by document type. Blog posts use revalidateTag() for granular cache invalidation — only the post and its index page rebuild. Service pages use revalidatePath() for full page rebuilds since they affect navigation and structured data.",
+                "Related pages cascade automatically: publishing a blog post also invalidates the blog index, the RSS feed, and the sitemap. Publishing a service page invalidates the services index, area pages that link to that service, and the sitemap. The cascade map is defined once and shared across all webhook handlers.",
+                "After cache invalidation, the handler submits changed URLs to IndexNow — a protocol supported by Bing, Yandex, and other search engines. Instead of waiting for a crawler to discover changes, the site proactively notifies search engines. For a small business site that gets crawled infrequently, this is the difference between indexing in hours vs. weeks.",
+                "The entire pipeline — webhook receipt, cache invalidation, related page cascade, IndexNow submission — completes in under 2 seconds. The client publishes in Sanity Studio, and the live site reflects the change on the next page load.",
+            ],
+            insight: {
+                title: "Proactive > Reactive for Small Sites",
+                body: "Big sites get crawled constantly — Google visits nytimes.com thousands of times per day. A chiropractor's website might get crawled once a week. IndexNow flips the model: instead of waiting to be discovered, the site announces changes. Combined with on-demand revalidation (no stale content, no wasted rebuilds), this gives a small business site the indexing speed of a major publisher.",
+            },
+            screenshotSrc: "/projects/alignsd/services-hero.png",
+            screenshotAlt: "AlignSD real-time content revalidation pipeline",
+        },
+        {
+            id: "animation-accessibility",
+            title: "Animation Accessibility System",
+            subtitle: "Framer Motion Islands with Motion-Safe Guards",
+            problem:
+                "The site uses heavy animations — WebGL shader hero, scroll-triggered reveals, page transitions, animated counters. About 5% of users have vestibular disorders that make motion-heavy interfaces physically uncomfortable. The challenge: build a rich animation layer that degrades gracefully for users who need reduced motion, without maintaining two separate codebases.",
+            diagramKey: "progressiveEnhancement",
+            walkthrough: [
+                "All animations live inside 'use client' islands — the server renders full semantic HTML with zero JavaScript dependency. Content is readable before any client-side code loads. This is progressive enhancement by architecture, not by discipline.",
+                "A useReducedMotion() hook checks the prefers-reduced-motion media query and exposes it to every animation component. When reduced motion is preferred, Framer Motion variants return static transforms — elements appear in their final position without animation. The WebGL shader hero falls back to a static gradient.",
+                "Scroll-triggered reveals use Intersection Observer with configurable thresholds. In reduced-motion mode, elements are visible immediately — no scroll trigger needed. The animation boundary is always a 'use client' component, so the server-rendered HTML is complete and accessible by default.",
+                "Focus management is explicit: modal dialogs trap focus, the mobile navigation menu returns focus to the trigger on close, and skip-to-content links bypass the navigation for keyboard users. ARIA landmarks and live regions ensure screen readers can navigate the programmatic SEO pages (which have complex tabbed interfaces) without getting lost.",
+            ],
+            insight: {
+                title: "The Server Render Is the Accessibility Layer",
+                body: "The best accessibility decision was architectural: React Server Components as the default, 'use client' only for interactive islands. This means the fully accessible, semantic HTML version of every page ships by default. Animations, shaders, and interactive features are enhancements layered on top — if they fail to load or the user opts out, the page still works. You can't bolt accessibility onto a client-rendered SPA; you have to start with the server.",
+            },
+            screenshotSrc: "/projects/alignsd/hero-webgl-shader.png",
+            screenshotAlt: "AlignSD WebGL shader hero with progressive enhancement",
+        },
     ],
 
     decisions: [
@@ -242,6 +308,34 @@ export const pageData: PageData<DiagramKey> = {
             reasoning:
                 "Client was already paying for GoHighLevel. Wrapping their existing CRM with typed API routes + Sentry gives observability without asking them to switch tools.",
         },
+        {
+            decision: "LLMs.txt for AI discoverability",
+            alternatives:
+                "robots.txt only (no AI guidance), no AI strategy, manual AI prompt engineering",
+            reasoning:
+                "LLMs.txt exposes structured site context (services, locations, FAQs) to AI assistants like ChatGPT and Perplexity. Costs nothing to maintain — the file is generated from the same Sanity data that powers the site. Early mover advantage for AI-referral traffic.",
+        },
+        {
+            decision: "IndexNow over Google Search Console API",
+            alternatives:
+                "Google Search Console API (auth complexity), manual URL submission, wait for crawl",
+            reasoning:
+                "IndexNow is a single POST request — no OAuth, no service accounts, no Google Cloud project. Bing and Yandex pick up changes within hours. Google doesn't support IndexNow yet, but sitemap.xml + good internal linking handles Google's crawler. The 80/20 choice.",
+        },
+        {
+            decision: "Phased area page rollout over bulk generation",
+            alternatives:
+                "Generate all 50+ area pages at once, static export with placeholder content",
+            reasoning:
+                "Launched with 15 high-priority neighborhoods with hand-curated local guides. Each page has unique content (parks, restaurants, landmarks) that proves local knowledge. Bulk-generated thin content would trigger Google's duplicate content penalties — the opposite of the goal.",
+        },
+        {
+            decision: "PostHog over Google Analytics, Mixpanel",
+            alternatives:
+                "Google Analytics (privacy concerns for healthcare), Mixpanel (expensive), Plausible (limited)",
+            reasoning:
+                "PostHog is self-serve, HIPAA-compatible with their BAA, and provides session replay + feature flags + analytics in one tool. No need to send patient browsing data to Google. The session replay alone justified the switch — watching real users navigate the insurance form revealed UX issues that analytics numbers never would.",
+        },
     ],
 
     learnings: [
@@ -255,22 +349,30 @@ export const pageData: PageData<DiagramKey> = {
         },
         {
             title: "Build the Audit Tools First",
-            body: "I wrote 6 custom code audit scripts (async waterfalls, bundle imports, client component boundaries, event listeners, suspense coverage, re-render patterns) before the codebase hit 30K lines. At 44K lines, those scripts catch regressions I'd never find manually. The 2 hours invested in tooling saved 20+ hours of debugging.",
+            body: "I wrote 6 custom code audit scripts (async waterfalls, bundle imports, client component boundaries, event listeners, suspense coverage, re-render patterns) before the codebase hit 30K lines. At 277K lines, those scripts catch regressions I'd never find manually. The 2 hours invested in tooling saved 20+ hours of debugging.",
+        },
+        {
+            title: "Animation Accessibility Is a Server Problem",
+            body: "The best reduced-motion implementation isn't a CSS media query — it's a rendering architecture. Server Components render full semantic HTML by default. Client islands add animation on top. If the animation layer fails or the user opts out, the page works. You can't retrofit this onto a client-rendered SPA — the server render IS the accessible version.",
+        },
+        {
+            title: "Documentation Is a Product Feature",
+            body: "LLMs.txt, comprehensive README, inline JSDoc on every public API, and a structured /llms.txt endpoint turned the codebase into something AI assistants can reason about. When ChatGPT can accurately describe your services because your site exposes structured context, that's not SEO — it's a new distribution channel.",
         },
     ],
 
     metrics: {
         hero: [
-            { value: 44186, label: "Lines of Code" },
-            { value: 158, label: "Pages" },
-            { value: 1800, label: "Commits" },
-            { value: 10, label: "External Integrations", suffix: "+" },
+            { value: 276990, label: "Lines of Code" },
+            { value: 203, label: "Pages" },
+            { value: 1877, label: "Commits" },
+            { value: 12, label: "External Integrations", suffix: "+" },
         ],
         supporting: [
-            { value: 81, label: "JSON-LD Schema Files" },
+            { value: 76, label: "JSON-LD Schema Files" },
             { value: 27, label: "Email Templates" },
-            { value: 53, label: "API Routes" },
-            { value: 55, label: "Test Files" },
+            { value: 34, label: "API Routes" },
+            { value: 56, label: "Test Files" },
         ],
     },
 
@@ -304,6 +406,21 @@ export const pageData: PageData<DiagramKey> = {
             src: "/projects/alignsd/services-pricing.png",
             alt: "AlignSD services and pricing section",
             caption: "Pricing — Dynamic pricing cards pulled from Sanity CMS",
+        },
+        {
+            src: "/projects/alignsd/about-hero.png",
+            alt: "AlignSD about page with team photo and practice story",
+            caption: "About — Practice story with Framer Motion scroll-triggered reveals",
+        },
+        {
+            src: "/projects/alignsd/ai-review-insights.png",
+            alt: "AlignSD AI-generated review insights dashboard",
+            caption: "AI Reviews — Structured insights extracted from patient testimonials",
+        },
+        {
+            src: "/projects/alignsd/contact-page.png",
+            alt: "AlignSD contact page with 3-layer honeypot spam prevention",
+            caption: "Contact — Multi-step form with invisible 3-layer spam prevention pipeline",
         },
     ],
 
