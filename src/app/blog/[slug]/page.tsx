@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { PortableTextBlock } from "next-sanity";
 import { notFound } from "next/navigation";
 
 import { PostBody } from "@/components/blog/post-body";
@@ -8,7 +9,6 @@ import { TldrBox } from "@/components/blog/tldr-box";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { estimateReadingTime } from "@/lib/utils";
 import { extractHeadingsFromPortableText } from "@/lib/utils/extract-headings";
-import type { PortableTextBlock } from "next-sanity";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
 import { urlFor } from "@/sanity/lib/image";
@@ -71,7 +71,9 @@ export default async function BlogPostPage(props: { params: Params }) {
     const charCount = post.bodyCharCount ?? 0;
     const wordCount = Math.round(charCount / 5);
     const readingTime = estimateReadingTime(charCount);
-    const headings = post.body ? extractHeadingsFromPortableText(post.body as PortableTextBlock[]) : [];
+    const headings = post.body
+        ? extractHeadingsFromPortableText(post.body as PortableTextBlock[])
+        : [];
     const showToc = headings.length >= 3;
 
     const jsonLd = {
@@ -167,10 +169,12 @@ export default async function BlogPostPage(props: { params: Params }) {
                     </div>
                 )}
 
-                <div className={showToc ? "lg:grid lg:grid-cols-[1fr_250px] lg:gap-12" : "mx-auto max-w-3xl"}>
-                    <div>
-                        {post.body && <PostBody value={post.body} />}
-                    </div>
+                <div
+                    className={
+                        showToc ? "lg:grid lg:grid-cols-[1fr_250px] lg:gap-12" : "mx-auto max-w-3xl"
+                    }
+                >
+                    <div>{post.body && <PostBody value={post.body} />}</div>
 
                     {showToc && (
                         <aside className="hidden lg:block">
