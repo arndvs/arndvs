@@ -4,22 +4,13 @@ import Image from "next/image";
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
 import { slugify } from "@/lib/utils/extract-headings";
 import { urlFor } from "@/sanity/lib/image";
-import type { POST_QUERY_RESULT } from "@/sanity/types";
 
 const components: Partial<PortableTextReactComponents> = {
     types: {
         inlineImage: ({
             value,
         }: {
-            value: SanityImageWithAlt & {
-                caption?: string;
-                asset?: {
-                    _ref?: string;
-                    _id?: string;
-                    url?: string;
-                    metadata?: { dimensions?: { width: number; height: number }; lqip?: string };
-                };
-            };
+            value: SanityImageWithAlt & { caption?: string; asset?: { _ref: string } };
         }) => {
             if (!value?.asset) return null;
             return (
@@ -30,10 +21,6 @@ const components: Partial<PortableTextReactComponents> = {
                         width={1200}
                         height={675}
                         className="rounded-lg"
-                        {...(value.asset?.metadata?.lqip && {
-                            placeholder: "blur" as const,
-                            blurDataURL: value.asset.metadata.lqip,
-                        })}
                     />
                     {value.caption && (
                         <figcaption className="text-muted-foreground mt-2 text-center text-sm">
@@ -139,12 +126,12 @@ const components: Partial<PortableTextReactComponents> = {
 };
 
 interface PostBodyProps {
-    value: NonNullable<NonNullable<POST_QUERY_RESULT>["body"]>;
+    value: any[];
 }
 
 export function PostBody({ value }: PostBodyProps) {
     return (
-        <div className="prose-custom mx-auto max-w-3xl">
+        <div className="prose-custom max-w-3xl">
             <PortableText value={value} components={components} />
         </div>
     );

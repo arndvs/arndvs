@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { PortableTextBlock } from "next-sanity";
 import { notFound } from "next/navigation";
 
 import { PostBody } from "@/components/blog/post-body";
@@ -9,6 +8,7 @@ import { TldrBox } from "@/components/blog/tldr-box";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { estimateReadingTime } from "@/lib/utils";
 import { extractHeadingsFromPortableText } from "@/lib/utils/extract-headings";
+import type { PortableTextBlock } from "next-sanity";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
 import { urlFor } from "@/sanity/lib/image";
@@ -39,12 +39,9 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
 
     const title = post.seo?.metaTitle || post.title;
     const description = post.seo?.metaDescription || post.excerpt || "";
-
-    // Prefer seo.image, fall back to mainImage
-    const ogImageSource = post.seo?.image || post.mainImage;
-    const image = ogImageSource
+    const image = post.mainImage
         ? {
-              url: urlFor(ogImageSource).width(1200).height(630).url(),
+              url: urlFor(post.mainImage).width(1200).height(630).url(),
               width: 1200,
               height: 630,
               alt: (post.mainImage as { alt?: string }).alt || post.title,
@@ -58,9 +55,7 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
         type: "article",
         publishedTime: post.publishedAt || undefined,
         authors: [post.author || "Aaron Davis"],
-        feedUrl: "/blog/feed.xml",
         ...(image && { images: [image] }),
-        ...(post.seo?.noIndex && { robots: { index: false, follow: false } }),
     });
 }
 
@@ -76,9 +71,7 @@ export default async function BlogPostPage(props: { params: Params }) {
     const charCount = post.bodyCharCount ?? 0;
     const wordCount = Math.round(charCount / 5);
     const readingTime = estimateReadingTime(charCount);
-    const headings = post.body
-        ? extractHeadingsFromPortableText(post.body as PortableTextBlock[])
-        : [];
+    const headings = post.body ? extractHeadingsFromPortableText(post.body as PortableTextBlock[]) : [];
     const showToc = headings.length >= 3;
 
     const jsonLd = {
@@ -155,7 +148,7 @@ export default async function BlogPostPage(props: { params: Params }) {
             <article className="mx-auto max-w-7xl px-6 lg:px-8">
                 <PostHeader
                     title={post.title}
-                    publishedAt={post.publishedAt ?? undefined}
+                    publishedAt={post.publishedAt}
                     author={post.author ?? undefined}
                     categories={post.categories ?? undefined}
                     mainImage={post.mainImage ?? undefined}
@@ -163,25 +156,21 @@ export default async function BlogPostPage(props: { params: Params }) {
                 />
 
                 {post.tldr && (
-                    <div className="mx-auto max-w-3xl">
+                    <div className={showToc ? "" : "mx-auto max-w-3xl"}>
                         <TldrBox tldr={post.tldr} />
                     </div>
                 )}
 
                 {showToc && (
-                    <div className="mx-auto max-w-3xl lg:hidden">
+                    <div className="lg:hidden">
                         <TableOfContents headings={headings} />
                     </div>
                 )}
 
-                <div
-                    className={
-                        showToc
-                            ? "lg:mx-auto lg:grid lg:max-w-4xl lg:grid-cols-[1fr_220px] lg:gap-10"
-                            : ""
-                    }
-                >
-                    <div>{post.body && <PostBody value={post.body} />}</div>
+                <div className={showToc ? "lg:grid lg:grid-cols-[1fr_250px] lg:gap-12" : "mx-auto max-w-3xl"}>
+                    <div>
+                        {post.body && <PostBody value={post.body} />}
+                    </div>
 
                     {showToc && (
                         <aside className="hidden lg:block">
