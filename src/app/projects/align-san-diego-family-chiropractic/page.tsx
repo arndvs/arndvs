@@ -21,7 +21,7 @@ import { pageData } from "./data";
 export const metadata: Metadata = generateSiteMetadata({
     title: "Align San Diego Family Chiropractic",
     description:
-        "Case study: A 44,000-line healthcare platform with 5 AI integrations, 81 JSON-LD schemas, programmatic SEO across 158 pages, built on Next.js 16 and Sanity v5.",
+        "Case study: A 277K-line healthcare platform with AI content ops, 76 JSON-LD schemas, programmatic SEO across 203 pages, built on Next.js 16 and Sanity v5.",
     path: "/projects/align-san-diego-family-chiropractic",
 });
 
@@ -34,7 +34,7 @@ export default function AlignSDPage() {
                 "@id": `${siteConfig.url}/projects/align-san-diego-family-chiropractic/#work`,
                 name: "Align San Diego Family Chiropractic",
                 description:
-                    "A 44,000-line healthcare platform with 5 AI integrations, 81 JSON-LD schemas, programmatic SEO across 158 pages.",
+                    "A 277K-line healthcare platform with AI content ops, 76 JSON-LD schemas, programmatic SEO across 203 pages.",
                 url: `${siteConfig.url}/projects/align-san-diego-family-chiropractic`,
                 author: { "@id": `${siteConfig.url}/#person` },
                 datePublished: "2025-01-01",
@@ -86,7 +86,6 @@ export default function AlignSDPage() {
                     {pageData.deepDives.map((dive) => (
                         <DeepDiveSection key={dive.id} data={dive} />
                     ))}
-
                     <DecisionLog decisions={pageData.decisions} />
                     <LearningsGrid learnings={pageData.learnings} />
                     <MetricsSection metrics={pageData.metrics} />
@@ -97,3 +96,4 @@ export default function AlignSDPage() {
         </>
     );
 }
+
