@@ -23,13 +23,13 @@ const post = {
     author: "Aaron Davis",
     publishedAt: new Date().toISOString(),
     excerpt:
-        "A deep dive into architecting a 44,000-line healthcare platform on Sanity v5 and Next.js — 18 schema types, AI-powered SEO, 81 JSON-LD schemas, and a revalidation cascade that keeps content live in under 5 seconds.",
+        "A deep dive into architecting a 277K-line healthcare platform on Sanity v5 and Next.js — 18 schema types, AI-powered SEO, 76 JSON-LD schemas, and a revalidation cascade that keeps content live in under 5 seconds.",
     categories: ["Sanity", "Next.js", "AI", "SEO", "TypeScript"],
     seo: {
         _type: "seo",
         metaTitle: "Building a Production Sanity CMS with AI-Powered Content Ops",
         metaDescription:
-            "How I built a 44k-line healthcare platform on Sanity v5 with AI-powered SEO, 81 JSON-LD schemas, and sub-5s revalidation. Full architecture breakdown.",
+            "How I built a 277K-line healthcare platform on Sanity v5 with AI-powered SEO, 76 JSON-LD schemas, and sub-5s revalidation. Full architecture breakdown.",
         focusKeyword: "Sanity CMS developer",
     },
     body: [
@@ -37,11 +37,11 @@ const post = {
         block("h2", "The Brief"),
         block(
             "normal",
-            "A San Diego healthcare practice with 5,000+ patients had outgrown WordPress. They needed a platform that a solo non-technical editor could manage — zero developer dependency for day-to-day content — across 158 pages, 18 content types, and 10+ integrations.",
+            "A San Diego healthcare practice with 5,000+ patients had outgrown WordPress. They needed a platform that a solo non-technical editor could manage — zero developer dependency for day-to-day content — across 203 pages, 18 content types, and 12+ integrations.",
         ),
         block(
             "normal",
-            "The result: a 44,000-line Next.js 16 application powered by Sanity v5, with AI-enhanced content operations, programmatic SEO, and a structured data system that auto-generates JSON-LD for every page.",
+            "The result: a 277K-line Next.js 16 application powered by Sanity v5, with AI-enhanced content operations, programmatic SEO, and a structured data system that auto-generates JSON-LD for every page.",
         ),
 
         // ── System Overview ──
@@ -52,7 +52,7 @@ const post = {
         ),
         block(
             "normal",
-            "Quick stats: 18 schema types · 81 JSON-LD files · 53 API routes · 27 email templates · 5 AI integrations · 158 pages.",
+            "Quick stats: 18 schema types · 76 JSON-LD files · 34 API routes · 27 email templates · 12+ integrations · 203 pages.",
         ),
 
         // ── Sanity Studio ──
@@ -65,7 +65,7 @@ const post = {
         ),
         block(
             "normal",
-            "Every content type shares a reusable SEO object — metaTitle with a 50–60 character sweet-spot indicator, metaDescription with a 110–160 character range, and a focusKeyword field. This creates consistency across 158 pages without requiring editors to understand SEO mechanics.",
+            "Every content type shares a reusable SEO object — metaTitle with a 50–60 character sweet-spot indicator, metaDescription with a 110–160 character range, and a focusKeyword field. This creates consistency across 203 pages without requiring editors to understand SEO mechanics.",
         ),
 
         block("h3", "Custom Document Actions"),
@@ -216,11 +216,96 @@ export async function POST(req: NextRequest) {
         ),
         block(
             "normal",
-            "Composable JSON-LD over a monolithic schema file: more code up front, but new content types get structured data automatically. A single blog-schema.ts file would have been faster to ship but impossible to maintain at 81 schemas.",
+            "Composable JSON-LD over a monolithic schema file: more code up front, but new content types get structured data automatically. A single blog-schema.ts file would have been faster to ship but impossible to maintain at 76 schemas.",
         ),
         block(
             "normal",
             "In-memory rate limiter over Redis: for a single-origin deployment, an in-memory approach avoids infrastructure complexity. If the site scales to multi-region, Redis becomes the obvious next step.",
+        ),
+
+        // ── Event Approval Workflow ──
+        block("h2", "Event Approval Workflow: CMS as Workflow Engine"),
+        block(
+            "normal",
+            "Community events (workshops, health fairs, kids' spine checks) follow a structured lifecycle inside Sanity Studio. The schema enforces content quality — no publishing without a featured image, no past dates, minimum description length — so validation happens at the CMS layer, not in review meetings.",
+        ),
+        block(
+            "normal",
+            "The AI Enhance button (shared with blog posts) generates SEO metadata for events in 10 seconds. On publish, the Sanity webhook triggers Next.js revalidation for /events and /events/[slug], generates Event JSON-LD schema, and fires an IndexNow submission. The client publishes a Saturday workshop on Thursday and it's indexed by Friday morning.",
+        ),
+
+        // ── Animation & Accessibility ──
+        block("h2", "Progressive Enhancement: Animations That Degrade Gracefully"),
+        block(
+            "normal",
+            "The site uses WebGL shaders, Framer Motion scroll reveals, and animated counters — heavy visual effects that need to work for the ~5% of users with vestibular disorders. The solution is architectural, not cosmetic.",
+        ),
+        block(
+            "normal",
+            "React Server Components render full semantic HTML by default — content is readable before any JavaScript loads. Animations live in 'use client' islands layered on top. A useReducedMotion() hook disables all motion when prefers-reduced-motion is active. The WebGL shader falls back to a static gradient. The key insight: the server render IS the accessible version.",
+        ),
+        codeBlock(
+            `// Progressive enhancement pattern
+// Server Component (default) — full HTML, zero JS
+export default function ServicePage({ service }) {
+  return (
+    <article>
+      <h1>{service.title}</h1>
+      <p>{service.description}</p>
+      {/* Client island — animation is the enhancement */}
+      <AnimatedTestimonials reviews={service.reviews} />
+    </article>
+  )
+}
+
+// Client Component — respects motion preferences
+'use client'
+function AnimatedTestimonials({ reviews }) {
+  const prefersReducedMotion = useReducedMotion()
+  return (
+    <motion.div
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+    >
+      {reviews.map(r => <ReviewCard key={r.id} review={r} />)}
+    </motion.div>
+  )
+}`,
+            "typescript",
+            "progressive-enhancement.tsx",
+        ),
+
+        // ── Real-Time IndexNow ──
+        block("h2", "Real-Time Search Engine Notification with IndexNow"),
+        block(
+            "normal",
+            "Small business sites get crawled infrequently — maybe once a week for a chiropractor. IndexNow flips the model: instead of waiting for Google/Bing to discover changes, the site proactively notifies search engines after every content change.",
+        ),
+        block(
+            "normal",
+            "The revalidation webhook handles the full cascade: cache invalidation → related page rebuild (blog index, sitemap, RSS) → IndexNow submission. Total pipeline time: under 2 seconds from publish to indexed. For time-sensitive content like community events, this is the difference between being found and being buried.",
+        ),
+
+        // ── LLMs.txt ──
+        block("h2", "LLMs.txt: Optimizing for AI Discovery"),
+        block(
+            "normal",
+            "Beyond traditional SEO, the site exposes a /llms.txt endpoint — a structured file that helps AI assistants (ChatGPT, Perplexity, Claude) understand the practice's services, locations, and specialties. Generated from the same Sanity data that powers the site, so it's always current.",
+        ),
+        block(
+            "normal",
+            "This is an early bet on AI-referral traffic. When someone asks an AI assistant 'who's a good chiropractor in Mission Valley,' the structured context in llms.txt gives the model accurate, citation-ready information. Zero maintenance cost — the data already exists in the CMS.",
+        ),
+
+        // ── Custom Audit Scripts ──
+        block("h2", "Custom Audit Scripts: Catching Regressions at 277K Lines"),
+        block(
+            "normal",
+            "Six custom audit scripts run as part of the development workflow: async waterfall detection, bundle import analysis, 'use client' boundary validation, event listener leak detection, Suspense coverage mapping, and re-render pattern analysis. Written when the codebase was 30K lines, they've caught dozens of regressions as the codebase grew to 277K.",
+        ),
+        block(
+            "normal",
+            "The 2-hour investment in audit tooling has saved 20+ hours of debugging. At scale, manual code review misses patterns that automated analysis catches consistently — especially async waterfalls across Server Components and unnecessary client-side JavaScript.",
         ),
 
         // ── CTA ──

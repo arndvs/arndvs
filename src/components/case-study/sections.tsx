@@ -337,6 +337,15 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     <p className="text-muted-foreground leading-relaxed">{data.problem}</p>
                 </motion.div>
 
+                {data.beforeDiagramKey && (
+                    <motion.div variants={itemVariants} className="mb-8">
+                        <DiagramViewer
+                            chart={diagrams[data.beforeDiagramKey] ?? ""}
+                            title={data.beforeDiagramTitle ?? "Before"}
+                        />
+                    </motion.div>
+                )}
+
                 <motion.div variants={itemVariants} className="mb-8">
                     <DiagramViewer chart={diagrams[data.diagramKey] ?? ""} title={data.title} />
                 </motion.div>

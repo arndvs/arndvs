@@ -39,15 +39,14 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
 
     const title = post.seo?.metaTitle || post.title;
     const description = post.seo?.metaDescription || post.excerpt || "";
-
-    // Prefer seo.image, fall back to mainImage
-    const ogImageSource = post.seo?.image || post.mainImage;
-    const image = ogImageSource
+    const seoImage = post.seo?.image;
+    const imageSource = seoImage ?? post.mainImage;
+    const image = imageSource
         ? {
-              url: urlFor(ogImageSource).width(1200).height(630).url(),
+              url: urlFor(imageSource).width(1200).height(630).url(),
               width: 1200,
               height: 630,
-              alt: (post.mainImage as { alt?: string }).alt || post.title,
+              alt: (imageSource as { alt?: string }).alt || post.title,
           }
         : undefined;
 
@@ -163,22 +162,20 @@ export default async function BlogPostPage(props: { params: Params }) {
                 />
 
                 {post.tldr && (
-                    <div className="mx-auto max-w-3xl">
+                    <div className={showToc ? "" : "mx-auto max-w-3xl"}>
                         <TldrBox tldr={post.tldr} />
                     </div>
                 )}
 
                 {showToc && (
-                    <div className="mx-auto max-w-3xl lg:hidden">
+                    <div className="lg:hidden">
                         <TableOfContents headings={headings} />
                     </div>
                 )}
 
                 <div
                     className={
-                        showToc
-                            ? "lg:mx-auto lg:grid lg:max-w-4xl lg:grid-cols-[1fr_220px] lg:gap-10"
-                            : ""
+                        showToc ? "lg:grid lg:grid-cols-[1fr_250px] lg:gap-12" : "mx-auto max-w-3xl"
                     }
                 >
                     <div>{post.body && <PostBody value={post.body} />}</div>

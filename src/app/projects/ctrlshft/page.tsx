@@ -19,23 +19,23 @@ import {
 import { pageData } from "./data";
 
 export const metadata: Metadata = generateSiteMetadata({
-    title: "ctrl — AI Agent Infrastructure | Aaron Davis",
+    title: "ctrl+shft — AI Agent Infrastructure | Aaron Davis",
     description:
-        "Autonomous AI agent infrastructure — synced instructions, skills, and secrets from a single dotfiles repo. One git pull updates every machine.",
-    path: "/projects/ctrl",
+        "Autonomous AI agent infrastructure — 24 skills, lifecycle hooks, compliance HUD, and secrets management from a single dotfiles repo. One git pull updates every machine.",
+    path: "/projects/ctrlshft",
 });
 
-export default function CtrlPage() {
+export default function CtrlShftPage() {
     const jsonLd = {
         "@context": "https://schema.org",
         "@graph": [
             {
                 "@type": "CreativeWork",
-                "@id": `${siteConfig.url}/projects/ctrl/#work`,
-                name: "ctrl — AI Agent Infrastructure",
+                "@id": `${siteConfig.url}/projects/ctrlshft/#work`,
+                name: "ctrl+shft — AI Agent Infrastructure",
                 description:
-                    "Autonomous AI agent infrastructure — synced instructions, skills, and secrets from a single dotfiles repo.",
-                url: `${siteConfig.url}/projects/ctrl`,
+                    "Autonomous AI agent infrastructure — 24 skills, lifecycle hooks, compliance HUD, and secrets management from a single dotfiles repo.",
+                url: `${siteConfig.url}/projects/ctrlshft`,
                 author: { "@id": `${siteConfig.url}/#person` },
                 datePublished: "2025-01-01",
                 keywords: [
@@ -46,11 +46,13 @@ export default function CtrlPage() {
                     "VS Code Copilot",
                     "Shell Scripts",
                     "Open Source",
+                    "Compliance",
+                    "Observability",
                 ],
             },
             {
                 "@type": "BreadcrumbList",
-                "@id": `${siteConfig.url}/projects/ctrl/#breadcrumb`,
+                "@id": `${siteConfig.url}/projects/ctrlshft/#breadcrumb`,
                 itemListElement: [
                     { "@type": "ListItem", position: 1, name: "Home", item: siteConfig.url },
                     {
@@ -62,8 +64,8 @@ export default function CtrlPage() {
                     {
                         "@type": "ListItem",
                         position: 3,
-                        name: "ctrl",
-                        item: `${siteConfig.url}/projects/ctrl`,
+                        name: "ctrl+shft",
+                        item: `${siteConfig.url}/projects/ctrlshft`,
                     },
                 ],
             },

@@ -37,6 +37,8 @@ export interface DeepDive<TDiagramKey extends string = string> {
     title: string;
     subtitle: string;
     problem: string;
+    beforeDiagramKey?: TDiagramKey;
+    beforeDiagramTitle?: string;
     diagramKey: TDiagramKey;
     walkthrough: string[];
     insight: {

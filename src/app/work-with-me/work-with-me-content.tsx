@@ -22,7 +22,7 @@ const pageData = {
         },
         secondaryCta: {
             text: "See how I build",
-            href: "/projects/ctrl",
+            href: "/projects/ctrlshft",
         },
     },
     fit: {
@@ -166,12 +166,12 @@ const pageData = {
         ],
         projects: [
             {
-                id: "ctrl",
+                id: "ctrlshft",
                 tag: "AI Infrastructure · Open Source",
                 title: "ctrl+shft",
                 description:
-                    "The agent infrastructure system behind this offer. Specialist skills, 3-tier security, autonomous Docker loops. Open source and in production.",
-                href: "/projects/ctrl",
+                    "The agent infrastructure system behind this offer. 24 skills, lifecycle hooks, compliance HUD, 3-tier security, autonomous Docker loops. Open source and in production.",
+                href: "/projects/ctrlshft",
             },
             {
                 id: "ripemetrics",

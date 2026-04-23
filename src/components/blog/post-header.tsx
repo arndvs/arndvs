@@ -24,7 +24,7 @@ export function PostHeader({
     const formattedDate = publishedAt ? formatDate(publishedAt) : null;
 
     return (
-        <header className="mx-auto max-w-3xl space-y-6 pb-8">
+        <header className="space-y-6 pb-8">
             {/* Categories */}
             {categories && categories.length > 0 && (
                 <div className="flex flex-wrap gap-2">
