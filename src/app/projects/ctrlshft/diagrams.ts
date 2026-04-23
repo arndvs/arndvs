@@ -3,7 +3,7 @@ export const diagrams = {
     subgraph Consumers["Agent Consumers"]
         COPILOT["VS Code Copilot\\nAgent Mode"]
         CLAUDE["Claude Code\\nCLAUDE.md"]
-        SHIFT["shift Loop\\nafk.sh · once.sh"]
+        SHIFT["shft Loop\\nafk.sh · once.sh"]
     end
 
     subgraph Core["Core Configuration"]
@@ -12,26 +12,25 @@ export const diagrams = {
         SETTINGS["settings.json\\n145+ Settings"]
     end
 
-    subgraph Detection["Context Detection"]
+    subgraph Detection["Context & Client Detection"]
         DETECT["detect-context.sh\\n11 File Signatures"]
+        CLIENT["detect-client.sh\\nPath-Based Client Matching"]
         CD_HOOK["cd() Override\\nAuto-Triggers Detection"]
         CONTEXTS["ACTIVE_CONTEXTS\\nComma-Separated Export"]
     end
 
-    subgraph Instructions["Stack Instructions"]
-        NEXTJS["nextjs.instructions.md"]
-        PHP["php.instructions.md"]
-        SANITY["sanity.instructions.md"]
-        CSS["css.instructions.md"]
-        SENTRY["sentry.instructions.md"]
-        GDOCS["google-docs.instructions.md"]
+    subgraph Instructions["10 Stack Instructions"]
+        NEXTJS["nextjs · php · sanity"]
+        CSS_INST["css · sentry · google-docs"]
+        UX_INST["ux-prototyping · handoff"]
+        LOCAL["copywriting · learnings"]
     end
 
-    subgraph Skills["12 Skills"]
-        PIPELINE_SKILLS["Pipeline Skills\\ngrill-me → write-a-prd →\\nprd-to-issues → do-work"]
-        ANALYSIS["Analysis Skills\\nexplore · research\\ncodebase-audit"]
-        DEV["Dev Skills\\ntdd · systematic-debugging\\nimprove-architecture"]
-        META["Meta Skills\\nskill-scaffolder\\ntechnical-fellow"]
+    subgraph Skills["24 Skills"]
+        PIPELINE_SKILLS["Pipeline\\ngrill-me → write-a-prd →\\nprd-to-issues → do-work"]
+        ANALYSIS["Analysis\\nexplore · research ·\\ncodebase-audit · code-review"]
+        DEV["Development\\ntdd · systematic-debugging ·\\nimprove-architecture · architect"]
+        META["Meta\\nskill-scaffolder · document ·\\ncompliance-audit · stress-test"]
     end
 
     subgraph Security["Security Model"]
@@ -41,22 +40,31 @@ export const diagrams = {
         DENY["Claude Deny Rules\\nFile System Boundaries"]
     end
 
-    subgraph Bootstrap["Bootstrap"]
-        BOOT["bootstrap.sh\\n7-Step Idempotent Setup"]
-        SUPPLY["Supply Chain Protection\\nnpm min-release-age=7\\nuv exclude-newer"]
+    subgraph Hooks["Lifecycle Hooks"]
+        SECRET_GUARD["secret-guard.sh\\nBlock Credential Leaks"]
+        MIGRATION_GUARD["migration-guard.sh\\nBlock Non-Test Migrations"]
+        FORMAT["format-check.sh\\nAuto-Format on Exit"]
+        TYPECHECK_HOOK["typecheck.sh\\ntsc --noEmit"]
+        COMPACTION["compaction-guard.sh\\nForce Handoff Protocol"]
+    end
+
+    subgraph HUD["Compliance HUD"]
+        DAEMON["hud-daemon.js\\nWebSocket :7822 · HTTP :7823"]
+        TRANSPORT["3-Tier Transport\\nPipe · HTTP · JSONL"]
+        DASH["Real-Time Dashboard\\nCompliance Rate · Events"]
     end
 
     Consumers --> Core
     CLAUDE_BASE --> Detection
     CD_HOOK --> DETECT
+    CD_HOOK --> CLIENT
     DETECT --> CONTEXTS
     CONTEXTS --> CLAUDE_BASE
     CLAUDE_BASE --> Instructions
     CLAUDE_BASE --> Skills
     Core --> Security
-    BOOT --> Core
-    BOOT --> Security
-    BOOT --> SUPPLY`,
+    Hooks --> HUD
+    Consumers -.-> Hooks`,
 
     pipeline: `graph LR
     subgraph Phase1["Phase 1: Extraction"]
@@ -70,39 +78,41 @@ export const diagrams = {
     end
 
     subgraph Phase3["Phase 3: Planning"]
-        SLICES["prd-to-issues\\nVertical Slices"]
-        AFK_TAG["AFK Issues\\nAgent Can Ship Alone"]
-        HITL_TAG["HITL Issues\\nHuman Must Review"]
+        ARCH["architect\\nVertical Slices ·\\nModule Boundaries"]
+        SLICES["prd-to-issues\\nIssue Creation"]
+        AFK_TAG["AFK Issues\\nAgent Ships Alone"]
+        HITL_TAG["HITL Issues\\nHuman Reviews"]
         QA["QA Issue\\nAlways Last"]
     end
 
     subgraph Phase4["Phase 4: Execution"]
-        TECH["technical-fellow\\nPlan · No Code"]
         DOWORK["do-work\\nImplement · Validate · Commit"]
-        SHIFT_LOOP["shift/afk.sh\\nPick → Implement →\\nCommit → Close → Repeat"]
+        SHIFT_LOOP["shft/afk.sh\\nPick → Implement →\\nCommit → Close → Repeat"]
     end
 
-    subgraph Phase5["Phase 5: Learning"]
+    subgraph Phase5["Phase 5: Quality"]
+        COMPLIANCE["compliance-audit\\nDiff vs Active Rules"]
+        REVIEW["code-review\\nStaged Changes Review"]
         SELF_LEARN["Skill Self-Learning\\nUpdate SKILL.md Inline"]
-        KAIZEN["Kaizen Loop\\nEvaluate → Fix → Persist"]
     end
 
     IDEA --> GRILL
     GRILL --> PRD
     PRD --> ISSUE
-    ISSUE --> SLICES
+    ISSUE --> ARCH
+    ARCH --> SLICES
     SLICES --> AFK_TAG
     SLICES --> HITL_TAG
     SLICES --> QA
     AFK_TAG --> SHIFT_LOOP
     HITL_TAG --> DOWORK
-    DOWORK --> SELF_LEARN
-    SHIFT_LOOP --> SELF_LEARN
-    SELF_LEARN --> KAIZEN
-    TECH -.->|"Plans Only"| SLICES`,
+    DOWORK --> COMPLIANCE
+    SHIFT_LOOP --> COMPLIANCE
+    COMPLIANCE --> REVIEW
+    REVIEW --> SELF_LEARN`,
 
     shiftLoop: `flowchart TD
-    START["shift/afk.sh\\nmax_iterations=5"] --> LOCK{"Lockfile\\nCheck"}
+    START["shft/afk.sh\\nmax_iterations=5"] --> LOCK{"Lockfile\\nCheck"}
 
     LOCK -->|"Already Running"| ABORT["Exit — PID Active"]
     LOCK -->|"Free"| WRITE_LOCK["Write PID to\\n/tmp/shift-afk.lock"]
@@ -113,7 +123,7 @@ export const diagrams = {
 
     SANITIZE --> INJECT["Inject into Prompt\\n+ Previous 5 Commits\\n+ prompt.md"]
 
-    INJECT --> DOCKER["docker sandbox run claude\\n--print --output-format stream-json"]
+    INJECT --> DOCKER["docker sandbox run claude\\nCredentials Rotate Per Session\\n--output-format stream-json"]
 
     DOCKER --> CHECK{"Output Contains\\nNO MORE TASKS?"}
 
@@ -153,6 +163,7 @@ export const diagrams = {
     end
 
     CD --> DETECT["detect-context.sh"]
+    CD --> CLIENT_DETECT["detect-client.sh\\nPath-Based Matching"]
 
     subgraph Signatures["11 File Signatures"]
         direction TB
@@ -169,26 +180,38 @@ export const diagrams = {
         S11["artisan\\n→ laravel"]
     end
 
+    subgraph ClientDetection["Client Detection"]
+        direction TB
+        PATH["~/dev/clients/<name>/\\n→ Match Client"]
+        CLIENT_INSTR["client.instructions.md\\nBrand · Voice · NAP"]
+        PROJECT_INSTR["project.instructions.md\\nStack · Architecture"]
+        PATH --> CLIENT_INSTR
+        PATH --> PROJECT_INSTR
+    end
+
     DETECT --> Signatures
+    CLIENT_DETECT --> ClientDetection
     Signatures --> EXPORT["export ACTIVE_CONTEXTS=\\ngeneral,nextjs,node,typescript"]
 
-    EXPORT --> CLAUDE_MD["CLAUDE.base.md\\nReads $ACTIVE_CONTEXTS"]
+    EXPORT --> CLAUDE_MD["CLAUDE.base.md\\nReads \\$ACTIVE_CONTEXTS"]
+    ClientDetection --> CLAUDE_MD
 
     CLAUDE_MD --> LOAD{"Load Only\\nMatching Instructions"}
 
     LOAD -->|"nextjs detected"| NEXT["nextjs.instructions.md\\nReact 19 · use cache ·\\nServer Actions"]
     LOAD -->|"php detected"| PHP_INST["php.instructions.md\\nPHP 8.4 · Strict Types"]
     LOAD -->|"sanity detected"| SANITY_INST["sanity.instructions.md\\nGROQ · Visual Editing"]
-    LOAD -->|"Task: CSS"| CSS_INST["css.instructions.md\\nNesting · Container Queries"]
+    LOAD -->|"Task: CSS"| CSS_LOAD["css.instructions.md\\nNesting · Container Queries"]
     LOAD -->|"Task: Sentry"| SENTRY_INST["sentry.instructions.md\\nMCP · Error Triage"]
-    LOAD -->|"Task: Google"| GDOCS_INST["google-docs.instructions.md\\nSheets · Drives API"]
+    LOAD -->|"Client matched"| CLIENT_LOADED["client.instructions.md\\nBrand Voice · NAP Data"]
 
     subgraph Result["What the Agent Sees"]
         direction TB
         R1["global.instructions.md\\nAlways Loaded"]
         R2["Stack-specific rules\\nOnly if detected"]
         R3["Task-specific rules\\nOnly if triggered"]
-        R4["Skills auto-discovered\\nvia ~/.claude/skills symlink"]
+        R4["Client-specific rules\\nOnly if path matches"]
+        R5["Skills auto-discovered\\nvia ~/.claude/skills symlink"]
     end
 
     LOAD --> Result`,
@@ -293,6 +316,70 @@ export const diagrams = {
     end
 
     PHASE4 -.->|"Anti-Rationalization"| PressureTests`,
+
+    hudArchitecture: `graph TB
+    subgraph Producers["Event Producers"]
+        CLAUDE_WRAP["ctrlshft-claude\\nStdout Parser"]
+        CONTEXT_HOOK["detect-context.sh\\ncd() Hook Events"]
+        CLIENT_HOOK["detect-client.sh\\nPath Matching"]
+        HOOKS_PROD["Lifecycle Hooks\\nhud-session.sh · hud-reads.sh"]
+        AFK_PROD["shft/afk.sh\\nLoop Events"]
+    end
+
+    subgraph Transport["3-Tier Transport"]
+        PIPE["Named Pipe\\nhud.pipe · <1ms"]
+        HTTP["HTTP POST\\n:7823/api/event · ~5ms"]
+        JSONL["JSONL File\\nevents.jsonl · Fallback"]
+    end
+
+    subgraph Daemon["hud-daemon.js · Zero Dependencies"]
+        WS["WebSocket Server\\n:7822"]
+        API["HTTP API\\n:7823"]
+        MEMORY["In-Memory Buffers\\nSessions · Events"]
+        INVENTORY["File Inventory\\nSkills · Rules · Agents"]
+    end
+
+    subgraph UI["HUD Frontend"]
+        DASHBOARD["hud/index.html\\nDark Theme · Real-Time"]
+        TABS["Project Tabs\\nPer-Project Sessions"]
+        COMPLIANCE_RATE["Compliance Rate\\n70/30 Weighted Average"]
+        FILES["File Inventory\\nSidebar"]
+    end
+
+    Producers --> Transport
+    PIPE --> Daemon
+    HTTP --> Daemon
+    JSONL --> Daemon
+    WS --> UI
+    API --> UI`,
+
+    hooksPipeline: `flowchart TD
+    SESSION["Agent Session Starts"] --> SESSION_HOOK["hud-session.sh\\nSessionStart → HUD"]
+
+    SESSION_HOOK --> WORK["Agent Works on Task"]
+
+    WORK --> TOOL{"Agent Runs\\na Command?"}
+
+    TOOL -->|"Bash cmd"| SECRET["secret-guard.sh\\nBlocks: echo \\$TOKEN\\nenv · printenv · cat secrets/"]
+    TOOL -->|"Migration"| MIGRATE["migration-guard.sh\\nBlocks Non-Test\\nDatabase Migrations"]
+    TOOL -->|"Read file"| READS["hud-reads.sh\\nTracks Dotfiles Reads → HUD"]
+    TOOL -->|"Other"| CONTINUE["Continue"]
+
+    SECRET -->|"Exit 0"| CONTINUE
+    SECRET -->|"Exit 2"| BLOCKED["Command Blocked"]
+    MIGRATE -->|"Exit 0"| CONTINUE
+    MIGRATE -->|"Exit 2"| BLOCKED
+
+    CONTINUE --> STOP{"Session\\nEnding?"}
+
+    STOP -->|"Yes"| FORMAT["format-check.sh\\nBiome · Prettier · ESLint\\nAuto-Format Modified Files"]
+    FORMAT --> TYPECHECK_POST["typecheck.sh\\ntsc --noEmit\\nBlocks Until Types Pass"]
+    TYPECHECK_POST --> SESSION_END["hud-session.sh\\nStop Event → HUD"]
+
+    STOP -->|"No"| WORK
+
+    COMPACT{"Context ~95%?"} --> COMPACTION["compaction-guard.sh\\nBlocks Auto-Compaction\\nForces Handoff Protocol"]
+    COMPACTION --> HANDOFF["Write Plan to working/\\nProvide Pickup Command"]`,
 } as const;
 
 export type DiagramKey = keyof typeof diagrams;

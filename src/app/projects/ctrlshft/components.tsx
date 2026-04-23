@@ -1,6 +1,6 @@
 "use client";
 
-import { Bot, Brain, Radar, Shield, Terminal, Workflow } from "lucide-react";
+import { Activity, Bot, Brain, Radar, Shield, ShieldCheck, Terminal, Workflow } from "lucide-react";
 
 import { createCaseStudySections } from "@/components/case-study/sections";
 
@@ -8,11 +8,13 @@ import { diagrams } from "./diagrams";
 
 const subsystemIcons: Record<string, React.ElementType> = {
     "The Pipeline": Workflow,
+    "Compliance HUD": Activity,
+    "Lifecycle Hooks": ShieldCheck,
+    "Dual CLI": Terminal,
     "Context Detection": Radar,
     "Hardened Secrets": Shield,
     "Skill System": Brain,
-    "shift Loop": Bot,
-    Bootstrap: Terminal,
+    "shft Loop": Bot,
 };
 
 export const {

@@ -18,16 +18,17 @@ const projectsPageData = {
     },
     projects: [
         {
-            id: "ctrl",
+            id: "ctrlshft",
             title: "ctrl+shft",
             description:
-                "The infrastructure behind my consulting practice. Autonomous agent architecture — synced instructions, specialist skills, and hardened secrets from a single source of truth. The same system I implement for clients, open source and in production.",
+                "The infrastructure behind my consulting practice. 24 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo. The same system I implement for clients, open source and in production.",
             category: "AI Infrastructure / Developer Tools",
             color: "orange",
             technologies: [
                 "Bash",
                 "TypeScript",
                 "Python",
+                "Node.js",
                 "Docker",
                 "Claude Code",
                 "VS Code Copilot",
@@ -36,7 +37,7 @@ const projectsPageData = {
             featured: true,
             role: "Solo Developer & Architect",
             year: "2025-Present",
-            link: "https://github.com/arndvs/ctrl",
+            link: "https://github.com/arndvs/ctrlshft",
             thumbnail: "/projects/ctrlshft/ctrl-shft.jpg",
         },
         {

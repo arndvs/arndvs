@@ -5,35 +5,36 @@ import type { DiagramKey } from "./diagrams";
 export const pageData: PageData<DiagramKey> = {
     hero: {
         badge: "AI Infrastructure · Open Source",
-        title: "ctrl",
+        title: "ctrl+shft",
         tagline:
-            "Autonomous AI agent infrastructure — synced instructions, skills, and secrets across every machine from a single source of truth. One git pull updates everything. Agents load only what's relevant.",
+            "Autonomous AI agent infrastructure — 24 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets from a single source of truth. One git pull updates everything. Agents load only what's relevant.",
         stats: [
-            { label: "Skills", value: "12" },
-            { label: "Shell Scripts", value: "7" },
-            { label: "Stack Instructions", value: "6" },
-            { label: "Security Tiers", value: "3" },
+            { label: "Skills", value: "24" },
+            { label: "Shell Scripts", value: "43" },
+            { label: "Lifecycle Hooks", value: "8" },
+            { label: "Agent Personas", value: "6" },
             { label: "Framework Detections", value: "11" },
         ],
-        cta: { text: "View on GitHub", href: "https://github.com/arndvs/ctrl" },
+        cta: { text: "View on GitHub", href: "https://github.com/arndvs/ctrlshft" },
         screenshotSrc: "/projects/ctrlshft/ctrl-shft.jpg",
-        screenshotAlt: "CTRL+SHFT homepage showing the bootstrap terminal output and tagline",
+        screenshotAlt: "ctrl+shft homepage showing the bootstrap terminal output and tagline",
     },
 
     situation: {
         narrative: [
-            "Most AI coding setups are per-machine and per-session. You paste the same instructions into every chat. You rebuild context from scratch. Agents stall on tasks that should run unattended — and when they do run, they have access to every secret on the machine.",
-            "ctrl fixes that. A single dotfiles repo configures VS Code Copilot, Claude Code, and an autonomous agent loop with progressive disclosure — agents see only instructions relevant to the current project. A three-tier security model ensures agents never access credentials, even accidentally. The pipeline takes a rough idea through Socratic interrogation, formal PRD, vertical-slice issue creation, and autonomous implementation.",
+            "Most AI coding setups are per-machine and per-session. You paste the same instructions into every chat. You rebuild context from scratch. Agents stall on tasks that should run unattended — and when they do run, they have access to every secret on the machine. There's no visibility into what rules they loaded, what files they read, or whether they followed instructions.",
+            "ctrl+shft fixes that. A single dotfiles repo configures VS Code Copilot, Claude Code, and an autonomous agent loop with progressive disclosure — agents see only instructions relevant to the current project. A three-tier security model ensures agents never access credentials. Lifecycle hooks mechanically block dangerous commands before they execute. A real-time compliance HUD tracks every rule load, file read, and session event. The pipeline takes a rough idea through Socratic interrogation, formal PRD, vertical-slice issue creation, and autonomous implementation — 24 skills chained from extraction through shipping.",
         ],
         context: {
             role: "Solo Developer & Architect",
             timeline: "2025 – Present",
             client: "Open Source / Personal Infrastructure",
-            live: "github.com/arndvs/ctrl",
+            live: "ctrlshft.dev",
             stack: [
                 "Bash",
                 "TypeScript",
                 "Python",
+                "Node.js",
                 "Docker",
                 "Claude Code",
                 "VS Code Copilot",
@@ -43,16 +44,32 @@ export const pageData: PageData<DiagramKey> = {
     },
 
     architecture: {
-        intro: "ctrl coordinates three consumers — VS Code Copilot, Claude Code, and the shift autonomous loop — from a single source of truth. The core principle: every agent on every machine loads the same rules, but only sees instructions relevant to the current workspace via progressive disclosure.",
+        intro: "ctrl+shft coordinates three consumers — VS Code Copilot, Claude Code, and the shft autonomous loop — from a single source of truth. Every agent loads the same rules, but sees only instructions relevant to the current workspace. A compliance HUD provides real-time observability, lifecycle hooks mechanically enforce safety constraints, and a dual CLI (ctrl for infrastructure, shft for execution) exposes the entire system through two commands.",
         diagramKey: "systemArchitecture",
         subsystems: [
             {
                 title: "The Pipeline",
-                description: "12 skills chained from idea extraction through autonomous execution",
+                description: "24 skills chained from idea extraction through autonomous execution",
+            },
+            {
+                title: "Compliance HUD",
+                description:
+                    "Real-time dashboard tracking rule loads, file reads, and compliance rate",
+            },
+            {
+                title: "Lifecycle Hooks",
+                description:
+                    "8 pre/post-exec hooks: secret-guard, migration-guard, format-check, typecheck",
+            },
+            {
+                title: "Dual CLI",
+                description:
+                    "ctrl for infrastructure (bootstrap, sync, status) · shft for execution (run, afk, issues)",
             },
             {
                 title: "Context Detection",
-                description: "detect-context.sh hooked into cd() — agents auto-adapt per project",
+                description:
+                    "detect-context.sh hooked into cd() — agents auto-adapt per project and per client",
             },
             {
                 title: "Hardened Secrets",
@@ -61,16 +78,11 @@ export const pageData: PageData<DiagramKey> = {
             },
             {
                 title: "Skill System",
-                description: "Auto-discovered, self-learning skills that improve through use",
+                description: "24 auto-discovered, self-learning skills that improve through use",
             },
             {
-                title: "shift Loop",
+                title: "shft Loop",
                 description: "Docker-sandboxed autonomous agent consuming a GitHub issues backlog",
-            },
-            {
-                title: "Bootstrap",
-                description:
-                    "One idempotent command: generate, symlink, wire shell, protect supply chain",
             },
         ],
     },
@@ -79,7 +91,7 @@ export const pageData: PageData<DiagramKey> = {
         {
             id: "pipeline",
             title: "The Pipeline",
-            subtitle: "Chaining 12 Skills Into an Autonomous Shipping Loop",
+            subtitle: "Chaining 24 Skills Into an Autonomous Shipping Loop",
             problem:
                 "Feature development is fragmented — ideas live in chat, PRDs rot in docs, issues miss context. Agents don't know what to build or in what order. Each conversation starts from scratch with no memory of previous decisions.",
             diagramKey: "pipeline",
@@ -87,7 +99,8 @@ export const pageData: PageData<DiagramKey> = {
                 "The pipeline starts with grill-me: a Socratic interview that asks one question at a time, provides recommended answers, and explores the codebase instead of asking the user when possible. The output is a shared understanding of the problem — not a spec, but the raw material for one.",
                 'write-a-prd takes that understanding and produces a formal Product Requirements Document. It sketches module interfaces, test boundaries, and deep module opportunities inspired by Ousterhout\'s "A Philosophy of Software Design." The PRD is submitted as a GitHub issue — not a Google Doc — so it lives where the work happens.',
                 "prd-to-issues breaks the PRD into vertical slices. Each slice touches all layers end-to-end rather than building layer by layer. Every issue is classified AFK (agent can ship alone) or HITL (human must review). A final QA issue is always created. The user is quizzed on granularity before issues are created.",
-                "do-work implements a single issue: read the task, implement, auto-detect and run feedback loops (tsc, lint, test), commit with conventional format. shift/afk.sh chains this into an autonomous loop — pick an issue, assign it, implement, commit, close, repeat until the backlog is empty or max iterations hit.",
+                "architect plans the implementation without writing code — mapping modules, interfaces, and integration boundaries. do-work then implements a single issue: read the task, run feedback loops (tsc, lint, test), commit with conventional format. compliance-audit reviews the diff against active rules and flags violations. code-review runs a focused review of staged changes before merging.",
+                "shft/afk.sh chains this into an autonomous loop — pick an issue, assign it, implement, commit, close, repeat until the backlog is empty or max iterations hit. After each task, skills self-evaluate and update their own SKILL.md inline with lessons learned.",
             ],
             insight: {
                 title: "AFK/HITL Classification Is the Breakthrough",
@@ -96,15 +109,15 @@ export const pageData: PageData<DiagramKey> = {
         },
         {
             id: "shift-loop",
-            title: "shift — The Autonomous Agent Loop",
+            title: "shft — The Autonomous Agent Loop",
             subtitle: "Pick a Task, Ship It, Close the Issue, Repeat",
             problem:
                 "AI agents can implement features, but they can't pick their own tasks, triage a backlog, or run unattended. You still sit there feeding them one task at a time. And when they do run autonomously, there's no isolation — a runaway agent has full host access.",
             diagramKey: "shiftLoop",
             walkthrough: [
-                "afk.sh is the autonomous entry point. It writes a lockfile (PID guard — only one shift at a time), then enters a loop: fetch open GitHub issues via gh CLI, sanitize the JSON to prevent prompt injection by escaping XML-like closing tags, inject the issues + last 5 commits + prompt.md into a Docker-sandboxed Claude session.",
+                "afk.sh is the autonomous entry point. It writes a lockfile (PID guard — only one shft at a time), then enters a loop: fetch open GitHub issues via gh CLI, sanitize the JSON to prevent prompt injection by escaping XML-like closing tags, inject the issues + last 5 commits + prompt.md into a Docker-sandboxed Claude session.",
                 "The Docker sandbox (docker sandbox run claude) isolates the agent from the host. Inside, the agent follows prompt.md: pick a task by priority (bugs → infra → tracer bullets → polish → refactors), assign it via gh issue edit --add-assignee @me, load relevant skills, implement, run feedback loops, commit, and close the issue.",
-                "The exit signal is clean: if the agent outputs <promise>NO MORE TASKS</promise>, the loop terminates. Otherwise it continues until max iterations (default 5) is reached. The lockfile is cleaned up via trap on EXIT regardless of how the script terminates.",
+                "Docker credentials rotate per session — no persistent tokens inside the sandbox. The exit signal is clean: if the agent outputs <promise>NO MORE TASKS</promise>, the loop terminates. Otherwise it continues until max iterations (default 5) is reached. The lockfile is cleaned up via trap on EXIT regardless of how the script terminates.",
                 "once.sh provides the HITL counterpart: same issue fetch and sanitization, but runs Claude with --permission-mode accept-edits instead of in Docker. You watch it work, approve edits in real time. Same prompt.md, same priority system — different trust boundary.",
             ],
             insight: {
@@ -122,8 +135,8 @@ export const pageData: PageData<DiagramKey> = {
             walkthrough: [
                 'bootstrap.sh wires a cd() override into ~/.bashrc and ~/.zshrc. Every time you change directories, detect-context.sh runs automatically. It scans for 11 file signatures — next.config.ts, composer.json, sanity.config.ts, prisma/schema.prisma, Dockerfile, and more — and exports ACTIVE_CONTEXTS as a comma-separated string like "general,nextjs,node,typescript."',
                 "CLAUDE.base.md reads $ACTIVE_CONTEXTS and loads only matching instruction files. A Next.js project loads nextjs.instructions.md with React 19, use cache, Server Actions. A PHP project loads php.instructions.md with PHP 8.4, strict_types, #[Override]. A Sanity project loads sanity.instructions.md with GROQ, Visual Editing, MCP tools.",
-                "Service-triggered instructions load conditionally on the task: working with Sentry loads sentry.instructions.md, working with Google Sheets loads google-docs.instructions.md, CSS work loads css.instructions.md. These never pollute unrelated contexts.",
-                "Skills are auto-discovered via the ~/.claude/skills symlink that bootstrap.sh creates pointing to ~/dotfiles/skills/. Claude Code and VS Code Copilot both discover skills from this directory. No per-project configuration needed — new terminal in a different repo means instant context switch.",
+                "detect-client.sh adds a second layer: path-based client detection. Projects under ~/dev/clients/acme/ automatically load that client's brand voice, NAP data, and billing context. Multiple projects for the same client inherit shared configuration without duplication.",
+                "Service-triggered instructions load conditionally on the task: working with Sentry loads sentry.instructions.md, CSS work loads css.instructions.md. Skills are auto-discovered via the ~/.claude/skills symlink that bootstrap.sh creates — Claude Code and VS Code Copilot both discover skills from this directory. No per-project configuration needed.",
             ],
             insight: {
                 title: "The cd() Hook Is the Entire Architecture",
@@ -164,6 +177,42 @@ export const pageData: PageData<DiagramKey> = {
             insight: {
                 title: "Pressure Tests Are Red-Team Alignment",
                 body: "The three scenarios are designed to test whether the agent follows its own rules under realistic human pressure. Each presents follow-process, shortcut, and compromise options. It's the same idea as constitutional AI — but applied to engineering discipline instead of safety. If the agent can resist $15k/min pressure in a prompt, it'll resist the real temptation to skip root cause analysis.",
+            },
+        },
+        {
+            id: "compliance-hud",
+            title: "The Compliance HUD",
+            subtitle: "Real-Time Observability for Autonomous Agents",
+            problem:
+                "Agents run autonomously but there's no visibility into what they're doing. Which rules did they load? What files did they read? Are they following instructions or hallucinating? When something goes wrong, you're reverse-engineering from git blame and hoping the conversation didn't compact away the evidence.",
+            diagramKey: "hudArchitecture",
+            walkthrough: [
+                "The HUD is a zero-dependency Node.js daemon (hud-daemon.js) that runs on port 7822 (WebSocket) and 7823 (HTTP). It receives events from across the system: ctrlshft-claude wraps Claude sessions and parses stdout for rule loads and file reads, lifecycle hooks emit session start/stop events, and detect-context.sh reports context switches.",
+                "Event transport uses a 3-tier fallback: named pipes (hud.pipe, <1ms latency) for local scripts, HTTP POST to :7823/api/event (~5ms) for processes that can't write to pipes, and JSONL file append (events.jsonl) as the durable fallback. Every event is captured regardless of transport availability.",
+                "The frontend (hud/index.html) is a single dark-themed HTML file with real-time WebSocket updates. It shows per-project session tabs, a rolling compliance rate (70/30 weighted average of recent vs historical), a file inventory sidebar listing all skills, rules, and agents, and a live event stream.",
+                "ctrl hud exposes 11 subcommands: start/stop/restart the daemon, open the dashboard, tail the event stream, show status, query events by type or time range, and reset the database. The entire observability stack is managed through one CLI entry point.",
+            ],
+            insight: {
+                title: "Observability Creates Trust",
+                body: "Before the HUD, running afk.sh required faith — set it running, check back later, hope for the best. With real-time visibility into rule loads, file reads, and compliance rate, trust is earned through evidence. You can watch an agent's session unfold in real time and intervene if compliance drops. The HUD doesn't make agents safer — it makes their safety verifiable.",
+            },
+        },
+        {
+            id: "lifecycle-hooks",
+            title: "Lifecycle Hooks",
+            subtitle: "Mechanical Safety Enforcement for AI Agents",
+            problem:
+                "Agent safety built on instructions alone is aspirational. A rule that says 'don't access secrets' relies on the agent interpreting and following that instruction. Under context pressure, token limits, or prompt injection, instruction-based safety degrades. Real safety needs mechanical enforcement — hooks that block dangerous actions before they execute.",
+            diagramKey: "hooksPipeline",
+            walkthrough: [
+                "secret-guard.sh is a pre-exec hook that blocks commands attempting to leak credentials. It pattern-matches against echo $TOKEN, env, printenv, cat secrets/, and similar exfiltration vectors. Exit code 2 blocks the command; exit code 0 allows it. The agent can't override a non-zero exit — it's shell-level enforcement.",
+                "migration-guard.sh prevents agents from running database migrations against non-test databases. It inspects the target DATABASE_URL and blocks if it points to production or staging. Only test database URLs pass. This prevents the catastrophic failure mode of an autonomous agent dropping a production table.",
+                "format-check.sh and typecheck.sh are post-session hooks. When an agent session ends, format-check runs Biome/Prettier/ESLint on modified files and auto-formats them. typecheck runs tsc --noEmit and blocks until types pass. The agent can't ship code that doesn't compile.",
+                "compaction-guard.sh prevents automatic context compaction — when an agent hits ~95% context usage, it blocks auto-compaction and forces the handoff protocol: write a plan to working/, provide a pickup command, and stop. This prevents the silent context loss that makes agents repeat mistakes or lose critical decisions.",
+            ],
+            insight: {
+                title: "Mechanical Enforcement Beats Cultural Enforcement",
+                body: "The difference between a rule and a hook is the same as speed limits versus guardrails. One is aspirational, the other is physical. secret-guard.sh doesn't ask the agent not to leak secrets — it blocks the command with a non-zero exit code. migration-guard.sh doesn't trust the agent to check the database URL — it inspects it mechanically. Every safety constraint worth having should be a hook, not a rule.",
             },
         },
     ],
@@ -211,6 +260,27 @@ export const pageData: PageData<DiagramKey> = {
             reasoning:
                 "Static prompts repeat the same mistakes. RAG adds retrieval latency and noise. Self-learning skills update inline after every task where something went wrong — the fix is permanent, not a one-conversation workaround.",
         },
+        {
+            decision: "Real-time HUD over post-hoc logging",
+            alternatives:
+                "Structured logging with grep (delayed), Grafana/Datadog (infrastructure overhead), terminal-only output (no persistence)",
+            reasoning:
+                "Post-hoc logging tells you what happened. Real-time HUD shows you what's happening now. Named pipes deliver events in <1ms. A zero-dependency Node.js daemon means no infrastructure to maintain. When an agent is running autonomously, you need visibility now, not after the session ends.",
+        },
+        {
+            decision: "Lifecycle hooks over instruction-only safety",
+            alternatives:
+                "Rely on agent instructions (aspirational), CI-only checks (too late), manual review of every command (slow)",
+            reasoning:
+                "Instructions are suggestions — agents can misinterpret or skip them under context pressure. Hooks are mechanical — they run before commands execute and exit non-zero to block. The agent can't override a shell exit code. Every safety constraint that matters should be a hook, not a hope.",
+        },
+        {
+            decision: "Client-level configuration over per-project duplication",
+            alternatives:
+                "Per-project .env files (drift), template repos (stale), manual setup per project (forgotten)",
+            reasoning:
+                "Multiple projects often share one client. detect-client.sh maps paths to clients, loading brand voice, NAP data, and billing context once. New project for an existing client inherits everything. No duplication, no drift between projects.",
+        },
     ],
 
     learnings: [
@@ -219,43 +289,51 @@ export const pageData: PageData<DiagramKey> = {
             body: "After completing any task where a skill was loaded, the agent self-evaluates: did anything go wrong, require a workaround, or behave differently than documented? If yes, it updates the SKILL.md inline — not in a separate section, but right where the fix belongs. The fix persists for every future invocation. This is a Kaizen loop — continuous improvement baked into the execution cycle.",
         },
         {
-            title: "The ctrl+shift Naming Is Architecture",
-            body: "ctrl is the rules — instructions, skills, configuration. shift is the worker — the autonomous loop that consumes issues. The keyboard metaphor communicates the entire system in two words: ctrl sets the context, shift does the work. Every developer already has the mental model.",
+            title: "The ctrl+shft Naming Is Architecture",
+            body: "ctrl is the rules — instructions, skills, configuration. shft is the worker — the autonomous loop that consumes issues. The keyboard metaphor communicates the entire system in two words: ctrl sets the context, shft does the work. Every developer already has the mental model.",
         },
         {
             title: "Supply Chain Security Is a Bootstrap Concern",
             body: "npm min-release-age=7 and uv exclude-newer prevent installing packages published less than 7 days ago. This isn't a feature you add later — it's wired into bootstrap.sh so every machine is protected from the first git pull. One idempotent command and the machine won't install compromised packages.",
         },
+        {
+            title: "Observability Changes How You Trust Agents",
+            body: "Before the HUD, running afk.sh was an act of faith — start the loop, walk away, check back later. With real-time compliance tracking, trust shifted from hope to evidence. Watching an agent's rule loads and file reads in real time revealed patterns: certain projects triggered more instruction loads, some skills were loaded but never used. The data improved both the system and the workflow.",
+        },
+        {
+            title: "Mechanical Enforcement Is the Only Enforcement",
+            body: "Every time a safety rule was expressed as an instruction ('don't access production databases'), it eventually failed under edge cases. Every time it was expressed as a hook (migration-guard.sh exits non-zero for non-test URLs), it never failed. The lesson generalized: if a constraint matters, express it as code that blocks, not text that advises.",
+        },
     ],
 
     metrics: {
         hero: [
-            { value: 12, label: "Skills" },
-            { value: 7, label: "Shell Scripts" },
-            { value: 2500, label: "Lines of Shell", suffix: "+" },
-            { value: 11, label: "Framework Detections" },
+            { value: 24, label: "Skills" },
+            { value: 43, label: "Shell Scripts" },
+            { value: 5900, label: "Lines of Shell", suffix: "+" },
+            { value: 325, label: "Commits" },
         ],
         supporting: [
-            { value: 6, label: "Stack Instructions" },
-            { value: 3, label: "Security Tiers" },
-            { value: 145, label: "VS Code Settings", suffix: "+" },
-            { value: 12, label: "Code Patterns" },
+            { value: 10, label: "Instructions" },
+            { value: 8, label: "Lifecycle Hooks" },
+            { value: 6, label: "Agent Personas" },
+            { value: 85, label: "Total Lines of Code", suffix: "K+" },
         ],
     },
 
     gallery: [],
 
     cta: {
-        text: "ctrl is open source. The same system that built this portfolio is available for anyone building AI-first development workflows.",
+        text: "ctrl+shft is open source. The same system that built this portfolio is available for anyone building AI-first development workflows.",
         buttons: [
             {
                 text: "View on GitHub",
-                href: "https://github.com/arndvs/ctrl",
+                href: "https://github.com/arndvs/ctrlshft",
                 variant: "default",
             },
             {
-                text: "View More Projects",
-                href: "/projects",
+                text: "Visit ctrlshft.dev",
+                href: "https://ctrlshft.dev",
                 variant: "outline",
             },
         ],
