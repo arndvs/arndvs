@@ -19,8 +19,8 @@ const projects = [
         url: `${siteConfig.url}/projects/align-san-diego-family-chiropractic`,
     },
     {
-        name: "ctrl — AI Agent Infrastructure",
-        url: `${siteConfig.url}/projects/ctrl`,
+        name: "ctrl+shft — AI Agent Infrastructure",
+        url: `${siteConfig.url}/projects/ctrlshft`,
     },
     {
         name: "RipeMetrics",

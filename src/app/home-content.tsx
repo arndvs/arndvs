@@ -48,14 +48,14 @@ const pageData = {
         viewAllHref: "/projects",
         projects: [
             {
-                id: "ctrl",
+                id: "ctrlshft",
                 title: "ctrl+shft",
                 description:
-                    "The infrastructure behind my consulting practice. Autonomous agent architecture \u2014 synced instructions, specialist skills, and hardened secrets from a single source of truth. The same system I implement for clients, open source and in production.",
+                    "The infrastructure behind my consulting practice. 24 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets \u2014 all from a single dotfiles repo. The same system I implement for clients, open source and in production.",
                 category: "AI Infrastructure / Developer Tools",
                 statusColor: "orange" as const,
-                technologies: ["Bash", "TypeScript", "Docker", "Claude Code", "VS Code Copilot"],
-                link: "/projects/ctrl",
+                technologies: ["Bash", "TypeScript", "Node.js", "Docker", "Claude Code", "VS Code Copilot"],
+                link: "/projects/ctrlshft",
                 linkText: "View case study",
             },
             {
