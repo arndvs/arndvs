@@ -17,8 +17,7 @@ export const pageData: PageData<DiagramKey> = {
         ],
         cta: { text: "View on GitHub", href: "https://github.com/arndvs/ctrlshft" },
         screenshotSrc: "/projects/ctrlshft/ctrl-shft.jpg",
-        screenshotAlt:
-            "ctrl+shft homepage showing the bootstrap terminal output and tagline",
+        screenshotAlt: "ctrl+shft homepage showing the bootstrap terminal output and tagline",
     },
 
     situation: {
@@ -50,8 +49,7 @@ export const pageData: PageData<DiagramKey> = {
         subsystems: [
             {
                 title: "The Pipeline",
-                description:
-                    "24 skills chained from idea extraction through autonomous execution",
+                description: "24 skills chained from idea extraction through autonomous execution",
             },
             {
                 title: "Compliance HUD",
@@ -80,13 +78,11 @@ export const pageData: PageData<DiagramKey> = {
             },
             {
                 title: "Skill System",
-                description:
-                    "24 auto-discovered, self-learning skills that improve through use",
+                description: "24 auto-discovered, self-learning skills that improve through use",
             },
             {
                 title: "shft Loop",
-                description:
-                    "Docker-sandboxed autonomous agent consuming a GitHub issues backlog",
+                description: "Docker-sandboxed autonomous agent consuming a GitHub issues backlog",
             },
         ],
     },
@@ -100,7 +96,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Feature development is fragmented — ideas live in chat, PRDs rot in docs, issues miss context. Agents don't know what to build or in what order. Each conversation starts from scratch with no memory of previous decisions.",
             diagramKey: "pipeline",
             walkthrough: [
-                'The pipeline starts with grill-me: a Socratic interview that asks one question at a time, provides recommended answers, and explores the codebase instead of asking the user when possible. The output is a shared understanding of the problem — not a spec, but the raw material for one.',
+                "The pipeline starts with grill-me: a Socratic interview that asks one question at a time, provides recommended answers, and explores the codebase instead of asking the user when possible. The output is a shared understanding of the problem — not a spec, but the raw material for one.",
                 'write-a-prd takes that understanding and produces a formal Product Requirements Document. It sketches module interfaces, test boundaries, and deep module opportunities inspired by Ousterhout\'s "A Philosophy of Software Design." The PRD is submitted as a GitHub issue — not a Google Doc — so it lives where the work happens.',
                 "prd-to-issues breaks the PRD into vertical slices. Each slice touches all layers end-to-end rather than building layer by layer. Every issue is classified AFK (agent can ship alone) or HITL (human must review). A final QA issue is always created. The user is quizzed on granularity before issues are created.",
                 "architect plans the implementation without writing code — mapping modules, interfaces, and integration boundaries. do-work then implements a single issue: read the task, run feedback loops (tsc, lint, test), commit with conventional format. compliance-audit reviews the diff against active rules and flags violations. code-review runs a focused review of staged changes before merging.",
@@ -108,7 +104,7 @@ export const pageData: PageData<DiagramKey> = {
             ],
             insight: {
                 title: "AFK/HITL Classification Is the Breakthrough",
-                body: 'Most AI agent systems are binary: fully manual or fully autonomous. Explicit classification of every task as AFK (agent ships alone) or HITL (human reviews) bridges the gap. It\'s honest about what AI can and can\'t do, making the autonomous loop trustworthy. The human reviews only what requires judgment — everything else ships while they sleep.',
+                body: "Most AI agent systems are binary: fully manual or fully autonomous. Explicit classification of every task as AFK (agent ships alone) or HITL (human reviews) bridges the gap. It's honest about what AI can and can't do, making the autonomous loop trustworthy. The human reviews only what requires judgment — everything else ships while they sleep.",
             },
         },
         {
@@ -126,7 +122,7 @@ export const pageData: PageData<DiagramKey> = {
             ],
             insight: {
                 title: "Docker + Max Iterations + Exit Signal = Trust",
-                body: 'Three constraints make AFK safe. Docker sandbox isolates from host — the agent can\'t touch files outside the repo. Max iterations prevent runaway loops — even if the agent never says "no more tasks," it stops after 5 cycles. The NO MORE TASKS exit signal means clean shutdown when the backlog is empty. And the prompt injection sanitization on issue content means malicious issue titles can\'t break the agent\'s XML context.',
+                body: "Three constraints make AFK safe. Docker sandbox isolates from host — the agent can't touch files outside the repo. Max iterations prevent runaway loops — even if the agent never says \"no more tasks,\" it stops after 5 cycles. The NO MORE TASKS exit signal means clean shutdown when the backlog is empty. And the prompt injection sanitization on issue content means malicious issue titles can't break the agent's XML context.",
             },
         },
         {
@@ -174,13 +170,13 @@ export const pageData: PageData<DiagramKey> = {
             diagramKey: "systematicDebugging",
             walkthrough: [
                 "The methodology enforces four phases: Root Cause Investigation (read errors, reproduce, check recent changes, add diagnostic instrumentation), Hypothesis Formation (single testable hypothesis with predicted observable outcome), Targeted Fix (minimal change, one thing at a time), and Verification (original bug fixed, no regressions, all feedback loops pass).",
-                'The Iron Law gates everything: NO FIXES WITHOUT ROOT CAUSE. If you don\'t understand why the bug exists, you go back to Phase 1. No exceptions. This prevents the most common AI agent failure mode — applying 15 speculative patches that each introduce new bugs.',
+                "The Iron Law gates everything: NO FIXES WITHOUT ROOT CAUSE. If you don't understand why the bug exists, you go back to Phase 1. No exceptions. This prevents the most common AI agent failure mode — applying 15 speculative patches that each introduce new bugs.",
                 "The 3-strike rule adds a circuit breaker: if three targeted fixes fail, STOP. The problem is architectural, not a surface bug. Revisit the design. This prevents the sunk cost spiral where agents keep throwing patches at a fundamentally broken approach.",
                 'Three adversarial pressure tests red-team the agent\'s discipline: Scenario 1 is $15k/minute production loss (follow process or skip to fix?), Scenario 2 is 8 hours of sunk cost plus exhaustion (stay systematic or try one more thing?), Scenario 3 is a senior engineer saying "just deploy the workaround." The correct answer is always follow the process. This is AI alignment testing applied to debugging methodology.',
             ],
             insight: {
                 title: "Pressure Tests Are Red-Team Alignment",
-                body: 'The three scenarios are designed to test whether the agent follows its own rules under realistic human pressure. Each presents follow-process, shortcut, and compromise options. It\'s the same idea as constitutional AI — but applied to engineering discipline instead of safety. If the agent can resist $15k/min pressure in a prompt, it\'ll resist the real temptation to skip root cause analysis.',
+                body: "The three scenarios are designed to test whether the agent follows its own rules under realistic human pressure. Each presents follow-process, shortcut, and compromise options. It's the same idea as constitutional AI — but applied to engineering discipline instead of safety. If the agent can resist $15k/min pressure in a prompt, it'll resist the real temptation to skip root cause analysis.",
             },
         },
         {
