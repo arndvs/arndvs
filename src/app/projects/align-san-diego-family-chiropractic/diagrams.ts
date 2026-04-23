@@ -405,7 +405,7 @@ export const diagrams = {
         subgraph DataLayer["Data Layer"]
             GROQ2["GROQ Queries\\n(cached + revalidated)"]
             ACTIONS["Server Actions\\nForm handlers"]
-            ROUTES["API Routes\n34 endpoints"]
+            ROUTES["API Routes\\n34 endpoints"]
         end
     end
 

@@ -39,12 +39,14 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
 
     const title = post.seo?.metaTitle || post.title;
     const description = post.seo?.metaDescription || post.excerpt || "";
-    const image = post.mainImage
+    const seoImage = post.seo?.image;
+    const imageSource = seoImage ?? post.mainImage;
+    const image = imageSource
         ? {
-              url: urlFor(post.mainImage).width(1200).height(630).url(),
+              url: urlFor(imageSource).width(1200).height(630).url(),
               width: 1200,
               height: 630,
-              alt: (post.mainImage as { alt?: string }).alt || post.title,
+              alt: (imageSource as { alt?: string }).alt || post.title,
           }
         : undefined;
 
@@ -55,7 +57,9 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
         type: "article",
         publishedTime: post.publishedAt || undefined,
         authors: [post.author || "Aaron Davis"],
+        feedUrl: "/blog/feed.xml",
         ...(image && { images: [image] }),
+        ...(post.seo?.noIndex && { robots: { index: false, follow: false } }),
     });
 }
 
@@ -150,7 +154,7 @@ export default async function BlogPostPage(props: { params: Params }) {
             <article className="mx-auto max-w-7xl px-6 lg:px-8">
                 <PostHeader
                     title={post.title}
-                    publishedAt={post.publishedAt}
+                    publishedAt={post.publishedAt ?? undefined}
                     author={post.author ?? undefined}
                     categories={post.categories ?? undefined}
                     mainImage={post.mainImage ?? undefined}
