@@ -23,7 +23,7 @@ import type {
     SituationData,
 } from "@/lib/types/case-study";
 
-export type AccentColor = "orange" | "cyan" | "green";
+export type AccentColor = "orange" | "cyan" | "green" | "purple";
 
 interface AccentClasses {
     dot: string;
@@ -54,6 +54,13 @@ const accentMap: Record<AccentColor, AccentClasses> = {
         textSubtle: "text-green-500/80",
         borderL: "border-l-green-500",
         link: "text-green-600",
+    },
+    purple: {
+        dot: "bg-purple-500",
+        text: "text-purple-500",
+        textSubtle: "text-purple-500/80",
+        borderL: "border-l-purple-500",
+        link: "text-purple-600",
     },
 };
 
