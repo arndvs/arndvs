@@ -19,7 +19,7 @@ import {
 import { pageData } from "./data";
 
 export const metadata: Metadata = generateSiteMetadata({
-    title: "RISE Awake — Transmedia Corporate Website | Aaron Davis",
+    title: "RISE Awake — Transmedia Corporate Website",
     description:
         "A 41-route Next.js 16 application operating as a fictional corporate website — Sanity v5, Convex, Clerk, 22 internal documents, and a transmedia universe connected to the PUSH short film.",
     path: "/projects/rise-awake",

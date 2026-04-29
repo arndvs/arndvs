@@ -13,7 +13,7 @@ interface AnimatedCounterProps {
 
 export function AnimatedCounter({ value, suffix, prefix, className }: AnimatedCounterProps) {
     const ref = useRef<HTMLSpanElement>(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const isInView = useInView(ref, { once: true, margin: "-100px 0px" });
     const [display, setDisplay] = useState(0);
 
     useEffect(() => {
