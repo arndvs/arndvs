@@ -19,7 +19,7 @@ import {
 import { pageData } from "./data";
 
 export const metadata: Metadata = generateSiteMetadata({
-    title: "ctrl+shft — AI Agent Infrastructure | Aaron Davis",
+    title: "ctrl+shft — AI Agent Infrastructure",
     description:
         "Autonomous AI agent infrastructure — 24 skills, lifecycle hooks, compliance HUD, and secrets management from a single dotfiles repo. One git pull updates every machine.",
     path: "/projects/ctrlshft",

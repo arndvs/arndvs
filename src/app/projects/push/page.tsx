@@ -19,7 +19,7 @@ import {
 import { pageData } from "./data";
 
 export const metadata: Metadata = generateSiteMetadata({
-    title: "PUSH — AI Video Short Film | Aaron Davis",
+    title: "PUSH — AI Video Short Film",
     description:
         "A comedy short produced entirely with AI generative video — 54-shot prompt library, character consistency pipeline, and a transmedia universe at riseawake.com.",
     path: "/projects/push",
