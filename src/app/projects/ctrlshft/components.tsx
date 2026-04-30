@@ -1,6 +1,17 @@
 "use client";
 
-import { Activity, Bot, Brain, Radar, Shield, ShieldCheck, Terminal, Workflow } from "lucide-react";
+import {
+    Activity,
+    Bot,
+    Brain,
+    Globe,
+    Laptop,
+    Radar,
+    Shield,
+    ShieldCheck,
+    Terminal,
+    Workflow,
+} from "lucide-react";
 
 import { createCaseStudySections } from "@/components/case-study/sections";
 
@@ -15,6 +26,8 @@ const subsystemIcons: Record<string, React.ElementType> = {
     "Hardened Secrets": Shield,
     "Skill System": Brain,
     "shft Loop": Bot,
+    "Session Management": Globe,
+    "Cross-Platform Bootstrap": Laptop,
 };
 
 export const {

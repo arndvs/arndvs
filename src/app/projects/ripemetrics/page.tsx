@@ -9,7 +9,7 @@ import RipeMetricsContent from "./ripemetrics-content";
 export const metadata: Metadata = generateSiteMetadata({
     title: "RipeMetrics",
     description:
-        "Case study: AI-native customer growth platform serving 50+ enterprise clients. Reduced customer service costs by 40% through AI automation with 95%+ uptime.",
+        "Case study: AI-native customer growth platform spanning 8 repositories — 880+ components, production RAG pipeline with dual-LLM failover across chat, SMS, email, and voice.",
     path: "/projects/ripemetrics",
 });
 
@@ -22,7 +22,7 @@ export default function RipeMetricsPage() {
                 "@id": `${siteConfig.url}/projects/ripemetrics/#work`,
                 name: "RipeMetrics",
                 description:
-                    "AI-native customer growth platform serving 50+ enterprise clients. Reduced customer service costs by 40% through AI automation.",
+                    "AI-native customer growth platform spanning 8 repositories — 880+ components, production RAG pipeline with multi-channel AI service.",
                 url: `${siteConfig.url}/projects/ripemetrics`,
                 author: { "@id": `${siteConfig.url}/#person` },
                 datePublished: "2017-01-01",

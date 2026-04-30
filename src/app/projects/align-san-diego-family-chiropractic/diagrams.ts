@@ -262,22 +262,36 @@ export const diagrams = {
     MV -.-> PageSections`,
 
     spamPrevention: `flowchart TD
-    REQ["Incoming Form Submission"] --> HP{"Honeypot\\nValidation"}
+    REQ["Incoming Form Submission"] --> HP{"Layer 1: Honeypot\\n(Client-Side · Free)"}
 
-    HP -->|"Hidden field filled"| SPAM_SILENT["Silent Rejection\\n+ Spam Alert Email"]
-    HP -->|"Submitted too fast\\n(< timing threshold)"| SPAM_SILENT
-    HP -->|"Checkbox trap triggered"| SPAM_SILENT
+    HP -->|"Hidden field filled"| SPAM_SILENT["Silent Rejection\\nFake success + Spam Alert"]
+    HP -->|"Too fast (< 3s)"| SPAM_SILENT
+    HP -->|"Checkbox trap"| SPAM_SILENT
 
-    HP -->|"Passed"| RL{"Rate Limiter\\n(In-Memory Store)"}
+    HP -->|"Passed"| RL{"Layer 2: Rate Limiter\\n(In-Memory · Cheap)"}
 
-    RL -->|"Exceeded limit\\nper IP/window"| RATE_BLOCK["429 Too Many Requests"]
+    RL -->|"Exceeded limit"| RATE_BLOCK["429 Too Many Requests"]
 
-    RL -->|"Under limit"| GEO{"IPHub API\\nGeo-Blocking"}
+    RL -->|"Under limit"| IPHUB{"Layer 3: IPHub\\nProxy/VPN Detection"}
 
-    GEO -->|"High-risk IP\\n(proxy/VPN/datacenter)"| GEO_BLOCK["Blocked\\n+ Alert Email\\n+ Slack Notification"]
-    GEO -->|"Blocked country/region"| GEO_BLOCK
+    IPHUB -->|"Datacenter/proxy IP"| IP_BLOCK["Blocked\\n+ Alert Email + Slack"]
+    IPHUB -->|"Clean IP"| GEO{"Layer 4: Geo-Block\\n(US-Only · Configurable)"}
 
-    GEO -->|"Legitimate"| VALIDATE{"Zod Schema\\nValidation"}
+    GEO -->|"Non-US IP"| GEO_BLOCK["Blocked\\nGeographic restriction"]
+
+    GEO -->|"US IP"| BLOCKLIST{"Layer 5: IP Blocklist\\n(CIDR Range Support)"}
+
+    BLOCKLIST -->|"Blocked range"| MANUAL_BLOCK["Blocked\\nManual blocklist match"]
+
+    BLOCKLIST -->|"Not blocked"| EMAIL{"Layer 6: Email Validation\\nDisposable + Suspicious"}
+
+    EMAIL -->|"Suspicious email"| EMAIL_BLOCK["Blocked\\nEmail pattern match"]
+
+    EMAIL -->|"Valid email"| AI{"Layer 7: AI Spam Detection\\n(OpenAI · Expensive)"}
+
+    AI -->|"Cleaning pitch\\ndetected"| AI_BLOCK["Blocked\\nAI-classified spam"]
+
+    AI -->|"Legitimate"| VALIDATE{"Zod Schema\\nValidation"}
 
     VALIDATE -->|"Invalid data"| ERROR["400 Bad Request"]
 

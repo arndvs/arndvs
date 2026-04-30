@@ -59,7 +59,8 @@ export const pageData: PageData<DiagramKey> = {
             },
             {
                 title: "Security Pipeline",
-                description: "3-layer spam prevention before any data reaches the server",
+                description:
+                    "7-layer defense-in-depth spam prevention before any data reaches the server",
             },
             {
                 title: "SEO Engine",
@@ -77,6 +78,11 @@ export const pageData: PageData<DiagramKey> = {
                 title: "Observability",
                 description:
                     "Sentry (edge + server), PostHog analytics, Slack notifications, custom audit scripts",
+            },
+            {
+                title: "CI/CD Pipeline",
+                description:
+                    "4 GitHub Actions workflows: production deploy, PR checks, Sanity schema validation, SEO test suite",
             },
         ],
     },
@@ -147,19 +153,23 @@ export const pageData: PageData<DiagramKey> = {
         {
             id: "spam-prevention",
             title: "Spam Prevention",
-            subtitle: "Three Walls Before the Front Door",
+            subtitle: "Seven Layers of Defense in Depth",
             problem:
-                "Healthcare contact forms are spam magnets — bots target them 24/7, and every spam submission that reaches the CRM or triggers an email costs real money (API calls, Resend sends, staff time triaging). Third-party CAPTCHA services add friction for real patients. The goal: block 99%+ of spam with zero visible user friction.",
+                "Healthcare contact forms are spam magnets — bots target them 24/7, and every spam submission that reaches the CRM or triggers an email costs real money (API calls, Resend sends, staff time triaging). Third-party CAPTCHA services add friction for real patients. The goal: block 99%+ of spam with zero visible user friction and zero CAPTCHA challenges.",
             diagramKey: "spamPrevention",
             walkthrough: [
-                "Wall 1 — Honeypot (client-side): Three invisible traps. A hidden text field (bots fill it; humans don't see it). A timing check (submissions faster than 3 seconds = bot). A hidden checkbox (bots check everything; humans never see it). Any trigger = silent rejection + spam alert email to staff.",
-                "Wall 2 — Rate Limiter (server-side): In-memory store tracking submissions per IP per time window. Exceeding the limit returns 429. No database dependency — survives cold starts.",
-                "Wall 3 — IPHub Geo-Blocking (external API): Checks the IP against IPHub's database of proxies, VPNs, datacenter IPs, and high-risk geolocations. A chiropractor in San Diego doesn't need insurance verifications from a Russian datacenter.",
-                "Only after all three walls pass does the request reach Zod validation and the actual form processing pipeline.",
+                "Layer 1 — Honeypot (client-side, free): Three invisible traps. A hidden text field (bots fill it; humans don't see it). A timing check (submissions faster than 3 seconds = bot). A hidden checkbox (bots check everything; humans never see it). Any trigger = silent rejection with a fake success response + spam alert email to staff. The silent rejection is critical — returning an error tells the bot it was caught, so it adapts.",
+                "Layer 2 — Rate Limiter (server-side, cheap): In-memory store tracking submissions per IP per configurable time window. Different form types get different limits — insurance verification allows 2 per 24 hours, contact forms allow 5 per hour. Exceeding the limit returns 429. No database dependency — survives cold starts.",
+                "Layer 3 — IPHub Proxy/VPN Detection (external API): Checks the IP against IPHub's database of proxies, VPNs, and datacenter IPs. Apple Private Relay is explicitly whitelisted — blocking it would reject legitimate iPhone users. A chiropractor in San Diego doesn't need insurance verifications from a Russian datacenter.",
+                "Layer 4 — Geo-Blocking (configurable): Form submissions restricted to US IPs. Configurable per form type — the newsletter might accept international signups, but insurance verification is US-only. The geographic constraint is a business rule, not just a security measure.",
+                "Layer 5 — Manual IP Blocklist (CIDR ranges): A static blocklist with CIDR range support for persistent bad actors. When layers 1-4 don't catch a sophisticated attacker, the IP range gets added manually. CIDR support means blocking an entire subnet rather than playing whack-a-mole with individual IPs.",
+                "Layer 6 — Email Validation + Suspicious Tracking: Pattern matching on email addresses (disposable domains, random strings, recently-blocked addresses). A submission from temp-mail.org with a timing of 0.8 seconds that somehow passed the honeypot still gets caught here. Recently-blocked email tracking prevents the same bad actor from retrying with the same address.",
+                "Layer 7 — AI Spam Detection (OpenAI): The final layer uses OpenAI to detect sophisticated spam that passed all previous layers — specifically, cleaning service pitches disguised as patient inquiries. These are human-written, from legitimate IPs, with real email addresses. Only AI can distinguish 'I need my office cleaned weekly' from 'I need help with my back pain.' Only submissions that passed all six previous layers reach this API call.",
+                "The layers are ordered by cost: honeypot is free (client-side), rate limiting is cheap (in-memory), and each subsequent layer adds cost. AI spam detection — the most expensive — only runs on the tiny fraction of submissions that passed everything else.",
             ],
             insight: {
-                title: "Silent Rejection Is the Whole Strategy",
-                body: "The silent rejection on Wall 1 is critical. Returning an error message tells the bot it was caught — it adapts. Returning a fake success response makes the bot think it worked. Meanwhile, the spam alert email gives staff visibility without manual triage. The three walls are ordered by cost: honeypot is free (client-side), rate limiting is cheap (in-memory), and IPHub costs an API call — so you only pay for the call on submissions that passed the first two walls.",
+                title: "Defense in Depth Is an Economic Decision",
+                body: "The 7 layers aren't redundant — they're ordered by cost. Layer 1 (honeypot) is free and catches 90% of bots. Layer 2 (rate limiter) is cheap and catches brute force. Layers 3-4 (IPHub + geo) cost one API call. Layers 5-6 (blocklist + email) are lookups. Layer 7 (AI) costs an OpenAI call — but it only fires on the <1% of submissions that passed everything else. The architecture means you spend almost nothing on the spam you catch, and almost everything on the spam that's genuinely hard to detect.",
             },
             screenshotSrc: "/projects/alignsd/contact-page.png",
             screenshotAlt: "AlignSD contact page with honeypot spam prevention",

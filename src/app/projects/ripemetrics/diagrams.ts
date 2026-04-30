@@ -3,31 +3,31 @@ export type DiagramKey = keyof typeof diagrams;
 export const diagrams = {
     systemArchitecture: `graph TB
     subgraph Client["Browser / Client"]
-        SPA["React SPA\\nRTK Query · TypeScript"]
-        MUI["Material UI + Tailwind"]
+        SPA["React 18 SPA\\n880 Components · 85 Routes"]
+        MUI["Material UI v5 + Tailwind"]
         HC["Highcharts\\n40+ Custom Charts"]
-        PREACT["Preact Islands\\nEmbeddable Widgets"]
+        PREACT["Preact Islands\\n3KB Shadow DOM Widgets"]
     end
 
-    subgraph Backend["FastAPI + Next.js"]
-        NEXT["Next.js Marketing Site\\nSanity CMS"]
-        FAST["FastAPI Server\\nStreaming AI Routes"]
-        WS["WebSocket Server\\nPusherJS"]
+    subgraph Backend["Laravel 11 Backend"]
+        API["REST API\\n160+ Endpoints"]
+        HORIZON["Redis + Horizon\\nQueue Management"]
+        WS["Pusher\\nReal-Time WebSocket"]
         CRON["Background Workers\\nOnboarding Pipeline"]
     end
 
     subgraph AI["AI & Vector Search"]
-        OAI["OpenAI GPT Models"]
-        PINE["Pinecone\\nProduction Vector DB"]
-        CHROMA["Chroma\\nDev Vector DB"]
-        EMB["Embedding Pipeline\\nDocument Chunking"]
+        OAI["OpenAI GPT-4o\\n+ Anthropic Claude 3"]
+        PINE["Pinecone\\nNamespace Multi-Tenancy"]
+        RAG["RAG Pipeline\\nAutoRespondService"]
+        EMB["Ada-002 Embeddings\\nRecursive Text Splitting"]
     end
 
     subgraph Comms["Communication"]
-        TWILIO["Twilio\\nIVR · Voice"]
-        ELEVEN["ElevenLabs\\nVoice Synthesis"]
+        TWILIO["Twilio\\nIVR · Voice · SMS"]
+        ELEVEN["ElevenLabs\\nTTS Voice Synthesis"]
         SG["SendGrid\\n10K+ Daily Emails"]
-        PUSHER["PusherJS\\nReal-Time Events"]
+        PUSHER["PusherJS\\nStreaming Responses"]
     end
 
     subgraph Infra["Infrastructure"]
@@ -37,45 +37,53 @@ export const diagrams = {
         BB["Bitbucket\\nGit Pipelines"]
     end
 
-    subgraph Observability["Observability"]
-        SENTRY["Sentry\\nError Tracking"]
-        PH["PostHog\\nProduct Analytics"]
+    subgraph Data["Data Layer"]
+        MYSQL["MySQL\\nTransactional Data"]
+        MONGO["MongoDB\\nAnalytics"]
+        REDUX["Redux Toolkit\\n41 Slices · 53 RTK Query Services"]
     end
 
     Client --> Backend
-    SPA --> FAST
+    SPA --> API
     SPA --> WS
-    PREACT --> FAST
-    NEXT --> VERCEL
-    FAST --> AI
-    FAST --> Comms
-    FAST --> DO
+    PREACT --> API
+    API --> AI
+    RAG --> OAI
+    RAG --> PINE
     OAI --> EMB
     EMB --> PINE
-    EMB --> CHROMA
-    FAST --> SENTRY
-    SPA --> PH`,
+    API --> Comms
+    RAG --> ELEVEN
+    ELEVEN --> TWILIO
+    Backend --> Data
+    REDUX --> API`,
 
     chatbotArchitecture: `sequenceDiagram
     participant U as End User
     participant W as Chat Widget
-    participant API as FastAPI Server
-    participant OAI as OpenAI API
-    participant VDB as Vector DB<br/>(Pinecone/Chroma)
-    participant DB as PostgreSQL/MySQL
-    participant PS as PusherJS
+    participant API as Laravel API
+    participant LLM as LLMClient<br/>(OpenAI ↔ Anthropic)
+    participant VDB as Pinecone<br/>(Namespaced)
+    participant DB as MySQL
+    participant PS as Pusher WebSocket
+    participant TTS as ElevenLabs TTS
+    participant TEL as Twilio IVR
 
     U->>W: Types message
     W->>API: POST /chat (tenant_id, message)
     API->>DB: Load tenant config & conversation history
-    API->>VDB: Query embeddings (top-k=5)
+    API->>VDB: Query embeddings (top-k=5, namespace)
     VDB-->>API: Relevant document chunks
-    API->>OAI: Chat completion<br/>(system prompt + context + history)
-    OAI-->>API: Streaming response tokens
-    API-->>W: SSE stream chunks
+    API->>LLM: Function calling<br/>(searchProducts, searchDocs, escalate)
+    LLM-->>API: Streaming response tokens
+    API-->>PS: Broadcast to chat widget
+    PS-->>W: Real-time response stream
     API->>DB: Persist message + response
-    API->>PS: Broadcast to agent dashboard
-    PS-->>W: Real-time typing indicator`,
+
+    Note over API,TTS: Voice Channel Path
+    API->>TTS: Convert response to speech
+    TTS-->>API: Audio (eleven_flash_v2)
+    API->>TEL: Play audio via IVR`,
 
     migrationTimeline: `gantt
     title Laravel Livewire → React/Next.js Migration
@@ -104,29 +112,33 @@ export const diagrams = {
     Performance optimization              :done, 2024-04, 2024-06`,
 
     onboardingPipeline: `flowchart LR
-    subgraph Input["Client Onboarding"]
+    subgraph Input["Frontend Wizard"]
         URL["Client Website URL"]
-        CONFIG["Extraction Config"]
+        WIZARD["React Onboarding Flow\\nMulti-Phase Steps"]
+        PUSHER["Pusher WebSocket\\nReal-Time Progress"]
     end
 
-    subgraph Extraction["Apify SDK Pipeline"]
-        CRAWL["Web Crawler\\nSitemap + Link Discovery"]
-        PARSE["Content Parser\\nHTML → Structured Text"]
-        CHUNK["Document Chunker\\n512-token Segments"]
+    subgraph AI["Backend AI Agent"]
+        SCRAPER["WebScraperDataSummarizerAgent\\nWebsite + Google Places"]
+        GPT["GPT-4o Extraction\\nStructured Business Data"]
+        AUTO["Auto-Populate\\nHours · Contact · Social · Summaries"]
     end
 
-    subgraph Processing["Embedding & Storage"]
-        EMB["OpenAI Embeddings\\ntext-embedding-ada-002"]
-        NS["Namespace Creation\\ntenant_id Isolation"]
-        UPSERT["Vector Upsert\\nBatch Processing"]
+    subgraph RAG["RAG Ingestion"]
+        SPLIT["Recursive Text Splitter\\nConfigurable Chunks"]
+        EMB["Ada-002 Embeddings"]
+        LOADERS["6 Document Loaders\\nProducts · Store · DOCX · PDF"]
+        UPSERT["Pinecone Upsert\\nBatches of 20 · Namespace Isolation"]
     end
 
-    subgraph Result["Ready in 2 Minutes"]
+    subgraph Result["Ready in < 60 Seconds"]
         VDB["Vector DB\\nSearchable Knowledge Base"]
-        BOT["Chatbot Ready\\nContext-Aware Responses"]
+        BOT["AI Chatbot Ready\\n4-Channel Service"]
+        SETTINGS["Settings Sync\\nBi-Directional Pinecone"]
     end
 
-    URL --> CRAWL --> PARSE --> CHUNK
-    CONFIG --> CRAWL
-    CHUNK --> EMB --> NS --> UPSERT --> VDB --> BOT`,
+    URL --> SCRAPER --> GPT --> AUTO
+    WIZARD --> PUSHER
+    AUTO --> SPLIT --> EMB --> LOADERS --> UPSERT --> VDB --> BOT
+    AUTO --> SETTINGS`,
 } as const;

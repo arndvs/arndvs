@@ -17,8 +17,7 @@ type AnimationStyle =
     | "from-left"
     | "from-right"
     | "fade"
-    | "top-in-bottom-out"
-    | "left-in-right-out";
+    | "top-in-bottom-out";
 
 interface HeroVideoProps {
     animationStyle?: AnimationStyle;
@@ -133,9 +132,6 @@ export default function HeroVideoDialog({
                                 {...selectedAnimation}
                                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
                                 className="fixed inset-0 z-[2147483641] flex items-center justify-center"
-                                onClick={(e) => {
-                                    if (e.target === e.currentTarget) setIsVideoOpen(false);
-                                }}
                             >
                                 <DialogPrimitive.Title className="sr-only">
                                     {thumbnailAlt}
