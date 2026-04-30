@@ -8,7 +8,6 @@ import Link from "next/link";
 import { createCaseStudySections } from "@/components/case-study/sections";
 import { MermaidDiagram } from "@/components/mermaid-diagram";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
 import type {
@@ -75,7 +74,7 @@ export function HeaderSection({ data }: { data: HeaderData }) {
                 </motion.div>
                 <motion.h1
                     variants={itemVariants}
-                    className="text-5xl font-bold tracking-tight text-balance"
+                    className="font-display text-5xl font-bold tracking-tight text-balance lg:text-6xl"
                 >
                     {data.title}
                 </motion.h1>
@@ -124,7 +123,7 @@ export function OverviewSection({ data }: { data: OverviewData }) {
                                 key={tech}
                                 variants={itemVariants}
                                 whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-                                className="bg-secondary rounded-md px-2 py-1 text-sm font-medium"
+                                className="border-border rounded-full border px-2 py-1 text-sm font-medium"
                             >
                                 {tech}
                             </motion.span>
@@ -180,7 +179,10 @@ export function SolutionSection({
             variants={containerVariants}
             className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
         >
-            <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
+            <motion.h2
+                variants={itemVariants}
+                className="font-display text-3xl font-bold tracking-tight"
+            >
                 {title}
             </motion.h2>
             <motion.p
@@ -191,18 +193,14 @@ export function SolutionSection({
             </motion.p>
             <motion.div
                 variants={staggerContainerVariants}
-                className="mt-12 grid gap-6 md:grid-cols-2"
+                className="bg-border mt-12 grid gap-px overflow-hidden rounded-lg md:grid-cols-2"
             >
                 {features.map((feature) => (
-                    <motion.div key={feature.id} variants={cardVariants}>
-                        <Card>
-                            <CardContent className="pt-6">
-                                <h3 className="text-xl font-semibold">{feature.title}</h3>
-                                <p className="text-muted-foreground mt-3 leading-relaxed">
-                                    {feature.description}
-                                </p>
-                            </CardContent>
-                        </Card>
+                    <motion.div key={feature.id} variants={cardVariants} className="bg-card p-6">
+                        <h3 className="text-xl font-semibold">{feature.title}</h3>
+                        <p className="text-muted-foreground mt-3 leading-relaxed">
+                            {feature.description}
+                        </p>
                     </motion.div>
                 ))}
             </motion.div>
@@ -222,20 +220,21 @@ export function ImpactSection({ title, metrics }: { title: string; metrics: Impa
             variants={containerVariants}
             className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
         >
-            <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
+            <motion.h2
+                variants={itemVariants}
+                className="font-display text-3xl font-bold tracking-tight"
+            >
                 {title}
             </motion.h2>
             <motion.div
                 variants={staggerContainerVariants}
-                className="mt-12 grid gap-8 md:grid-cols-3"
+                className="bg-border mt-12 grid gap-px overflow-hidden rounded-lg md:grid-cols-3"
             >
                 {metrics.map((metric, index) => (
-                    <motion.div
-                        key={index}
-                        variants={cardVariants}
-                        className="border-border bg-card rounded-lg border p-6"
-                    >
-                        <div className="text-primary text-4xl font-bold">{metric.value}</div>
+                    <motion.div key={index} variants={cardVariants} className="bg-card p-6">
+                        <div className="font-display text-primary text-4xl font-bold">
+                            {metric.value}
+                        </div>
                         <div className="text-muted-foreground mt-2 text-sm font-medium">
                             {metric.label}
                         </div>
@@ -263,7 +262,10 @@ export function TechImplementationSection({
             variants={containerVariants}
             className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
         >
-            <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
+            <motion.h2
+                variants={itemVariants}
+                className="font-display text-3xl font-bold tracking-tight"
+            >
                 {title}
             </motion.h2>
             <motion.div
@@ -292,16 +294,18 @@ export function AchievementsSection({ title, items }: { title: string; items: Ac
             variants={containerVariants}
             className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
         >
-            <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
+            <motion.h2
+                variants={itemVariants}
+                className="font-display text-3xl font-bold tracking-tight"
+            >
                 {title}
             </motion.h2>
-            <motion.div variants={staggerContainerVariants} className="mt-8 space-y-4">
+            <motion.div
+                variants={staggerContainerVariants}
+                className="bg-border mt-8 grid gap-px overflow-hidden rounded-lg"
+            >
                 {items.map((achievement, index) => (
-                    <motion.div
-                        key={index}
-                        variants={cardVariants}
-                        className="border-border bg-card rounded-lg border p-6"
-                    >
+                    <motion.div key={index} variants={cardVariants} className="bg-card p-6">
                         <h3 className="text-xl font-semibold">{achievement.title}</h3>
                         <p className="text-muted-foreground mt-2 leading-relaxed">
                             {achievement.description}
@@ -326,9 +330,9 @@ export function ConclusionSection({ data }: { data: ConclusionData }) {
         >
             <motion.div
                 variants={itemVariants}
-                className="border-border bg-card rounded-lg border p-8 lg:p-12"
+                className="border-border rounded-lg border p-8 lg:p-12"
             >
-                <h2 className="text-3xl font-bold tracking-tight">{data.title}</h2>
+                <h2 className="font-display text-3xl font-bold tracking-tight">{data.title}</h2>
                 <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
                     {data.description}
                 </p>
@@ -353,7 +357,10 @@ export function ArchitectureDiagram({ diagramKey }: { diagramKey: DiagramKey }) 
             variants={containerVariants}
             className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
         >
-            <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
+            <motion.h2
+                variants={itemVariants}
+                className="font-display text-3xl font-bold tracking-tight"
+            >
                 System Architecture
             </motion.h2>
             <motion.div variants={itemVariants} className="mt-8">
@@ -379,7 +386,10 @@ export function DeepDiveSection({ data }: { data: DeepDive }) {
                     Deep Dive
                 </span>
             </motion.div>
-            <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
+            <motion.h2
+                variants={itemVariants}
+                className="font-display text-3xl font-bold tracking-tight"
+            >
                 {data.title}
             </motion.h2>
             <motion.p variants={itemVariants} className="text-muted-foreground mt-1 text-lg">
