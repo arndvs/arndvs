@@ -1,5 +1,7 @@
 "use client";
 
+import { useTheme } from "next-themes";
+
 import { useMermaidSvg } from "@/lib/hooks/use-mermaid-svg";
 
 interface MermaidDiagramProps {
@@ -9,7 +11,9 @@ interface MermaidDiagramProps {
 }
 
 export function MermaidDiagram({ chart, className, ariaLabel }: MermaidDiagramProps) {
-    const result = useMermaidSvg(chart);
+    const { resolvedTheme } = useTheme();
+    const mermaidTheme = resolvedTheme === "dark" ? "dark" : "neutral";
+    const result = useMermaidSvg(chart, { theme: mermaidTheme });
 
     return (
         <div className={className} role="img" aria-label={ariaLabel ?? "Architecture diagram"}>

@@ -29,7 +29,7 @@ export function useMermaidSvg(
                     startOnLoad: false,
                     theme,
                     fontFamily:
-                        "var(--font-dm-sans, 'DM Sans', ui-sans-serif, system-ui, sans-serif)",
+                        "var(--font-satoshi, 'DM Sans', ui-sans-serif, system-ui, sans-serif)",
                     flowchart: { htmlLabels: true, curve: "basis" },
                     sequence: { actorMargin: 50, messageFontSize: 13 },
                 });

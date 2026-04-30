@@ -24,14 +24,14 @@ import "./globals.css";
 const dmSans = DM_Sans({
     subsets: ["latin"],
     weight: ["400", "500", "700"],
-    variable: "--font-dm-sans",
+    variable: "--font-satoshi",
     display: "swap",
 });
 
 const outfit = Outfit({
     subsets: ["latin"],
     weight: ["700", "800", "900"],
-    variable: "--font-outfit",
+    variable: "--font-cabinet",
     display: "swap",
 });
 

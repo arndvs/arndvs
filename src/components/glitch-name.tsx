@@ -122,7 +122,7 @@ export function GlitchName() {
                 />
                 <span
                     aria-hidden="true"
-                    className={`text-lg font-semibold tracking-tight transition-all duration-200 ${
+                    className={`inline-block w-[11ch] text-lg font-semibold tracking-tight transition-all duration-200 ${
                         isHovering ? "text-primary" : ""
                     }`}
                     style={{
