@@ -45,13 +45,13 @@ export const designPageData: DesignPageData = {
         title: "RipeMetrics",
         subtitle: "Design Portfolio",
         description:
-            "From brand creation and trademark registration through collaborative design sprints with 8 designers to 180+ production-ready screens — the complete design story of an AI-powered customer growth platform.",
-        role: "Founder & Design Lead",
+            "From brand creation and trademark registration through collaborative design sprints with a team of UX/UI interns to 180+ production-ready screens — the complete design story of an AI-powered customer growth platform.",
+        role: "Founder & Product Designer",
         timeline: "2017–2025",
         stats: [
             { value: 4666, label: "Figma Frames" },
             { value: 6, label: "Figma Files" },
-            { value: 8, label: "Designers Led" },
+            { value: 12, label: "Design Interns" },
             { value: 9, label: "Design Phases" },
         ],
         engineeringLink: "/projects/ripemetrics",
@@ -136,15 +136,15 @@ export const designPageData: DesignPageData = {
             title: "Design Sprints & Team Collaboration",
             shortLabel: "Sprints",
             summary:
-                "Led collaborative design sprints with 8 designers — 1,892 frames of divergent exploration converging into production navigation designs.",
+                "Ran collaborative design sprints with a team of UX/UI interns — 1,892 frames of divergent exploration converging into production navigation designs.",
             description:
-                "The design sprint process ran across a massive 1,892-frame Figma canvas with named sections for each designer: Jillean, Omar, Jarrett, Yumie, Andrew, Jim, Chris, and Farrah. Each designer explored different approaches to campaign management, marketing groups, demographics, and navigation. The sprint canvas included a 'FINAL NAVIGATION DESIGNS' consolidation section showing how divergent exploration was driven to convergent decisions. Additional sprint activities included Campaign Center variants (8+ by Omid), Marketing Groups explorations (6+ variants), and systematic dropdown and calendar component specifications.",
+                "The design sprint process ran across a massive 1,892-frame Figma canvas with named sections for each intern: Jillean, Omar, Jarrett, Yumie, Andrew, Jim, Chris, and Farrah. Each person explored different approaches to campaign management, marketing groups, demographics, and navigation. The sprint canvas included a 'FINAL NAVIGATION DESIGNS' consolidation section showing how divergent exploration was driven to convergent decisions. Additional sprint activities included Campaign Center variants (8+ by Omid), Marketing Groups explorations (6+ variants), and systematic dropdown and calendar component specifications.",
             stats: [
                 { value: 1892, label: "Sprint Frames" },
                 { value: 8, label: "Designers" },
                 { value: 116, label: "BI Layout Frames" },
             ],
-            tags: ["Design Sprints", "Team Leadership", "Facilitation", "Convergence"],
+            tags: ["Design Sprints", "Team Direction", "Facilitation", "Convergence"],
             figmaEmbeds: [
                 {
                     fileKey: "iU20QfMZAwTpel9Rp3c9BE",
@@ -160,7 +160,7 @@ export const designPageData: DesignPageData = {
                 },
             ],
             highlights: [
-                "Named designer sections: Jillean, Omar, Jarrett, Yumie, Andrew, Jim, Chris, Farrah",
+                "Named intern sections: Jillean, Omar, Jarrett, Yumie, Andrew, Jim, Chris, Farrah",
                 "'FINAL NAVIGATION DESIGNS' consolidation from divergent exploration",
                 "Campaign Center: 8+ variant explorations by Omid",
                 "Marketing Groups: 6+ layout variants explored",
@@ -283,7 +283,7 @@ export const designPageData: DesignPageData = {
             summary:
                 "15+ landing pages from awareness through conversion to retention, with 4 homepage iterations showing collaborative design evolution.",
             description:
-                "The marketing website spanned 31 Figma pages with ~500 frames covering the full acquisition funnel. Four homepage iterations (A01 → New Order → CURRENT → Morgan) demonstrate collaborative design evolution with the UX/UI team. 15+ landing pages target different funnel stages: awareness (Forbes LP, industry survey, cannabis CX report), consideration (feature-specific pages, cause marketing), and conversion (CX Guide download, dispensary landing, loyalty program). The site includes blog templates, about page, sales page, and a comprehensive design for the email-based data reporting interface.",
+                "The marketing website spanned 31 Figma pages with ~500 frames covering the full acquisition funnel. Four homepage iterations (A01 → New Order → CURRENT → Morgan) demonstrate collaborative design evolution with the UX/UI interns. 15+ landing pages target different funnel stages: awareness (Forbes LP, industry survey, cannabis CX report), consideration (feature-specific pages, cause marketing), and conversion (CX Guide download, dispensary landing, loyalty program). The site includes blog templates, about page, sales page, and a comprehensive design for the email-based data reporting interface.",
             stats: [
                 { value: 31, label: "Figma Pages" },
                 { value: 500, label: "Frames", prefix: "~" },
@@ -357,7 +357,7 @@ export const designPageData: DesignPageData = {
             summary:
                 "116 implementation-ready frames with Page Bar components, measurement specs, and design token naming that maps directly to CSS/Tailwind variables.",
             description:
-                "The dev handoff process bridged Figma design to React implementation. The Develop page contains 116 frames with implementation-ready specifications: NPS Measures (3 variants), Performance Dashboard, Customer Insights, Shopping Analytics, Marketing Campaign views, Communication Center, and Product Summary (3 variants). Reusable Page Bar components were built as systematic patterns. Design token naming ($primary-dark, $danger-lightest) was structured to map directly to CSS/Tailwind variables, eliminating translation errors between design and code. Because the same person (you) designed it in Figma and built it in React, the handoff was seamless — no designer-developer communication gaps.",
+                "The dev handoff process bridged Figma design to React implementation. The Develop page contains 116 frames with implementation-ready specifications: NPS Measures (3 variants), Performance Dashboard, Customer Insights, Shopping Analytics, Marketing Campaign views, Communication Center, and Product Summary (3 variants). Reusable Page Bar components were built as systematic patterns. Design token naming ($primary-dark, $danger-lightest) was structured to map directly to CSS/Tailwind variables, eliminating translation errors between design and code. As the founder who designed the product from the ground up and built it in React, the handoff was seamless — no designer-developer communication gaps.",
             stats: [
                 { value: 116, label: "Dev-Ready Frames" },
                 { value: 37, label: "Component Specs" },
@@ -375,7 +375,7 @@ export const designPageData: DesignPageData = {
                 "Page Bar components as reusable implementation patterns",
                 "Design token naming maps to CSS/Tailwind: $primary-dark → var(--primary-dark)",
                 "NPS Measures: 3 implementation variants",
-                "Same person designed in Figma and built in React — zero translation loss",
+                "Founder designed in Figma and built in React — zero translation loss",
                 "Performance Dashboard, Customer Insights, Shopping Analytics specs",
             ],
         },

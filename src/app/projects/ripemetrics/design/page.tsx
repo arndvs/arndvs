@@ -9,7 +9,7 @@ import DesignContent from "./design-content";
 export const metadata: Metadata = generateSiteMetadata({
     title: "RipeMetrics — Design Portfolio",
     description:
-        "Design case study: 4,666 Figma frames across 9 phases — brand creation, design sprints with 8 designers, 180+ production screens, mobile app, and email design system for an AI-powered customer growth platform.",
+        "Design case study: 4,666 Figma frames across 9 phases — brand creation, design sprints with a team of UX/UI interns, 180+ production screens, mobile app, and email design system for an AI-powered customer growth platform.",
     path: "/projects/ripemetrics/design",
 });
 
