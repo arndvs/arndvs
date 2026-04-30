@@ -21,7 +21,7 @@ export default function WorkWithMePage() {
                 "@type": "WebPage",
                 "@id": `${siteConfig.url}/work-with-me/#webpage`,
                 url: `${siteConfig.url}/work-with-me`,
-                name: "Work With Me — Aaron Davis",
+                name: "Work With Me",
                 description:
                     "Full-stack engineer available for contract and full-time roles. 15+ years building for the web.",
                 isPartOf: { "@id": `${siteConfig.url}/#website` },

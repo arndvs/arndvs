@@ -19,7 +19,7 @@ const projects = [
         year: "2026",
         role: "Solo Developer & Architect",
         description:
-            "The infrastructure behind my consulting practice. 43 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo. The same system I implement for clients, open source and in production.",
+            "The infrastructure behind my engineering workflow. 43 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo. Open source and in production.",
         tags: [
             "Bash",
             "TypeScript",

@@ -27,7 +27,7 @@ const featuredProjects = [
         category: "AI Infrastructure",
         year: "2026",
         description:
-            "The infrastructure behind my consulting practice. 43 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo.",
+            "The infrastructure behind my engineering workflow. 43 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo.",
         stats: [
             { value: "43", label: "Agent Skills" },
             { value: "100%", label: "Open Source" },
