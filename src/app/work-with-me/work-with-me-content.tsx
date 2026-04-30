@@ -1,583 +1,495 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, Check, Mail, X } from "lucide-react";
+
+import { useEffect, useState } from "react";
 
 import Link from "next/link";
 
+import { AnimatedCounter } from "@/components/animated-counter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
-const pageData = {
-    hero: {
-        eyebrow: "AI Systems Consulting",
-        title: "Your business runs on decisions.",
-        titleAccent: "Let agents handle the rest.",
+const phases = [
+    {
+        number: "01",
+        title: "Audit",
+        subtitle: "Understand before building",
         description:
-            "I build bespoke AI agent systems for businesses that need more than a chatbot — specialist architectures tuned to how your team actually works, implemented and running reliably. I also build full-stack applications for clients who need production-grade software.",
-        primaryCta: {
-            text: "Start a conversation",
-            href: "mailto:aaron@arndvs.com?subject=AI%20Systems%20Consulting",
-        },
-        secondaryCta: {
-            text: "See how I build",
-            href: "/projects/ctrlshft",
-        },
-    },
-    fit: {
-        label: "Who this is for",
-        title: "The right fit matters on both sides",
-        intro: "I work with a small number of clients at a time. Before we talk scope, it's worth being clear about where I can add real value and where I can't.",
-        yes: {
-            label: "Good fit",
-            heading: "You're ready for this if...",
-            items: [
-                "Your team repeats the same cognitive tasks every week and you know it",
-                "You've tried AI tools but results are inconsistent — good in a demo, unreliable in production",
-                "You run a SaaS, ecommerce operation, or agency with real workflows to systematize",
-                "You want something built for your business, not a template everyone else is using",
-                "You understand this is infrastructure — it compounds over time and needs maintenance",
-                "You have a developer on staff or the budget to maintain what gets built",
-            ],
-        },
-        no: {
-            label: "Not the right fit",
-            heading: "This probably isn't for you if...",
-            items: [
-                "You want a quick ChatGPT wrapper or a no-code automation tool",
-                "You're looking for someone to manage your existing AI subscriptions",
-                "Your workflows aren't defined yet — agents amplify clarity, they don't create it",
-                "You need something live in two weeks",
-                "You want to own the system but have no technical capacity to maintain it",
-            ],
-        },
-    },
-    phases: [
-        {
-            id: "audit",
-            number: "01",
-            title: "Audit",
-            subtitle: "Understand before building",
-            color: "orange" as const,
-            description:
-                "Most businesses that want AI systems haven't clearly mapped what they need. The audit phase is about understanding your cognitive tasks, your team structure, your data, and where agents would create leverage versus noise. This is worth doing even if we don't work together further.",
-            details: [
-                "Current workflow review — what your team actually does, not what the process doc says",
-                "Cognitive task mapping — separating analytical, creative, and procedural work",
-                "Agent architecture recommendation — which tasks get specialist agents, which don't",
-                "Written findings you keep regardless of next steps",
-            ],
-            callout:
-                "The diagnostic eye is the product. Most businesses have accumulated AI technical debt — scattered instructions, inconsistent outputs, tools nobody trusts. Seeing it clearly is the first step to fixing it.",
-        },
-        {
-            id: "architecture",
-            number: "02",
-            title: "Architecture",
-            subtitle: "Design the specialist system",
-            color: "blue" as const,
-            description:
-                "A single agent doing five different jobs produces mediocre output on all five. Architecture separates cognitive tasks into specialist roles — an analyst that thinks like an analyst, a copywriter that thinks like a copywriter, an orchestrator that coordinates without doing the work.",
-            details: [
-                "Specialist agent design — one role, one context window, one job",
-                "Knowledge base structure — what each agent sees and what it doesn't",
-                "Orchestration design — how agents hand off between phases",
-                "Skills library — the procedures each agent follows, not just what it knows",
-            ],
-            callout: null,
-        },
-        {
-            id: "build",
-            number: "03",
-            title: "Build & Tune",
-            subtitle: "Implement until it's right",
-            color: "purple" as const,
-            description:
-                "The first version is never the right version. Build phase includes implementation, real runs against your actual data and workflows, and iterative tuning based on what the system produces. An agent system that works in theory but not in production isn't done.",
-            details: [
-                "Full implementation tuned to your stack and tools",
-                "Integration with existing platforms — CRM, ad accounts, content tools",
-                "Iterative refinement based on real output quality",
-                "Documentation tailored to your team, not generic",
-                "Training — getting your team confident, not just informed",
-            ],
-            callout:
-                "An agent system nobody uses is worthless. Training is part of the build, not a separate line item.",
-        },
-        {
-            id: "retainer",
-            number: "04",
-            title: "Retainer",
-            subtitle: "Where it compounds",
-            color: "green" as const,
-            description:
-                "Agent infrastructure isn't set-and-forget. Your business evolves, new capabilities emerge, performance data reveals what to tune. A retainer keeps the system improving alongside your operation.",
-            details: [
-                "Monthly skills tuning based on what's working and what isn't",
-                "New agent integration as your operation expands",
-                "Performance review — real output analysis, not status calls",
-                "Priority access as AI capabilities evolve",
-            ],
-            callout:
-                "The retainer is where institutional knowledge compounds. Skills files improve through use. The system learns how your business works over time. That's the real asset — not the initial setup.",
-        },
-    ],
-    judgment: {
-        label: "Why this, why now",
-        title: "You're not buying software. You're buying judgment.",
-        intro: "The tools exist. Claude, GPT-4, agent frameworks — any competent developer can wire them together. What's scarce is the architectural judgment to know what to build, and the production experience to know why the first three versions won't work.",
-        points: [
-            {
-                id: "problem",
-                label: "The problem with most AI implementations",
-                title: "One agent, five jobs, mediocre output on all five",
-                body: "The instinct is to give one agent everything — research, write, analyze, manage. It's the same mistake as hiring one person to do a job that needs a team. The analyst and the copywriter think differently. Collapsing them degrades both.",
-            },
-            {
-                id: "solution",
-                label: "What changes with specialist architecture",
-                title: "Each agent does one thing at full quality",
-                body: "Specialist agents with scoped roles, their own context, their own skills files, and explicit handoffs produce consistent output because they're not context-switching between five different cognitive modes. The orchestrator coordinates. The specialists execute.",
-            },
-            {
-                id: "need",
-                label: "What businesses actually need",
-                title: "Infrastructure that runs while you focus on what matters",
-                body: "The point isn't automation for its own sake. It's reclaiming the hours your team spends on repeatable cognitive work — ad analysis, content production, support triage, data processing — so they can focus on the judgment calls that actually require humans.",
-            },
-            {
-                id: "longterm",
-                label: "The long game",
-                title: "Institutional knowledge that accumulates",
-                body: "Skills files improve through use. Every time an agent encounters something new, the procedure gets updated. Six months in, the system knows how your business works in ways that don't need to be re-explained. That accumulated context is the real competitive advantage.",
-            },
+            "Most businesses that want AI systems haven't clearly mapped what they need. The audit phase is about understanding your cognitive tasks, your team structure, your data, and where agents would create leverage versus noise. This is worth doing even if we don't work together further.",
+        details: [
+            "Current workflow review — what your team actually does, not what the process doc says",
+            "Cognitive task mapping — separating analytical, creative, and procedural work",
+            "Agent architecture recommendation — which tasks get specialist agents, which don't",
+            "Written findings you keep regardless of next steps",
         ],
     },
-    proof: {
-        label: "Proof of work",
-        title: "Built, shipped, running in production",
-        intro: "Eight years building and shipping real systems — not demos. The infrastructure behind this consulting offer is open source, documented, and in use.",
-        stats: [
-            { value: "8+", label: "Years shipping production software" },
-            { value: "50+", label: "Enterprise clients on RipeMetrics" },
-            { value: "40%", label: "Customer service cost reduction via AI" },
-            { value: "5", label: "AI integrations on a single healthcare platform" },
-        ],
-        projects: [
-            {
-                id: "ctrlshft",
-                tag: "AI Infrastructure · Open Source",
-                title: "ctrl+shft",
-                description:
-                    "The agent infrastructure system behind this offer. 24 skills, lifecycle hooks, compliance HUD, 3-tier security, autonomous Docker loops. Open source and in production.",
-                href: "/projects/ctrlshft",
-            },
-            {
-                id: "ripemetrics",
-                tag: "AI · SaaS · 2017–2025",
-                title: "RipeMetrics",
-                description:
-                    "Founded and built an AI-native customer growth platform from prototype to 50+ enterprise clients. Reduced customer service costs 40% through AI automation.",
-                href: "/projects/ripemetrics",
-            },
-            {
-                id: "alignsd",
-                tag: "Healthcare · AI · 2025",
-                title: "AlignSD",
-                description:
-                    "44,000-line healthcare platform with 5 AI integrations, 158 programmatic pages, and a custom JSON-LD architecture. Built solo.",
-                href: "/projects/align-san-diego-family-chiropractic",
-            },
+    {
+        number: "02",
+        title: "Architecture",
+        subtitle: "Design the specialist system",
+        description:
+            "A single agent doing five different jobs produces mediocre output on all five. Architecture separates cognitive tasks into specialist roles — an analyst that thinks like an analyst, a copywriter that thinks like a copywriter, an orchestrator that coordinates without doing the work.",
+        details: [
+            "Specialist agent design — one role, one context window, one job",
+            "Knowledge base structure — what each agent sees and what it doesn't",
+            "Orchestration design — how agents hand off between phases",
+            "Skills library — the procedures each agent follows, not just what it knows",
         ],
     },
-    cta: {
-        title: "Tell me what you're trying to do.",
-        body: "Describe your operation and what you're trying to systematize. If it's a good fit I'll tell you what I think an engagement looks like. If it's not, I'll tell you that too — and point you toward what would work instead.",
-        primaryHref: "mailto:aaron@arndvs.com?subject=AI%20Systems%20Consulting",
-        secondaryHref: "https://linkedin.com/in/arndvs",
-        footerNote: "Based in San Diego. Working with clients remotely worldwide.",
-        devNote: "Also taking on full-stack development projects.",
+    {
+        number: "03",
+        title: "Build & Tune",
+        subtitle: "Implement until it's right",
+        description:
+            "The first version is never the right version. Build phase includes implementation, real runs against your actual data and workflows, and iterative tuning based on what the system produces. An agent system that works in theory but not in production isn't done.",
+        details: [
+            "Full implementation tuned to your stack and tools",
+            "Integration with existing platforms — CRM, ad accounts, content tools",
+            "Iterative refinement based on real output quality",
+            "Documentation and training for your team",
+        ],
     },
-};
+    {
+        number: "04",
+        title: "Retainer",
+        subtitle: "Where it compounds",
+        description:
+            "Agent infrastructure isn't set-and-forget. Your business evolves, new capabilities emerge, performance data reveals what to tune. A retainer keeps the system improving alongside your operation.",
+        details: [
+            "Monthly skills tuning based on what's working and what isn't",
+            "New agent integration as your operation expands",
+            "Performance review — real output analysis, not status calls",
+            "Priority access as AI capabilities evolve",
+        ],
+    },
+];
 
-const phaseColorMap = {
-    orange: "border-l-orange-500",
-    blue: "border-l-blue-500",
-    purple: "border-l-purple-500",
-    green: "border-l-green-500",
-} as const;
+const goodFit = [
+    "Your team repeats the same cognitive tasks every week and you know it",
+    "You've tried AI tools but results are inconsistent — good in a demo, unreliable in production",
+    "You run a SaaS, ecommerce operation, or agency with real workflows to systematize",
+    "You want something built for your business, not a template everyone else is using",
+    "You understand this is infrastructure — it compounds over time and needs maintenance",
+    "You have a developer on staff or the budget to maintain what gets built",
+];
+
+const notFit = [
+    "You want a quick ChatGPT wrapper or a no-code automation tool",
+    "You're looking for someone to manage your existing AI subscriptions",
+    "Your workflows aren't defined yet — agents amplify clarity, they don't create it",
+    "You need something live in two weeks",
+    "You want to own the system but have no technical capacity to maintain it",
+];
+
+const proofStats = [
+    { value: 8, suffix: "+", label: "Years shipping production software" },
+    { value: 50, suffix: "+", label: "Enterprise clients on RipeMetrics" },
+    { value: 40, suffix: "%", label: "Customer service cost reduction" },
+    { value: 5, suffix: "", label: "AI integrations on one healthcare platform" },
+];
+
+const proofProjects = [
+    {
+        tag: "AI Infrastructure · Open Source",
+        title: "ctrl+shft",
+        description:
+            "The agent infrastructure system behind this offer. 24 skills, lifecycle hooks, compliance HUD, 3-tier security, autonomous Docker loops.",
+        href: "/projects/ctrlshft",
+    },
+    {
+        tag: "AI · SaaS · 2017–2025",
+        title: "RipeMetrics",
+        description:
+            "Founded and built an AI-native customer growth platform from prototype to 50+ enterprise clients. Reduced customer service costs 40%.",
+        href: "/projects/ripemetrics",
+    },
+    {
+        tag: "Healthcare · AI · 2025",
+        title: "AlignSD",
+        description:
+            "44,000-line healthcare platform with 5 AI integrations, 158 programmatic pages, and custom JSON-LD architecture.",
+        href: "/projects/align-san-diego-family-chiropractic",
+    },
+];
 
 export default function WorkWithMeContent() {
-    const { containerVariants, itemVariants, cardVariants } = useAnimationVariants();
+    const { containerVariants, itemVariants } = useAnimationVariants();
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        setIsVisible(true);
+    }, []);
 
     return (
-        <main className="min-h-screen pt-16">
-            {/* Hero — no Framer Motion, above-fold */}
-            <section
-                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
-                aria-label="Work with me — hero"
-            >
-                <div className="max-w-3xl">
-                    <p className="text-primary text-sm font-medium tracking-widest uppercase">
-                        {pageData.hero.eyebrow}
-                    </p>
-                    <h1 className="mt-4 text-5xl font-bold tracking-tight text-balance lg:text-7xl">
-                        {pageData.hero.title}{" "}
-                        <span className="text-primary">{pageData.hero.titleAccent}</span>
-                    </h1>
-                    <p className="text-muted-foreground mt-6 text-xl leading-relaxed text-pretty">
-                        {pageData.hero.description}
-                    </p>
-                    <div className="mt-10 flex flex-wrap items-center gap-4">
-                        <Button asChild size="lg">
-                            <a href={pageData.hero.primaryCta.href}>
-                                <Mail className="mr-2 h-4 w-4" />
-                                {pageData.hero.primaryCta.text}
-                            </a>
-                        </Button>
-                        <Button asChild variant="ghost" size="lg">
-                            <Link href={pageData.hero.secondaryCta.href}>
-                                {pageData.hero.secondaryCta.text}{" "}
-                                <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
+        <main className="min-h-screen">
+            {/* Hero */}
+            <section className="relative flex min-h-[70vh] items-end overflow-hidden pb-20">
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden select-none">
+                    <span
+                        className="font-display text-foreground/[0.02] text-[15vw] font-black tracking-tighter whitespace-nowrap"
+                        style={{
+                            transform: isVisible ? "translateY(0)" : "translateY(100px)",
+                            opacity: isVisible ? 1 : 0,
+                            transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
+                        }}
+                    >
+                        WORK WITH ME
+                    </span>
+                </div>
+
+                <div className="relative z-10 w-full px-6 lg:px-12 xl:px-20">
+                    <div className="mx-auto max-w-7xl">
+                        <div
+                            style={{
+                                transform: isVisible ? "translateY(0)" : "translateY(30px)",
+                                opacity: isVisible ? 1 : 0,
+                                transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
+                            }}
+                        >
+                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                                AI Systems Consulting
+                            </span>
+                        </div>
+
+                        <h1
+                            className="font-display mt-6 max-w-4xl text-5xl leading-[0.95] font-black tracking-tight sm:text-6xl lg:text-7xl"
+                            style={{
+                                transform: isVisible ? "translateY(0)" : "translateY(50px)",
+                                opacity: isVisible ? 1 : 0,
+                                transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
+                            }}
+                        >
+                            Your business runs on decisions.{" "}
+                            <span className="text-gradient">Let agents handle the rest.</span>
+                        </h1>
+
+                        <p
+                            className="text-muted-foreground mt-8 max-w-2xl text-lg leading-relaxed lg:text-xl"
+                            style={{
+                                transform: isVisible ? "translateY(0)" : "translateY(30px)",
+                                opacity: isVisible ? 1 : 0,
+                                transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
+                            }}
+                        >
+                            I build bespoke AI agent systems for businesses that need more than a
+                            chatbot — specialist architectures tuned to how your team actually
+                            works. I also build full-stack applications for clients who need
+                            production-grade software.
+                        </p>
+
+                        <div
+                            className="mt-10 flex flex-wrap items-center gap-4"
+                            style={{
+                                transform: isVisible ? "translateY(0)" : "translateY(30px)",
+                                opacity: isVisible ? 1 : 0,
+                                transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s",
+                            }}
+                        >
+                            <Button asChild size="lg" className="group">
+                                <a href="mailto:aaron@arndvs.com?subject=AI%20Systems%20Consulting">
+                                    <Mail className="mr-2 h-4 w-4" />
+                                    Start a conversation
+                                </a>
+                            </Button>
+                            <Button asChild variant="outline" size="lg" className="group">
+                                <Link href="/projects">
+                                    See my work
+                                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                </Link>
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* Who it's for */}
+            {/* Fit */}
             <motion.section
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
-                aria-label="Who this is for"
+                className="border-border border-t py-24 lg:py-32"
             >
-                <motion.p
-                    variants={itemVariants}
-                    className="text-primary text-sm font-medium tracking-widest uppercase"
-                >
-                    {pageData.fit.label}
-                </motion.p>
-                <motion.h2
-                    variants={itemVariants}
-                    className="mt-2 text-3xl font-bold tracking-tight"
-                >
-                    {pageData.fit.title}
-                </motion.h2>
-                <motion.p
-                    variants={itemVariants}
-                    className="text-muted-foreground mt-4 max-w-2xl text-lg leading-relaxed"
-                >
-                    {pageData.fit.intro}
-                </motion.p>
-                <motion.div variants={containerVariants} className="mt-8 grid gap-6 md:grid-cols-2">
-                    <motion.div variants={cardVariants}>
-                        <Card className="h-full border-l-4 border-l-green-500">
-                            <CardHeader>
-                                <p className="text-xs font-medium tracking-widest text-green-500 uppercase">
-                                    {pageData.fit.yes.label}
-                                </p>
-                                <CardTitle className="text-xl">
-                                    {pageData.fit.yes.heading}
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <ul className="space-y-3">
-                                    {pageData.fit.yes.items.map((item, i) => (
-                                        <li
-                                            key={i}
-                                            className="text-muted-foreground flex items-start gap-3 text-sm leading-relaxed"
-                                        >
-                                            <span className="mt-0.5 shrink-0 text-green-500">
-                                                ✓
-                                            </span>
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>
+                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                    <motion.div variants={itemVariants}>
+                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            Who this is for
+                        </span>
+                        <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
+                            The right fit matters on both sides
+                        </h2>
+                        <p className="text-muted-foreground mt-4 max-w-2xl leading-relaxed">
+                            I work with a small number of clients at a time. Before we talk scope,
+                            it&apos;s worth being clear about where I can add real value.
+                        </p>
                     </motion.div>
-                    <motion.div variants={cardVariants}>
-                        <Card className="border-l-muted-foreground/30 h-full border-l-4">
-                            <CardHeader>
-                                <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
-                                    {pageData.fit.no.label}
-                                </p>
-                                <CardTitle className="text-xl">{pageData.fit.no.heading}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <ul className="space-y-3">
-                                    {pageData.fit.no.items.map((item, i) => (
-                                        <li
-                                            key={i}
-                                            className="text-muted-foreground flex items-start gap-3 text-sm leading-relaxed"
-                                        >
-                                            <span className="text-muted-foreground/50 mt-0.5 shrink-0">
-                                                ×
-                                            </span>
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>
+
+                    <div className="mt-16 grid gap-12 md:grid-cols-2">
+                        <motion.div variants={itemVariants}>
+                            <h3 className="flex items-center gap-2 text-lg font-semibold">
+                                <span className="bg-primary/10 flex h-6 w-6 items-center justify-center rounded-full">
+                                    <Check className="text-primary h-3 w-3" />
+                                </span>
+                                Good fit
+                            </h3>
+                            <ul className="mt-6 space-y-4">
+                                {goodFit.map((item) => (
+                                    <li
+                                        key={item}
+                                        className="text-muted-foreground flex items-start gap-3"
+                                    >
+                                        <Check className="text-primary mt-1 h-4 w-4 shrink-0" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </motion.div>
+                        <motion.div variants={itemVariants}>
+                            <h3 className="flex items-center gap-2 text-lg font-semibold">
+                                <span className="bg-muted flex h-6 w-6 items-center justify-center rounded-full">
+                                    <X className="text-muted-foreground h-3 w-3" />
+                                </span>
+                                Not the right fit
+                            </h3>
+                            <ul className="mt-6 space-y-4">
+                                {notFit.map((item) => (
+                                    <li
+                                        key={item}
+                                        className="text-muted-foreground flex items-start gap-3"
+                                    >
+                                        <X className="text-muted-foreground mt-1 h-4 w-4 shrink-0" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </motion.div>
+                    </div>
+                </div>
+            </motion.section>
+
+            {/* Phases */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={containerVariants}
+                className="border-border border-t py-24 lg:py-32"
+            >
+                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                    <motion.div variants={itemVariants}>
+                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            How an engagement works
+                        </span>
+                        <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
+                            Four phases. One compounding system.
+                        </h2>
                     </motion.div>
-                </motion.div>
+
+                    <div className="mt-16 space-y-px">
+                        {phases.map((phase) => (
+                            <motion.div
+                                key={phase.number}
+                                variants={itemVariants}
+                                className="border-border border-b py-12 first:pt-0 last:border-0"
+                            >
+                                <div className="grid gap-8 lg:grid-cols-[1fr_2fr] lg:gap-16">
+                                    <div>
+                                        <span className="text-muted-foreground font-mono text-sm">
+                                            {phase.number}
+                                        </span>
+                                        <h3 className="font-display mt-2 text-2xl font-bold lg:text-3xl">
+                                            {phase.title}
+                                        </h3>
+                                        <p className="text-muted-foreground mt-1">
+                                            {phase.subtitle}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p className="text-muted-foreground leading-relaxed">
+                                            {phase.description}
+                                        </p>
+                                        <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                                            {phase.details.map((detail) => (
+                                                <li
+                                                    key={detail}
+                                                    className="flex items-start gap-2 text-sm"
+                                                >
+                                                    <ArrowRight className="text-primary mt-0.5 h-4 w-4 shrink-0" />
+                                                    {detail}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
             </motion.section>
 
-            {/* How an engagement works */}
+            {/* Value Prop */}
             <motion.section
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
-                aria-label="How an engagement works"
+                className="border-border border-t py-24 lg:py-32"
             >
-                <motion.p
-                    variants={itemVariants}
-                    className="text-primary text-sm font-medium tracking-widest uppercase"
-                >
-                    How an engagement works
-                </motion.p>
-                <motion.h2
-                    variants={itemVariants}
-                    className="mt-2 text-3xl font-bold tracking-tight"
-                >
-                    Four phases. One compounding system.
-                </motion.h2>
-                <motion.p
-                    variants={itemVariants}
-                    className="text-muted-foreground mt-4 max-w-2xl text-lg leading-relaxed"
-                >
-                    Every engagement follows the same progression — from understanding what your
-                    operation actually needs to a system running reliably and a team that knows how
-                    to use it.
-                </motion.p>
-                <motion.div variants={containerVariants} className="mt-8 grid gap-6 md:grid-cols-2">
-                    {pageData.phases.map((phase) => (
-                        <motion.div key={phase.id} variants={cardVariants}>
-                            <Card className={`h-full border-l-4 ${phaseColorMap[phase.color]}`}>
-                                <CardHeader>
-                                    <p className="text-muted-foreground font-mono text-xs tracking-widest uppercase">
-                                        {phase.number}
-                                    </p>
-                                    <CardTitle className="text-2xl">{phase.title}</CardTitle>
-                                    <CardDescription className="text-base">
-                                        {phase.subtitle}
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent className="space-y-4">
-                                    <p className="text-muted-foreground text-sm leading-relaxed">
-                                        {phase.description}
-                                    </p>
-                                    <ul className="space-y-2">
-                                        {phase.details.map((detail, i) => (
-                                            <li
-                                                key={i}
-                                                className="text-muted-foreground flex items-start gap-2 text-sm leading-relaxed"
-                                            >
-                                                <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 opacity-40" />
-                                                {detail}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    {phase.callout && (
-                                        <div className="bg-muted text-muted-foreground rounded-md p-4 text-sm leading-relaxed italic">
-                                            {phase.callout}
-                                        </div>
-                                    )}
-                                </CardContent>
-                            </Card>
+                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                    <div className="grid gap-16 lg:grid-cols-2">
+                        <motion.div variants={itemVariants}>
+                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                                Why this, why now
+                            </span>
+                            <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
+                                You&apos;re not buying software. You&apos;re buying judgment.
+                            </h2>
                         </motion.div>
-                    ))}
-                </motion.div>
-            </motion.section>
-
-            {/* Why this, why now */}
-            <motion.section
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={containerVariants}
-                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
-                aria-label="Why this, why now"
-            >
-                <motion.p
-                    variants={itemVariants}
-                    className="text-primary text-sm font-medium tracking-widest uppercase"
-                >
-                    {pageData.judgment.label}
-                </motion.p>
-                <motion.h2
-                    variants={itemVariants}
-                    className="mt-2 text-3xl font-bold tracking-tight"
-                >
-                    {pageData.judgment.title}
-                </motion.h2>
-                <motion.p
-                    variants={itemVariants}
-                    className="text-muted-foreground mt-4 max-w-2xl text-lg leading-relaxed"
-                >
-                    {pageData.judgment.intro}
-                </motion.p>
-                <motion.div variants={containerVariants} className="mt-8 grid gap-6 md:grid-cols-2">
-                    {pageData.judgment.points.map((point) => (
-                        <motion.div key={point.id} variants={cardVariants}>
-                            <Card className="h-full">
-                                <CardHeader>
-                                    <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
-                                        {point.label}
-                                    </p>
-                                    <CardTitle className="text-xl">{point.title}</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-muted-foreground text-sm leading-relaxed">
-                                        {point.body}
-                                    </p>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    ))}
-                </motion.div>
-            </motion.section>
-
-            {/* Proof of work */}
-            <motion.section
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={containerVariants}
-                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
-                aria-label="Proof of work"
-            >
-                <motion.p
-                    variants={itemVariants}
-                    className="text-primary text-sm font-medium tracking-widest uppercase"
-                >
-                    {pageData.proof.label}
-                </motion.p>
-                <motion.h2
-                    variants={itemVariants}
-                    className="mt-2 text-3xl font-bold tracking-tight"
-                >
-                    {pageData.proof.title}
-                </motion.h2>
-                <motion.p
-                    variants={itemVariants}
-                    className="text-muted-foreground mt-4 max-w-2xl text-lg leading-relaxed"
-                >
-                    {pageData.proof.intro}
-                </motion.p>
-
-                {/* Stats bar */}
-                <motion.div
-                    variants={itemVariants}
-                    className="bg-border mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-lg md:grid-cols-4"
-                >
-                    {pageData.proof.stats.map((stat) => (
-                        <div key={stat.label} className="bg-card p-6 text-center">
-                            <p className="text-4xl font-bold tracking-tight">{stat.value}</p>
-                            <p className="text-muted-foreground mt-2 text-sm leading-tight">
-                                {stat.label}
+                        <motion.div
+                            variants={itemVariants}
+                            className="text-muted-foreground space-y-6 leading-relaxed"
+                        >
+                            <p>
+                                The tools exist. Claude, GPT-4, agent frameworks — any competent
+                                developer can wire them together. What&apos;s scarce is the
+                                architectural judgment to know what to build, and the production
+                                experience to know why the first three versions won&apos;t work.
                             </p>
-                        </div>
-                    ))}
-                </motion.div>
-
-                {/* Project cards */}
-                <motion.div
-                    variants={containerVariants}
-                    className="bg-border mt-px grid gap-px overflow-hidden rounded-b-lg md:grid-cols-3"
-                >
-                    {pageData.proof.projects.map((project) => (
-                        <motion.div key={project.id} variants={cardVariants}>
-                            <Card className="hover:bg-muted/50 h-full rounded-none border-0 transition-colors">
-                                <CardHeader>
-                                    <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
-                                        {project.tag}
-                                    </p>
-                                    <CardTitle className="text-xl">{project.title}</CardTitle>
-                                    <CardDescription className="text-sm leading-relaxed">
-                                        {project.description}
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <Button asChild variant="link" className="p-0">
-                                        <Link href={project.href}>
-                                            View case study <ArrowRight className="ml-2 h-4 w-4" />
-                                        </Link>
-                                    </Button>
-                                </CardContent>
-                            </Card>
+                            <p>
+                                The instinct is to give one agent everything — research, write,
+                                analyze, manage. It&apos;s the same mistake as hiring one person to
+                                do a job that needs a team. Specialist agents with scoped roles
+                                produce consistent output because they&apos;re not context-switching
+                                between five different cognitive modes.
+                            </p>
+                            <p className="text-foreground font-medium">
+                                The point isn&apos;t automation for its own sake. It&apos;s
+                                reclaiming the hours your team spends on repeatable cognitive work
+                                so they can focus on the judgment calls that actually require
+                                humans.
+                            </p>
                         </motion.div>
-                    ))}
-                </motion.div>
+                    </div>
+                </div>
+            </motion.section>
 
-                {/* Case studies placeholder */}
-                <motion.div
-                    variants={itemVariants}
-                    className="border-border bg-muted mt-px rounded-b-lg border border-t-0 p-6"
-                >
-                    <p className="text-muted-foreground/60 font-mono text-xs tracking-widest uppercase">
-                        Consulting case studies — coming soon
-                    </p>
-                    <p className="text-muted-foreground mt-2 text-sm">
-                        Detailed walkthroughs of agent systems built for real business operations.
-                        First cases publishing Q3 2026.
-                    </p>
-                </motion.div>
+            {/* Proof */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={containerVariants}
+                className="border-border border-t py-24 lg:py-32"
+            >
+                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                    <motion.div variants={itemVariants}>
+                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            Proof of work
+                        </span>
+                        <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
+                            Built, shipped, running in production
+                        </h2>
+                    </motion.div>
+
+                    <motion.div
+                        variants={itemVariants}
+                        className="mt-16 grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-12"
+                    >
+                        {proofStats.map((stat) => (
+                            <div key={stat.label}>
+                                <div className="font-display text-primary text-4xl font-black lg:text-5xl">
+                                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                                </div>
+                                <div className="text-muted-foreground mt-2 text-sm">
+                                    {stat.label}
+                                </div>
+                            </div>
+                        ))}
+                    </motion.div>
+
+                    <div className="bg-border mt-16 grid gap-px overflow-hidden rounded-2xl md:grid-cols-3">
+                        {proofProjects.map((project) => (
+                            <motion.div key={project.title} variants={itemVariants}>
+                                <Link
+                                    href={project.href}
+                                    className="bg-card hover:bg-card/80 group block p-8 transition-colors lg:p-12"
+                                >
+                                    <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                                        {project.tag}
+                                    </span>
+                                    <h3 className="font-display group-hover:text-primary mt-4 text-2xl font-bold transition-colors">
+                                        {project.title}
+                                    </h3>
+                                    <p className="text-muted-foreground mt-3 leading-relaxed">
+                                        {project.description}
+                                    </p>
+                                    <div className="text-muted-foreground group-hover:text-primary mt-6 flex items-center gap-2 text-sm font-medium transition-colors">
+                                        View case study
+                                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                    </div>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    <motion.div
+                        variants={itemVariants}
+                        className="border-border bg-muted mt-px rounded-b-2xl border border-t-0 p-6"
+                    >
+                        <p className="text-muted-foreground/60 font-mono text-xs tracking-widest uppercase">
+                            Consulting case studies — coming soon
+                        </p>
+                        <p className="text-muted-foreground mt-2 text-sm">
+                            Detailed walkthroughs of agent systems built for real business
+                            operations. First cases publishing Q3 2026.
+                        </p>
+                    </motion.div>
+                </div>
             </motion.section>
 
             {/* CTA */}
-            <motion.section
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={containerVariants}
-                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
-                aria-label="Get in touch"
-            >
-                <motion.div variants={itemVariants}>
-                    <Card className="border-border bg-card text-center">
-                        <CardContent className="p-8 lg:p-16">
-                            <h2 className="text-3xl font-bold tracking-tight lg:text-4xl">
-                                {pageData.cta.title}
-                            </h2>
-                            <p className="text-muted-foreground mx-auto mt-4 max-w-xl text-lg leading-relaxed">
-                                {pageData.cta.body}
-                            </p>
-                            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-                                <Button asChild size="lg">
-                                    <a href={pageData.cta.primaryHref}>
-                                        <Mail className="mr-2 h-4 w-4" />
-                                        aaron@arndvs.com
-                                    </a>
-                                </Button>
-                                <Button asChild variant="outline" size="lg">
-                                    <a
-                                        href={pageData.cta.secondaryHref}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        LinkedIn →
-                                    </a>
-                                </Button>
-                            </div>
-                            <p className="text-muted-foreground mt-6 text-sm">
-                                {pageData.cta.footerNote}
-                            </p>
-                            <p className="text-muted-foreground/60 mt-1 text-sm">
-                                {pageData.cta.devNote}
-                            </p>
-                        </CardContent>
-                    </Card>
-                </motion.div>
-            </motion.section>
+            <section className="border-border border-t py-24 lg:py-32">
+                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                    <div className="mx-auto max-w-3xl text-center">
+                        <h2 className="font-display text-4xl font-bold tracking-tight lg:text-5xl">
+                            Tell me what you&apos;re trying to{" "}
+                            <span className="text-gradient">do</span>.
+                        </h2>
+                        <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
+                            Describe your operation and what you&apos;re trying to systematize. If
+                            it&apos;s a good fit I&apos;ll tell you what I think an engagement looks
+                            like. If it&apos;s not, I&apos;ll tell you that too — and point you
+                            toward what would work instead.
+                        </p>
+                        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                            <Button asChild size="lg" className="group">
+                                <a href="mailto:aaron@arndvs.com?subject=AI%20Systems%20Consulting">
+                                    <Mail className="mr-2 h-4 w-4" />
+                                    aaron@arndvs.com
+                                </a>
+                            </Button>
+                            <Button asChild variant="outline" size="lg" className="group">
+                                <a
+                                    href="https://linkedin.com/in/arndvs"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    LinkedIn
+                                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                </a>
+                            </Button>
+                        </div>
+                        <p className="text-muted-foreground mt-8 text-sm">
+                            Based in San Diego. Working with clients remotely worldwide.
+                        </p>
+                        <p className="text-muted-foreground/60 mt-1 text-sm">
+                            Also taking on full-stack development projects.
+                        </p>
+                    </div>
+                </div>
+            </section>
         </main>
     );
 }
