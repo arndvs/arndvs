@@ -1,81 +1,85 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
-    /* Light mode — warm off-white canvas with teal brand accent */
-    --background: oklch(0.985 0.002 90);
-    --foreground: oklch(0.141 0.005 286);
+    /* Light mode — monochromatic editorial, brand reserved for highlights */
+    --background: oklch(0.985 0 0);
+    --foreground: oklch(0.13 0 0);
     --card: oklch(1 0 0);
-    --card-foreground: oklch(0.141 0.005 286);
-    --popover: oklch(0.995 0.002 90);
-    --popover-foreground: oklch(0.141 0.005 286);
-    --primary: oklch(0.45 0.15 192);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.965 0.003 90);
-    --secondary-foreground: oklch(0.205 0.005 286);
-    --muted: oklch(0.948 0.004 90);
-    --muted-foreground: oklch(0.45 0.015 250);
-    --accent: oklch(0.955 0.018 192);
-    --accent-foreground: oklch(0.18 0.04 192);
+    --card-foreground: oklch(0.13 0 0);
+    --popover: oklch(0.99 0 0);
+    --popover-foreground: oklch(0.13 0 0);
+    --primary: oklch(0.13 0 0);
+    --primary-foreground: oklch(1 0 0);
+    --secondary: oklch(0.955 0 0);
+    --secondary-foreground: oklch(0.13 0 0);
+    --muted: oklch(0.96 0 0);
+    --muted-foreground: oklch(0.5 0 0);
+    --accent: oklch(0.94 0 0);
+    --accent-foreground: oklch(0.13 0 0);
     --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: oklch(0.912 0.004 90);
-    --input: oklch(0.912 0.004 90);
-    --ring: oklch(0.45 0.15 192);
-    --chart-1: oklch(0.45 0.15 192);
-    --chart-2: oklch(0.65 0.18 85);
-    --chart-3: oklch(0.55 0.15 25);
-    --chart-4: oklch(0.6 0.14 300);
-    --chart-5: oklch(0.55 0.12 145);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.978 0.002 90);
-    --sidebar-foreground: oklch(0.141 0.005 286);
-    --sidebar-primary: oklch(0.45 0.15 192);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.955 0.018 192);
-    --sidebar-accent-foreground: oklch(0.18 0.04 192);
-    --sidebar-border: oklch(0.912 0.004 90);
-    --sidebar-ring: oklch(0.45 0.15 192);
+    --destructive-foreground: oklch(0.985 0 0);
+    --border: oklch(0.92 0 0);
+    --input: oklch(0.91 0 0);
+    --ring: oklch(0.8 0 0);
+    --chart-1: oklch(0.35 0 0);
+    --chart-2: oklch(0.5 0 0);
+    --chart-3: oklch(0.65 0 0);
+    --chart-4: oklch(0.45 0.15 45);
+    --chart-5: oklch(0.55 0.12 280);
+    --radius: 0.5rem;
+    --sidebar: oklch(0.975 0 0);
+    --sidebar-foreground: oklch(0.13 0 0);
+    --sidebar-primary: oklch(0.13 0 0);
+    --sidebar-primary-foreground: oklch(1 0 0);
+    --sidebar-accent: oklch(0.94 0 0);
+    --sidebar-accent-foreground: oklch(0.13 0 0);
+    --sidebar-border: oklch(0.92 0 0);
+    --sidebar-ring: oklch(0.8 0 0);
 }
 
 .dark {
-    /* Dark mode — 5-level gray elevation with bright teal accent */
-    --background: oklch(0.14 0.005 286);
-    --foreground: oklch(0.93 0.005 80);
-    --card: oklch(0.17 0.005 286);
-    --card-foreground: oklch(0.93 0.005 80);
-    --popover: oklch(0.155 0.008 60);
-    --popover-foreground: oklch(0.92 0.005 80);
-    --primary: oklch(0.72 0.14 180);
-    --primary-foreground: oklch(0.14 0.03 180);
-    --secondary: oklch(0.215 0.005 286);
-    --secondary-foreground: oklch(0.92 0 0);
-    --muted: oklch(0.195 0.005 286);
-    --muted-foreground: oklch(0.63 0.015 250);
-    --accent: oklch(0.215 0.02 180);
-    --accent-foreground: oklch(0.92 0.005 80);
-    --destructive: oklch(0.396 0.141 25.723);
-    --destructive-foreground: oklch(0.637 0.237 25.331);
-    --border: oklch(0.24 0.005 286);
-    --input: oklch(0.27 0.005 286);
-    --ring: oklch(0.72 0.14 180);
-    --chart-1: oklch(0.72 0.14 180);
-    --chart-2: oklch(0.75 0.16 85);
-    --chart-3: oklch(0.65 0.15 25);
-    --chart-4: oklch(0.7 0.14 300);
-    --chart-5: oklch(0.65 0.12 145);
-    --sidebar: oklch(0.17 0.005 286);
-    --sidebar-foreground: oklch(0.93 0.005 80);
-    --sidebar-primary: oklch(0.72 0.14 180);
-    --sidebar-primary-foreground: oklch(0.14 0.03 180);
-    --sidebar-accent: oklch(0.215 0.02 180);
-    --sidebar-accent-foreground: oklch(0.92 0.005 80);
-    --sidebar-border: oklch(0.24 0.005 286);
-    --sidebar-ring: oklch(0.72 0.14 180);
+    /* Dark mode — brand-forward, orange accent pops against deep black */
+    --background: oklch(0.06 0 0);
+    --foreground: oklch(0.9 0 0);
+    --card: oklch(0.09 0 0);
+    --card-foreground: oklch(0.92 0.005 60);
+    --popover: oklch(0.08 0 0);
+    --popover-foreground: oklch(0.92 0.005 60);
+    --primary: oklch(0.72 0.19 50);
+    --primary-foreground: oklch(0.06 0 0);
+    --secondary: oklch(0.14 0 0);
+    --secondary-foreground: oklch(0.9 0 0);
+    --muted: oklch(0.12 0 0);
+    --muted-foreground: oklch(0.55 0 0);
+    --accent: oklch(0.14 0 0);
+    --accent-foreground: oklch(0.92 0.005 60);
+    --destructive: oklch(0.45 0.22 25);
+    --destructive-foreground: oklch(0.92 0.005 60);
+    --border: oklch(0.16 0 0);
+    --input: oklch(0.18 0 0);
+    --ring: oklch(0.72 0.19 50);
+    --chart-1: oklch(0.72 0.19 50);
+    --chart-2: oklch(0.75 0.16 80);
+    --chart-3: oklch(0.6 0.2 15);
+    --chart-4: oklch(0.65 0.15 160);
+    --chart-5: oklch(0.55 0.12 280);
+    --sidebar: oklch(0.08 0 0);
+    --sidebar-foreground: oklch(0.9 0 0);
+    --sidebar-primary: oklch(0.72 0.19 50);
+    --sidebar-primary-foreground: oklch(0.06 0 0);
+    --sidebar-accent: oklch(0.14 0 0);
+    --sidebar-accent-foreground: oklch(0.9 0 0);
+    --sidebar-border: oklch(0.16 0 0);
+    --sidebar-ring: oklch(0.72 0.19 50);
 }
 
 @theme inline {
-    /* optional: --font-sans, --font-serif, --font-mono if they are applied in the layout.tsx */
+    --font-sans: var(--font-satoshi), "Satoshi", system-ui, sans-serif;
+    --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+    --font-display: var(--font-cabinet), "Cabinet Grotesk", system-ui, sans-serif;
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
@@ -121,13 +125,96 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: var(--background);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--muted-foreground);
+    }
 }
 
-@keyframes slide {
-    0% {
-        margin-left: -40%;
+/* Display font utility */
+.font-display {
+    font-family: var(--font-display);
+}
+
+/* Tabular numerals for stat counters */
+.stat-number {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+}
+
+/* Smooth section entrance */
+.section-reveal {
+    animation: sectionReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sectionReveal {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
     }
-    100% {
-        margin-left: 100%;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
+}
+
+/* Figma embed hover effect */
+.figma-embed {
+    transition:
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.4s ease;
+}
+.figma-embed:hover {
+    transform: scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(255, 121, 42, 0.15);
+}
+
+/* Phase indicator line */
+.phase-line {
+    background: linear-gradient(180deg, var(--primary) 0%, transparent 100%);
+}
+
+/* Text gradient for headings */
+.text-gradient {
+    background: linear-gradient(135deg, #ff792a 0%, #ffc107 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Noise texture overlay */
+.noise-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+
+/* Smooth scroll via data attribute for Next.js compatibility */
+html[data-scroll-behavior="smooth"] {
+    scroll-behavior: smooth;
 }

@@ -7,13 +7,10 @@ import Link from "next/link";
 
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
-import { ContactForm } from "./contact-form";
-
 const footerData = {
     brand: {
         name: "Aaron Davis",
-        description:
-            "AI systems engineer and consultant. Building agent infrastructure for businesses that need reliable results, not just impressive demos.",
+        description: "Full-stack engineer and AI systems consultant based in San Diego.",
     },
     navigation: [
         { name: "Home", href: "/" },
@@ -35,40 +32,53 @@ const footerData = {
             icon: Linkedin,
             ariaLabel: "Visit Aaron's LinkedIn profile",
         },
+        {
+            name: "Email",
+            href: "mailto:aaron@arndvs.com",
+            icon: Mail,
+            ariaLabel: "Email Aaron",
+        },
     ],
-    location: "San Diego, California",
+    location: "San Diego, CA",
 };
 export function Footer() {
     const currentYear = new Date().getFullYear();
     const { containerVariants, itemVariants } = useAnimationVariants();
 
     return (
-        <footer className="bg-background">
+        <footer className="border-border border-t">
             <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mx-auto max-w-7xl px-6 py-12 lg:px-8"
+                className="mx-auto max-w-7xl px-6 py-16 lg:px-12 xl:px-20"
             >
-                <div className="grid gap-8 md:grid-cols-3">
+                <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
                     {/* Brand */}
-                    <motion.div variants={itemVariants} className="space-y-4">
-                        <h3 className="text-lg font-semibold">{footerData.brand.name}</h3>
-                        <p className="text-muted-foreground text-sm leading-relaxed">
+                    <motion.div variants={itemVariants} className="max-w-xs">
+                        <Link
+                            href="/"
+                            className="font-display hover:text-primary text-lg font-bold tracking-tight transition-colors"
+                        >
+                            {footerData.brand.name}
+                        </Link>
+                        <p className="text-muted-foreground mt-4 text-sm leading-relaxed">
                             {footerData.brand.description}
                         </p>
                     </motion.div>
 
                     {/* Navigation */}
-                    <motion.div variants={itemVariants} className="space-y-4">
-                        <h3 className="text-lg font-semibold">Navigation</h3>
-                        <nav className="flex flex-col gap-2 text-sm" aria-label="Footer navigation">
+                    <motion.div variants={itemVariants}>
+                        <nav
+                            className="flex flex-wrap gap-x-8 gap-y-4"
+                            aria-label="Footer navigation"
+                        >
                             {footerData.navigation.map((item) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className="text-muted-foreground hover:text-foreground transition-colors"
+                                    className="text-muted-foreground hover:text-foreground text-sm transition-colors"
                                 >
                                     {item.name}
                                 </Link>
@@ -76,46 +86,38 @@ export function Footer() {
                         </nav>
                     </motion.div>
 
-                    {/* Connect */}
-                    <motion.div variants={itemVariants} className="space-y-4">
-                        <h3 className="text-lg font-semibold">Connect</h3>
-                        <nav className="flex gap-4" aria-label="Social links">
+                    {/* Social */}
+                    <motion.div variants={itemVariants}>
+                        <nav className="flex items-center gap-4" aria-label="Social links">
                             {footerData.social.map((social) => {
                                 const Icon = social.icon;
+                                const isMailto = social.href.startsWith("mailto");
                                 return (
                                     <a
                                         key={social.name}
                                         href={social.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="border-border bg-background hover:bg-accent hover:text-accent-foreground flex h-10 w-10 items-center justify-center rounded-md border transition-colors"
+                                        target={isMailto ? undefined : "_blank"}
+                                        rel={isMailto ? undefined : "noopener noreferrer"}
+                                        className="text-muted-foreground hover:text-foreground transition-colors"
                                         aria-label={social.ariaLabel}
                                     >
                                         <Icon className="h-5 w-5" />
                                     </a>
                                 );
                             })}
-                            <ContactForm
-                                triggerVariant="outline"
-                                triggerSize="icon"
-                                triggerClassName="h-10 w-10"
-                                triggerIcon={<Mail className="h-5 w-5" />}
-                                triggerText=""
-                                showIcon={false}
-                            />
                         </nav>
-                        <p className="text-muted-foreground text-sm">{footerData.location}</p>
                     </motion.div>
                 </div>
 
                 {/* Bottom */}
                 <motion.div
                     variants={itemVariants}
-                    className="text-muted-foreground mt-12 pt-8 text-center text-sm"
+                    className="border-border mt-16 flex flex-col gap-4 border-t pt-8 sm:flex-row sm:items-center sm:justify-between"
                 >
-                    <p>
+                    <p className="text-muted-foreground text-xs">
                         © {currentYear} {footerData.brand.name}. All rights reserved.
                     </p>
+                    <p className="text-muted-foreground text-xs">{footerData.location}</p>
                 </motion.div>
             </motion.div>
         </footer>

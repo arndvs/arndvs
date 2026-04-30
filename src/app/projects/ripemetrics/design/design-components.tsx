@@ -10,7 +10,6 @@ import Link from "next/link";
 import { AnimatedCounter } from "@/components/animated-counter";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
 import type {
@@ -226,8 +225,8 @@ export function FigmaEmbedFrame({ embed }: { embed: FigmaEmbedData }) {
 
     if (error) {
         return (
-            <Card className="overflow-hidden">
-                <CardContent className="bg-muted flex aspect-video items-center justify-center p-6">
+            <div className="border-border overflow-hidden rounded-lg border">
+                <div className="bg-muted flex aspect-video items-center justify-center p-6">
                     <div className="text-center">
                         <p className="text-muted-foreground text-sm">
                             Figma embed requires file sharing permissions
@@ -243,13 +242,13 @@ export function FigmaEmbedFrame({ embed }: { embed: FigmaEmbedData }) {
                             </a>
                         </Button>
                     </div>
-                </CardContent>
-            </Card>
+                </div>
+            </div>
         );
     }
 
     return (
-        <Card className="overflow-hidden">
+        <div className="border-border overflow-hidden rounded-lg border">
             <div className="relative aspect-video">
                 {!loaded && (
                     <div className="bg-muted absolute inset-0 flex items-center justify-center">
@@ -278,7 +277,7 @@ export function FigmaEmbedFrame({ embed }: { embed: FigmaEmbedData }) {
                     <ExternalLink className="h-3 w-3" />
                 </a>
             </div>
-        </Card>
+        </div>
     );
 }
 

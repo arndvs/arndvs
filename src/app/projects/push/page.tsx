@@ -14,14 +14,15 @@ import {
     HeroSection,
     LearningsGrid,
     MetricsSection,
+    ProductionProgress,
     SituationSection,
 } from "./components";
 import { pageData } from "./data";
 
 export const metadata: Metadata = generateSiteMetadata({
-    title: "PUSH — AI Video Short Film",
+    title: "PUSH — AI Video Short Film (In Progress)",
     description:
-        "A comedy short produced entirely with AI generative video — 54-shot prompt library, character consistency pipeline, and a transmedia universe at riseawake.com.",
+        "A comedy short being produced with AI generative video — currently in pre-production with a 55-shot prompt library, character consistency pipeline, and companion transmedia universe.",
     path: "/projects/push",
 });
 
@@ -32,9 +33,9 @@ export default function PushPage() {
             {
                 "@type": "CreativeWork",
                 "@id": `${siteConfig.url}/projects/push/#work`,
-                name: "PUSH — AI Video Short Film",
+                name: "PUSH — AI Video Short Film (In Progress)",
                 description:
-                    "A comedy short produced entirely with AI generative video — 54-shot prompt library, character consistency pipeline, and a transmedia universe at riseawake.com.",
+                    "A comedy short being produced with AI generative video — currently in pre-production with a 55-shot prompt library, character consistency pipeline, and companion transmedia universe.",
                 url: `${siteConfig.url}/projects/push`,
                 author: { "@id": `${siteConfig.url}/#person` },
                 datePublished: "2025-01-01",
@@ -83,6 +84,7 @@ export default function PushPage() {
                 <article className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
                     <BackButton />
                     <HeroSection data={pageData.hero} />
+                    <ProductionProgress />
                     <SituationSection data={pageData.situation} />
                     <ArchitectureSection data={pageData.architecture} />
 

@@ -1,292 +1,216 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Beer, Github, Linkedin, MapPin } from "lucide-react";
+import { ArrowRight, Github, Linkedin } from "lucide-react";
+
+import { useEffect, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
 
 import aaronPint from "@/../public/images/aaron-pint.webp";
+import { AnimatedCounter } from "@/components/animated-counter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { technologiesData } from "@/lib/data/technologies";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
-const pageData = {
-    hero: {
-        title: "Full-Stack Engineer & AI Systems Consultant",
+const heroStats = [
+    { value: 17, suffix: "+", label: "Years Experience" },
+    { value: 50, suffix: "+", label: "Enterprise Clients" },
+    { value: 128, suffix: "K+", label: "Lines of Code" },
+];
+
+const featuredProjects = [
+    {
+        id: "ctrlshft",
+        title: "ctrl+shft",
+        category: "AI Infrastructure",
+        year: "2025",
         description:
-            "8+ years building production software. I founded RipeMetrics — an AI-native customer growth platform — and now design and implement agentic AI systems for businesses that need more than a demo. I also build full-stack applications for clients who need software that actually works.",
-        cta: {
-            primary: { text: "View Projects", href: "/projects", icon: ArrowRight },
-            secondary: { text: "Work with me", href: "/work-with-me", variant: "outline" as const },
-        },
-        image: {
-            src: aaronPint,
-            alt: "Aaron Davis enjoying a birthday pint at Europe\u2019s longest bar in Ireland",
-            caption: "Birthday pint in Dublin, Ireland",
-            location: "Hole in the Wall, Europe\u2019s Longest Pub",
-            icon: Beer,
-            locationIcon: MapPin,
-        },
-    },
-    about: {
-        title: "About",
-        paragraphs: [
-            "I founded RipeMetrics in 2017 and along with the team helped scale it from a prototype to an AI-native customer growth platform. That meant building everything \u2014 React frontends, Node/Python backends, OpenAI integrations, RAG pipelines with Pinecone, and real-time messaging systems processing thousands of interactions daily.",
-            "Right now I\u2019m building agent systems for businesses alongside full-stack client work \u2014 the infrastructure layer that makes AI reliable in production rather than just impressive in a demo.",
-            "I\u2019m most interested in agentic engineering: specialist agent architectures, progressive context loading, and the operational patterns that let AI systems run autonomously at the quality level a real business needs. When the agents handle the repetitive cognitive work, I focus on the architecture and the judgment calls that actually need a human.",
+            "The infrastructure behind my consulting practice. 24 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo.",
+        stats: [
+            { value: "24", label: "Agent Skills" },
+            { value: "100%", label: "Open Source" },
+            { value: "3", label: "AI Runtimes" },
         ],
-        techStack: {
-            title: "Technologies I work with",
-            technologies: technologiesData,
-        },
+        href: "/projects/ctrlshft",
     },
-    featuredProjects: {
-        title: "Featured Projects",
-        viewAllText: "View all",
-        viewAllHref: "/projects",
-        projects: [
-            {
-                id: "ctrlshft",
-                title: "ctrl+shft",
-                description:
-                    "The infrastructure behind my consulting practice. 24 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets \u2014 all from a single dotfiles repo. The same system I implement for clients, open source and in production.",
-                category: "AI Infrastructure / Developer Tools",
-                statusColor: "orange" as const,
-                technologies: [
-                    "Bash",
-                    "TypeScript",
-                    "Node.js",
-                    "Docker",
-                    "Claude Code",
-                    "VS Code Copilot",
-                ],
-                link: "/projects/ctrlshft",
-                linkText: "View case study",
-            },
-            {
-                id: "ripemetrics",
-                title: "RipeMetrics",
-                description:
-                    "AI-native customer growth platform serving 50+ enterprise clients. Reduced customer service costs by 40% through AI automation while maintaining 95%+ system uptime.",
-                category: "AI / SaaS",
-                statusColor: "green" as const,
-                technologies: ["React", "Next.js", "TypeScript", "Redux RTK", "OpenAI", "Pinecone"],
-                link: "/projects/ripemetrics",
-                linkText: "View case study",
-            },
-            {
-                id: "alignsd-wellness",
-                title: "AlignSD Wellness Center",
-                description:
-                    "A 44,000-line healthcare platform serving 5,000+ families \u2014 5 AI integrations, 81 JSON-LD schemas, 158 programmatic pages, and 27 email templates. Built solo.",
-                category: "Healthcare / Web",
-                statusColor: "cyan" as const,
-                technologies: ["Next.js 16", "Sanity v5", "TypeScript", "OpenAI", "React Email"],
-                link: "/projects/align-san-diego-family-chiropractic",
-                linkText: "View case study",
-            },
-            // TODO: Re-enable when Scorpion Percussion project is further along
-            // {
-            //     id: "scorpion-percussion",
-            //     title: "Scorpion Percussion",
-            //     description:
-            //         "E-commerce platform for a percussion instrument brand. Monorepo architecture with shared type-safe API layer and native mobile storefront.",
-            //     category: "E-commerce / Mobile",
-            //     statusColor: "purple" as const,
-            //     technologies: ["Turborepo", "tRPC", "Expo", "React Native", "TypeScript"],
-            // },
-        ],
-    },
-    contact: {
-        title: "Work with me",
+    {
+        id: "ripemetrics",
+        title: "RipeMetrics",
+        category: "AI Platform",
+        year: "2017–2025",
         description:
-            "I design and implement AI agent systems for businesses, and build full-stack applications for clients who need production-grade software.",
-        descriptionCta:
-            "If you\u2019re a business looking to systematize how your team works with AI \u2014 or a developer who needs a technical partner \u2014 let\u2019s talk.",
-        ctaText: "Work with me",
-        ctaHref: "/work-with-me",
-        socialLinks: [
-            { type: "github", text: "GitHub", href: "https://github.com/arndvs", icon: Github },
-            {
-                type: "linkedin",
-                text: "LinkedIn",
-                href: "https://linkedin.com/in/arndvs",
-                icon: Linkedin,
-            },
+            "AI-native customer growth platform serving 50+ enterprise clients. Reduced customer service costs by 40% through AI automation.",
+        stats: [
+            { value: "50+", label: "Enterprise Clients" },
+            { value: "40%", label: "Cost Reduction" },
+            { value: "128K+", label: "Lines of Code" },
         ],
+        href: "/projects/ripemetrics",
     },
-};
-
-interface ProjectCardProps {
-    title: string;
-    description: string;
-    category: string;
-    statusColor: "green" | "blue" | "purple" | "cyan" | "orange";
-    technologies: string[];
-    link?: string;
-    linkText?: string;
-}
-
-interface SocialLinkProps {
-    type: string;
-    text: string;
-    href: string;
-    icon: React.ElementType;
-}
-
-interface TechStackProps {
-    technologies: string[];
-}
-
-const ProjectCard: React.FC<ProjectCardProps> = ({
-    title,
-    description,
-    category,
-    statusColor,
-    technologies,
-    link,
-    linkText,
-}) => {
-    const { cardVariants } = useAnimationVariants();
-    const statusColorMap = {
-        green: "bg-green-500",
-        blue: "bg-blue-500",
-        purple: "bg-purple-500",
-        cyan: "bg-cyan-500",
-        orange: "bg-orange-500",
-    };
-
-    return (
-        <motion.div variants={cardVariants}>
-            <Card className="group hover:border-primary/50 overflow-hidden transition-all">
-                <CardHeader>
-                    <div className="mb-2 flex items-center gap-2">
-                        <div className={`h-2 w-2 rounded-full ${statusColorMap[statusColor]}`} />
-                        <span className="text-muted-foreground text-xs font-medium">
-                            {category}
-                        </span>
-                    </div>
-                    <CardTitle className="text-2xl">{title}</CardTitle>
-                    <CardDescription className="text-base leading-relaxed">
-                        {description}
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                        {technologies.map((tech) => (
-                            <span
-                                key={tech}
-                                className="bg-secondary rounded-md px-2 py-1 text-xs font-medium"
-                            >
-                                {tech}
-                            </span>
-                        ))}
-                    </div>
-
-                    {link && (
-                        <Button asChild variant="link" className="mt-4 p-0">
-                            <Link href={link}>
-                                {linkText} <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
-                    )}
-                </CardContent>
-            </Card>
-        </motion.div>
-    );
-};
-
-const SocialLink: React.FC<SocialLinkProps> = ({ text, href, icon: Icon }) => {
-    return (
-        <Button asChild size="lg" variant="outline">
-            <a href={href} target="_blank" rel="noopener noreferrer">
-                <Icon className="mr-2 h-4 w-4" />
-                {text}
-            </a>
-        </Button>
-    );
-};
-
-const TechStack: React.FC<TechStackProps> = ({ technologies }) => {
-    const { itemVariants } = useAnimationVariants();
-
-    return (
-        <div className="flex flex-wrap gap-2">
-            {technologies.map((tech) => (
-                <motion.span
-                    key={tech}
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-                    className="bg-secondary rounded-md px-3 py-1 text-sm font-medium"
-                >
-                    {tech}
-                </motion.span>
-            ))}
-        </div>
-    );
-};
+    {
+        id: "alignsd-wellness",
+        title: "AlignSD Wellness Center",
+        category: "Healthcare",
+        year: "2024–2025",
+        description:
+            "A 44,000-line healthcare platform serving 5,000+ families — 5 AI integrations, 81 JSON-LD schemas, 158 programmatic pages, and 27 email templates.",
+        stats: [
+            { value: "44K+", label: "Lines of Code" },
+            { value: "5K+", label: "Families Served" },
+            { value: "81", label: "JSON-LD Schemas" },
+        ],
+        href: "/projects/align-san-diego-family-chiropractic",
+    },
+];
 
 export default function HomeContent() {
     const { containerVariants, itemVariants } = useAnimationVariants();
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const frame = requestAnimationFrame(() => setIsVisible(true));
+        return () => cancelAnimationFrame(frame);
+    }, []);
 
     return (
-        <main className="min-h-screen pt-16">
-            {/* Hero -- instant render, no Framer Motion (above-the-fold) */}
+        <main className="min-h-screen">
+            {/* Hero — editorial full-viewport with watermark */}
             <section
-                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
+                className="relative flex min-h-[100vh] items-center overflow-hidden"
                 aria-label="Hero section"
             >
-                <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-                    {/* Content Column */}
-                    <div>
-                        <h1 className="text-5xl font-bold tracking-tight text-balance lg:text-7xl">
-                            {pageData.hero.title}
-                        </h1>
-                        <p className="text-muted-foreground mt-6 text-2xl leading-relaxed text-pretty">
-                            {pageData.hero.description}
-                        </p>
-                        <div className="mt-10 flex items-center gap-4">
-                            <Button asChild size="lg">
-                                <Link href={pageData.hero.cta.primary.href}>
-                                    {pageData.hero.cta.primary.text}{" "}
-                                    <pageData.hero.cta.primary.icon className="ml-2 h-4 w-4" />
-                                </Link>
-                            </Button>
-                            <Button asChild size="lg" variant={pageData.hero.cta.secondary.variant}>
-                                <Link href={pageData.hero.cta.secondary.href}>
-                                    {pageData.hero.cta.secondary.text}
-                                </Link>
-                            </Button>
-                        </div>
-                    </div>
+                {/* Background watermark */}
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden select-none"
+                >
+                    <span
+                        className="font-display text-foreground/[0.02] text-[25vw] font-black tracking-tighter whitespace-nowrap"
+                        style={{
+                            transform: isVisible ? "translateX(0)" : "translateX(-100px)",
+                            opacity: isVisible ? 1 : 0,
+                            transition: "all 1.5s cubic-bezier(0.16, 1, 0.3, 1)",
+                        }}
+                    >
+                        AARON DAVIS
+                    </span>
+                </div>
 
-                    {/* Image Column */}
-                    <div>
-                        <div className="relative aspect-4/5 overflow-hidden rounded-2xl shadow-xl">
-                            <Image
-                                alt={pageData.hero.image.alt}
-                                src={pageData.hero.image.src}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 100vw, 50vw"
-                                priority
-                            />
-                            <div className="absolute right-4 bottom-4 left-4 z-20 rounded-xl border border-white/20 bg-black/60 p-4 backdrop-blur-md md:right-6 md:bottom-6 md:left-6">
-                                <div className="flex items-start gap-3">
-                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500/20">
-                                        <pageData.hero.image.icon className="h-5 w-5 text-amber-400" />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-semibold text-white">
-                                            {pageData.hero.image.caption}
-                                        </p>
-                                        <div className="mt-1 flex items-center gap-1 text-xs text-white/70">
-                                            <pageData.hero.image.locationIcon className="h-3 w-3" />
-                                            <span>{pageData.hero.image.location}</span>
+                <div className="relative z-10 w-full px-6 py-20 lg:px-12 xl:px-20">
+                    <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
+                        {/* Content */}
+                        <div>
+                            <div
+                                style={{
+                                    transform: isVisible ? "translateY(0)" : "translateY(40px)",
+                                    opacity: isVisible ? 1 : 0,
+                                    transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
+                                }}
+                            >
+                                <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                                    Full-Stack Engineer & AI Systems
+                                </span>
+                            </div>
+
+                            <h1
+                                className="font-display mt-6 text-5xl leading-[0.95] font-black tracking-tight sm:text-6xl lg:text-7xl xl:text-8xl"
+                                style={{
+                                    transform: isVisible ? "translateY(0)" : "translateY(50px)",
+                                    opacity: isVisible ? 1 : 0,
+                                    transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
+                                }}
+                            >
+                                <span className="text-foreground">Building</span>
+                                <br />
+                                <span className="text-gradient">Production AI</span>
+                            </h1>
+
+                            <p
+                                className="text-muted-foreground mt-8 max-w-xl text-lg leading-relaxed lg:text-xl"
+                                style={{
+                                    transform: isVisible ? "translateY(0)" : "translateY(30px)",
+                                    opacity: isVisible ? 1 : 0,
+                                    transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
+                                }}
+                            >
+                                17 years building production software. Founded and built RipeMetrics
+                                — an AI-native customer experience platform — over 8 years. Now I
+                                design and implement agentic AI systems for businesses that need
+                                more than a demo.
+                            </p>
+
+                            <div
+                                className="mt-10 flex flex-wrap items-center gap-4"
+                                style={{
+                                    transform: isVisible ? "translateY(0)" : "translateY(30px)",
+                                    opacity: isVisible ? 1 : 0,
+                                    transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s",
+                                }}
+                            >
+                                <Button asChild size="lg" className="group">
+                                    <Link href="/projects">
+                                        View Projects
+                                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                    </Link>
+                                </Button>
+                                <Button asChild variant="outline" size="lg">
+                                    <Link href="/work-with-me">Work with me</Link>
+                                </Button>
+                            </div>
+
+                            {/* Stats */}
+                            <div
+                                className="mt-16 grid grid-cols-3 gap-8"
+                                style={{
+                                    transform: isVisible ? "translateY(0)" : "translateY(30px)",
+                                    opacity: isVisible ? 1 : 0,
+                                    transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s",
+                                }}
+                            >
+                                {heroStats.map((stat) => (
+                                    <div key={stat.label}>
+                                        <div className="font-display text-primary text-3xl font-black lg:text-4xl">
+                                            <AnimatedCounter
+                                                value={stat.value}
+                                                suffix={stat.suffix}
+                                                className="stat-number"
+                                            />
+                                        </div>
+                                        <div className="text-muted-foreground mt-1 text-xs font-medium tracking-wide uppercase">
+                                            {stat.label}
                                         </div>
                                     </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Image */}
+                        <div
+                            className="relative"
+                            style={{
+                                transform: isVisible
+                                    ? "translateY(0) scale(1)"
+                                    : "translateY(60px) scale(0.95)",
+                                opacity: isVisible ? 1 : 0,
+                                transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s",
+                            }}
+                        >
+                            <div className="bg-card relative aspect-4/5 overflow-hidden rounded-2xl">
+                                <Image
+                                    alt="Aaron Davis"
+                                    src={aaronPint}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    priority
+                                />
+                                <div className="bg-background/80 border-border absolute right-6 bottom-6 left-6 rounded-xl border p-4 backdrop-blur-md">
+                                    <p className="text-sm font-medium">Based in San Diego, CA</p>
+                                    <p className="text-muted-foreground mt-1 text-xs">
+                                        Working with clients worldwide
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -294,33 +218,21 @@ export default function HomeContent() {
                 </div>
             </section>
 
-            {/* About Section */}
-            <motion.section
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={containerVariants}
-                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
-                aria-label="About Aaron Davis"
-            >
-                <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
-                    {pageData.about.title}
-                </motion.h2>
-                <div className="mt-8 grid gap-8 lg:grid-cols-2">
-                    <motion.div
-                        variants={itemVariants}
-                        className="text-muted-foreground space-y-4 text-lg leading-relaxed"
-                    >
-                        {pageData.about.paragraphs.map((paragraph, index) => (
-                            <p key={index}>{paragraph}</p>
+            {/* Technologies — border-style pills */}
+            <section className="border-border border-t py-20" aria-label="Technologies">
+                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                    <div className="flex flex-wrap gap-3">
+                        {technologiesData.map((tech) => (
+                            <span
+                                key={tech}
+                                className="border-border hover:border-primary/50 hover:text-primary rounded-full border px-4 py-2 text-sm font-medium transition-colors"
+                            >
+                                {tech}
+                            </span>
                         ))}
-                    </motion.div>
-                    <motion.div variants={itemVariants} className="space-y-4">
-                        <h3 className="text-xl font-semibold">{pageData.about.techStack.title}</h3>
-                        <TechStack technologies={pageData.about.techStack.technologies} />
-                    </motion.div>
+                    </div>
                 </div>
-            </motion.section>
+            </section>
 
             {/* Featured Projects */}
             <motion.section
@@ -328,59 +240,133 @@ export default function HomeContent() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
+                className="py-24 lg:py-32"
                 aria-label="Featured projects"
             >
-                <motion.div variants={itemVariants} className="flex items-center justify-between">
-                    <h2 className="text-3xl font-bold tracking-tight">
-                        {pageData.featuredProjects.title}
-                    </h2>
-                    <Button asChild variant="ghost">
-                        <Link href={pageData.featuredProjects.viewAllHref}>
-                            {pageData.featuredProjects.viewAllText}{" "}
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
-                </motion.div>
-                <motion.div variants={containerVariants} className="mt-8 grid gap-6 md:grid-cols-2">
-                    {pageData.featuredProjects.projects.map((project) => (
-                        <ProjectCard key={project.id} {...project} />
-                    ))}
-                </motion.div>
-            </motion.section>
-
-            {/* Contact Section */}
-            <motion.section
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={containerVariants}
-                className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24"
-                aria-label="Contact information"
-            >
-                <motion.div
-                    variants={itemVariants}
-                    className="border-border bg-card rounded-lg border p-8 lg:p-12"
-                >
-                    <h2 className="text-3xl font-bold tracking-tight">{pageData.contact.title}</h2>
-                    <p className="text-muted-foreground mt-4 text-lg">
-                        {pageData.contact.description}
-                    </p>
-                    <p className="text-muted-foreground mt-2 text-lg">
-                        {pageData.contact.descriptionCta}
-                    </p>
-                    <div className="mt-8 flex flex-wrap gap-4">
-                        <Button asChild size="lg">
-                            <Link href={pageData.contact.ctaHref}>
-                                {pageData.contact.ctaText} <ArrowRight className="ml-2 h-4 w-4" />
+                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                    <motion.div
+                        variants={itemVariants}
+                        className="mb-16 flex items-end justify-between"
+                    >
+                        <div>
+                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                                Selected Work
+                            </span>
+                            <h2 className="font-display mt-4 text-4xl font-bold tracking-tight lg:text-5xl">
+                                Featured Projects
+                            </h2>
+                        </div>
+                        <Button asChild variant="ghost" className="group hidden md:flex">
+                            <Link href="/projects">
+                                View all
+                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                             </Link>
                         </Button>
-                        {pageData.contact.socialLinks.map((link) => (
-                            <SocialLink key={link.type} {...link} />
+                    </motion.div>
+
+                    <div className="space-y-8">
+                        {featuredProjects.map((project, index) => (
+                            <motion.div key={project.id} variants={itemVariants}>
+                                <Link href={project.href} className="group block">
+                                    <article className="border-border bg-card hover:border-primary/30 rounded-2xl border p-8 transition-all duration-300 lg:p-12">
+                                        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                                            <div className="flex-1">
+                                                <div className="text-muted-foreground flex items-center gap-4 text-sm">
+                                                    <span className="font-mono">
+                                                        {String(index + 1).padStart(2, "0")}
+                                                    </span>
+                                                    <span>{project.category}</span>
+                                                    <span className="text-border">|</span>
+                                                    <span>{project.year}</span>
+                                                </div>
+                                                <h3 className="font-display group-hover:text-primary mt-4 text-3xl font-bold tracking-tight transition-colors lg:text-4xl">
+                                                    {project.title}
+                                                </h3>
+                                                <p className="text-muted-foreground mt-4 max-w-2xl leading-relaxed">
+                                                    {project.description}
+                                                </p>
+                                            </div>
+                                            <div className="text-muted-foreground group-hover:text-primary flex items-center gap-2 text-sm font-medium transition-colors lg:pt-8">
+                                                View project
+                                                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                            </div>
+                                        </div>
+
+                                        <div className="border-border mt-8 grid grid-cols-3 gap-8 border-t pt-8">
+                                            {project.stats.map((stat) => (
+                                                <div key={stat.label}>
+                                                    <div className="font-display text-primary text-2xl font-bold lg:text-3xl">
+                                                        {stat.value}
+                                                    </div>
+                                                    <div className="text-muted-foreground mt-1 text-xs font-medium tracking-wide uppercase">
+                                                        {stat.label}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </article>
+                                </Link>
+                            </motion.div>
                         ))}
                     </div>
-                </motion.div>
+
+                    <div className="mt-8 md:hidden">
+                        <Button asChild variant="outline" className="w-full">
+                            <Link href="/projects">
+                                View all projects
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </div>
+                </div>
             </motion.section>
+
+            {/* CTA */}
+            <section
+                className="border-border border-t py-24 lg:py-32"
+                aria-label="Contact information"
+            >
+                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                    <div className="max-w-3xl">
+                        <h2 className="font-display text-4xl font-bold tracking-tight lg:text-5xl">
+                            Let&apos;s build something{" "}
+                            <span className="text-gradient">together</span>
+                        </h2>
+                        <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
+                            I design and implement AI agent systems for businesses, and build
+                            full-stack applications for clients who need production-grade software.
+                        </p>
+                        <div className="mt-10 flex flex-wrap items-center gap-4">
+                            <Button asChild size="lg" className="group">
+                                <Link href="/work-with-me">
+                                    Work with me
+                                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                </Link>
+                            </Button>
+                            <Button asChild variant="outline" size="lg">
+                                <a
+                                    href="https://github.com/arndvs"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Github className="mr-2 h-4 w-4" />
+                                    GitHub
+                                </a>
+                            </Button>
+                            <Button asChild variant="outline" size="lg">
+                                <a
+                                    href="https://linkedin.com/in/arndvs"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Linkedin className="mr-2 h-4 w-4" />
+                                    LinkedIn
+                                </a>
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     );
 }
