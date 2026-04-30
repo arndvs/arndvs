@@ -87,7 +87,7 @@ export const pageData: PageData = {
         },
         title: "RipeMetrics",
         description:
-            "AI-native customer growth platform — 128K+ lines of frontend, 880 components, and a production RAG pipeline serving 50+ enterprise clients across chat, SMS, email, and voice channels.",
+            "AI-native customer growth platform spanning 8 repositories — 880+ components, a production RAG pipeline, and multi-channel AI across chat, SMS, email, and voice.",
     },
     overview: {
         role: {
@@ -120,7 +120,7 @@ export const pageData: PageData = {
     challenge: {
         title: "The Challenge",
         description:
-            "RipeMetrics needed to evolve from a server-rendered Laravel Livewire monolith into a modern React SaaS platform — without disrupting 50+ paying enterprise clients. The product also needed AI-powered customer service across four channels (chat, SMS, email, voice), an onboarding flow that replaced a 30-minute manual setup with a sub-60-second automated process, and a full CRM with drag-and-drop pipelines, scheduling, and omni-channel messaging.",
+            "RipeMetrics needed to evolve from a server-rendered Laravel Livewire monolith into a modern React SaaS platform — without disrupting active paying clients. The product also needed AI-powered customer service across four channels (chat, SMS, email, voice), an onboarding flow that replaced a 30-minute manual setup with a sub-60-second automated process, and a full CRM with drag-and-drop pipelines, scheduling, and omni-channel messaging.",
     },
     solution: {
         title: "The Solution",
@@ -131,7 +131,7 @@ export const pageData: PageData = {
                 id: "saas-platform",
                 title: "Enterprise SaaS Platform",
                 description:
-                    "128K+ LOC Next.js application with CRM (drag-and-drop kanban, 6-channel messaging, polymorphic timeline), Engage (campaign builder, customer segmentation, NPS dashboards), and Intel (40+ Highcharts analytics visualizations with AI-generated business insights).",
+                    "Multi-repo SaaS platform with a 128K+ LOC Next.js core application: CRM (drag-and-drop kanban, 6-channel messaging, polymorphic timeline), Engage (campaign builder, customer segmentation, NPS dashboards), and Intel (40+ Highcharts analytics visualizations with AI-generated business insights).",
             },
             {
                 id: "ai-chatbot",
@@ -162,9 +162,9 @@ export const pageData: PageData = {
     impact: {
         title: "Impact",
         metrics: [
-            { value: "128K+", label: "Lines of frontend code shipped" },
+            { value: "8", label: "Repositories across the platform" },
             { value: "880", label: "React components built" },
-            { value: "50+", label: "Enterprise clients served" },
+            { value: "4", label: "AI channels (chat, SMS, email, voice)" },
         ],
     },
     architectureDiagramKey: "systemArchitecture",
@@ -174,7 +174,7 @@ export const pageData: PageData = {
             title: "Laravel → React Migration",
             subtitle: "Refactoring a Monolith Without Downtime",
             problem:
-                "The original platform was built on Laravel Livewire — server-rendered components with limited interactivity. As the product grew to 50+ clients, Livewire's round-trip model added 6+ seconds to common dashboard interactions. Real-time features like live chat and streaming AI responses were impossible without a fundamental architecture change.",
+                "The original platform was built on Laravel Livewire — server-rendered components with limited interactivity. As the product grew, Livewire's round-trip model added 6+ seconds to common dashboard interactions. Real-time features like live chat and streaming AI responses were impossible without a fundamental architecture change.",
             diagramKey: "migrationTimeline",
             walkthrough: [
                 "I audited every Livewire component and mapped them to React equivalents, prioritizing the highest-traffic surfaces first: the analytics dashboard (40+ charts), the chat interface, and the CRM pipeline views.",
@@ -192,7 +192,7 @@ export const pageData: PageData = {
             title: "AI Chatbot & Voice AI Architecture",
             subtitle: "Multi-Tenant RAG with Dual-LLM Failover",
             problem:
-                "Each client needed a chatbot that understood their specific business — not a generic GPT wrapper. The system had to isolate each client's knowledge base, support real-time responses across four channels (chat, SMS, email, voice), maintain conversation history, and scale to handle concurrent sessions across 50+ tenants without cross-contamination of context.",
+                "Each client needed a chatbot that understood their specific business — not a generic GPT wrapper. The system had to isolate each client's knowledge base, support real-time responses across four channels (chat, SMS, email, voice), maintain conversation history, and scale to handle concurrent multi-tenant sessions without cross-contamination of context.",
             diagramKey: "chatbotArchitecture",
             walkthrough: [
                 "Each client's website content, FAQs, and documentation gets embedded via OpenAI's text-embedding-ada-002 and stored in a namespaced Pinecone index. Namespaces provide hard tenant isolation — one client's vectors never appear in another's search results.",
@@ -210,7 +210,7 @@ export const pageData: PageData = {
             title: "AI-Powered Client Onboarding",
             subtitle: "From 30 Minutes to Under 60 Seconds",
             problem:
-                "Onboarding a new client required manually copying their website content, writing chatbot training data, configuring hours and contact info, and building the knowledge base. At 50+ clients, this 30-minute manual process consumed entire days and was the primary bottleneck to scaling the business.",
+                "Onboarding a new client required manually copying their website content, writing chatbot training data, configuring hours and contact info, and building the knowledge base. This 30-minute manual process consumed entire days and was the primary bottleneck to scaling the business.",
             diagramKey: "onboardingPipeline",
             walkthrough: [
                 "The frontend onboarding wizard is a multi-phase flow built with React — it collects the client's URL, then shows real-time extraction progress via Pusher WebSocket events. An animated beam visualization gives users visual feedback as each extraction step completes.",
@@ -253,7 +253,7 @@ export const pageData: PageData = {
             decision: "Dual-LLM failover (OpenAI ↔ Anthropic)",
             alternatives: "Single provider, manual fallback, queue-and-retry",
             reasoning:
-                "The LLMClient automatically tries Anthropic Claude 3 Opus if OpenAI fails, and vice versa. For a customer-facing chatbot serving 50+ businesses, downtime means lost revenue for our clients. The dual-provider architecture cost minimal additional complexity (same prompt format, same streaming interface) but eliminated single-provider outage risk entirely.",
+                "The LLMClient automatically tries Anthropic Claude 3 Opus if OpenAI fails, and vice versa. For a customer-facing chatbot where downtime means lost revenue for clients, the dual-provider architecture cost minimal additional complexity (same prompt format, same streaming interface) but eliminated single-provider outage risk entirely.",
         },
         {
             decision: "usePageType() for settings/onboarding reuse",
@@ -282,7 +282,7 @@ export const pageData: PageData = {
             {
                 heading: "Frontend Architecture",
                 content:
-                    "Built the complete 128K+ LOC Next.js 14 SaaS application: CRM with drag-and-drop kanban (react-beautiful-dnd), polymorphic timeline (7 item types), and 6-channel messaging. Engage module with Unlayer campaign builder, customer segmentation, NPS dashboards, and landing page studio. 41 Redux slices and 53 RTK Query services with ~75 cache invalidation tags power the data layer across 85 routes.",
+                    "Built the 128K+ LOC Next.js 14 core application plus 7 supporting repos (reputation app, marketing site, extractors, embeddable widgets, changelog, WP plugin). The core app spans CRM with drag-and-drop kanban (react-beautiful-dnd), polymorphic timeline (7 item types), and 6-channel messaging. Engage module with Unlayer campaign builder, customer segmentation, NPS dashboards, and landing page studio. 41 Redux slices and 53 RTK Query services with ~75 cache invalidation tags power the data layer across 85 routes.",
             },
             {
                 heading: "AI & Voice Engineering",
@@ -305,9 +305,9 @@ export const pageData: PageData = {
         title: "Key Achievements",
         items: [
             {
-                title: "128K+ Line SaaS Frontend",
+                title: "Multi-Repo SaaS Platform",
                 description:
-                    "Built the complete SaaS platform: 880 components, 85 routes, 41 Redux slices, 53 RTK Query services — CRM, Engage, Intel, Settings, Onboarding, and Email modules.",
+                    "Built 8 repositories: 128K+ LOC core app (880 components, 85 routes, 41 Redux slices, 53 RTK Query services), reputation app (Laravel/Inertia/React), marketing site (Next.js, 80+ components), Preact widget system, TypeScript extraction pipeline, changelog, and WordPress plugin.",
             },
             {
                 title: "30-Minute to 60-Second Onboarding",
@@ -332,7 +332,7 @@ export const pageData: PageData = {
             {
                 title: "Zero-Downtime Migration",
                 description:
-                    "Migrated 50+ enterprise clients from Laravel Livewire to React over 3 months using feature flags — per-client rollout with zero downtime incidents.",
+                    "Migrated all clients from Laravel Livewire to React over 3 months using feature flags — per-client rollout with zero downtime incidents.",
             },
             {
                 title: "Voice AI Integration",
@@ -344,7 +344,7 @@ export const pageData: PageData = {
     conclusion: {
         title: "Results",
         description:
-            "As Lead Frontend Developer & AI Engineer, I built the complete 128K+ line React frontend (880 components, 85 routes) and the production RAG pipeline serving 50+ enterprise clients. The AI-powered onboarding reduced a 30-minute manual process to under 60 seconds. The multi-channel AI system handles customer interactions across chat, SMS, email, and voice — with dual-LLM failover ensuring zero-downtime AI service.",
+            "As Lead Frontend Developer & AI Engineer, I built a multi-repo platform spanning 8 repositories — a 128K+ LOC React core app (880 components, 85 routes), consumer-facing reputation app, marketing site, embeddable Preact widgets, TypeScript extraction pipeline, and the production RAG pipeline. The AI-powered onboarding reduced a 30-minute manual process to under 60 seconds. The multi-channel AI system handles customer interactions across chat, SMS, email, and voice — with dual-LLM failover ensuring zero-downtime AI service.",
         cta: {
             secondary: { text: "View More Projects", href: "/projects" },
         },
