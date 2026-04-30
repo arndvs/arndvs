@@ -37,7 +37,7 @@ export default function RiseAwakePage() {
                     "A 41-route Next.js 16 application operating as a fictional corporate website — Sanity v5, Convex, Clerk, 22 internal documents, and a transmedia universe.",
                 url: `${siteConfig.url}/projects/rise-awake`,
                 author: { "@id": `${siteConfig.url}/#person` },
-                datePublished: "2025-01-01",
+                datePublished: "2026-01-01",
                 keywords: [
                     "Next.js 16",
                     "React 19",

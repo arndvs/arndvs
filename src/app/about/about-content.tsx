@@ -31,9 +31,9 @@ const journey = [
     },
     {
         period: "2025-Present",
-        title: "AI Engineer & Open Source",
+        title: "Full-Stack Engineer & Creative Technologist",
         description:
-            "Building ctrl+shft — open source infrastructure for AI coding agents. Deep into agentic engineering, custom Claude Code skills, and deliberate human-in-the-loop patterns. Also shipping freelance projects with AI integrations.",
+            "Building ctrl+shft — open source infrastructure for AI coding agents. Shipping freelance projects with AI integrations. Exploring the intersection of software, music, and spatial computing with PUSH and RISE Awake.",
     },
 ];
 
@@ -194,7 +194,7 @@ export default function AboutContent() {
                             }}
                         >
                             Full-stack engineer.{" "}
-                            <span className="text-gradient">AI systems builder.</span>
+                            <span className="text-gradient">Creative technologist.</span>
                         </h1>
 
                         <p
@@ -208,9 +208,9 @@ export default function AboutContent() {
                             Based in San Diego. I&apos;ve been doing freelance web development since
                             2010. In 2017 I founded RipeMetrics — an AI-powered marketing automation
                             and customer experience platform — and scaled it to 50+ enterprise
-                            clients over 8 years. Now I build production software and agentic AI
-                            systems, with strong instincts for where conversational interfaces
-                            belong and where a button is still the right answer.
+                            clients over 8 years. Now I build production software and creative
+                            technology projects, with strong instincts for where AI belongs and
+                            where a button is still the right answer.
                         </p>
                     </div>
                 </div>

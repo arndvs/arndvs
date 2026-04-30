@@ -162,7 +162,7 @@ export function buildServicePageJsonLd(service: Service, org: Organization) {
         block("h3", "Why It Matters"),
         block(
             "normal",
-            "Medical content includes ICD-10 and SNOMED-CT codes on condition pages — details that traditional CMS setups skip entirely. The structured data validates clean in Google Rich Results Test across all 158 pages.",
+            "Medical content includes ICD-10 and SNOMED-CT codes on condition pages — details that traditional CMS setups skip entirely. The structured data validates clean in Google Rich Results Test across all 203 pages.",
         ),
 
         // ── Revalidation ──

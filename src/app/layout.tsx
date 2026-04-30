@@ -38,11 +38,11 @@ const outfit = Outfit({
 export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.url),
     title: {
-        default: "Aaron Davis - Full-Stack Engineer & AI Systems Consultant",
+        default: "Aaron Davis - Full-Stack Engineer & Creative Technologist",
         template: "%s | Aaron Davis",
     },
     description:
-        "Full-stack engineer and AI systems consultant based in San Diego. Founded RipeMetrics (50+ enterprise clients), built a 44k-line healthcare platform with 5 AI integrations. AI agent architecture, React, Next.js, TypeScript, OpenAI, RAG systems.",
+        "Full-stack engineer and creative technologist based in San Diego. Founded RipeMetrics (50+ enterprise clients), built a 277k-line healthcare platform with 5 AI integrations. React, Next.js, TypeScript, AI systems, OpenAI, RAG. Available for contract.",
     keywords: [
         "Full Stack Developer",
         "Software Engineer",
@@ -62,9 +62,9 @@ export const metadata: Metadata = {
         locale: "en_US",
         url: siteConfig.url,
         siteName: "Aaron Davis Portfolio",
-        title: "Aaron Davis - Full Stack Software Engineer & AI Specialist",
+        title: "Aaron Davis - Full-Stack Engineer & Creative Technologist",
         description:
-            "Full-stack engineer and AI builder. Founded RipeMetrics (50+ enterprise clients), built healthcare platforms with AI integrations. React, Next.js, TypeScript.",
+            "Full-stack engineer and creative technologist. Founded RipeMetrics (50+ enterprise clients), built healthcare platforms with AI integrations. React, Next.js, TypeScript.",
         images: [
             {
                 url: "/images/og-image.jpg",
@@ -76,9 +76,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Aaron Davis - Full Stack Software Engineer",
+        title: "Aaron Davis - Full-Stack Engineer & Creative Technologist",
         description:
-            "Full-stack engineer and AI builder. Founded RipeMetrics (50+ enterprise clients), built healthcare platforms with AI integrations.",
+            "Full-stack engineer and creative technologist. Founded RipeMetrics (50+ enterprise clients), built healthcare platforms with AI integrations.",
         images: ["/images/og-image.jpg"],
     },
     robots: {

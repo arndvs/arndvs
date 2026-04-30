@@ -28,7 +28,7 @@ export const pageData: PageData<DiagramKey> = {
         ],
         context: {
             role: "Writer, Director & Creative Technologist",
-            timeline: "2025 – Present (Pre-production)",
+            timeline: "2026 – Present (Pre-production)",
             client: "Personal Creative IP",
             live: "riseawake.com",
             stack: [
@@ -125,12 +125,12 @@ export const pageData: PageData<DiagramKey> = {
             title: "Character Consistency Pipeline",
             subtitle: "Solving AI Video's Hardest Problem with Reference Sheets",
             problem:
-                "AI video tools generate characters that look different in every shot. Hair color shifts, clothing changes, facial features drift. A 54-shot film needs a character who looks recognizably like the same person across bedroom, bathroom, car, and office environments with different lighting conditions.",
+                "AI video tools generate characters that look different in every shot. Hair color shifts, clothing changes, facial features drift. A 55-shot film needs a character who looks recognizably like the same person across bedroom, bathroom, car, and office environments with different lighting conditions.",
             diagramKey: "characterConsistency",
             walkthrough: [
                 "The pipeline starts with Nano Banana Pro for generating multi-angle character reference sheets — front, 3/4, side, and back views of Dave, Marcus, and Karen in their film wardrobe. These sheets establish the canonical appearance that all subsequent generation must match.",
                 "T-pose reference images extracted from the character sheets provide a neutral-pose baseline that Seedance 2.0 uses as a consistency anchor. The same reference drives generation across all environments, so Dave's rumpled shirt and geometric hair remain stable whether he's in bedroom lighting or fluorescent office light.",
-                "Each shot prompt in the 54-shot library includes character appearance notes that reference the canonical sheet. 'Dave — see character sheet CS-DAVE-01' rather than re-describing his appearance from scratch, reducing drift between the prompt's description and the reference image.",
+                "Each shot prompt in the 55-shot library includes character appearance notes that reference the canonical sheet. 'Dave — see character sheet CS-DAVE-01' rather than re-describing his appearance from scratch, reducing drift between the prompt's description and the reference image.",
                 "Quality control runs three checks per generated clip: character consistency against the reference sheet, lighting match against the target environment, and motion continuity with adjacent shots in the sequence.",
             ],
             insight: {
@@ -198,7 +198,7 @@ export const pageData: PageData<DiagramKey> = {
             alternatives:
                 "Prompt-and-iterate approach — generate footage first, build story around what works",
             reasoning:
-                "AI video tools produce better results with specific, engineered prompts than with vague creative direction. A 54-shot library with camera angles, durations, character references, and lighting notes gives the AI a production brief, not a wish. The prop bible and design memo prevent the kind of drift that makes AI video feel like a tech demo.",
+                "AI video tools produce better results with specific, engineered prompts than with vague creative direction. A 55-shot library with camera angles, durations, character references, and lighting notes gives the AI a production brief, not a wish. The prop bible and design memo prevent the kind of drift that makes AI video feel like a tech demo.",
         },
         {
             decision: "Six golden rules for environmental integration",
