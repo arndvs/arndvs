@@ -1,13 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Mail, X } from "lucide-react";
+import { ArrowRight, Check, X } from "lucide-react";
 
 import { useEffect, useState } from "react";
 
 import Link from "next/link";
 
 import { AnimatedCounter } from "@/components/animated-counter";
+import { ContactForm } from "@/components/contact-form";
 import { Button } from "@/components/ui/button";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
@@ -190,12 +191,7 @@ export default function WorkWithMeContent() {
                                 transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s",
                             }}
                         >
-                            <Button asChild size="lg" className="group">
-                                <a href="mailto:aaron@arndvs.com?subject=Let%27s%20Work%20Together">
-                                    <Mail className="mr-2 h-4 w-4" />
-                                    Get in touch
-                                </a>
-                            </Button>
+                            <ContactForm triggerSize="lg" showIcon />
                             <Button asChild variant="outline" size="lg" className="group">
                                 <Link href="/projects">
                                     See my work
@@ -466,12 +462,7 @@ export default function WorkWithMeContent() {
                             I&apos;ll point you toward what would work instead.
                         </p>
                         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                            <Button asChild size="lg" className="group">
-                                <a href="mailto:aaron@arndvs.com?subject=Let%27s%20Work%20Together">
-                                    <Mail className="mr-2 h-4 w-4" />
-                                    aaron@arndvs.com
-                                </a>
-                            </Button>
+                            <ContactForm triggerSize="lg" showIcon />
                             <Button asChild variant="outline" size="lg" className="group">
                                 <a
                                     href="https://linkedin.com/in/arndvs"
