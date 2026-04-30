@@ -154,7 +154,10 @@ export default function AboutContent() {
         <main className="min-h-screen">
             {/* Hero */}
             <section className="relative flex min-h-[70vh] items-end overflow-hidden pb-20">
-                <div className="pointer-events-none absolute inset-0 flex items-center justify-center select-none">
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 flex items-center justify-center select-none"
+                >
                     <span
                         className="font-display text-foreground/[0.02] text-[20vw] font-black tracking-tighter"
                         style={{

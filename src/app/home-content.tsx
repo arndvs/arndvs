@@ -81,7 +81,10 @@ export default function HomeContent() {
                 aria-label="Hero section"
             >
                 {/* Background watermark */}
-                <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden select-none">
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden select-none"
+                >
                     <span
                         className="font-display text-foreground/[0.02] text-[25vw] font-black tracking-tighter whitespace-nowrap"
                         style={{

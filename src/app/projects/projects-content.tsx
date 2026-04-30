@@ -258,13 +258,16 @@ export default function ProjectsContent() {
                                             {/* External link */}
                                             {project.link && (
                                                 <div className="mt-6">
-                                                    <span
+                                                    <a
+                                                        href={project.link}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
                                                         className="text-muted-foreground hover:text-primary inline-flex items-center gap-2 text-sm transition-colors"
                                                         onClick={(e) => e.stopPropagation()}
                                                     >
                                                         <ExternalLink className="h-3 w-3" />
                                                         {project.link.replace(/^https?:\/\//, "")}
-                                                    </span>
+                                                    </a>
                                                 </div>
                                             )}
                                         </div>
