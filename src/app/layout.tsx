@@ -101,10 +101,13 @@ export default async function RootLayout({
 }>) {
     const { isEnabled: isDraftMode } = await draftMode();
     return (
-        <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
-            <body
-                className={`font-sans ${dmSans.variable} ${outfit.variable} ${GeistMono.variable} antialiased`}
-            >
+        <html
+            lang="en"
+            suppressHydrationWarning
+            data-scroll-behavior="smooth"
+            className={`${dmSans.variable} ${outfit.variable} ${GeistMono.variable}`}
+        >
+            <body className="font-sans antialiased">
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="dark"
