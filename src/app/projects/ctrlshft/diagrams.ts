@@ -27,11 +27,11 @@ export const diagrams = {
     end
 
     subgraph Skills["43 Skills"]
-        PIPELINE_SKILLS["Pipeline\ngrill-me → write-a-prd →\nprd-to-issues → do-work"]
-        ANALYSIS["Analysis\nexplore · research ·\ncodebase-audit · code-review"]
-        DEV["Development\ntdd · systematic-debugging ·\nimprove-architecture · architect"]
-        META["Meta\nskill-scaffolder · document ·\ncompliance-audit · stress-test"]
-        UX["UX Design (43 skills)\nsketch-the-solution →\n7-phase design process"]
+        PIPELINE_SKILLS["Pipeline\\ngrill-me → write-a-prd →\\nprd-to-issues → do-work"]
+        ANALYSIS["Analysis\\nexplore · research ·\\ncodebase-audit · code-review"]
+        DEV["Development\\ntdd · systematic-debugging ·\\nimprove-architecture · architect"]
+        META["Meta\\nskill-scaffolder · document ·\\ncompliance-audit · stress-test"]
+        UX["UX Design (24 skills)\\nsketch-the-solution →\\n7-phase design process"]
     end
 
     subgraph Security["Security Model"]

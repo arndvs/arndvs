@@ -42,12 +42,19 @@ export function Navigation() {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
+        let rafId: number;
         const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
+            cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(() => {
+                setScrolled(window.scrollY > 20);
+            });
         };
         handleScroll();
         window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
+        return () => {
+            cancelAnimationFrame(rafId);
+            window.removeEventListener("scroll", handleScroll);
+        };
     }, []);
 
     useEffect(() => {
