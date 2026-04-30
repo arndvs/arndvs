@@ -27,7 +27,7 @@ const journey = [
         period: "2020-2025",
         title: "Full-Stack Developer — RipeMetrics",
         description:
-            "Led complete technical refactor from Laravel Livewire to React/Next.js, reducing network response times by 6 seconds. Integrated language models into customer service automation, engagement systems, and data pipelines. Scaled to 50+ enterprise clients.",
+            "Led complete technical refactor from Laravel Livewire to React/Next.js, reducing network response times by 6 seconds. Integrated language models into customer service automation, engagement systems, and data pipelines.",
     },
     {
         period: "2025-Present",
@@ -207,10 +207,10 @@ export default function AboutContent() {
                         >
                             Based in San Diego. I&apos;ve been doing freelance web development since
                             2010. In 2017 I founded RipeMetrics — an AI-powered marketing automation
-                            and customer experience platform — and scaled it to 50+ enterprise
-                            clients over 8 years. Now I build production software and creative
-                            technology projects, with strong instincts for where AI belongs and
-                            where a button is still the right answer.
+                            and customer experience platform — and ran it for 8 years. Now I build
+                            production software and creative technology projects, with strong
+                            instincts for where AI belongs and where a button is still the right
+                            answer.
                         </p>
                     </div>
                 </div>

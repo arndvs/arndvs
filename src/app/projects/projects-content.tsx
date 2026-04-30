@@ -46,10 +46,10 @@ const projects = [
         year: "2017–2025",
         role: "Founder & Full-Stack Developer",
         description:
-            "AI-powered customer growth platform serving 50+ enterprise clients with automated customer service, reducing costs by 40% and achieving 95%+ uptime.",
+            "AI-powered customer growth platform with automated customer service, reducing costs by 40% and achieving 95%+ uptime over 8 years in production.",
         tags: ["React", "Next.js", "TypeScript", "Redux RTK", "OpenAI", "Pinecone", "PostgreSQL"],
         stats: [
-            { value: "50+", label: "Enterprise Clients" },
+            { value: "8", label: "Years in Production" },
             { value: "40%", label: "Cost Reduction" },
             { value: "128K+", label: "Lines of Code" },
         ],

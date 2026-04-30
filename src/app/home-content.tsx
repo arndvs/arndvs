@@ -15,9 +15,9 @@ import { technologiesData } from "@/lib/data/technologies";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
 const heroStats = [
-    { value: 15, suffix: "+", label: "Years Experience" },
-    { value: 50, suffix: "+", label: "Enterprise Clients" },
-    { value: 128, suffix: "K+", label: "Lines of Code" },
+    { value: 17, suffix: "+", label: "Years Experience" },
+    { value: 8, suffix: "", label: "Years on RipeMetrics" },
+    { value: 277, suffix: "K+", label: "Lines of Code" },
 ];
 
 const featuredProjects = [
@@ -41,9 +41,9 @@ const featuredProjects = [
         category: "AI Platform",
         year: "2017–2025",
         description:
-            "AI-native customer growth platform serving 50+ enterprise clients. Reduced customer service costs by 40% through AI automation.",
+            "AI-native customer growth platform. Reduced customer service costs by 40% through AI automation over 8 years.",
         stats: [
-            { value: "50+", label: "Enterprise Clients" },
+            { value: "8", label: "Years in Production" },
             { value: "40%", label: "Cost Reduction" },
             { value: "128K+", label: "Lines of Code" },
         ],

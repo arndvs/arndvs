@@ -42,7 +42,7 @@ export const metadata: Metadata = {
         template: "%s | Aaron Davis",
     },
     description:
-        "Full-stack engineer and creative technologist based in San Diego. Founded RipeMetrics (50+ enterprise clients), built a 277k-line healthcare platform with 5 AI integrations. React, Next.js, TypeScript, AI systems, OpenAI, RAG. Available for contract.",
+        "Full-stack engineer and creative technologist based in San Diego. Founded RipeMetrics, built a 277k-line healthcare platform with 5 AI integrations. React, Next.js, TypeScript, AI systems, OpenAI, RAG. Available for contract.",
     keywords: [
         "Full Stack Developer",
         "Software Engineer",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
         siteName: "Aaron Davis Portfolio",
         title: "Aaron Davis - Full-Stack Engineer & Creative Technologist",
         description:
-            "Full-stack engineer and creative technologist. Founded RipeMetrics (50+ enterprise clients), built healthcare platforms with AI integrations. React, Next.js, TypeScript.",
+            "Full-stack engineer and creative technologist. Founded RipeMetrics, built healthcare platforms with AI integrations. React, Next.js, TypeScript.",
         images: [
             {
                 url: "/images/og-image.jpg",
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Aaron Davis - Full-Stack Engineer & Creative Technologist",
         description:
-            "Full-stack engineer and creative technologist. Founded RipeMetrics (50+ enterprise clients), built healthcare platforms with AI integrations.",
+            "Full-stack engineer and creative technologist. Founded RipeMetrics, built healthcare platforms with AI integrations.",
         images: ["/images/og-image.jpg"],
     },
     robots: {
