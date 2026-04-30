@@ -15,7 +15,7 @@ import { technologiesData } from "@/lib/data/technologies";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
 const heroStats = [
-    { value: 17, suffix: "+", label: "Years Experience" },
+    { value: 15, suffix: "+", label: "Years Experience" },
     { value: 50, suffix: "+", label: "Enterprise Clients" },
     { value: 128, suffix: "K+", label: "Lines of Code" },
 ];
@@ -25,11 +25,11 @@ const featuredProjects = [
         id: "ctrlshft",
         title: "ctrl+shft",
         category: "AI Infrastructure",
-        year: "2025",
+        year: "2026",
         description:
-            "The infrastructure behind my consulting practice. 24 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo.",
+            "The infrastructure behind my consulting practice. 43 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo.",
         stats: [
-            { value: "24", label: "Agent Skills" },
+            { value: "43", label: "Agent Skills" },
             { value: "100%", label: "Open Source" },
             { value: "3", label: "AI Runtimes" },
         ],
@@ -53,13 +53,13 @@ const featuredProjects = [
         id: "alignsd-wellness",
         title: "AlignSD Wellness Center",
         category: "Healthcare",
-        year: "2024–2025",
+        year: "2024–2026",
         description:
-            "A 44,000-line healthcare platform serving 5,000+ families — 5 AI integrations, 81 JSON-LD schemas, 158 programmatic pages, and 27 email templates.",
+            "A 277,000-line healthcare platform serving 5,000+ families — 5 AI integrations, 76 JSON-LD schemas, 203 programmatic pages, and 27 email templates.",
         stats: [
-            { value: "44K+", label: "Lines of Code" },
+            { value: "277K+", label: "Lines of Code" },
             { value: "5K+", label: "Families Served" },
-            { value: "81", label: "JSON-LD Schemas" },
+            { value: "76", label: "JSON-LD Schemas" },
         ],
         href: "/projects/align-san-diego-family-chiropractic",
     },
@@ -110,7 +110,7 @@ export default function HomeContent() {
                                 }}
                             >
                                 <span className="text-primary text-sm font-medium tracking-widest uppercase">
-                                    Full-Stack Engineer & AI Systems
+                                    Full-Stack Engineer & Creative Technologist
                                 </span>
                             </div>
 
@@ -124,7 +124,7 @@ export default function HomeContent() {
                             >
                                 <span className="text-foreground">Building</span>
                                 <br />
-                                <span className="text-gradient">Production AI</span>
+                                <span className="text-gradient">What&apos;s Next</span>
                             </h1>
 
                             <p
@@ -135,10 +135,10 @@ export default function HomeContent() {
                                     transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
                                 }}
                             >
-                                17 years building production software. Founded and built RipeMetrics
-                                — an AI-native customer experience platform — over 8 years. Now I
-                                design and implement agentic AI systems for businesses that need
-                                more than a demo.
+                                15+ years building for the web. Founded and built RipeMetrics — an
+                                AI-native customer experience platform — over 8 years. Now I build
+                                full-stack applications and AI-powered systems for teams that need
+                                production-grade software, not a demo.
                             </p>
 
                             <div
@@ -333,8 +333,9 @@ export default function HomeContent() {
                             <span className="text-gradient">together</span>
                         </h2>
                         <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
-                            I design and implement AI agent systems for businesses, and build
-                            full-stack applications for clients who need production-grade software.
+                            I build full-stack applications and AI-powered systems — from healthcare
+                            platforms to open-source agent infrastructure. Currently available for
+                            contract and full-time roles.
                         </p>
                         <div className="mt-10 flex flex-wrap items-center gap-4">
                             <Button asChild size="lg" className="group">

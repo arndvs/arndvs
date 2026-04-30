@@ -10,7 +10,7 @@ import AboutContent from "./about-content";
 export const metadata: Metadata = generateSiteMetadata({
     title: "About",
     description:
-        "Full-stack engineer based in San Diego with 8+ years of experience. From founding RipeMetrics to building AI-powered platforms — learn about my journey, tech stack, and approach.",
+        "Full-stack engineer and creative technologist based in San Diego with 15+ years building for the web. From founding RipeMetrics to building AI-powered platforms — learn about my journey, tech stack, and approach.",
     path: "/about",
 });
 
@@ -24,7 +24,7 @@ export default function AboutPage() {
                 url: `${siteConfig.url}/about`,
                 name: "About Aaron Davis",
                 description:
-                    "Full-stack engineer based in San Diego with 8+ years of experience. From founding RipeMetrics to building AI-powered platforms.",
+                    "Full-stack engineer and creative technologist based in San Diego with 15+ years building for the web. From founding RipeMetrics to building AI-powered platforms.",
                 isPartOf: { "@id": `${siteConfig.url}/#website` },
                 breadcrumb: { "@id": `${siteConfig.url}/about/#breadcrumb` },
             },

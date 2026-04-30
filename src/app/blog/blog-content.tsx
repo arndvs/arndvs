@@ -133,8 +133,8 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                             Interested in working <span className="text-gradient">together</span>?
                         </h2>
                         <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
-                            I work with a small number of clients on AI systems consulting and
-                            full-stack development.
+                            I build full-stack applications and AI-powered systems. Currently
+                            available for contract and full-time roles.
                         </p>
                         <div className="mt-10">
                             <Button asChild size="lg" className="group">

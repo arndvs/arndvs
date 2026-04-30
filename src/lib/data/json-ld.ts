@@ -5,9 +5,9 @@ export const personJsonLd = {
     "@id": `${siteConfig.url}/#person`,
     name: "Aaron Davis",
     url: siteConfig.url,
-    jobTitle: "Full-Stack Engineer & AI Systems Consultant",
+    jobTitle: "Full-Stack Engineer & Creative Technologist",
     description:
-        "Full-stack engineer and AI systems consultant with 8+ years of experience building AI-powered SaaS platforms, agentic systems, and specialist agent architectures.",
+        "Full-stack engineer and creative technologist with 15+ years building for the web — from CMS platforms to AI-powered SaaS products and creative technology projects.",
     sameAs: ["https://github.com/arndvs", "https://linkedin.com/in/arndvs"],
     knowsAbout: [
         "React",

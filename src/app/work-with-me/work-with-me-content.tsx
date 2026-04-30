@@ -95,7 +95,7 @@ const proofProjects = [
         tag: "AI Infrastructure · Open Source",
         title: "ctrl+shft",
         description:
-            "The agent infrastructure system behind this offer. 24 skills, lifecycle hooks, compliance HUD, 3-tier security, autonomous Docker loops.",
+            "The agent infrastructure system behind this offer. 43 skills, lifecycle hooks, compliance HUD, 3-tier security, autonomous Docker loops.",
         href: "/projects/ctrlshft",
     },
     {
@@ -106,10 +106,10 @@ const proofProjects = [
         href: "/projects/ripemetrics",
     },
     {
-        tag: "Healthcare · AI · 2025",
+        tag: "Healthcare · AI · 2026",
         title: "AlignSD",
         description:
-            "44,000-line healthcare platform with 5 AI integrations, 158 programmatic pages, and custom JSON-LD architecture.",
+            "277,000-line healthcare platform with 5 AI integrations, 203 programmatic pages, and custom JSON-LD architecture.",
         href: "/projects/align-san-diego-family-chiropractic",
     },
 ];
@@ -153,7 +153,7 @@ export default function WorkWithMeContent() {
                             }}
                         >
                             <span className="text-primary text-sm font-medium tracking-widest uppercase">
-                                AI Systems Consulting
+                                Available for Contract & Full-Time
                             </span>
                         </div>
 
@@ -165,8 +165,8 @@ export default function WorkWithMeContent() {
                                 transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
                             }}
                         >
-                            Your business runs on decisions.{" "}
-                            <span className="text-gradient">Let agents handle the rest.</span>
+                            Full-stack engineer.{" "}
+                            <span className="text-gradient">AI-powered results.</span>
                         </h1>
 
                         <p
@@ -177,10 +177,9 @@ export default function WorkWithMeContent() {
                                 transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
                             }}
                         >
-                            I build bespoke AI agent systems for businesses that need more than a
-                            chatbot — specialist architectures tuned to how your team actually
-                            works. I also build full-stack applications for clients who need
-                            production-grade software.
+                            I build production web applications, AI integrations, and full-stack
+                            platforms for teams that need senior engineering. Available for contract
+                            roles, full-time positions, and select freelance projects.
                         </p>
 
                         <div
@@ -192,9 +191,9 @@ export default function WorkWithMeContent() {
                             }}
                         >
                             <Button asChild size="lg" className="group">
-                                <a href="mailto:aaron@arndvs.com?subject=AI%20Systems%20Consulting">
+                                <a href="mailto:aaron@arndvs.com?subject=Let%27s%20Work%20Together">
                                     <Mail className="mr-2 h-4 w-4" />
-                                    Start a conversation
+                                    Get in touch
                                 </a>
                             </Button>
                             <Button asChild variant="outline" size="lg" className="group">
@@ -443,11 +442,11 @@ export default function WorkWithMeContent() {
                         className="border-border bg-muted mt-px rounded-b-2xl border border-t-0 p-6"
                     >
                         <p className="text-muted-foreground/60 font-mono text-xs tracking-widest uppercase">
-                            Consulting case studies — coming soon
+                            Project case studies — coming soon
                         </p>
                         <p className="text-muted-foreground mt-2 text-sm">
-                            Detailed walkthroughs of agent systems built for real business
-                            operations. First cases publishing Q3 2026.
+                            Detailed walkthroughs of production systems built for real businesses.
+                            First cases publishing Q3 2026.
                         </p>
                     </motion.div>
                 </div>
@@ -462,14 +461,13 @@ export default function WorkWithMeContent() {
                             <span className="text-gradient">do</span>.
                         </h2>
                         <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
-                            Describe your operation and what you&apos;re trying to systematize. If
-                            it&apos;s a good fit I&apos;ll tell you what I think an engagement looks
-                            like. If it&apos;s not, I&apos;ll tell you that too — and point you
-                            toward what would work instead.
+                            Describe what you&apos;re building or the role you&apos;re hiring for.
+                            I&apos;ll tell you honestly whether I&apos;m the right fit — and if not,
+                            I&apos;ll point you toward what would work instead.
                         </p>
                         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                             <Button asChild size="lg" className="group">
-                                <a href="mailto:aaron@arndvs.com?subject=AI%20Systems%20Consulting">
+                                <a href="mailto:aaron@arndvs.com?subject=Let%27s%20Work%20Together">
                                     <Mail className="mr-2 h-4 w-4" />
                                     aaron@arndvs.com
                                 </a>
@@ -486,10 +484,7 @@ export default function WorkWithMeContent() {
                             </Button>
                         </div>
                         <p className="text-muted-foreground mt-8 text-sm">
-                            Based in San Diego. Working with clients remotely worldwide.
-                        </p>
-                        <p className="text-muted-foreground/60 mt-1 text-sm">
-                            Also taking on full-stack development projects.
+                            Based in San Diego. Available for remote, hybrid, or on-site in SD.
                         </p>
                     </div>
                 </div>

@@ -16,10 +16,10 @@ const projects = [
         id: "ctrlshft",
         title: "ctrl+shft",
         category: "AI Infrastructure / Developer Tools",
-        year: "2025",
+        year: "2026",
         role: "Solo Developer & Architect",
         description:
-            "The infrastructure behind my consulting practice. 24 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo. The same system I implement for clients, open source and in production.",
+            "The infrastructure behind my consulting practice. 43 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo. The same system I implement for clients, open source and in production.",
         tags: [
             "Bash",
             "TypeScript",
@@ -31,7 +31,7 @@ const projects = [
             "GitHub CLI",
         ],
         stats: [
-            { value: "24", label: "Agent Skills" },
+            { value: "43", label: "Agent Skills" },
             { value: "100%", label: "Open Source" },
             { value: "3", label: "AI Runtimes" },
         ],
@@ -59,15 +59,15 @@ const projects = [
         id: "align-san-diego-family-chiropractic",
         title: "Align San Diego Family Chiropractic",
         category: "Healthcare / Web",
-        year: "2024–2025",
+        year: "2025–2026",
         role: "Full-Stack Developer",
         description:
-            "A 44,000-line healthcare platform serving 5,000+ families — 5 AI integrations, 81 JSON-LD schemas, 158 programmatic pages, and a 27-template transactional email system — built solo on Next.js 16, Sanity v5, and OpenAI.",
+            "A 277,000-line healthcare platform serving 5,000+ families — 5 AI integrations, 76 JSON-LD schemas, 203 programmatic pages, and a 27-template transactional email system — built solo on Next.js 16, Sanity v5, and OpenAI.",
         tags: ["Next.js 16", "React 19", "Sanity v5", "TypeScript", "OpenAI", "Schema.org"],
         stats: [
-            { value: "44K+", label: "Lines of Code" },
+            { value: "277K+", label: "Lines of Code" },
             { value: "5K+", label: "Families Served" },
-            { value: "81", label: "JSON-LD Schemas" },
+            { value: "76", label: "JSON-LD Schemas" },
         ],
         href: "/projects/align-san-diego-family-chiropractic",
         link: "https://alignsd.com",
@@ -77,14 +77,14 @@ const projects = [
         id: "push",
         title: "PUSH",
         category: "AI Video / Creative Technology",
-        year: "2025",
+        year: "2026",
         role: "Writer, Director & Creative Technologist",
         description:
-            "A comedy short produced entirely with AI generative video — 54-shot prompt library, character consistency pipeline, 6-document production package, and a transmedia universe at riseawake.com.",
+            "A comedy short produced entirely with AI generative video — 55-shot prompt library, character consistency pipeline, 17-document production package, and a transmedia universe at riseawake.com.",
         tags: ["Sora", "Runway", "Kling", "Pika", "Seedance 2.0", "Screenwriting"],
         stats: [
-            { value: "54", label: "AI Shots" },
-            { value: "6", label: "Production Docs" },
+            { value: "55", label: "AI Shots" },
+            { value: "17", label: "Production Docs" },
             { value: "v7", label: "Screenplay" },
         ],
         href: "/projects/push",
@@ -93,7 +93,7 @@ const projects = [
         id: "rise-awake",
         title: "RISE Awake",
         category: "Creative Technology / Full-Stack Web",
-        year: "2025",
+        year: "2026",
         role: "Full-Stack Developer & Creative Technologist",
         description:
             "A 41-route Next.js 16 application operating as the real corporate website of a fictional company — Sanity v5, Convex, Clerk, 22 internal documents, 6 legal documents, and a 12-stage activation configurator.",
@@ -169,7 +169,7 @@ export default function ProjectsContent() {
                             }}
                         >
                             A curated collection of engineering, AI systems, and creative technology
-                            projects spanning 17+ years of building products at scale.
+                            projects spanning 15+ years of building products at scale.
                         </p>
                     </div>
                 </div>
@@ -288,9 +288,8 @@ export default function ProjectsContent() {
                             Interested in working <span className="text-gradient">together</span>?
                         </h2>
                         <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
-                            I work with a small number of clients on AI systems consulting and
-                            full-stack development. If you have something worth building, let&apos;s
-                            talk.
+                            I build full-stack applications and AI-powered systems. If you have
+                            something worth building, let&apos;s talk.
                         </p>
                         <div className="mt-10">
                             <Button asChild size="lg" className="group">
