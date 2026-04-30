@@ -6,7 +6,7 @@ export const diagrams = {
             CB[Character Bible]
         end
         subgraph Production["Phase 2: Production Design"]
-            SL[54-Shot AI Shot List]
+            SL[55-Shot AI Shot List]
             SB[Storyboard Handoff]
             DM[Design Memo]
             CS[Character Sheets]

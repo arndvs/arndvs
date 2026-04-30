@@ -37,7 +37,7 @@ export default function CtrlShftPage() {
                     "Autonomous AI agent infrastructure — 43 skills (including a 7-phase UX design process), lifecycle hooks, compliance HUD, and secrets management from a single dotfiles repo.",
                 url: `${siteConfig.url}/projects/ctrlshft`,
                 author: { "@id": `${siteConfig.url}/#person` },
-                datePublished: "2025-01-01",
+                datePublished: "2026-01-01",
                 keywords: [
                     "AI Agents",
                     "Developer Tools",

@@ -38,7 +38,7 @@ export default function PushPage() {
                     "A comedy short being produced with AI generative video — currently in pre-production with a 55-shot prompt library, character consistency pipeline, and companion transmedia universe.",
                 url: `${siteConfig.url}/projects/push`,
                 author: { "@id": `${siteConfig.url}/#person` },
-                datePublished: "2025-01-01",
+                datePublished: "2026-01-01",
                 keywords: [
                     "AI Video",
                     "Short Film",

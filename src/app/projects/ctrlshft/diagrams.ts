@@ -31,7 +31,7 @@ export const diagrams = {
         ANALYSIS["Analysis\nexplore · research ·\ncodebase-audit · code-review"]
         DEV["Development\ntdd · systematic-debugging ·\nimprove-architecture · architect"]
         META["Meta\nskill-scaffolder · document ·\ncompliance-audit · stress-test"]
-        UX["UX Design (24 skills)\nsketch-the-solution →\n7-phase design process"]
+        UX["UX Design (43 skills)\nsketch-the-solution →\n7-phase design process"]
     end
 
     subgraph Security["Security Model"]

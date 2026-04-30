@@ -1,7 +1,7 @@
 export const diagrams = {
     systemArchitecture: `graph TB
     subgraph Client["Browser / Client"]
-        APP["Next.js 16 App Router\\n158 Pages · 256 Components"]
+        APP["Next.js 16 App Router\\n203 Pages · 256 Components"]
         FM["Framer Motion"]
         SHADER["Paper Design WebGL Shaders"]
     end

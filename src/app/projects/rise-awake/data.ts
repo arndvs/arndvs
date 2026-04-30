@@ -28,7 +28,7 @@ export const pageData: PageData<DiagramKey> = {
         ],
         context: {
             role: "Full-Stack Developer & Creative Technologist",
-            timeline: "2025 – Present",
+            timeline: "2026 – Present",
             client: "RISE Technologies, Inc. (Fictional)",
             live: "riseawake.com",
             stack: [

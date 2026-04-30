@@ -70,7 +70,7 @@ const entries: SeedEntry[] = [
         date: "2025-02-01T00:00:00Z",
         type: "content",
         summary:
-            "Published the AlignSD case study covering the full-stack healthcare platform build — 44k lines of code, 18 Sanity schema types, and 158 pages.",
+            "Published the AlignSD case study covering the full-stack healthcare platform build — 277k lines of code, 18 Sanity schema types, and 203 pages.",
         relatedProject: "alignsd",
         commitRange: "ca36ff8..267a8d7",
         isHighlight: true,
