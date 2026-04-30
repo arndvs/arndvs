@@ -151,19 +151,6 @@ export function Navigation() {
                                             {item.name}
                                         </Link>
                                     ))}
-                                    <Link
-                                        href="/work-with-me"
-                                        onClick={() => setOpen(false)}
-                                        className={cn(
-                                            "rounded-lg px-4 py-3 text-base font-medium transition-colors",
-                                            isActive("/work-with-me")
-                                                ? "text-primary bg-primary/10"
-                                                : "text-muted-foreground hover:text-foreground hover:bg-muted",
-                                        )}
-                                        aria-label="Work with Aaron"
-                                    >
-                                        Work with me
-                                    </Link>
                                     <div className="border-border mt-4 flex items-center gap-2 border-t pt-4">
                                         {socialLinks.map((link) => (
                                             <Button

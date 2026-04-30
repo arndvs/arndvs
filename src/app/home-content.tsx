@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import aaronWedding from "@/assets/images/aaron-wedding.png";
+import aaronWedding from "@/assets/images/aaron-wedding.webp";
 import { AnimatedCounter } from "@/components/animated-counter";
 import { Button } from "@/components/ui/button";
 import { technologiesData } from "@/lib/data/technologies";
