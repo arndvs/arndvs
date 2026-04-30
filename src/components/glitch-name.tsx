@@ -4,6 +4,8 @@ import { CodeXml } from "lucide-react";
 
 import { useEffect, useRef, useState } from "react";
 
+import Link from "next/link";
+
 const nameVariations = [
     { text: "Aaron Davis", style: "normal" },
     { text: "arndvs.com", style: "binary" },
@@ -107,12 +109,12 @@ export function GlitchName() {
 
     return (
         <>
-            <div
+            <Link
+                href="/"
                 className="group flex cursor-pointer items-center gap-2 select-none"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
-                role="img"
-                aria-label="Aaron Davis"
+                aria-label="Aaron Davis - Home"
             >
                 <CodeXml
                     className={`transition-all duration-300 ${isHovering ? "text-primary rotate-180" : ""}`}
@@ -129,7 +131,7 @@ export function GlitchName() {
                 >
                     {displayText}
                 </span>
-            </div>
+            </Link>
         </>
     );
 }
