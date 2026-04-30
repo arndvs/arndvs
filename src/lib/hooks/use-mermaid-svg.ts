@@ -28,7 +28,8 @@ export function useMermaidSvg(
                 mermaid.initialize({
                     startOnLoad: false,
                     theme,
-                    fontFamily: "var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif)",
+                    fontFamily:
+                        "var(--font-dm-sans, 'DM Sans', ui-sans-serif, system-ui, sans-serif)",
                     flowchart: { htmlLabels: true, curve: "basis" },
                     sequence: { actorMargin: 50, messageFontSize: 13 },
                 });

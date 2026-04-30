@@ -1,6 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
 import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
 import { Toaster } from "sonner";
 
 import type React from "react";
@@ -8,6 +7,7 @@ import { Suspense } from "react";
 
 import type { Metadata } from "next";
 import { VisualEditing } from "next-sanity/visual-editing";
+import { DM_Sans, Outfit } from "next/font/google";
 import { draftMode } from "next/headers";
 
 import { DisableDraftMode } from "@/components/disable-draft-mode";
@@ -20,6 +20,20 @@ import { siteConfig } from "@/sanity/env";
 import { SanityLive } from "@/sanity/lib/live";
 
 import "./globals.css";
+
+const dmSans = DM_Sans({
+    subsets: ["latin"],
+    weight: ["400", "500", "700"],
+    variable: "--font-dm-sans",
+    display: "swap",
+});
+
+const outfit = Outfit({
+    subsets: ["latin"],
+    weight: ["700", "800", "900"],
+    variable: "--font-outfit",
+    display: "swap",
+});
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.url),
@@ -95,11 +109,13 @@ export default async function RootLayout({
 }>) {
     const { isEnabled: isDraftMode } = await draftMode();
     return (
-        <html lang="en" suppressHydrationWarning>
-            <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
+        <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+            <body
+                className={`font-sans ${dmSans.variable} ${outfit.variable} ${GeistMono.variable} antialiased`}
+            >
                 <ThemeProvider
                     attribute="class"
-                    defaultTheme="system"
+                    defaultTheme="dark"
                     enableSystem
                     disableTransitionOnChange
                 >
