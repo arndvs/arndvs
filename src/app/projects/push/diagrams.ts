@@ -6,7 +6,7 @@ export const diagrams = {
             CB[Character Bible]
         end
         subgraph Production["Phase 2: Production Design"]
-            SL[54-Shot AI Shot List]
+            SL[55-Shot AI Shot List]
             SB[Storyboard Handoff]
             DM[Design Memo]
             CS[Character Sheets]
@@ -130,7 +130,7 @@ export const diagrams = {
     documentHierarchy: `flowchart TD
         PB["Prop Bible v4.0<br/><em>Canonical — supersedes all</em>"]
         SP["Screenplay v7.0<br/><em>Story & dialogue</em>"]
-        SL["Shot List<br/><em>54 AI-ready prompts</em>"]
+        SL["Shot List<br/><em>55 AI-ready prompts</em>"]
         DM["Design Memo<br/><em>Environmental integration</em>"]
         SB["Storyboard Handoff<br/><em>Visual sequencing</em>"]
         CS["Character Sheets<br/><em>Consistency reference</em>"]
@@ -148,13 +148,14 @@ export const diagrams = {
         style CS fill:#1a1a2e,stroke:#f0a050,color:#fff`,
 
     environmentIntegration: `flowchart TB
-        subgraph Rules["Six Golden Rules"]
+        subgraph Rules["Seven Golden Rules"]
             R1["1. Scale Ambiguity<br/>Never establish ground truth"]
             R2["2. Wide or Close — Never Medium<br/>Avoid door-frame geometry"]
             R3["3. Cut on Action<br/>Arrive already there"]
             R4["4. Ambient Lighting<br/>Bed takes the room's light"]
-            R5["5. World Acceptance<br/>Nobody reacts"]
+            R5["5. The Bed Has Weight<br/>Physical presence, not floating"]
             R6["6. Design Environments First<br/>Bed fills remaining space"]
+            R7["7. Dave's Eyeline<br/>Always bed or forward, never the doorframe"]
         end
         subgraph Applied["Applied Per Scene"]
             BED["Bedroom — intimate, warm"]
@@ -165,8 +166,9 @@ export const diagrams = {
         end
         R1 & R2 & R3 --> BED & BATH & KIT & CAR & OFF
         R4 --> BED & BATH & KIT & OFF
-        R5 --> OFF
+        R5 --> BED & BATH & KIT & CAR
         R6 --> BED & BATH & KIT
+        R7 --> BED & BATH & KIT & CAR & OFF
         style Rules fill:#1a1a2e,stroke:#e07a4a,color:#fff
         style Applied fill:#1a1a2e,stroke:#5ec4ad,color:#fff`,
 

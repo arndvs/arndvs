@@ -17,8 +17,7 @@ type AnimationStyle =
     | "from-left"
     | "from-right"
     | "fade"
-    | "top-in-bottom-out"
-    | "left-in-right-out";
+    | "top-in-bottom-out";
 
 interface HeroVideoProps {
     animationStyle?: AnimationStyle;

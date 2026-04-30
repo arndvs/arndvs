@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, Brain, Database, Mail, Search, Shield } from "lucide-react";
+import { Activity, Brain, Database, GitBranch, Mail, Search, Shield } from "lucide-react";
 
 import { createCaseStudySections } from "@/components/case-study/sections";
 
@@ -13,6 +13,7 @@ const subsystemIcons: Record<string, React.ElementType> = {
     "AI Services": Brain,
     "Email System": Mail,
     Observability: Activity,
+    "CI/CD Pipeline": GitBranch,
 };
 
 export const {

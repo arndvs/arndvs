@@ -9,7 +9,6 @@ import Link from "next/link";
 import { AnimatedCounter } from "@/components/animated-counter";
 import { DiagramViewer } from "@/components/diagram-viewer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 import type {
     ArchitectureData,
@@ -114,7 +113,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
 
                 <motion.h1
                     variants={itemVariants}
-                    className="text-5xl font-bold tracking-tight text-balance"
+                    className="font-display text-5xl font-bold tracking-tight text-balance lg:text-6xl"
                 >
                     {data.title}
                 </motion.h1>
@@ -167,7 +166,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function SituationSection({ data }: { data: SituationData }) {
-        const { containerVariants, itemVariants, cardVariants } = useAnimationVariants();
+        const { containerVariants, itemVariants } = useAnimationVariants();
 
         return (
             <motion.section
@@ -175,9 +174,9 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mb-16"
+                className="border-border mb-16 border-t pt-16"
             >
-                <motion.h2 variants={itemVariants} className="mb-8 text-3xl font-bold">
+                <motion.h2 variants={itemVariants} className="font-display mb-8 text-3xl font-bold">
                     The Situation
                 </motion.h2>
 
@@ -194,52 +193,51 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                         ))}
                     </motion.div>
 
-                    <motion.div variants={cardVariants}>
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-base">Project Context</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-3 text-sm">
-                                <div>
-                                    <span className="font-medium">Role</span>
-                                    <p className="text-muted-foreground">{data.context.role}</p>
-                                </div>
-                                <div>
-                                    <span className="font-medium">Timeline</span>
-                                    <p className="text-muted-foreground">{data.context.timeline}</p>
-                                </div>
-                                <div>
-                                    <span className="font-medium">Client</span>
-                                    <p className="text-muted-foreground">{data.context.client}</p>
-                                </div>
-                                <div>
-                                    <span className="font-medium">Live</span>
-                                    <p>
-                                        <a
-                                            href={`https://${data.context.live}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className={`${accent.link} underline underline-offset-2`}
+                    <motion.div
+                        variants={itemVariants}
+                        className="border-border rounded-lg border p-6"
+                    >
+                        <h3 className="mb-4 text-sm font-semibold">Project Context</h3>
+                        <div className="space-y-3 text-sm">
+                            <div>
+                                <span className="font-medium">Role</span>
+                                <p className="text-muted-foreground">{data.context.role}</p>
+                            </div>
+                            <div>
+                                <span className="font-medium">Timeline</span>
+                                <p className="text-muted-foreground">{data.context.timeline}</p>
+                            </div>
+                            <div>
+                                <span className="font-medium">Client</span>
+                                <p className="text-muted-foreground">{data.context.client}</p>
+                            </div>
+                            <div>
+                                <span className="font-medium">Live</span>
+                                <p>
+                                    <a
+                                        href={`https://${data.context.live}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`${accent.link} underline underline-offset-2`}
+                                    >
+                                        {data.context.live}
+                                    </a>
+                                </p>
+                            </div>
+                            <div>
+                                <span className="font-medium">Stack</span>
+                                <div className="mt-1 flex flex-wrap gap-1.5">
+                                    {data.context.stack.map((tech) => (
+                                        <span
+                                            key={tech}
+                                            className="border-border rounded-full border px-2 py-0.5 text-xs font-medium"
                                         >
-                                            {data.context.live}
-                                        </a>
-                                    </p>
+                                            {tech}
+                                        </span>
+                                    ))}
                                 </div>
-                                <div>
-                                    <span className="font-medium">Stack</span>
-                                    <div className="mt-1 flex flex-wrap gap-1.5">
-                                        {data.context.stack.map((tech) => (
-                                            <span
-                                                key={tech}
-                                                className="bg-secondary rounded-md px-2 py-0.5 text-xs font-medium"
-                                            >
-                                                {tech}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                            </div>
+                        </div>
                     </motion.div>
                 </div>
             </motion.section>
@@ -247,8 +245,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function ArchitectureSection({ data }: { data: ArchitectureData }) {
-        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } =
-            useAnimationVariants();
+        const { containerVariants, itemVariants } = useAnimationVariants();
 
         return (
             <motion.section
@@ -256,9 +253,9 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mb-16"
+                className="border-border mb-16 border-t pt-16"
             >
-                <motion.h2 variants={itemVariants} className="mb-4 text-3xl font-bold">
+                <motion.h2 variants={itemVariants} className="font-display mb-4 text-3xl font-bold">
                     System Architecture
                 </motion.h2>
 
@@ -278,7 +275,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
 
                 {data.secondaryDiagramKey && (
                     <motion.div variants={itemVariants} className="mb-10">
-                        <h3 className="mb-4 text-xl font-semibold">
+                        <h3 className="font-display mb-4 text-xl font-semibold">
                             {data.secondaryDiagramTitle ?? "Diagram"}
                         </h3>
                         <DiagramViewer
@@ -289,30 +286,28 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 )}
 
                 <motion.div
-                    variants={staggerContainerVariants}
+                    variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
-                    className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+                    className="bg-border grid gap-px overflow-hidden rounded-lg sm:grid-cols-2 lg:grid-cols-3"
                 >
                     {data.subsystems.map((sub) => {
                         const Icon = subsystemIcons[sub.title] ?? fallbackIcon;
 
                         return (
-                            <motion.div key={sub.title} variants={cardVariants}>
-                                <Card className="h-full">
-                                    <CardHeader className="pb-2">
-                                        <div className="flex items-center gap-2">
-                                            <Icon className={`h-4 w-4 ${accent.text}`} />
-                                            <CardTitle className="text-sm">{sub.title}</CardTitle>
-                                        </div>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-muted-foreground text-sm">
-                                            {sub.description}
-                                        </p>
-                                    </CardContent>
-                                </Card>
+                            <motion.div
+                                key={sub.title}
+                                variants={itemVariants}
+                                className="bg-card p-6"
+                            >
+                                <div className="flex items-center gap-2">
+                                    <Icon className={`h-4 w-4 ${accent.text}`} />
+                                    <h4 className="text-sm font-semibold">{sub.title}</h4>
+                                </div>
+                                <p className="text-muted-foreground mt-2 text-sm">
+                                    {sub.description}
+                                </p>
                             </motion.div>
                         );
                     })}
@@ -330,10 +325,10 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mb-16"
+                className="border-border mb-16 border-t pt-16"
             >
                 <motion.div variants={itemVariants} className="mb-6">
-                    <h3 className="text-2xl font-bold">{data.title}</h3>
+                    <h3 className="font-display text-2xl font-bold">{data.title}</h3>
                     <p className="text-muted-foreground text-sm font-medium">{data.subtitle}</p>
                 </motion.div>
 
@@ -406,9 +401,9 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mb-16"
+                className="border-border mb-16 border-t pt-16"
             >
-                <motion.h2 variants={itemVariants} className="mb-8 text-3xl font-bold">
+                <motion.h2 variants={itemVariants} className="font-display mb-8 text-3xl font-bold">
                     Engineering Decisions
                 </motion.h2>
 
@@ -435,8 +430,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function LearningsGrid({ learnings }: { learnings: Learning[] }) {
-        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } =
-            useAnimationVariants();
+        const { containerVariants, itemVariants } = useAnimationVariants();
 
         return (
             <motion.section
@@ -444,39 +438,31 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mb-16"
+                className="border-border mb-16 border-t pt-16"
             >
-                <motion.h2 variants={itemVariants} className="mb-8 text-3xl font-bold">
+                <motion.h2 variants={itemVariants} className="font-display mb-8 text-3xl font-bold">
                     What I Learned
                 </motion.h2>
 
                 <motion.div
-                    variants={staggerContainerVariants}
+                    variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
-                    className="grid gap-6 md:grid-cols-3"
+                    className="bg-border grid gap-px overflow-hidden rounded-lg md:grid-cols-3"
                 >
                     {learnings.map((learning, i) => {
                         const Icon = learningIcons[i] ?? Wrench;
 
                         return (
-                            <motion.div key={i} variants={cardVariants}>
-                                <Card className="h-full">
-                                    <CardHeader className="pb-2">
-                                        <div className="flex items-center gap-2">
-                                            <Icon className={`h-4 w-4 ${accent.text}`} />
-                                            <CardTitle className="text-sm">
-                                                {learning.title}
-                                            </CardTitle>
-                                        </div>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-muted-foreground text-sm leading-relaxed">
-                                            {learning.body}
-                                        </p>
-                                    </CardContent>
-                                </Card>
+                            <motion.div key={i} variants={itemVariants} className="bg-card p-6">
+                                <div className="flex items-center gap-2">
+                                    <Icon className={`h-4 w-4 ${accent.text}`} />
+                                    <h4 className="text-sm font-semibold">{learning.title}</h4>
+                                </div>
+                                <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+                                    {learning.body}
+                                </p>
                             </motion.div>
                         );
                     })}
@@ -486,8 +472,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function MetricsSection({ metrics }: { metrics: { hero: Metric[]; supporting: Metric[] } }) {
-        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } =
-            useAnimationVariants();
+        const { containerVariants, itemVariants } = useAnimationVariants();
 
         return (
             <motion.section
@@ -495,60 +480,50 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mb-16"
+                className="border-border mb-16 border-t pt-16"
             >
-                <motion.h2 variants={itemVariants} className="mb-8 text-3xl font-bold">
+                <motion.h2 variants={itemVariants} className="font-display mb-8 text-3xl font-bold">
                     By the Numbers
                 </motion.h2>
 
                 <motion.div
-                    variants={staggerContainerVariants}
+                    variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
-                    className="mb-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+                    className="bg-border mb-px grid gap-px overflow-hidden rounded-t-lg sm:grid-cols-2 lg:grid-cols-4"
                 >
                     {metrics.hero.map((m) => (
-                        <motion.div key={m.label} variants={cardVariants}>
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className={`text-4xl font-bold ${accent.text}`}>
-                                        <AnimatedCounter
-                                            value={m.value}
-                                            prefix={m.prefix}
-                                            suffix={m.suffix}
-                                        />
-                                    </CardTitle>
-                                    <p className="text-muted-foreground text-sm">{m.label}</p>
-                                </CardHeader>
-                            </Card>
+                        <motion.div key={m.label} variants={itemVariants} className="bg-card p-6">
+                            <div className={`font-display text-4xl font-bold ${accent.text}`}>
+                                <AnimatedCounter
+                                    value={m.value}
+                                    prefix={m.prefix}
+                                    suffix={m.suffix}
+                                />
+                            </div>
+                            <p className="text-muted-foreground mt-1 text-sm">{m.label}</p>
                         </motion.div>
                     ))}
                 </motion.div>
 
                 <motion.div
-                    variants={staggerContainerVariants}
+                    variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
-                    className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+                    className="bg-border grid gap-px overflow-hidden rounded-b-lg sm:grid-cols-2 lg:grid-cols-4"
                 >
                     {metrics.supporting.map((m) => (
-                        <motion.div key={m.label} variants={cardVariants}>
-                            <Card>
-                                <CardHeader className="pb-3">
-                                    <CardTitle
-                                        className={`text-2xl font-bold ${accent.textSubtle}`}
-                                    >
-                                        <AnimatedCounter
-                                            value={m.value}
-                                            prefix={m.prefix}
-                                            suffix={m.suffix}
-                                        />
-                                    </CardTitle>
-                                    <p className="text-muted-foreground text-xs">{m.label}</p>
-                                </CardHeader>
-                            </Card>
+                        <motion.div key={m.label} variants={itemVariants} className="bg-card p-6">
+                            <div className={`font-display text-2xl font-bold ${accent.textSubtle}`}>
+                                <AnimatedCounter
+                                    value={m.value}
+                                    prefix={m.prefix}
+                                    suffix={m.suffix}
+                                />
+                            </div>
+                            <p className="text-muted-foreground mt-1 text-xs">{m.label}</p>
                         </motion.div>
                     ))}
                 </motion.div>
@@ -557,8 +532,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
     }
 
     function GallerySection({ gallery }: { gallery: GalleryImage[] }) {
-        const { containerVariants, itemVariants, cardVariants, staggerContainerVariants } =
-            useAnimationVariants();
+        const { containerVariants, itemVariants } = useAnimationVariants();
 
         if (gallery.length === 0) return null;
 
@@ -568,14 +542,14 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mb-16"
+                className="border-border mb-16 border-t pt-16"
             >
-                <motion.h2 variants={itemVariants} className="mb-8 text-3xl font-bold">
+                <motion.h2 variants={itemVariants} className="font-display mb-8 text-3xl font-bold">
                     Gallery
                 </motion.h2>
 
                 <motion.div
-                    variants={staggerContainerVariants}
+                    variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
@@ -584,7 +558,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                     {gallery.map((img) => (
                         <motion.figure
                             key={img.src}
-                            variants={cardVariants}
+                            variants={itemVariants}
                             className="overflow-hidden rounded-lg border"
                         >
                             <Image
@@ -615,22 +589,20 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
+                className="border-border border-t pt-16"
             >
-                <motion.div variants={itemVariants}>
-                    <Card className="bg-muted/50">
-                        <CardContent className="flex flex-col items-center gap-6 py-12 text-center">
-                            <p className="text-muted-foreground max-w-lg leading-relaxed">
-                                {data.text}
-                            </p>
-                            <div className="flex gap-4">
-                                {data.buttons.map((btn) => (
-                                    <Button key={btn.text} asChild variant={btn.variant}>
-                                        <Link href={btn.href}>{btn.text}</Link>
-                                    </Button>
-                                ))}
-                            </div>
-                        </CardContent>
-                    </Card>
+                <motion.div
+                    variants={itemVariants}
+                    className="flex flex-col items-center gap-6 py-12 text-center"
+                >
+                    <p className="text-muted-foreground max-w-lg leading-relaxed">{data.text}</p>
+                    <div className="flex gap-4">
+                        {data.buttons.map((btn) => (
+                            <Button key={btn.text} asChild variant={btn.variant}>
+                                <Link href={btn.href}>{btn.text}</Link>
+                            </Button>
+                        ))}
+                    </div>
                 </motion.div>
             </motion.section>
         );

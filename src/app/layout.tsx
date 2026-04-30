@@ -1,6 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
 import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
 import { Toaster } from "sonner";
 
 import type React from "react";
@@ -8,6 +7,7 @@ import { Suspense } from "react";
 
 import type { Metadata } from "next";
 import { VisualEditing } from "next-sanity/visual-editing";
+import { DM_Sans, Outfit } from "next/font/google";
 import { draftMode } from "next/headers";
 
 import { DisableDraftMode } from "@/components/disable-draft-mode";
@@ -21,14 +21,28 @@ import { SanityLive } from "@/sanity/lib/live";
 
 import "./globals.css";
 
+const dmSans = DM_Sans({
+    subsets: ["latin"],
+    weight: ["400", "500", "700"],
+    variable: "--font-satoshi",
+    display: "swap",
+});
+
+const outfit = Outfit({
+    subsets: ["latin"],
+    weight: ["700", "800", "900"],
+    variable: "--font-cabinet",
+    display: "swap",
+});
+
 export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.url),
     title: {
-        default: "Aaron Davis - Full-Stack Engineer & AI Systems Consultant",
+        default: "Aaron Davis - Full-Stack Engineer & Creative Technologist",
         template: "%s | Aaron Davis",
     },
     description:
-        "Full-stack engineer and AI systems consultant based in San Diego. Founded RipeMetrics (50+ enterprise clients), built a 44k-line healthcare platform with 5 AI integrations. AI agent architecture, React, Next.js, TypeScript, OpenAI, RAG systems.",
+        "Full-stack engineer and creative technologist based in San Diego. Founded RipeMetrics, built a 277k-line healthcare platform with 5 AI integrations. React, Next.js, TypeScript, AI systems, OpenAI, RAG. Available for contract.",
     keywords: [
         "Full Stack Developer",
         "Software Engineer",
@@ -48,9 +62,9 @@ export const metadata: Metadata = {
         locale: "en_US",
         url: siteConfig.url,
         siteName: "Aaron Davis Portfolio",
-        title: "Aaron Davis - Full Stack Software Engineer & AI Specialist",
+        title: "Aaron Davis - Full-Stack Engineer & Creative Technologist",
         description:
-            "Full-stack engineer and AI builder. Founded RipeMetrics (50+ enterprise clients), built healthcare platforms with AI integrations. React, Next.js, TypeScript.",
+            "Full-stack engineer and creative technologist. Founded RipeMetrics, built healthcare platforms with AI integrations. React, Next.js, TypeScript.",
         images: [
             {
                 url: "/images/og-image.jpg",
@@ -62,9 +76,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Aaron Davis - Full Stack Software Engineer",
+        title: "Aaron Davis - Full-Stack Engineer & Creative Technologist",
         description:
-            "Full-stack engineer and AI builder. Founded RipeMetrics (50+ enterprise clients), built healthcare platforms with AI integrations.",
+            "Full-stack engineer and creative technologist. Founded RipeMetrics, built healthcare platforms with AI integrations.",
         images: ["/images/og-image.jpg"],
     },
     robots: {
@@ -78,14 +92,6 @@ export const metadata: Metadata = {
             "max-snippet": -1,
         },
     },
-    icons: {
-        icon: [
-            { url: "/favicon.svg", type: "image/svg+xml" },
-            { url: "/favicon.ico", sizes: "32x32" },
-        ],
-        shortcut: "/favicon.ico",
-        apple: "/apple-touch-icon.png",
-    },
     manifest: "/site.webmanifest",
 };
 export default async function RootLayout({
@@ -95,11 +101,16 @@ export default async function RootLayout({
 }>) {
     const { isEnabled: isDraftMode } = await draftMode();
     return (
-        <html lang="en" suppressHydrationWarning>
-            <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
+        <html
+            lang="en"
+            suppressHydrationWarning
+            data-scroll-behavior="smooth"
+            className={`${dmSans.variable} ${outfit.variable} ${GeistMono.variable}`}
+        >
+            <body className="font-sans antialiased">
                 <ThemeProvider
                     attribute="class"
-                    defaultTheme="system"
+                    defaultTheme="dark"
                     enableSystem
                     disableTransitionOnChange
                 >

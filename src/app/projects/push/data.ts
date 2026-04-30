@@ -4,13 +4,13 @@ import type { DiagramKey } from "./diagrams";
 
 export const pageData: PageData<DiagramKey> = {
     hero: {
-        badge: "AI Video · Creative Technology · Transmedia",
+        badge: "Work in Progress · AI Video · Creative Technology",
         title: "PUSH",
         tagline:
-            "A 5–7 minute comedy short about a man, a hangover, and a mechanical bed with no off switch — produced entirely with AI generative video. 54-shot prompt library, 6-document production package, character consistency pipeline, and a companion transmedia universe at riseawake.com.",
+            "A 5–7 minute comedy short about a man, a hangover, and a mechanical bed with no off switch — currently in pre-production. 55-shot prompt library, 17-document production package, character consistency pipeline, and a companion transmedia universe being built at riseawake.com.",
         stats: [
-            { label: "AI Shots", value: "54" },
-            { label: "Production Docs", value: "6" },
+            { label: "AI Shots", value: "55" },
+            { label: "Production Docs", value: "17" },
             { label: "Screenplay Version", value: "v7" },
             { label: "Narrative Threads", value: "3" },
             { label: "AI Video Tools", value: "5" },
@@ -24,11 +24,11 @@ export const pageData: PageData<DiagramKey> = {
     situation: {
         narrative: [
             "Most AI video projects start with a prompt and hope for the best. Character consistency breaks between shots. There's no production design language — no prop bible, no environmental rules, no narrative structure that survives the generation process. The result is a tech demo, not a film.",
-            "PUSH takes the opposite approach: production design first, generation second. A 54-shot prompt library with self-contained AI-ready prompts, a canonical prop bible that supersedes all other documents, a character consistency pipeline using multi-angle reference sheets, and a design memo solving the core visual challenge — how to make a queen-size adjustable bed feel like it belongs in a bathroom, a kitchen, an office, and a car without ever showing it pass through a door. Every shot is engineered for specific AI video tools (Sora, Runway, Kling, Pika) with camera angles, durations, and technical notes baked into each prompt.",
+            "PUSH takes the opposite approach: production design first, generation second. The writing and research phase is building the foundation — a 55-shot prompt library with self-contained AI-ready prompts, a canonical prop bible that supersedes all other documents, a character consistency pipeline using multi-angle reference sheets, and a design memo solving the core visual challenge — how to make a queen-size adjustable bed feel like it belongs in a bathroom, a kitchen, an office, and a car without ever showing it pass through a door. AI image and video generation is the next phase.",
         ],
         context: {
             role: "Writer, Director & Creative Technologist",
-            timeline: "2025 – Present",
+            timeline: "2026 – Present (Pre-production)",
             client: "Personal Creative IP",
             live: "riseawake.com",
             stack: [
@@ -61,14 +61,14 @@ export const pageData: PageData<DiagramKey> = {
                     "Canonical physical descriptions — bed dimensions, remote specs, Marcus's colorway, all states",
             },
             {
-                title: "54-Shot Prompt Library",
+                title: "55-Shot Prompt Library",
                 description:
                     "Self-contained AI prompts with camera angles, durations, and tool-specific notes",
             },
             {
                 title: "Design Memo",
                 description:
-                    "Six golden rules for environmental integration — the Trash Truck problem, solved",
+                    "Seven golden rules for environmental integration — the Trash Truck problem, solved",
             },
             {
                 title: "Character Consistency",
@@ -92,7 +92,7 @@ export const pageData: PageData<DiagramKey> = {
                 "A queen-size adjustable bed needs to appear in a bedroom, bathroom, kitchen, car, driveway, highway shoulder, office lobby, elevator, and conference room — without ever being shown passing through a door. The camera must never reveal the impossibility. The world must accept the bed completely.",
             diagramKey: "environmentIntegration",
             walkthrough: [
-                "The solution draws from Trash Truck's approach to the same problem — a 10-foot garbage truck that appears in domestic spaces without anyone questioning it. The core technique is scale ambiguity: never establish a ground-truth size relationship between the bed and the room. Wide shots show the full scene. Close shots show details. Medium shots — the ones that would force the geometry to resolve — are banned.",
+                "The solution draws from Trash Truck's approach to the same problem — a 10-foot garbage truck that appears in domestic spaces without anyone questioning it. Seven golden rules govern every shot. The core technique is scale ambiguity: never establish a ground-truth size relationship between the bed and the room. Wide shots show the full scene. Close shots show details. Medium shots — the ones that would force the geometry to resolve — are banned.",
                 "Six golden rules govern every shot: scale ambiguity (never measure), wide-or-close framing (never medium), cut-on-action transitions (arrive already there), ambient lighting (bed takes the room's light), world acceptance (nobody reacts), and environment-first design (build the room, then fill remaining space with bed).",
                 "The bed's 'costumes' add visual richness — fitted sheet, flat sheet, duvet, pillows — each with different material behavior that catches light differently. Dave's bed is a bachelor bed (navy, slightly faded, one good pillow). Marcus's is olive, warmer, more intentional. Each bed is dressed the way its owner is dressed.",
                 "A track system replaces casters for ground contact that feels earned across carpet, hardwood, tile, and concrete. The track gives the bed cinematically rich low-angle shots and utilitarian believability. The rear panel houses dual electric motors, battery pack, and charge port — engineering that's visible without being complex.",
@@ -125,12 +125,12 @@ export const pageData: PageData<DiagramKey> = {
             title: "Character Consistency Pipeline",
             subtitle: "Solving AI Video's Hardest Problem with Reference Sheets",
             problem:
-                "AI video tools generate characters that look different in every shot. Hair color shifts, clothing changes, facial features drift. A 54-shot film needs a character who looks recognizably like the same person across bedroom, bathroom, car, and office environments with different lighting conditions.",
+                "AI video tools generate characters that look different in every shot. Hair color shifts, clothing changes, facial features drift. A 55-shot film needs a character who looks recognizably like the same person across bedroom, bathroom, car, and office environments with different lighting conditions.",
             diagramKey: "characterConsistency",
             walkthrough: [
                 "The pipeline starts with Nano Banana Pro for generating multi-angle character reference sheets — front, 3/4, side, and back views of Dave, Marcus, and Karen in their film wardrobe. These sheets establish the canonical appearance that all subsequent generation must match.",
                 "T-pose reference images extracted from the character sheets provide a neutral-pose baseline that Seedance 2.0 uses as a consistency anchor. The same reference drives generation across all environments, so Dave's rumpled shirt and geometric hair remain stable whether he's in bedroom lighting or fluorescent office light.",
-                "Each shot prompt in the 54-shot library includes character appearance notes that reference the canonical sheet. 'Dave — see character sheet CS-DAVE-01' rather than re-describing his appearance from scratch, reducing drift between the prompt's description and the reference image.",
+                "Each shot prompt in the 55-shot library includes character appearance notes that reference the canonical sheet. 'Dave — see character sheet CS-DAVE-01' rather than re-describing his appearance from scratch, reducing drift between the prompt's description and the reference image.",
                 "Quality control runs three checks per generated clip: character consistency against the reference sheet, lighting match against the target environment, and motion continuity with adjacent shots in the sequence.",
             ],
             insight: {
@@ -198,7 +198,7 @@ export const pageData: PageData<DiagramKey> = {
             alternatives:
                 "Prompt-and-iterate approach — generate footage first, build story around what works",
             reasoning:
-                "AI video tools produce better results with specific, engineered prompts than with vague creative direction. A 54-shot library with camera angles, durations, character references, and lighting notes gives the AI a production brief, not a wish. The prop bible and design memo prevent the kind of drift that makes AI video feel like a tech demo.",
+                "AI video tools produce better results with specific, engineered prompts than with vague creative direction. A 55-shot library with camera angles, durations, character references, and lighting notes gives the AI a production brief, not a wish. The prop bible and design memo prevent the kind of drift that makes AI video feel like a tech demo.",
         },
         {
             decision: "Six golden rules for environmental integration",
@@ -271,9 +271,9 @@ export const pageData: PageData<DiagramKey> = {
 
     metrics: {
         hero: [
-            { value: 54, label: "AI Video Shots", suffix: "" },
+            { value: 55, label: "AI Video Shots", suffix: "" },
             { value: 7, label: "Screenplay Version", prefix: "v" },
-            { value: 6, label: "Production Documents", suffix: "" },
+            { value: 17, label: "Production Documents", suffix: "" },
             { value: 5, label: "Act Structure", suffix: "-act" },
         ],
         supporting: [

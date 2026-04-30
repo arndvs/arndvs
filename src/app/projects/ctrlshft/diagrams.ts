@@ -19,18 +19,19 @@ export const diagrams = {
         CONTEXTS["ACTIVE_CONTEXTS\\nComma-Separated Export"]
     end
 
-    subgraph Instructions["10 Stack Instructions"]
+    subgraph Instructions["11 Stack Instructions"]
         NEXTJS["nextjs · php · sanity"]
         CSS_INST["css · sentry · google-docs"]
         UX_INST["ux-prototyping · handoff"]
         LOCAL["copywriting · learnings"]
     end
 
-    subgraph Skills["24 Skills"]
+    subgraph Skills["43 Skills"]
         PIPELINE_SKILLS["Pipeline\\ngrill-me → write-a-prd →\\nprd-to-issues → do-work"]
         ANALYSIS["Analysis\\nexplore · research ·\\ncodebase-audit · code-review"]
         DEV["Development\\ntdd · systematic-debugging ·\\nimprove-architecture · architect"]
         META["Meta\\nskill-scaffolder · document ·\\ncompliance-audit · stress-test"]
+        UX["UX Design (24 skills)\\nsketch-the-solution →\\n7-phase design process"]
     end
 
     subgraph Security["Security Model"]
@@ -380,6 +381,122 @@ export const diagrams = {
 
     COMPACT{"Context ~95%?"} --> COMPACTION["compaction-guard.sh\\nBlocks Auto-Compaction\\nForces Handoff Protocol"]
     COMPACTION --> HANDOFF["Write Plan to working/\\nProvide Pickup Command"]`,
+
+    uxDesignProcess: `flowchart TD
+    subgraph Phase1["Phase 1: User Stories"]
+        GOALS["identify-goals\\nGoals per user type"]
+        STORIES["write-user-story\\nPain-state narratives"]
+        TERMS["highlight-key-terms\\nExtract entities + actions"]
+        GOALS --> STORIES --> TERMS
+    end
+
+    subgraph Phase2["Phase 2: System Map"]
+        SYSTEM["create-system-map\\nCore players + actions"]
+        RELS["draw-relationships\\nEntity relationship diagram"]
+        SYSTEM --> RELS
+    end
+
+    subgraph Phase3["Phase 3: Flow Diagram"]
+        SCREENS["list-screens\\nDerive screen list"]
+        FLOW["create-flow-diagram\\nNavigation paths"]
+        VALIDATE["validate-flow\\nCross-check vs stories"]
+        SCREENS --> FLOW --> VALIDATE
+    end
+
+    subgraph Phase4["Phase 4: Model Attributes"]
+        ATTRS["list-attributes\\nExhaustive entity attributes"]
+    end
+
+    subgraph Phase5["Phase 5: Screen Requirements"]
+        SGOALS["create-screen-goals\\n1-2 goals per screen"]
+        IEI["inform-engage-invite\\nIEI framework"]
+        ABC["list-screen-attributes\\nABC spec per screen"]
+        SGOALS --> IEI --> ABC
+    end
+
+    subgraph Phase6["Phase 6: Interface Design"]
+        INSPIRE["get-inspired\\nUI pattern research"]
+        HIGH["high-level-sketches\\nComponent layouts"]
+        DETAIL["detailed-sketches\\nUI controls + interactions"]
+        INSPIRE --> HIGH --> DETAIL
+    end
+
+    subgraph Phase7["Phase 7: Test-Driven Design"]
+        UTEST["user-testing\\nSession plan"]
+        MISTAKES["six-mistakes\\nValidate against anti-patterns"]
+        UTEST --> MISTAKES
+    end
+
+    ORCHESTRATOR["sketch-the-solution\\nOrchestrates all 7 phases"]
+
+    ORCHESTRATOR --> Phase1
+    Phase1 --> Phase2
+    Phase2 --> Phase3
+    Phase3 --> Phase4
+    Phase4 --> Phase5
+    Phase5 --> Phase6
+    Phase6 --> Phase7`,
+
+    codingPrinciples: `flowchart TD
+    subgraph INPUT["Agent Receives Task"]
+        TASK["User Request"]
+    end
+
+    subgraph P1["Principle 1: Think Before Coding"]
+        AMBIG{"Ambiguous?"}
+        ASK["Stop & Ask\\nPresent interpretations"]
+        SIMPLE{"Simpler\\napproach?"}
+        PUSH["Push back\\nwith alternative"]
+    end
+
+    subgraph P2["Principle 2: Simplicity First"]
+        SCOPE{"Beyond\\nwhat was asked?"}
+        CUT["Remove feature"]
+        ABSTRACT{"Abstraction\\nfor single use?"}
+        INLINE["Keep inline"]
+        SENIOR{"Would a senior\\nsay overcomplicated?"}
+        REWRITE["Simplify"]
+    end
+
+    subgraph P3["Principle 3: Surgical Changes"]
+        STYLE["Match existing style\\nexactly"]
+        ADJACENT{"Touching\\nadjacent code?"}
+        STOP["Don't refactor"]
+        TRACE{"Every line\\ntraces to request?"}
+        REMOVE["Remove change"]
+    end
+
+    subgraph P4["Principle 4: Goal-Driven Execution"]
+        CRITERIA["Define success criteria"]
+        TEST["Write test first"]
+        LOOP["Implement until\\ntests pass"]
+    end
+
+    TASK --> AMBIG
+    AMBIG -->|"Yes"| ASK
+    AMBIG -->|"No"| SIMPLE
+    ASK --> SIMPLE
+    SIMPLE -->|"Yes"| PUSH
+    SIMPLE -->|"No"| SCOPE
+    PUSH --> SCOPE
+
+    SCOPE -->|"Yes"| CUT
+    SCOPE -->|"No"| ABSTRACT
+    CUT --> ABSTRACT
+    ABSTRACT -->|"Yes"| INLINE
+    ABSTRACT -->|"No"| SENIOR
+    INLINE --> SENIOR
+    SENIOR -->|"Yes"| REWRITE
+    SENIOR -->|"No"| STYLE
+
+    STYLE --> ADJACENT
+    ADJACENT -->|"Yes"| STOP
+    ADJACENT -->|"No"| TRACE
+    STOP --> TRACE
+    TRACE -->|"No"| REMOVE
+    TRACE -->|"Yes"| CRITERIA
+
+    CRITERIA --> TEST --> LOOP`,
 } as const;
 
 export type DiagramKey = keyof typeof diagrams;

@@ -87,77 +87,84 @@ export const pageData: PageData = {
         },
         title: "RipeMetrics",
         description:
-            "AI-native customer growth platform that helps businesses automate customer service, reduce costs by 40%, and scale support operations through intelligent chatbots, predictive analytics, and omni-channel communication.",
+            "AI-native customer growth platform spanning 8 repositories — 880+ components, a production RAG pipeline, and multi-channel AI across chat, SMS, email, and voice.",
     },
     overview: {
         role: {
             label: "Role",
-            value: "Founder, President & Full Stack Developer",
+            value: "Lead Frontend Developer & AI Engineer",
         },
         timeline: {
             label: "Timeline",
-            value: "April 2017 - July 2025",
+            value: "April 2017 – July 2025",
         },
         technologies: {
             label: "Technologies",
             items: [
-                "React",
-                "Next.js",
+                "React 18",
+                "Next.js 14",
                 "TypeScript",
-                "Redux RTK",
-                "Material UI",
-                "Tailwind",
-                "FastAPI",
-                "PostgreSQL",
-                "MySQL",
-                "OpenAI",
+                "Redux Toolkit / RTK Query",
+                "Material UI v5",
+                "Tailwind CSS",
+                "Laravel 11",
+                "MySQL / MongoDB",
+                "OpenAI / Anthropic",
                 "Pinecone",
-                "Chroma",
+                "ElevenLabs",
+                "Twilio",
+                "Pusher",
             ],
         },
     },
     challenge: {
         title: "The Challenge",
         description:
-            "Businesses struggle to scale customer service operations efficiently. Traditional support systems are costly, slow to respond, and can't handle the volume of customer interactions modern businesses face. Companies need intelligent automation that maintains service quality while reducing operational costs.",
+            "RipeMetrics needed to evolve from a server-rendered Laravel Livewire monolith into a modern React SaaS platform — without disrupting active paying clients. The product also needed AI-powered customer service across four channels (chat, SMS, email, voice), an onboarding flow that replaced a 30-minute manual setup with a sub-60-second automated process, and a full CRM with drag-and-drop pipelines, scheduling, and omni-channel messaging.",
     },
     solution: {
         title: "The Solution",
         description:
-            "RipeMetrics is an AI-native customer growth platform that processes thousands of customer interactions daily across 50+ enterprise clients. The platform combines context-aware chatbots, vector database search, and real-time analytics to deliver intelligent, automated customer service at scale.",
+            "A complete platform rebuild: 880 React components across 85 routes, powered by 41 Redux slices and 53 RTK Query services. The frontend connects to a Laravel 11 backend running a custom RAG pipeline with OpenAI function calling, Pinecone vector search, and dual-LLM failover (OpenAI ↔ Anthropic).",
         features: [
             {
-                id: "chatbots",
-                title: "AI-Powered Chatbots",
+                id: "saas-platform",
+                title: "Enterprise SaaS Platform",
                 description:
-                    "Context-aware chatbots built with OpenAI, MySQL, and Pinecone/Chroma vector databases for omni-channel AI customer service with intelligent response generation.",
+                    "Multi-repo SaaS platform with a 128K+ LOC Next.js core application: CRM (drag-and-drop kanban, 6-channel messaging, polymorphic timeline), Engage (campaign builder, customer segmentation, NPS dashboards), and Intel (40+ Highcharts analytics visualizations with AI-generated business insights).",
             },
             {
-                id: "analytics",
-                title: "Real-Time Analytics Dashboard",
+                id: "ai-chatbot",
+                title: "Multi-Channel AI Customer Service",
                 description:
-                    "Comprehensive analytics with 40+ custom charts using Highcharts for large dataset visualization, providing actionable insights into customer interactions and service performance.",
+                    "RAG-based chatbot with OpenAI function calling (searchProducts, searchStoreTrainingDocs, escalateToHuman), Pinecone namespace isolation per tenant, conversation summarization at 15 messages, and channel-aware formatting — Markdown for chat, plain text for SMS, HTML for email, voice for IVR.",
             },
             {
-                id: "extraction",
-                title: "Automated Content Extraction",
+                id: "voice-ai",
+                title: "Voice AI & IVR System",
                 description:
-                    "Modular website content extraction system using TypeScript and Apify SDK, reducing client onboarding time from 20 minutes to just 2 minutes.",
+                    "ElevenLabs TTS voice synthesis integrated with Twilio IVR — speech recognition routes callers through an AI-powered decision tree, generates responses via the RAG pipeline, converts to audio with ElevenLabs, and plays back via Twilio. Redis-cached audio for holding messages.",
             },
             {
-                id: "call-center",
-                title: "Real-Time Call Center",
+                id: "ai-onboarding",
+                title: "AI-Powered Onboarding",
                 description:
-                    "Web-based call center with ElevenLabs voice synthesis and Twilio integration for IVR system, enabling voice-based customer interactions with AI assistance.",
+                    "Replaced a 30-minute manual client setup with a sub-60-second automated pipeline. The frontend onboarding wizard shows real-time progress via Pusher while backend agents scrape the client's website, extract business data with GPT-4o, and auto-populate the AI knowledge base.",
+            },
+            {
+                id: "cross-platform",
+                title: "Cross-Platform Widget Architecture",
+                description:
+                    "3KB Preact islands with Shadow DOM encapsulation, deployed as Web Components via a WordPress plugin. Pusher-powered real-time streaming for chat responses, injected onto client sites without style conflicts or runtime bloat.",
             },
         ],
     },
     impact: {
         title: "Impact",
         metrics: [
-            { value: "50+", label: "Enterprise clients served" },
-            { value: "40%", label: "Reduction in customer service costs" },
-            { value: "95%+", label: "System uptime achieved" },
+            { value: "8", label: "Repositories across the platform" },
+            { value: "880", label: "React components built" },
+            { value: "4", label: "AI channels (chat, SMS, email, voice)" },
         ],
     },
     architectureDiagramKey: "systemArchitecture",
@@ -167,13 +174,13 @@ export const pageData: PageData = {
             title: "Laravel → React Migration",
             subtitle: "Refactoring a Monolith Without Downtime",
             problem:
-                "The original platform was built on Laravel Livewire — server-rendered components with limited interactivity. As the product grew to 50+ clients, Livewire's round-trip model added 6+ seconds to common dashboard interactions. Real-time features like live chat and streaming AI responses were impossible without a fundamental architecture change.",
+                "The original platform was built on Laravel Livewire — server-rendered components with limited interactivity. As the product grew, Livewire's round-trip model added 6+ seconds to common dashboard interactions. Real-time features like live chat and streaming AI responses were impossible without a fundamental architecture change.",
             diagramKey: "migrationTimeline",
             walkthrough: [
-                "I audited every Livewire component and mapped them to React equivalents, prioritizing the highest-traffic surfaces first: the analytics dashboard (40+ charts), the chat interface, and the client management panel.",
-                "RTK Query replaced Laravel's Eloquent-based API layer. Each endpoint got typed request/response schemas, optimistic updates for UI responsiveness, and automatic cache invalidation. This alone cut perceived latency by ~4 seconds on dashboard loads.",
+                "I audited every Livewire component and mapped them to React equivalents, prioritizing the highest-traffic surfaces first: the analytics dashboard (40+ charts), the chat interface, and the CRM pipeline views.",
+                "RTK Query replaced Laravel's Eloquent-based API layer with 53 typed services and ~75 cache tags. Each endpoint got typed request/response schemas, optimistic updates, and automatic cache invalidation — cutting perceived latency by ~4 seconds on dashboard loads.",
                 "The migration ran in parallel with production — a feature flag routed enterprise clients to the React app while smaller accounts stayed on Livewire. Over 3 months, we migrated 100% of users with zero downtime incidents.",
-                "Material UI provided the component foundation, but Tailwind handled all custom styling. This hybrid approach gave us rapid prototyping speed (MUI's pre-built components) with pixel-level control (Tailwind utilities) where designs demanded it.",
+                "Material UI v5 provided the component foundation, but Tailwind handled all custom styling. A usePageType() hook let settings and onboarding share the same components in different contexts, eliminating 30+ duplicate screens.",
             ],
             insight: {
                 title: "Parallel Migration > Big Bang Rewrite",
@@ -182,16 +189,16 @@ export const pageData: PageData = {
         },
         {
             id: "ai-chatbot",
-            title: "AI Chatbot Architecture",
-            subtitle: "Multi-Tenant RAG with Streaming Responses",
+            title: "AI Chatbot & Voice AI Architecture",
+            subtitle: "Multi-Tenant RAG with Dual-LLM Failover",
             problem:
-                "Each client needed a chatbot that understood their specific business — not a generic GPT wrapper. The system had to isolate each client's knowledge base, support real-time streaming responses, maintain conversation history, and scale to handle concurrent sessions across 50+ tenants without cross-contamination of context.",
+                "Each client needed a chatbot that understood their specific business — not a generic GPT wrapper. The system had to isolate each client's knowledge base, support real-time responses across four channels (chat, SMS, email, voice), maintain conversation history, and scale to handle concurrent multi-tenant sessions without cross-contamination of context.",
             diagramKey: "chatbotArchitecture",
             walkthrough: [
                 "Each client's website content, FAQs, and documentation gets embedded via OpenAI's text-embedding-ada-002 and stored in a namespaced Pinecone index. Namespaces provide hard tenant isolation — one client's vectors never appear in another's search results.",
-                "When a user sends a message, the API retrieves the top-5 most relevant document chunks from that tenant's namespace, joins them with the conversation history (last 10 messages), and constructs a system prompt that constrains the model to the client's domain.",
-                "FastAPI handles the OpenAI streaming response via Server-Sent Events. Tokens stream to the chat widget in real-time while the full response is asynchronously persisted to the database and broadcast to the agent dashboard via PusherJS.",
-                "A fallback escalation path triggers when the chatbot's confidence score drops below a threshold — the conversation routes to a human agent with full context preserved, so the agent doesn't start from scratch.",
+                "The core AutoRespondService (~1,100 lines) uses OpenAI function calling with three tools — searchProducts, searchStoreTrainingDocs, and escalateToHuman. When a user sends a message, the service retrieves top-5 relevant chunks from Pinecone, builds a system prompt with store context, and streams the completion via Pusher WebSocket to the frontend.",
+                "A dual-LLM client provides automatic failover: if OpenAI fails, the system seamlessly switches to Anthropic Claude 3 Opus (and vice versa). Channel-aware token limits keep responses appropriate — 1,000 tokens for chat, 400 for SMS, 2,000 for email, 150 for voice. Conversations are automatically summarized after 15 messages to manage the context window.",
+                "For voice calls, the response goes through ElevenLabs TTS (eleven_flash_v2 model), gets cached in Redis, and plays back via Twilio's IVR system. The IVR decision tree routes callers through AI response → call center → voicemail based on availability.",
             ],
             insight: {
                 title: "Namespace Isolation Is Non-Negotiable",
@@ -199,21 +206,21 @@ export const pageData: PageData = {
             },
         },
         {
-            id: "onboarding-pipeline",
-            title: "Automated Client Onboarding",
-            subtitle: "From 20 Minutes to 2 Minutes Per Client",
+            id: "ai-onboarding",
+            title: "AI-Powered Client Onboarding",
+            subtitle: "From 30 Minutes to Under 60 Seconds",
             problem:
-                "Onboarding a new client required manually copying their website content, writing chatbot training data, and configuring the knowledge base. At 50+ clients, this manual process consumed 15+ hours per week and was the primary bottleneck to scaling the business.",
+                "Onboarding a new client required manually copying their website content, writing chatbot training data, configuring hours and contact info, and building the knowledge base. This 30-minute manual process consumed entire days and was the primary bottleneck to scaling the business.",
             diagramKey: "onboardingPipeline",
             walkthrough: [
-                "The pipeline starts with a client URL and extraction config. Apify SDK crawls the site following both sitemap.xml links and discovered anchor tags, building a complete page inventory with deduplication.",
-                "Each page runs through a content parser that strips navigation, footers, and boilerplate, extracting only meaningful content. The parser handles SPAs via headless browser rendering when static HTML extraction fails.",
-                "Extracted content is chunked into 512-token segments with 50-token overlap to preserve context at chunk boundaries. Each chunk gets embedded and upserted into the client's Pinecone namespace in batches of 100.",
-                "The entire pipeline runs asynchronously — the admin triggers it from the dashboard, gets a real-time progress feed via PusherJS, and the chatbot is ready to test within 2 minutes for a typical 50-page site.",
+                "The frontend onboarding wizard is a multi-phase flow built with React — it collects the client's URL, then shows real-time extraction progress via Pusher WebSocket events. An animated beam visualization gives users visual feedback as each extraction step completes.",
+                "On the backend, a WebScraperDataSummarizerAgent scrapes the store's website and Google Places data, then uses GPT-4o to extract structured business info: name, brand color, hours, contact details, social links, privacy/TOS URLs, and four business summaries (about, products, demographics, additional context).",
+                "Extracted content feeds through a recursive text splitter, gets embedded via Ada-002, and upserts into the client's Pinecone namespace in batches of 20. Six specialized document loaders handle different content types — product catalogs, store info, AI training settings, uploaded DOCX/PDF files, and industry-specific knowledge bases.",
+                "A usePageType() hook lets the onboarding wizard and settings pages share the same AI configuration components — editing training data, adjusting chatbot personality, customizing widget theming — without duplicating 30+ screens of UI.",
             ],
             insight: {
-                title: "Chunk Overlap Prevents Context Loss",
-                body: "Initial chunking without overlap created a subtle bug: sentences split across chunk boundaries lost meaning, causing the chatbot to give incomplete answers. Adding 50-token overlap (roughly one paragraph) eliminated these edge cases. The 10% storage overhead was insignificant compared to the improvement in answer quality.",
+                title: "Bi-Directional Vector Sync Prevents Stale Knowledge",
+                body: "The AI setup controller syncs training data bi-directionally with Pinecone — updating text in the settings UI automatically re-embeds and upserts the corresponding vectors, and clearing a field deletes its Pinecone vectors. This eliminated a class of bugs where the chatbot's knowledge base drifted from the client's configured training data.",
             },
         },
     ],
@@ -222,31 +229,37 @@ export const pageData: PageData = {
             decision: "RTK Query over React Query / SWR",
             alternatives: "TanStack Query, SWR, custom fetch hooks",
             reasoning:
-                "The SaaS dashboard had complex cross-component state (selected client, active filters, real-time chat state) that needed Redux. RTK Query integrates natively with the Redux store, giving us one state management solution instead of Redux + a separate data-fetching library. Cache invalidation tags across related endpoints (e.g., updating a chat session invalidates the analytics view) were trivial with RTK Query's tag system.",
+                "The SaaS dashboard had complex cross-component state (selected client, active filters, real-time chat state) across 41 Redux slices. RTK Query integrates natively with the Redux store, giving us one state management solution instead of Redux + a separate data-fetching library. 53 services with ~75 cache invalidation tags made cross-endpoint cache management (e.g., updating a chat session invalidates the analytics view) trivial.",
         },
         {
-            decision: "FastAPI for AI routes instead of Node.js",
-            alternatives: "Express.js, Next.js API routes, Django",
+            decision: "Laravel as unified backend over split runtimes",
+            alternatives: "FastAPI for AI routes, Express.js, separate microservices",
             reasoning:
-                "Python's ML ecosystem (LangChain, sentence-transformers, numpy) made FastAPI the natural choice for AI-heavy routes. FastAPI's native async support and streaming response capabilities matched the chatbot's SSE requirements perfectly. The trade-off — running two server runtimes — was offset by cleaner separation of concerns: Next.js handles the marketing site and SSR, FastAPI handles all AI inference routes.",
+                "All AI inference — RAG retrieval, OpenAI function calling, embeddings, TTS — runs through Laravel Actions and Services, not a separate Python/Node runtime. This kept the deployment story simple (single Laravel app on DigitalOcean via Forge) while PHP 8.3's performance was more than adequate for orchestrating API calls to OpenAI, Pinecone, and ElevenLabs. The trade-off was no native ML libraries, but the platform orchestrates external AI services rather than running models locally.",
         },
         {
-            decision: "Pinecone + Chroma dual vector DB strategy",
-            alternatives: "Pinecone-only, Weaviate, Qdrant, pgvector",
+            decision: "Pinecone with namespace-based multi-tenancy",
+            alternatives: "Pinecone-only flat index, Weaviate, Qdrant, pgvector",
             reasoning:
-                "Pinecone runs in production for its managed infrastructure and namespace-based multi-tenancy. Chroma runs locally for development and testing — identical API surface, zero cloud costs during iteration. This dual approach let developers test embedding pipelines and chatbot behavior locally without burning Pinecone API credits or risking production data.",
+                "Pinecone's namespace isolation provides hard multi-tenant boundaries — each client's vectors are physically separated, eliminating the risk of cross-tenant data leakage. Metadata filtering was tested first but added 200-400ms latency and had concurrency edge cases. Namespaces eliminated both problems and simplified the query path to a single index with per-tenant namespaces.",
         },
         {
             decision: "Preact islands for embeddable widgets",
             alternatives: "React, Web Components, vanilla JS, iframe embeds",
             reasoning:
-                "Clients embed our chat widget on their WordPress and Shopify sites. React's 40KB+ runtime was unacceptable for a third-party script. Preact's 3KB runtime with compatible API let us share component logic between the main app and the embeddable widget. Iframes were ruled out because they break on mobile and can't access parent page context for URL-aware chatbot responses.",
+                "Clients embed our chat widget on their WordPress and Shopify sites. React's 40KB+ runtime was unacceptable for a third-party script. Preact's 3KB runtime with Shadow DOM encapsulation let us inject widgets without style conflicts. Iframes were ruled out because they break on mobile and can't access parent page context for URL-aware chatbot responses.",
         },
         {
-            decision: "SendGrid with TCR/10DLC compliance",
-            alternatives: "Amazon SES, Mailgun, Postmark, self-hosted SMTP",
+            decision: "Dual-LLM failover (OpenAI ↔ Anthropic)",
+            alternatives: "Single provider, manual fallback, queue-and-retry",
             reasoning:
-                "At 10,000+ daily marketing emails, deliverability is the constraint — not cost. SendGrid's dedicated IP pools and TCR/10DLC registration process (which took 6 weeks to complete) ensured our emails landed in inboxes, not spam folders. The compliance process was painful but necessary: without 10DLC registration, carriers increasingly block unregistered bulk SMS/email senders.",
+                "The LLMClient automatically tries Anthropic Claude 3 Opus if OpenAI fails, and vice versa. For a customer-facing chatbot where downtime means lost revenue for clients, the dual-provider architecture cost minimal additional complexity (same prompt format, same streaming interface) but eliminated single-provider outage risk entirely.",
+        },
+        {
+            decision: "usePageType() for settings/onboarding reuse",
+            alternatives: "Duplicate components, conditional rendering, separate routes",
+            reasoning:
+                "The AI configuration UI appears in both onboarding (first-time setup) and settings (ongoing management). A custom usePageType() hook detects the context and adjusts behavior — onboarding shows guided steps with progress indicators, settings shows direct-edit forms. This eliminated 30+ duplicate screens and ensured configuration changes propagated to both contexts automatically.",
         },
     ],
     learnings: [
@@ -255,12 +268,12 @@ export const pageData: PageData = {
             body: "Metadata filtering looks simpler than namespaces but breaks under load. Always use hard isolation (namespaces, separate indexes, or separate collections) for multi-tenant vector stores. The performance and correctness guarantees are worth the operational complexity.",
         },
         {
-            title: "Streaming Changes Everything About Error Handling",
-            body: "With traditional request/response, you return errors before any data. With SSE streaming, you might be 200 tokens into a response when OpenAI rate-limits you. I built a structured error token protocol so the frontend can distinguish between a normal end-of-stream and a mid-stream failure.",
+            title: "Channel-Aware AI Needs Per-Channel Constraints",
+            body: "A chatbot response that works in a web widget (1,000 tokens, Markdown) is unusable as a voice IVR prompt (150 tokens, plain text) or an SMS reply (400 tokens). Building channel awareness into the AI service from day one — instead of retrofitting it — saved months of per-channel edge case fixes.",
         },
         {
             title: "Product-Market Fit Tests Architecture",
-            body: "RipeMetrics pivoted 3 times: from review management to customer analytics to AI chatbots. Each pivot stress-tested the architecture differently. The modular service-oriented design survived because individual services (email, analytics, chat) could be swapped or deprecated without cascading changes.",
+            body: "RipeMetrics pivoted 3 times: from review management to customer analytics to AI chatbots. Each pivot stress-tested the architecture differently. The modular service-oriented design survived because individual services (email, analytics, chat) could be swapped or deprecated without cascading changes. The 880-component frontend survived because of strict data-driven rendering — swap the data, keep the components.",
         },
     ],
     technicalImplementation: {
@@ -269,59 +282,69 @@ export const pageData: PageData = {
             {
                 heading: "Frontend Architecture",
                 content:
-                    "Led complete refactor from Laravel Livewire to React/Next.js using RTK Query, TypeScript, TailwindCSS, and Material UI, reducing network request response times by 6 seconds on average. Built the main SaaS application and marketing website with headless CMS integration using Sanity. Created lightweight Preact islands architecture for embeddable widgets and WordPress plugin integration.",
+                    "Built the 128K+ LOC Next.js 14 core application plus 7 supporting repos (reputation app, marketing site, extractors, embeddable widgets, changelog, WP plugin). The core app spans CRM with drag-and-drop kanban (react-beautiful-dnd), polymorphic timeline (7 item types), and 6-channel messaging. Engage module with Unlayer campaign builder, customer segmentation, NPS dashboards, and landing page studio. 41 Redux slices and 53 RTK Query services with ~75 cache invalidation tags power the data layer across 85 routes.",
             },
             {
-                heading: "AI & Machine Learning",
+                heading: "AI & Voice Engineering",
                 content:
-                    "Designed context-aware chatbot using OpenAI, MySQL, and Pinecone/Chroma vector databases for omni-channel AI customer service. Implemented Next.js/FastAPI system for AI interactions with streaming response capabilities. Architected vector databases for document embeddings with multi-tenant architecture.",
+                    "Built the production RAG pipeline on Laravel: recursive text splitting, OpenAI Ada-002 embeddings, Pinecone vector storage with namespace multi-tenancy, and a 1,100-line AutoRespondService with OpenAI function calling and dual-LLM failover (OpenAI ↔ Anthropic). Integrated ElevenLabs TTS for voice AI, Twilio IVR with speech recognition, and 7 AI-powered business insight tools that generate strategic recommendations from analytics data.",
             },
             {
                 heading: "Backend & Infrastructure",
                 content:
-                    "Built real-time communication systems using PusherJS and WebSockets. Monitored and maintained CI/CD pipelines through Forge, Vercel, Bitbucket, and DigitalOcean. Implemented PostHog analytics to monitor onboarding processes and optimize user flow conversion rates. Configured SendGrid SDK for marketing email server supporting 10,000+ daily emails with TCR/10DLC compliance.",
+                    "Laravel 11 backend with 170+ models, 300+ migrations, MySQL + MongoDB, Redis/Horizon queue management. DigitalOcean hosting via Laravel Forge CI/CD. Integrated 15+ third-party services including Twilio, SendGrid, Stripe, Shopify, ElevenLabs, and Pusher for real-time WebSocket events.",
+            },
+            {
+                heading: "Cross-Platform Widgets",
+                content:
+                    "Preact 10 islands with Shadow DOM encapsulation deployed as Web Components via a WordPress plugin. 3KB runtime with Pusher-powered real-time streaming for chat responses, injected onto client WordPress and Shopify sites without style conflicts.",
             },
         ],
     },
     achievements: {
-        title: "Key Technical Achievements",
+        title: "Key Achievements",
         items: [
+            {
+                title: "Multi-Repo SaaS Platform",
+                description:
+                    "Built 8 repositories: 128K+ LOC core app (880 components, 85 routes, 41 Redux slices, 53 RTK Query services), reputation app (Laravel/Inertia/React), marketing site (Next.js, 80+ components), Preact widget system, TypeScript extraction pipeline, changelog, and WordPress plugin.",
+            },
+            {
+                title: "30-Minute to 60-Second Onboarding",
+                description:
+                    "Replaced a 30-minute manual client setup with an AI-powered pipeline that scrapes, extracts, embeds, and configures a new client's chatbot in under 60 seconds.",
+            },
+            {
+                title: "Production RAG Pipeline",
+                description:
+                    "Built a complete retrieval-augmented generation system from scratch in Laravel: document ingestion, chunking, embedding, Pinecone storage, semantic retrieval, OpenAI function calling, and dual-LLM failover.",
+            },
+            {
+                title: "Four-Channel AI Service",
+                description:
+                    "Same AI brain serves chat widgets, SMS, email, and phone calls — each with channel-appropriate formatting, token limits, and delivery mechanisms (Pusher, Twilio, SendGrid, ElevenLabs TTS).",
+            },
             {
                 title: "Performance Optimization",
                 description:
-                    "Reduced network request response times by 6 seconds on average through complete React/Next.js refactor with RTK Query and TypeScript.",
+                    "Reduced dashboard response times by 6 seconds through the Livewire → React migration, RTK Query caching with ~75 invalidation tags, and optimistic updates.",
             },
             {
-                title: "Rapid Client Onboarding",
+                title: "Zero-Downtime Migration",
                 description:
-                    "Built automated content extraction system that reduced client onboarding time from 20 minutes to 2 minutes using TypeScript and Apify SDK.",
+                    "Migrated all clients from Laravel Livewire to React over 3 months using feature flags — per-client rollout with zero downtime incidents.",
             },
             {
-                title: "Comprehensive Analytics",
+                title: "Voice AI Integration",
                 description:
-                    "Developed analytics dashboard with 40+ custom charts using Highcharts for large dataset visualization and real-time insights.",
-            },
-            {
-                title: "High Availability",
-                description:
-                    "Achieved 95%+ system uptime through robust architecture, comprehensive monitoring with Sentry and PostHog, and efficient CI/CD pipelines.",
-            },
-            {
-                title: "Scalable Email Infrastructure",
-                description:
-                    "Configured SendGrid SDK to support 10,000+ daily marketing emails with TCR/10DLC compliance for enterprise-scale communication.",
-            },
-            {
-                title: "Multi-Tenant Vector Database",
-                description:
-                    "Architected vector databases for document embeddings with multi-tenant architecture using Pinecone and Chroma for intelligent search.",
+                    "ElevenLabs TTS voice synthesis with Twilio IVR, speech recognition routing, Redis-cached audio, and a priority decision tree: AI response → call center → voicemail.",
             },
         ],
     },
     conclusion: {
         title: "Results",
         description:
-            "RipeMetrics successfully scaled from concept to serving 50+ enterprise clients, processing thousands of customer interactions daily. The platform reduced customer service costs by 40% through AI automation while maintaining 95%+ system uptime. Led technical team through multiple successful product pivots based on market feedback, demonstrating the platform's adaptability and robust architecture.",
+            "As Lead Frontend Developer & AI Engineer, I built a multi-repo platform spanning 8 repositories — a 128K+ LOC React core app (880 components, 85 routes), consumer-facing reputation app, marketing site, embeddable Preact widgets, TypeScript extraction pipeline, and the production RAG pipeline. The AI-powered onboarding reduced a 30-minute manual process to under 60 seconds. The multi-channel AI system handles customer interactions across chat, SMS, email, and voice — with dual-LLM failover ensuring zero-downtime AI service.",
         cta: {
             secondary: { text: "View More Projects", href: "/projects" },
         },
