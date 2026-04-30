@@ -29,7 +29,8 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        setIsVisible(true);
+        const frame = requestAnimationFrame(() => setIsVisible(true));
+        return () => cancelAnimationFrame(frame);
     }, []);
 
     return (

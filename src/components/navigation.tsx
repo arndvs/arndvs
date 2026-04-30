@@ -50,7 +50,7 @@ export function Navigation() {
     }, []);
 
     useEffect(() => {
-        setOpen(false);
+        requestAnimationFrame(() => setOpen(false));
     }, [pathname]);
 
     const isActive = (href: string) =>
