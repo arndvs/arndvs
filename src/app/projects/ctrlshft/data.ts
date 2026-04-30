@@ -7,9 +7,9 @@ export const pageData: PageData<DiagramKey> = {
         badge: "AI Infrastructure · Open Source",
         title: "ctrl+shft",
         tagline:
-            "Autonomous AI agent infrastructure — 24 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets from a single source of truth. One git pull updates everything. Agents load only what's relevant.",
+            "Autonomous AI agent infrastructure — 43 skills (including a complete 7-phase UX design process), lifecycle hooks, a real-time compliance HUD, and hardened secrets from a single source of truth. One git pull updates everything. Agents load only what's relevant.",
         stats: [
-            { label: "Skills", value: "24" },
+            { label: "Skills", value: "43" },
             { label: "Shell Scripts", value: "43" },
             { label: "Lifecycle Hooks", value: "8" },
             { label: "Agent Personas", value: "6" },
@@ -23,7 +23,7 @@ export const pageData: PageData<DiagramKey> = {
     situation: {
         narrative: [
             "Most AI coding setups are per-machine and per-session. You paste the same instructions into every chat. You rebuild context from scratch. Agents stall on tasks that should run unattended — and when they do run, they have access to every secret on the machine. There's no visibility into what rules they loaded, what files they read, or whether they followed instructions.",
-            "ctrl+shft fixes that. A single dotfiles repo configures VS Code Copilot, Claude Code, and an autonomous agent loop with progressive disclosure — agents see only instructions relevant to the current project. A three-tier security model ensures agents never access credentials. Lifecycle hooks mechanically block dangerous commands before they execute. A real-time compliance HUD tracks every rule load, file read, and session event. The pipeline takes a rough idea through Socratic interrogation, formal PRD, vertical-slice issue creation, and autonomous implementation — 24 skills chained from extraction through shipping.",
+            "ctrl+shft fixes that. A single dotfiles repo configures VS Code Copilot, Claude Code, and an autonomous agent loop with progressive disclosure — agents see only instructions relevant to the current project. A three-tier security model ensures agents never access credentials. Lifecycle hooks mechanically block dangerous commands before they execute. A real-time compliance HUD tracks every rule load, file read, and session event. The pipeline takes a rough idea through Socratic interrogation, formal PRD, vertical-slice issue creation, and autonomous implementation — 43 skills chained from extraction through shipping, including a complete 7-phase UX design process encoded as executable AI skills.",
         ],
         context: {
             role: "Solo Developer & Architect",
@@ -44,12 +44,12 @@ export const pageData: PageData<DiagramKey> = {
     },
 
     architecture: {
-        intro: "ctrl+shft coordinates three consumers — VS Code Copilot, Claude Code, and the shft autonomous loop — from a single source of truth. Every agent loads the same rules, but sees only instructions relevant to the current workspace. A compliance HUD provides real-time observability, lifecycle hooks mechanically enforce safety constraints, and a dual CLI (ctrl for infrastructure, shft for execution) exposes the entire system through two commands.",
+        intro: "ctrl+shft coordinates three consumers — VS Code Copilot, Claude Code, and the shft autonomous loop — from a single source of truth. Every agent loads the same rules, but sees only instructions relevant to the current workspace. A compliance HUD provides real-time observability, lifecycle hooks mechanically enforce safety constraints, a session management system preserves context across conversations, and a dual CLI (ctrl for infrastructure, shft for execution) exposes the entire system through two commands. One idempotent bootstrap.sh configures any macOS or Linux machine from scratch.",
         diagramKey: "systemArchitecture",
         subsystems: [
             {
                 title: "The Pipeline",
-                description: "24 skills chained from idea extraction through autonomous execution",
+                description: "43 skills chained from idea extraction through autonomous execution",
             },
             {
                 title: "Compliance HUD",
@@ -78,11 +78,22 @@ export const pageData: PageData<DiagramKey> = {
             },
             {
                 title: "Skill System",
-                description: "24 auto-discovered, self-learning skills that improve through use",
+                description:
+                    "43 auto-discovered, self-learning skills — 18 core workflow + 24 UX design + 1 domain",
             },
             {
                 title: "shft Loop",
                 description: "Docker-sandboxed autonomous agent consuming a GitHub issues backlog",
+            },
+            {
+                title: "Session Management",
+                description:
+                    "Handoff protocol with plan files, pickup commands, and compaction guards for cross-session continuity",
+            },
+            {
+                title: "Cross-Platform Bootstrap",
+                description:
+                    "Single idempotent bootstrap.sh installs everything on macOS or Linux — Homebrew, mise, pnpm, uv, shell hooks, supply-chain protection",
             },
         ],
     },
@@ -91,7 +102,7 @@ export const pageData: PageData<DiagramKey> = {
         {
             id: "pipeline",
             title: "The Pipeline",
-            subtitle: "Chaining 24 Skills Into an Autonomous Shipping Loop",
+            subtitle: "Chaining 43 Skills Into an Autonomous Shipping Loop",
             problem:
                 "Feature development is fragmented — ideas live in chat, PRDs rot in docs, issues miss context. Agents don't know what to build or in what order. Each conversation starts from scratch with no memory of previous decisions.",
             diagramKey: "pipeline",
@@ -215,6 +226,42 @@ export const pageData: PageData<DiagramKey> = {
                 body: "The difference between a rule and a hook is the same as speed limits versus guardrails. One is aspirational, the other is physical. secret-guard.sh doesn't ask the agent not to leak secrets — it blocks the command with a non-zero exit code. migration-guard.sh doesn't trust the agent to check the database URL — it inspects it mechanically. Every safety constraint worth having should be a hook, not a rule.",
             },
         },
+        {
+            id: "ux-design-methodology",
+            title: "The UX Design Methodology",
+            subtitle: "A Complete 7-Phase Design Process as Executable AI Skills",
+            problem:
+                "UX design and AI coding are treated as separate disciplines. Designers sketch in Figma, developers implement from screenshots, and the translation between intent and code loses nuance at every handoff. AI agents can code, but they can't design — they have no structured process for going from a rough idea to a tested interface.",
+            diagramKey: "uxDesignProcess",
+            walkthrough: [
+                "sketch-the-solution is the orchestrator — a 7-phase design process encoded as 24 executable AI skills. Phase 1 (User Stories) identifies goals per user type, writes pain-state narratives, and extracts entities and actions. Phase 2 (System Map) builds an entity-relationship diagram from the stories. Phase 3 (Flow Diagram) derives screens, maps navigation paths, and validates flows against user stories.",
+                "Phase 4 (Model Attributes) lists exhaustive attributes for every entity — the data model emerges from the design process, not from a database schema. Phase 5 (Screen Requirements) defines goals per screen using the Inform → Engage → Invite framework and produces ABC specs: what the user gets (A), what they do (B), and how they navigate (C).",
+                "Phase 6 (Interface Design) is three sub-steps: get-inspired researches UI patterns and builds a reference library, high-level-sketches creates component layouts, and detailed-sketches specifies exact UI controls and interaction patterns. Phase 7 (Test-Driven Design) creates structured user testing session plans and validates against the six common user testing mistakes.",
+                "Each phase is a standalone skill that can be invoked independently or chained. The agent reads the output of each phase as input to the next. The entire methodology lives in SKILL.md files — no external tools, no Figma dependency, no design system required. An AI agent can run the complete process from user stories through tested wireframes.",
+            ],
+            insight: {
+                title: "Design Thinking as Code",
+                body: "Most AI coding tools skip design entirely — they go straight from a prompt to implementation. ctrl+shft treats UX design as a first-class engineering discipline by encoding a complete methodology as executable skills. The agent doesn't just implement screens — it identifies user goals, maps entity relationships, derives screen requirements, and validates designs against user stories before a single line of code is written.",
+            },
+        },
+        {
+            id: "coding-principles",
+            title: "The Coding Principles",
+            subtitle: "Four Behavioral Rules That Prevent the Most Expensive AI Failures",
+            problem:
+                "AI coding agents have predictable failure modes: they build the wrong thing because they silently pick an interpretation, they overengineer because they optimize for completeness over simplicity, they refactor adjacent code because they can't resist \"improving\" what they see, and they produce vague outcomes because they lack concrete success criteria. These aren't bugs — they're behavioral patterns baked into how LLMs generate code.",
+            diagramKey: "codingPrinciples",
+            walkthrough: [
+                "Think Before Coding forces explicit reasoning. The agent must stop when confused and ask — never silently pick an interpretation. If ambiguity exists, it presents multiple interpretations and asks which one. It pushes back when a simpler approach exists, even if the user asked for the complex version. This prevents the most expensive failure: building the wrong thing confidently.",
+                'Simplicity First combats overengineering. No features beyond what was asked. No abstractions for single-use code. No "flexibility" or "configurability" that wasn\'t requested. If 200 lines could be 50, rewrite it. The test: would a senior engineer say this is overcomplicated?',
+                "Surgical Changes prevents drive-by refactoring. The agent matches existing style exactly — even if it would write it differently. It doesn't refactor what isn't broken, doesn't \"improve\" adjacent code, and only removes imports or variables that its own changes made unused. Every changed line must trace directly to the user's request.",
+                'Goal-Driven Execution transforms vague asks into verifiable outcomes. "Add validation" becomes "write tests for invalid inputs, then make them pass." "Fix the bug" becomes "write a test that reproduces it, then make it pass." Strong success criteria let the agent loop independently; weak criteria require constant clarification.',
+            ],
+            insight: {
+                title: "Derived from Karpathy, Refined Through Practice",
+                body: "These four principles started as observations from Andrej Karpathy on LLM coding pitfalls and were adapted into enforceable rules through hundreds of agent sessions. They bias toward caution over speed — and that's the point. The most expensive debugging session is the one caused by an agent that confidently built the wrong thing. For trivial tasks, the agent uses judgment. For everything else, the principles gate every decision.",
+            },
+        },
     ],
 
     decisions: [
@@ -281,6 +328,20 @@ export const pageData: PageData<DiagramKey> = {
             reasoning:
                 "Multiple projects often share one client. detect-client.sh maps paths to clients, loading brand voice, NAP data, and billing context once. New project for an existing client inherits everything. No duplication, no drift between projects.",
         },
+        {
+            decision: "Full UX methodology as skills over design tool plugins",
+            alternatives:
+                "Figma plugin (tool-locked), prompt templates (no structure), design system library (no process)",
+            reasoning:
+                "Design tool plugins lock you to one vendor. Prompt templates lack structure — they produce one-shot outputs with no iterative refinement. Encoding the entire 7-phase process as 24 chainable skills means any AI agent can run the methodology end-to-end, and each phase produces structured output that feeds the next. The process is the product.",
+        },
+        {
+            decision: "Behavioral coding principles over style guides",
+            alternatives:
+                "ESLint rules only (syntax not behavior), per-project guidelines (drift), trust the model defaults (unpredictable)",
+            reasoning:
+                "Style guides and linters catch syntax. They don't prevent an agent from building the wrong thing confidently, overengineering a simple feature, or refactoring adjacent code it wasn't asked to touch. Four behavioral principles — Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution — address the actual failure modes observed across hundreds of agent sessions.",
+        },
     ],
 
     learnings: [
@@ -308,20 +369,27 @@ export const pageData: PageData<DiagramKey> = {
 
     metrics: {
         hero: [
-            { value: 24, label: "Skills" },
+            { value: 43, label: "Skills" },
             { value: 43, label: "Shell Scripts" },
             { value: 5900, label: "Lines of Shell", suffix: "+" },
-            { value: 325, label: "Commits" },
+            { value: 328, label: "Commits" },
         ],
         supporting: [
-            { value: 10, label: "Instructions" },
+            { value: 11, label: "Instructions" },
             { value: 8, label: "Lifecycle Hooks" },
             { value: 6, label: "Agent Personas" },
-            { value: 85, label: "Total Lines of Code", suffix: "K+" },
+            { value: 12, label: "Lines of Source", suffix: "K+" },
         ],
     },
 
-    gallery: [],
+    gallery: [
+        {
+            src: "/projects/ctrlshft/landing-page.png",
+            alt: "ctrlshft.dev — The landing page for ctrl+shft, a single-file HTML marketing site built with Tailwind CSS",
+            caption:
+                "ctrlshft.dev — a ~1,500-line single-file marketing site covering system architecture, the autonomous pipeline, UX methodology, coding principles, security model, and the compliance HUD. Built as a portfolio-ready deliverable, not just documentation.",
+        },
+    ],
 
     cta: {
         text: "ctrl+shft is open source. The same system that built this portfolio is available for anyone building AI-first development workflows.",
