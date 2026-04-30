@@ -24,7 +24,7 @@ export const pageData: PageData<DiagramKey> = {
     situation: {
         narrative: [
             "PUSH — the short film — needed more than a landing page. If the film is a marketing video produced by RISE Technologies, Inc., then RISE Technologies needs to exist. Not a splash page with a logo. A complete corporate web presence — product pages, pricing tiers, investor relations with believable financials, legal documents, a careers section with real application forms, an enterprise sales page, an SDK portal, and a 12-stage product configurator that walks you through activating a bed that will never let you sleep in.",
-            "riseawake.com is that presence. Built on Next.js 16 with React 19, it operates as a fully functional corporate website that happens to sell something impossible. The tone never breaks. The design system — DM Sans body, DM Serif Display headlines, teal primary, film grain texture overlay — is corporate enough to be real and absurd enough to be funny. Every page is a real page. Every document is a real document. The /internal section, accessible because a junior developer named Arvin deployed without auth, contains 22 documents that reveal the company from the inside — marketing playbooks, incident logs, and a resignation letter from a VP who decided she didn't want to be pushed anymore.",
+            "riseawake.com is that presence. Built on Next.js 16 with React 19, it operates as a fully functional corporate website that happens to sell something impossible. The tone never breaks. The design system — DM Sans body, DM Serif Display headlines, teal primary, coral accents — is corporate enough to be real and absurd enough to be funny. Every page is a real page. Every document is a real document. The /internal section, accessible because a junior developer named Arvin deployed without auth, contains 22 documents that reveal the company from the inside — marketing playbooks, incident logs, and a resignation letter from a VP who decided she didn't want to be pushed anymore.",
         ],
         context: {
             role: "Full-Stack Developer & Creative Technologist",
@@ -41,13 +41,13 @@ export const pageData: PageData<DiagramKey> = {
                 "Tailwind v4",
                 "shadcn/ui",
                 "Recharts",
-                "Framer Motion",
+                "Resend",
             ],
         },
     },
 
     architecture: {
-        intro: "riseawake.com is a modern full-stack application with three content layers: Sanity v5 for editorial content, Convex for real-time application data, and a custom temporal.ts engine for dynamic financial metrics. The frontend renders 41+ routes across public pages, semi-protected internal documents, legal documents, investor relations, and interactive flows — all backed by Clerk authentication and a design system that maintains corporate sincerity while hiding satirical depth in every layer.",
+        intro: "riseawake.com is a modern full-stack application with three content layers: Sanity v5 for blog content, Convex for real-time application data and media management, and a custom temporal.ts engine for dynamic financial metrics. The frontend renders 41+ routes across public pages, semi-protected internal documents, legal documents, investor relations, and interactive flows — all backed by Clerk authentication and a design system that maintains corporate sincerity while hiding satirical depth in every layer.",
         diagramKey: "systemArchitecture",
         secondaryDiagramKey: "routeMap",
         secondaryDiagramTitle: "Route Map — 41+ Pages Organized by Access Level",
@@ -60,7 +60,7 @@ export const pageData: PageData<DiagramKey> = {
             {
                 title: "Sanity v5 CMS",
                 description:
-                    "Content schemas, live preview, TypeGen pipeline for type-safe GROQ queries",
+                    "Blog content management, live preview, TypeGen pipeline for type-safe GROQ queries",
             },
             {
                 title: "Convex Backend",
@@ -75,12 +75,12 @@ export const pageData: PageData<DiagramKey> = {
             {
                 title: "temporal.ts Engine",
                 description:
-                    "Custom dynamic data engine generating believable financial metrics from configurable base values",
+                    "Custom dynamic data engine with canon FY data and decaying growth model for projected financials",
             },
             {
                 title: "Design System",
                 description:
-                    "DM Sans/DM Serif Display, teal + orange + slate palette, film grain overlay, shadcn/ui",
+                    "DM Sans/DM Serif Display, teal + coral + slate palette, adaptive semantic colors, shadcn/ui",
             },
         ],
     },
@@ -91,13 +91,13 @@ export const pageData: PageData<DiagramKey> = {
             title: "The temporal.ts Engine",
             subtitle: "Dynamic Financials That Feel Real Without Being Real",
             problem:
-                "A fictional company's investor relations page needs financial data that looks believable — quarterly revenue, ARR growth, deployment stats, customer metrics. Static numbers feel fake. Random numbers feel noisy. The data needs trajectory, variance, and internal consistency across multiple charts and tables that a real investor would cross-reference.",
+                "A fictional company's investor relations page needs financial data that looks believable — quarterly revenue, unit shipments, deployment stats, customer metrics. Static numbers feel fake. Random numbers feel noisy. The data needs trajectory and internal consistency across multiple charts and tables that a real investor would cross-reference.",
             diagramKey: "temporalEngine",
             walkthrough: [
-                "temporal.ts is a custom data engine that generates point-in-time financial snapshots from configurable base parameters. It takes a fiscal year offset, base metric values, and a random seed, then produces quarterly calculations with growth trajectories and realistic variance injection.",
-                "The engine models multiple interrelated metrics — revenue, ARR, deployment count, customer growth, NPS, and churn rate — each with its own growth curve but all internally consistent. If customer count grows 15% quarter-over-quarter, revenue growth reflects that. If churn spikes, the next quarter's ARR adjusts.",
-                "Variance injection adds the noise that makes data feel real. No real company has perfectly smooth growth curves. The seed ensures the same page load produces the same numbers (no jarring shifts on refresh), while different fiscal year offsets produce different but equally plausible histories.",
-                "Recharts renders the output as financial visualizations — bar charts, line graphs, and data tables — styled to match the corporate design system. A real investor would see a believable story. A careful reader would notice the growth rate is slightly too perfect and the customer testimonials reference people from the film.",
+                "temporal.ts is a custom data engine built around three layers: LORE (fixed historical dates that never change), STATS (canon FY2020–2024 data plus projected years via a decaying growth model), and ADMIN (dates computed relative to 'now' so they never go stale). It takes a fiscal year number and returns a complete FYMetrics snapshot — revenue, units shipped, margin, employees, waitlist, NPS range, and active markets.",
+                "The engine models multiple interrelated metrics — revenue, units, margin, employees, waitlist, NPS, and market count — each with its own decaying growth rate but all internally consistent. Canon data (FY2020–2024) is hardcoded from the audited 'dataroom.' Beyond FY2024, metrics are projected using per-metric growth rates that decelerate each year — RISE is maturing toward IPO, so growth naturally tapers.",
+                "Admin date functions keep the fiction alive without maintenance. Legal documents show 'last updated' dates 1–4 months ago. Job postings are always 2–10 weeks old. SDK documentation feels recently refreshed. Each function uses a deterministic seed (current date or job ID hash) so the same page load always produces the same dates — no flickering on re-render.",
+                "Recharts renders the output as financial visualizations — bar charts, line graphs, and data tables — styled to match the corporate design system. A convenience facade (rise.revenue(), rise.waitlist(), rise.yoyGrowth()) gives consumer pages single-import access to formatted headline stats. A real investor would see a believable story. A careful reader would notice the growth rate is slightly too perfect.",
             ],
             insight: {
                 title: "The data is a character",
@@ -131,13 +131,13 @@ export const pageData: PageData<DiagramKey> = {
             diagramKey: "designSystem",
             walkthrough: [
                 "Typography is the foundation. DM Sans for body text — clean, professional, the kind of font a real startup would choose. DM Serif Display for headlines — authoritative, slightly old-fashioned, suggesting a company that takes itself very seriously. The combination reads as 'enterprise SaaS' at first glance and 'slightly overwrought' at second.",
-                "The color system centers on teal as the brand primary — calming, health-adjacent, the kind of color a wellness-tech company would pick. Orange accents mark CTAs and warnings with just enough urgency. Slate backgrounds and careful whitespace create the corporate void that makes the content feel important. A subtle film grain overlay adds texture that most visitors won't consciously notice but that creates an uncanny quality — too cinematic for a real corporate site.",
-                "shadcn/ui provides the component foundation — buttons, cards, dialogs, navigation — ensuring functional consistency across 41 routes. Custom overlays add the RISE-specific personality: the activation configurator's guided flow, the internal document layout, the legal document auto-generated table of contents. Framer Motion handles micro-interactions that feel corporate (smooth, measured) rather than playful.",
+                "The color system centers on teal as the brand primary — calming, health-adjacent, the kind of color a wellness-tech company would pick. Coral accents mark CTAs and warnings with just enough urgency. Slate backgrounds and careful whitespace create the corporate void that makes the content feel important. The design system uses Tailwind v4's adaptive semantic color tokens — colors that shift contextually between light and dark mode while maintaining the corporate tone.",
+                "shadcn/ui provides the component foundation — buttons, cards, dialogs, navigation — ensuring functional consistency across 41 routes. Custom overlays add the RISE-specific personality: the activation configurator's guided flow, the internal document layout, and the legal document sidebar navigation. CSS transitions and Tailwind utilities handle micro-interactions that feel corporate (smooth, measured) rather than playful.",
                 "The design tone never breaks character. Product pages present the Push Bed with the same sincerity that Apple presents an iPhone. Pricing tiers use enterprise language ('Custom activation schedules,' 'Dedicated push specialist'). The careers page has real application forms powered by Convex. Every pixel maintains the fiction.",
             ],
             insight: {
-                title: "The film grain is the tell",
-                body: "A real corporate website would never have a film grain overlay. It's the one visual element that signals 'this is art, not commerce' — but it's subtle enough that most visitors process it as visual texture rather than as a creative choice. The uncanny valley between corporate website and art installation is the design system's actual brief.",
+                title: "The Konami code is the tell",
+                body: "The film grain only appears when you trigger the Konami code easter egg — a momentary rupture in the corporate surface that signals 'this is art, not commerce' before snapping back to professional sobriety. The uncanny valley between corporate website and art installation lives in details like this: things that feel slightly off but that you can't quite place.",
             },
         },
         {
@@ -148,10 +148,10 @@ export const pageData: PageData<DiagramKey> = {
                 "Legal pages are the most skipped pages on any website. For riseawake.com, they're the deepest layer of the rabbit hole. The legal system needs to be technically complete — real legal document structure, proper section numbering, defined terms — while containing clauses that mirror film events and satirize corporate language.",
             diagramKey: "legalDocSystem",
             walkthrough: [
-                "Six legal documents span four categories: Agreements (Terms of Service, Push Mode EULA), Privacy (Privacy Policy, Cookie Policy), Compliance (Data Subject Access Request Policy, Data Processing Addendum). Each is a complete legal document with proper structure — defined terms, numbered sections, effective dates, and governing law.",
+                "Six legal documents span three categories: Agreements (Terms of Service, Push Mode EULA), Privacy (Privacy Policy, Sleep & Environmental Data Policy), and Disclosures (Autonomous Navigation Disclosure, General Disclaimer). Each is a complete legal document with proper structure — defined terms, numbered sections, effective dates, and governing law.",
                 "The Push Mode EULA is the centerpiece. Section 3 states: 'There is no confirmation dialog. There is no undo.' This is both a legal clause and a description of how the bed works in the film — once the button is pressed, there is no off switch. The EULA describes the film's premise in legal language, and the legal language is funnier than any joke could be.",
-                "Auto-generated tables of contents, category-based navigation, and document search make the legal section feel like a real legal portal. The implementation uses Sanity v5 for content management, so legal documents can be updated through the CMS without code deployments — the same infrastructure a real company would use.",
-                "Cross-references between documents create a web of internal consistency. The Privacy Policy references data collected by the Push Mode EULA. The Terms of Service reference the Data Processing Addendum. The Cookie Policy mentions 'push preference optimization cookies.' Each reference reinforces the fiction's solidity while adding another layer of absurdity.",
+                "A shared legal layout with sidebar navigation and consistent header styling makes the legal section feel like a real legal portal. Each document is implemented as a dedicated TSX page with hardcoded content — the same approach a compliance team would take when every word matters and CMS flexibility would be a liability.",
+                "Cross-references between documents create a web of internal consistency. The Privacy Policy references data collected by the Push Mode EULA. The Terms of Service reference the Sleep & Environmental Data Policy. The Autonomous Navigation Disclosure explains what happens when the bed decides to move. Each reference reinforces the fiction's solidity while adding another layer of absurdity.",
             ],
             insight: {
                 title: "Legal language is already satire",
@@ -207,11 +207,11 @@ export const pageData: PageData<DiagramKey> = {
                 "22 is enough to span four categories without any document feeling like filler. Each document serves a narrative function — cross-referencing film characters, deepening the satire, or revealing the company's internal contradictions. More would dilute the quality. Fewer would leave gaps in the organizational structure.",
         },
         {
-            decision: "Film grain texture overlay on a corporate site",
+            decision: "Film grain as Konami code easter egg, not site-wide overlay",
             alternatives:
-                "Clean corporate design without the cinematic texture — more believable as a real company",
+                "Persistent film grain overlay across all pages — more cinematic, less corporate",
             reasoning:
-                "The film grain is the visual bridge between PUSH (the film) and riseawake.com (the website). It creates a subtle uncanny quality — this looks almost like a corporate site but something feels slightly off. That 'slightly off' feeling is the design system doing its job. It's the visual equivalent of the legal language being too earnest.",
+                "A real corporate website wouldn't have a film grain overlay. Keeping the grain hidden behind the Konami code easter egg means the site passes as a genuine corporate presence on first visit. The grain becomes a reward for deep exploration — a momentary rupture in the corporate surface that confirms 'this is art, not commerce' before snapping back.",
         },
         {
             decision: "Clerk for auth rather than NextAuth or custom",
@@ -253,7 +253,7 @@ export const pageData: PageData<DiagramKey> = {
         },
         {
             title: "temporal.ts solved a problem every portfolio has",
-            body: "Dynamic, internally consistent demo data is hard. Most portfolio projects show static screenshots or fake numbers that don't cross-reference. A parameterized engine produces data that tells a story, changes over time, and survives scrutiny.",
+            body: "Dynamic, internally consistent demo data is hard. Most portfolio projects show static screenshots or fake numbers that don't cross-reference. A canon-plus-projection engine produces data that tells a story, extends into the future, and survives cross-referencing.",
         },
         {
             title: "The narrative layer elevates the technical work",
@@ -274,9 +274,9 @@ export const pageData: PageData<DiagramKey> = {
             { value: 4, label: "Easter Eggs" },
             { value: 50, label: "Total URLs", suffix: "+" },
             { value: 3, label: "Backend Services" },
-            { value: 6, label: "Legal Categories" },
+            { value: 3, label: "Legal Categories" },
             { value: 8, label: "Diagram Types" },
-            { value: 1, label: "Film Grain Overlay" },
+            { value: 5, label: "Anti-Spam Layers" },
         ],
     },
 

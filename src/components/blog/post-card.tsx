@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
 import { formatDate } from "@/lib/utils";
@@ -37,9 +36,9 @@ export function PostCard({
     return (
         <motion.div variants={cardVariants}>
             <Link href={`/blog/${slug}`}>
-                <Card className="group hover:border-primary/50 h-full overflow-hidden transition-all hover:shadow-lg">
+                <article className="border-border hover:border-primary/30 group h-full overflow-hidden rounded-2xl border transition-all">
                     {mainImage && (
-                        <div className="overflow-hidden border-b">
+                        <div className="border-border overflow-hidden border-b">
                             <Image
                                 src={urlFor(mainImage).width(800).height(450).url()}
                                 alt={mainImage.alt || title}
@@ -53,35 +52,35 @@ export function PostCard({
                             />
                         </div>
                     )}
-                    <CardHeader className="space-y-3">
+                    <div className="space-y-3 p-6">
                         <div className="text-muted-foreground flex items-center justify-between text-xs">
                             {formattedDate && <time dateTime={publishedAt}>{formattedDate}</time>}
                             <span>{readingTime}</span>
                         </div>
-                        <CardTitle className="group-hover:text-primary line-clamp-2 text-xl transition-colors">
+                        <h3 className="font-display group-hover:text-primary line-clamp-2 text-xl font-bold transition-colors">
                             {title}
-                        </CardTitle>
+                        </h3>
                         {excerpt && (
-                            <CardDescription className="line-clamp-3 text-sm leading-relaxed">
+                            <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed">
                                 {excerpt}
-                            </CardDescription>
+                            </p>
                         )}
-                    </CardHeader>
+                    </div>
                     {categories && categories.length > 0 && (
-                        <CardContent>
+                        <div className="border-border border-t px-6 py-4">
                             <div className="flex flex-wrap gap-1.5">
                                 {categories.map((cat) => (
                                     <span
                                         key={cat}
-                                        className="text-muted-foreground inline-flex items-center rounded-md border px-2 py-0.5 text-xs"
+                                        className="border-border inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium"
                                     >
                                         {cat}
                                     </span>
                                 ))}
                             </div>
-                        </CardContent>
+                        </div>
                     )}
-                </Card>
+                </article>
             </Link>
         </motion.div>
     );
