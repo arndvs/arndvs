@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
 import { slugify } from "@/lib/utils/extract-headings";
-import { highlightCode } from "@/lib/utils/highlight-code";
+import { SUPPORTED_LANGUAGES, highlightCode } from "@/lib/utils/highlight-code";
 import { urlFor } from "@/sanity/lib/image";
 import type { POST_QUERY_RESULT } from "@/sanity/types";
 
@@ -61,8 +61,19 @@ function createComponents(
                 };
             }) => {
                 const highlighted = value._key ? highlightedBlocks.get(value._key) : undefined;
+                const effectiveLang =
+                    value.language && SUPPORTED_LANGUAGES.has(value.language)
+                        ? value.language
+                        : value.language
+                          ? undefined
+                          : undefined;
                 const label =
-                    value.filename || (value.language ? LANGUAGE_NAMES[value.language] : undefined);
+                    value.filename ||
+                    (effectiveLang
+                        ? LANGUAGE_NAMES[effectiveLang]
+                        : value.language
+                          ? `${LANGUAGE_NAMES[value.language] || value.language} (plain text)`
+                          : undefined);
 
                 return (
                     <div className="group relative my-6 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950">
@@ -140,12 +151,12 @@ function createComponents(
             "strike-through": ({ children }) => <s>{children}</s>,
             link: ({ children, value }) => {
                 const href = value?.href || "#";
-                const isExternal = href.startsWith("http");
+                const openInNewTab = value?.blank === true || href.startsWith("http");
                 return (
                     <a
                         href={href}
                         className="text-primary hover:text-primary/80 underline underline-offset-4 transition-colors"
-                        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        {...(openInNewTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     >
                         {children}
                     </a>
@@ -171,18 +182,30 @@ interface PostBodyProps {
     value: NonNullable<NonNullable<POST_QUERY_RESULT>["body"]>;
 }
 
+type PostBodyBlock = PostBodyProps["value"][number];
+type CodeBlock = Extract<PostBodyBlock, { _type: "codeBlock" }> & {
+    _key: string;
+    code: string;
+};
+
+function isCodeBlock(block: PostBodyBlock): block is CodeBlock {
+    return (
+        block._type === "codeBlock" &&
+        typeof (block as Record<string, unknown>)._key === "string" &&
+        typeof (block as Record<string, unknown>).code === "string"
+    );
+}
+
 export async function PostBody({ value }: PostBodyProps) {
     // Pre-highlight all code blocks server-side
     const highlightedBlocks = new Map<string, string>();
 
-    const codeBlocks = (
-        value as Array<{ _type?: string; _key?: string; code?: string; language?: string }>
-    ).filter((block) => block._type === "codeBlock" && block.code && block._key);
+    const codeBlocks = value.filter(isCodeBlock);
 
     await Promise.all(
         codeBlocks.map(async (block) => {
-            const html = await highlightCode(block.code!, block.language);
-            highlightedBlocks.set(block._key!, html);
+            const html = await highlightCode(block.code, block.language);
+            highlightedBlocks.set(block._key, html);
         }),
     );
 

@@ -1,6 +1,7 @@
+import "server-only";
 import { type BundledLanguage, codeToHtml, createCssVariablesTheme } from "shiki";
 
-const SUPPORTED_LANGUAGES = new Set<string>([
+export const SUPPORTED_LANGUAGES = new Set<string>([
     "typescript",
     "javascript",
     "tsx",
