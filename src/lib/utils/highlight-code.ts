@@ -1,0 +1,34 @@
+import { type BundledLanguage, codeToHtml, createCssVariablesTheme } from "shiki";
+
+const SUPPORTED_LANGUAGES = new Set<string>([
+    "typescript",
+    "javascript",
+    "tsx",
+    "html",
+    "css",
+    "json",
+    "bash",
+    "markdown",
+    "yaml",
+    "graphql",
+    "sql",
+    "python",
+]);
+
+const cssVarsTheme = createCssVariablesTheme({
+    name: "css-variables",
+    variablePrefix: "--shiki-",
+    variableDefaults: {},
+});
+
+export async function highlightCode(code: string, language?: string): Promise<string> {
+    const lang =
+        language && SUPPORTED_LANGUAGES.has(language) ? (language as BundledLanguage) : "text";
+
+    const html = await codeToHtml(code, {
+        lang,
+        theme: cssVarsTheme,
+    });
+
+    return html;
+}
