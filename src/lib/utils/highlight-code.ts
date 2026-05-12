@@ -18,7 +18,7 @@ const HIGHLIGHTABLE_LANGS = [
 
 export const HIGHLIGHTABLE_LANGUAGES: ReadonlySet<BundledLanguage> = new Set(HIGHLIGHTABLE_LANGS);
 
-function isHighlightable(lang: string): lang is BundledLanguage {
+export function isHighlightable(lang: string): lang is BundledLanguage {
     return (HIGHLIGHTABLE_LANGUAGES as ReadonlySet<string>).has(lang);
 }
 

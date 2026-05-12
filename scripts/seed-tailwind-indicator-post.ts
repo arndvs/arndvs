@@ -2,24 +2,9 @@
  * Seed script — creates the tailwind-indicator blog post in Sanity.
  * Run: npx tsx scripts/seed-tailwind-indicator-post.ts
  */
-import { createClient } from "@sanity/client";
-import { config } from "dotenv";
+import { createSanityClient } from "./lib/sanity";
 
-config({ path: ".env.local" });
-
-function requireEnv(name: string): string {
-    const value = process.env[name];
-    if (!value) throw new Error(`Missing required env var: ${name}`);
-    return value;
-}
-
-const client = createClient({
-    projectId: requireEnv("NEXT_PUBLIC_SANITY_PROJECT_ID"),
-    dataset: requireEnv("NEXT_PUBLIC_SANITY_DATASET"),
-    apiVersion: "2025-03-19",
-    token: requireEnv("SANITY_API_TOKEN"),
-    useCdn: false,
-});
+const client = createSanityClient();
 
 const post = {
     _type: "post",

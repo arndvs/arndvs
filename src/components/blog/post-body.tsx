@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
 import { slugify } from "@/lib/utils/extract-headings";
-import { HIGHLIGHTABLE_LANGUAGES, highlightCode } from "@/lib/utils/highlight-code";
+import { highlightCode, isHighlightable } from "@/lib/utils/highlight-code";
 import { urlFor } from "@/sanity/lib/image";
 import type { POST_QUERY_RESULT } from "@/sanity/types";
 
@@ -62,10 +62,7 @@ function createComponents(
             }) => {
                 const highlighted = value._key ? highlightedBlocks.get(value._key) : undefined;
                 const effectiveLang =
-                    value.language &&
-                    (HIGHLIGHTABLE_LANGUAGES as ReadonlySet<string>).has(value.language)
-                        ? value.language
-                        : undefined;
+                    value.language && isHighlightable(value.language) ? value.language : undefined;
                 const label =
                     value.filename ||
                     (effectiveLang
@@ -201,7 +198,9 @@ export async function PostBody({ value }: PostBodyProps) {
     // Pre-highlight all code blocks server-side
     const highlightedBlocks = new Map<string, string>();
 
-    const codeBlocks = value.filter(isCodeBlock);
+    const codeBlocks = value
+        .filter(isCodeBlock)
+        .filter((block) => block.language && isHighlightable(block.language));
 
     await Promise.all(
         codeBlocks.map(async (block) => {
