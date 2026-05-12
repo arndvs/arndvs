@@ -52,7 +52,7 @@ describe("HIGHLIGHTABLE_LANGUAGES", () => {
     });
 
     it("does not contain non-highlightable languages", () => {
-        expect(HIGHLIGHTABLE_LANGUAGES.has("groq")).toBe(false);
-        expect(HIGHLIGHTABLE_LANGUAGES.has("text")).toBe(false);
+        expect((HIGHLIGHTABLE_LANGUAGES as ReadonlySet<string>).has("groq")).toBe(false);
+        expect((HIGHLIGHTABLE_LANGUAGES as ReadonlySet<string>).has("text")).toBe(false);
     });
 });
