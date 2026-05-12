@@ -13,7 +13,7 @@ export function createSanityClient() {
     return createClient({
         projectId: requireEnv("NEXT_PUBLIC_SANITY_PROJECT_ID"),
         dataset: requireEnv("NEXT_PUBLIC_SANITY_DATASET"),
-        apiVersion: "2025-03-19",
+        apiVersion: requireEnv("NEXT_PUBLIC_SANITY_API_VERSION"),
         token: requireEnv("SANITY_API_TOKEN"),
         useCdn: false,
     });

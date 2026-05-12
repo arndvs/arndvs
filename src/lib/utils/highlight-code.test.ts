@@ -39,8 +39,8 @@ describe("highlightCode", () => {
 
         expect(html).not.toContain("<script>");
         expect(html).not.toContain("</script>");
-        // Shiki escapes < as &#x3C; (hex entity)
-        expect(html).toContain("&#x3C;");
+        // Shiki escapes < — accept any standard HTML entity form
+        expect(html).toMatch(/&lt;|&#60;|&#x3[Cc];/);
     });
 });
 
