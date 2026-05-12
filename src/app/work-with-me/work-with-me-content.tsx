@@ -462,7 +462,7 @@ export default function WorkWithMeContent() {
                             I&apos;ll point you toward what would work instead.
                         </p>
                         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                            <ContactForm triggerSize="lg" showIcon />
+                            <ContactForm triggerSize="lg" showIcon triggerText="aaron@arndvs.com" />
                             <Button asChild variant="outline" size="lg" className="group">
                                 <a
                                     href="https://linkedin.com/in/arndvs"
