@@ -6,6 +6,7 @@ import { PostBody } from "@/components/blog/post-body";
 import { PostHeader } from "@/components/blog/post-header";
 import { TableOfContents } from "@/components/blog/table-of-contents";
 import { TldrBox } from "@/components/blog/tldr-box";
+import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { estimateReadingTime } from "@/lib/utils";
 import { extractHeadingsFromPortableText } from "@/lib/utils/extract-headings";
@@ -143,6 +144,7 @@ export default async function BlogPostPage(props: { params: Params }) {
 
     return (
         <main className="min-h-screen pt-24 pb-16">
+            {slug === "tailwind-indicator" && <TailwindIndicator position="bottom-right" />}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}

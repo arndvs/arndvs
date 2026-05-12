@@ -92,6 +92,9 @@ importers:
       sonner:
         specifier: ^1.7.4
         version: 1.7.4(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      tailwind-indicator:
+        specifier: ^0.1.0
+        version: 0.1.0
       tailwind-merge:
         specifier: ^2.5.5
         version: 2.6.0
@@ -7237,6 +7240,9 @@ packages:
   tagged-tag@1.0.0:
     resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
     engines: {node: '>=20'}
+
+  tailwind-indicator@0.1.0:
+    resolution: {integrity: sha512-S9tP0DjP1BMxBu69Bp3jG5N2LGtwAEp5C7MQDXGbsOKOJk8iZqx3eZbF/XDEvqkGKKn8zlT/cItjnHNzwTvmaw==}
 
   tailwind-merge@2.6.0:
     resolution: {integrity: sha512-P+Vu1qXfzediirmHOC3xKGAYeZtPcV9g76X+xg2FD4tYgR71ewMA35Y3sCz3zhiN/dwefRpJX0yBcgwi1fXNQA==}
@@ -15871,6 +15877,8 @@ snapshots:
   symbol-tree@3.2.4: {}
 
   tagged-tag@1.0.0: {}
+
+  tailwind-indicator@0.1.0: {}
 
   tailwind-merge@2.6.0: {}
 
