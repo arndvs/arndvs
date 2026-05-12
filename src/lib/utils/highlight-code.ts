@@ -18,6 +18,10 @@ const HIGHLIGHTABLE_LANGS = [
 
 export const HIGHLIGHTABLE_LANGUAGES = new Set<string>(HIGHLIGHTABLE_LANGS);
 
+function isHighlightable(lang: string): lang is BundledLanguage {
+    return HIGHLIGHTABLE_LANGUAGES.has(lang);
+}
+
 const cssVarsTheme = createCssVariablesTheme({
     name: "css-variables",
     variablePrefix: "--shiki-",
@@ -25,8 +29,7 @@ const cssVarsTheme = createCssVariablesTheme({
 });
 
 export async function highlightCode(code: string, language?: string): Promise<string> {
-    const lang =
-        language && HIGHLIGHTABLE_LANGUAGES.has(language) ? (language as BundledLanguage) : "text";
+    const lang = language && isHighlightable(language) ? language : "text";
 
     const html = await codeToHtml(code, {
         lang,

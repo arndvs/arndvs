@@ -207,8 +207,10 @@ export async function PostBody({ value }: PostBodyProps) {
             try {
                 const html = await highlightCode(block.code, block.language);
                 highlightedBlocks.set(block._key, html);
-            } catch {
-                // Shiki failed — block falls back to plain <pre><code> rendering
+            } catch (error) {
+                if (process.env.NODE_ENV === "development") {
+                    console.error(`[Shiki] Failed to highlight block ${block._key}:`, error);
+                }
             }
         }),
     );
