@@ -29,7 +29,7 @@ export function CopyButton({ code }: { code: string }) {
         <button
             type="button"
             onClick={handleCopy}
-            className="absolute top-2 right-2 z-10 flex items-center gap-1.5 rounded-md px-2 py-1.5 text-xs text-zinc-400 opacity-100 backdrop-blur-sm transition-all hover:text-zinc-100 focus-visible:pointer-events-auto focus-visible:opacity-100 sm:pointer-events-none sm:opacity-0 sm:group-focus-within:pointer-events-auto sm:group-focus-within:opacity-100 sm:group-hover:pointer-events-auto sm:group-hover:opacity-100"
+            className="absolute top-2 right-2 z-10 flex items-center gap-1.5 rounded-md px-2 py-1.5 text-xs text-zinc-400 opacity-100 backdrop-blur-sm transition-all hover:text-zinc-100 focus-visible:pointer-events-auto focus-visible:opacity-100 sm:group-focus-within:pointer-events-auto sm:group-focus-within:opacity-100 [@media(hover:hover)]:sm:pointer-events-none [@media(hover:hover)]:sm:opacity-0 [@media(hover:hover)]:sm:group-hover:pointer-events-auto [@media(hover:hover)]:sm:group-hover:opacity-100"
             aria-label={copied ? "Copied" : "Copy code"}
         >
             {copied ? (
