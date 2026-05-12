@@ -1,7 +1,7 @@
 import "server-only";
 import { type BundledLanguage, codeToHtml, createCssVariablesTheme } from "shiki";
 
-export const HIGHLIGHTABLE_LANGUAGES = new Set<string>([
+const HIGHLIGHTABLE_LANGS = [
     "typescript",
     "javascript",
     "tsx",
@@ -14,10 +14,9 @@ export const HIGHLIGHTABLE_LANGUAGES = new Set<string>([
     "graphql",
     "sql",
     "python",
-]);
+] as const satisfies readonly BundledLanguage[];
 
-/** Sanity schema languages that aren't Shiki-highlightable — render as plain text. */
-export const PLAIN_TEXT_LANGUAGES = new Set<string>(["text", "groq"]);
+export const HIGHLIGHTABLE_LANGUAGES = new Set<string>(HIGHLIGHTABLE_LANGS);
 
 const cssVarsTheme = createCssVariablesTheme({
     name: "css-variables",

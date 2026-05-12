@@ -3,11 +3,7 @@ import Image from "next/image";
 
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
 import { slugify } from "@/lib/utils/extract-headings";
-import {
-    HIGHLIGHTABLE_LANGUAGES,
-    PLAIN_TEXT_LANGUAGES,
-    highlightCode,
-} from "@/lib/utils/highlight-code";
+import { HIGHLIGHTABLE_LANGUAGES, highlightCode } from "@/lib/utils/highlight-code";
 import { urlFor } from "@/sanity/lib/image";
 import type { POST_QUERY_RESULT } from "@/sanity/types";
 
@@ -74,7 +70,7 @@ function createComponents(
                     (effectiveLang
                         ? LANGUAGE_NAMES[effectiveLang]
                         : value.language
-                          ? PLAIN_TEXT_LANGUAGES.has(value.language)
+                          ? value.language === "text"
                               ? "Plain Text"
                               : `${LANGUAGE_NAMES[value.language] || value.language} (plain text)`
                           : undefined);
