@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
 import { slugify } from "@/lib/utils/extract-headings";
-import { SUPPORTED_LANGUAGES, highlightCode } from "@/lib/utils/highlight-code";
+import { HIGHLIGHTABLE_LANGUAGES, highlightCode } from "@/lib/utils/highlight-code";
 import { urlFor } from "@/sanity/lib/image";
 import type { POST_QUERY_RESULT } from "@/sanity/types";
 
@@ -62,11 +62,9 @@ function createComponents(
             }) => {
                 const highlighted = value._key ? highlightedBlocks.get(value._key) : undefined;
                 const effectiveLang =
-                    value.language && SUPPORTED_LANGUAGES.has(value.language)
+                    value.language && HIGHLIGHTABLE_LANGUAGES.has(value.language)
                         ? value.language
-                        : value.language
-                          ? undefined
-                          : undefined;
+                        : undefined;
                 const label =
                     value.filename ||
                     (effectiveLang

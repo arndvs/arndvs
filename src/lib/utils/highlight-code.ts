@@ -1,7 +1,7 @@
 import "server-only";
 import { type BundledLanguage, codeToHtml, createCssVariablesTheme } from "shiki";
 
-export const SUPPORTED_LANGUAGES = new Set<string>([
+export const HIGHLIGHTABLE_LANGUAGES = new Set<string>([
     "typescript",
     "javascript",
     "tsx",
@@ -24,7 +24,7 @@ const cssVarsTheme = createCssVariablesTheme({
 
 export async function highlightCode(code: string, language?: string): Promise<string> {
     const lang =
-        language && SUPPORTED_LANGUAGES.has(language) ? (language as BundledLanguage) : "text";
+        language && HIGHLIGHTABLE_LANGUAGES.has(language) ? (language as BundledLanguage) : "text";
 
     const html = await codeToHtml(code, {
         lang,
