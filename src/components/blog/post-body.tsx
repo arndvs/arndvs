@@ -9,7 +9,7 @@ import type { POST_QUERY_RESULT } from "@/sanity/types";
 
 import { CopyButton } from "./copy-button";
 
-const LANGUAGE_NAMES: Record<string, string> = {
+const LANGUAGE_NAMES: Partial<Record<string, string>> = {
     typescript: "TypeScript",
     javascript: "JavaScript",
     tsx: "TSX",
@@ -68,7 +68,7 @@ function createComponents(
                 const label =
                     value.filename ||
                     (effectiveLang
-                        ? LANGUAGE_NAMES[effectiveLang]
+                        ? (LANGUAGE_NAMES[effectiveLang] ?? effectiveLang)
                         : value.language
                           ? value.language === "text"
                               ? "Plain Text"
