@@ -38,6 +38,18 @@
     --sidebar-accent-foreground: oklch(0.13 0 0);
     --sidebar-border: oklch(0.92 0 0);
     --sidebar-ring: oklch(0.8 0 0);
+
+    /* Shiki syntax highlighting — always dark bg, so use dark palette in both modes */
+    --shiki-background: transparent;
+    --shiki-foreground: #e4e4e7;
+    --shiki-token-constant: #6ee7b7;
+    --shiki-token-string: #6ee7b7;
+    --shiki-token-comment: #71717a;
+    --shiki-token-keyword: #7dd3fc;
+    --shiki-token-parameter: #f9a8d4;
+    --shiki-token-function: #c4b5fd;
+    --shiki-token-string-expression: #6ee7b7;
+    --shiki-token-punctuation: #e4e4e7;
 }
 
 .dark {

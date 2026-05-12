@@ -13,6 +13,7 @@ import { draftMode } from "next/headers";
 import { DisableDraftMode } from "@/components/disable-draft-mode";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
+import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { ThemeProvider } from "@/components/theme-provider";
 import { personJsonLd } from "@/lib/data/json-ld";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
@@ -153,6 +154,7 @@ export default async function RootLayout({
                     )}
                 </ThemeProvider>
                 <Analytics />
+                {process.env.NODE_ENV === "development" && <TailwindIndicator />}
             </body>
         </html>
     );
