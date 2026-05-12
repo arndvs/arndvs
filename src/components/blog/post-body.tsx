@@ -198,9 +198,7 @@ export async function PostBody({ value }: PostBodyProps) {
     // Pre-highlight all code blocks server-side
     const highlightedBlocks = new Map<string, string>();
 
-    const codeBlocks = value
-        .filter(isCodeBlock)
-        .filter((block) => block.language && isHighlightable(block.language));
+    const codeBlocks = value.filter(isCodeBlock);
 
     await Promise.all(
         codeBlocks.map(async (block) => {
