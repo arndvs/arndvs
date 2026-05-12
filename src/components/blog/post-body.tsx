@@ -3,7 +3,11 @@ import Image from "next/image";
 
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
 import { slugify } from "@/lib/utils/extract-headings";
-import { HIGHLIGHTABLE_LANGUAGES, highlightCode } from "@/lib/utils/highlight-code";
+import {
+    HIGHLIGHTABLE_LANGUAGES,
+    PLAIN_TEXT_LANGUAGES,
+    highlightCode,
+} from "@/lib/utils/highlight-code";
 import { urlFor } from "@/sanity/lib/image";
 import type { POST_QUERY_RESULT } from "@/sanity/types";
 
@@ -70,7 +74,9 @@ function createComponents(
                     (effectiveLang
                         ? LANGUAGE_NAMES[effectiveLang]
                         : value.language
-                          ? `${LANGUAGE_NAMES[value.language] || value.language} (plain text)`
+                          ? PLAIN_TEXT_LANGUAGES.has(value.language)
+                              ? "Plain Text"
+                              : `${LANGUAGE_NAMES[value.language] || value.language} (plain text)`
                           : undefined);
 
                 return (
@@ -202,8 +208,12 @@ export async function PostBody({ value }: PostBodyProps) {
 
     await Promise.all(
         codeBlocks.map(async (block) => {
-            const html = await highlightCode(block.code, block.language);
-            highlightedBlocks.set(block._key, html);
+            try {
+                const html = await highlightCode(block.code, block.language);
+                highlightedBlocks.set(block._key, html);
+            } catch {
+                // Shiki failed — block falls back to plain <pre><code> rendering
+            }
         }),
     );
 

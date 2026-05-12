@@ -16,6 +16,9 @@ export const HIGHLIGHTABLE_LANGUAGES = new Set<string>([
     "python",
 ]);
 
+/** Sanity schema languages that aren't Shiki-highlightable — render as plain text. */
+export const PLAIN_TEXT_LANGUAGES = new Set<string>(["text", "groq"]);
+
 const cssVarsTheme = createCssVariablesTheme({
     name: "css-variables",
     variablePrefix: "--shiki-",

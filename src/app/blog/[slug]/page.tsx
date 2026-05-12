@@ -144,7 +144,9 @@ export default async function BlogPostPage(props: { params: Params }) {
 
     return (
         <main className="min-h-screen pt-24 pb-16">
-            {slug === "tailwind-indicator" && <TailwindIndicator position="bottom-right" />}
+            {slug === "tailwind-indicator" && process.env.NODE_ENV !== "development" && (
+                <TailwindIndicator position="bottom-right" />
+            )}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}

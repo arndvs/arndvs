@@ -6,7 +6,7 @@ export function TailwindIndicator({ position }: { position?: string }) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        import("tailwind-indicator").then(() => setMounted(true));
+        import("tailwind-indicator").then(() => setMounted(true)).catch(() => {});
     }, []);
 
     if (!mounted) return null;
