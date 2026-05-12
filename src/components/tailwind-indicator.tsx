@@ -6,7 +6,19 @@ export function TailwindIndicator({ position }: { position?: string }) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        import("tailwind-indicator").then(() => setMounted(true)).catch(() => {});
+        let cancelled = false;
+        import("tailwind-indicator")
+            .then(() => {
+                if (!cancelled) setMounted(true);
+            })
+            .catch((error) => {
+                if (process.env.NODE_ENV === "development") {
+                    console.error("[TailwindIndicator] Failed to load:", error);
+                }
+            });
+        return () => {
+            cancelled = true;
+        };
     }, []);
 
     if (!mounted) return null;

@@ -1,0 +1,48 @@
+import { describe, expect, it, vi } from "vitest";
+
+// Mock server-only — it throws when imported outside a React Server Component context
+vi.mock("server-only", () => ({}));
+
+const { highlightCode, HIGHLIGHTABLE_LANGUAGES } = await import("./highlight-code");
+
+describe("highlightCode", () => {
+    it("returns HTML containing <pre> and <code> for a supported language", async () => {
+        const html = await highlightCode("const x = 1;", "typescript");
+
+        expect(html).toContain("<pre");
+        expect(html).toContain("<code");
+    });
+
+    it("falls back to 'text' for an unknown language without throwing", async () => {
+        const html = await highlightCode("SELECT * FROM users", "groq");
+
+        expect(html).toContain("<pre");
+        expect(html).toBeTruthy();
+    });
+
+    it("falls back to 'text' when no language is provided", async () => {
+        const html = await highlightCode("hello world");
+
+        expect(html).toContain("<pre");
+        expect(html).toBeTruthy();
+    });
+
+    it("returns non-empty HTML", async () => {
+        const html = await highlightCode("fn main() {}", "python");
+
+        expect(html.length).toBeGreaterThan(0);
+    });
+});
+
+describe("HIGHLIGHTABLE_LANGUAGES", () => {
+    it("contains expected languages", () => {
+        expect(HIGHLIGHTABLE_LANGUAGES.has("typescript")).toBe(true);
+        expect(HIGHLIGHTABLE_LANGUAGES.has("javascript")).toBe(true);
+        expect(HIGHLIGHTABLE_LANGUAGES.has("tsx")).toBe(true);
+    });
+
+    it("does not contain non-highlightable languages", () => {
+        expect(HIGHLIGHTABLE_LANGUAGES.has("groq")).toBe(false);
+        expect(HIGHLIGHTABLE_LANGUAGES.has("text")).toBe(false);
+    });
+});
