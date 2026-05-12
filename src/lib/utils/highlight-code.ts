@@ -16,10 +16,10 @@ const HIGHLIGHTABLE_LANGS = [
     "python",
 ] as const satisfies readonly BundledLanguage[];
 
-export const HIGHLIGHTABLE_LANGUAGES: ReadonlySet<string> = new Set(HIGHLIGHTABLE_LANGS);
+export const HIGHLIGHTABLE_LANGUAGES: ReadonlySet<BundledLanguage> = new Set(HIGHLIGHTABLE_LANGS);
 
 function isHighlightable(lang: string): lang is BundledLanguage {
-    return HIGHLIGHTABLE_LANGUAGES.has(lang);
+    return (HIGHLIGHTABLE_LANGUAGES as ReadonlySet<string>).has(lang);
 }
 
 const cssVarsTheme = createCssVariablesTheme({

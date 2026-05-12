@@ -62,7 +62,8 @@ function createComponents(
             }) => {
                 const highlighted = value._key ? highlightedBlocks.get(value._key) : undefined;
                 const effectiveLang =
-                    value.language && HIGHLIGHTABLE_LANGUAGES.has(value.language)
+                    value.language &&
+                    (HIGHLIGHTABLE_LANGUAGES as ReadonlySet<string>).has(value.language)
                         ? value.language
                         : undefined;
                 const label =

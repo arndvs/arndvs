@@ -32,6 +32,16 @@ describe("highlightCode", () => {
 
         expect(html.length).toBeGreaterThan(0);
     });
+
+    it("escapes HTML entities in code input to prevent XSS", async () => {
+        const malicious = '<script>alert("xss")</script>';
+        const html = await highlightCode(malicious, "typescript");
+
+        expect(html).not.toContain("<script>");
+        expect(html).not.toContain("</script>");
+        // Shiki escapes < as &#x3C; (hex entity)
+        expect(html).toContain("&#x3C;");
+    });
 });
 
 describe("HIGHLIGHTABLE_LANGUAGES", () => {
