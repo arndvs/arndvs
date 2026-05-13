@@ -183,22 +183,16 @@ export const designPageData: DesignPageData = {
             tags: ["SaaS", "Dashboard", "CRM", "Data Visualization", "Enterprise"],
             figmaEmbeds: [
                 {
-                    fileKey: "5h4noyctjBiOkmWvSZUnol",
-                    fileName: "Software---Front-End",
-                    nodeId: "4973-0",
-                    label: "Final Compositions (104 screens)",
+                    fileKey: "ljzEtmlOOCy2pEclw26Hwy",
+                    fileName: "RM-Early-Mockups",
+                    nodeId: "0-1",
+                    label: "Early Mockups — Dashboard",
                 },
                 {
                     fileKey: "5h4noyctjBiOkmWvSZUnol",
                     fileName: "Software---Front-End",
                     nodeId: "12777-62540",
                     label: "Final Compositions v2 (76 screens)",
-                },
-                {
-                    fileKey: "ljzEtmlOOCy2pEclw26Hwy",
-                    fileName: "RM-Early-Mockups",
-                    nodeId: "0-1",
-                    label: "Early Mockups — Dashboard",
                 },
             ],
             highlights: [

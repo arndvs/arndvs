@@ -99,7 +99,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
             </details>
 
             {/* Desktop: sticky sidebar */}
-            <div className="sticky top-24 hidden lg:block">
+            <div className="sticky top-24 hidden max-h-[calc(100vh-8rem)] overflow-y-auto lg:block">
                 <p className="mb-3 flex items-center gap-2 text-sm font-medium">
                     <List className="h-4 w-4" />
                     Table of Contents
