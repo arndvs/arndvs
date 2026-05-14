@@ -86,7 +86,7 @@ const notFit = [
 
 const proofStats = [
     { value: 17, suffix: "+", label: "Years building for the web" },
-    { value: 8, suffix: "", label: "Years building RipeMetrics" },
+    { value: 8, suffix: "", label: "Years leading RipeMetrics" },
     { value: 40, suffix: "%", label: "Customer service cost reduction" },
     { value: 5, suffix: "", label: "AI integrations on one healthcare platform" },
 ];
@@ -103,7 +103,7 @@ const proofProjects = [
         tag: "AI · SaaS · 2017–2025",
         title: "RipeMetrics",
         description:
-            "Founded and built an AI-native customer growth platform from prototype to production over 8 years. Reduced customer service costs 40%.",
+            "Founded an AI-native customer growth platform and led product and AI engineering from prototype to production over 8 years. Reduced customer service costs 40%.",
         href: "/projects/ripemetrics",
     },
     {

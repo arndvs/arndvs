@@ -21,13 +21,13 @@ const journey = [
         period: "2017-2020",
         title: "Founder & CEO — RipeMetrics",
         description:
-            "Founded RipeMetrics and graduated from the CSD16 (Canopy San Diego) accelerator. Built a Customer Experience Management platform from scratch while leading teams across marketing, business development, and engineering.",
+            "Founded RipeMetrics and graduated from the CSD16 (Canopy San Diego) accelerator. Led product vision and AI engineering on a Customer Experience Management platform while managing teams across marketing, business development, and engineering.",
     },
     {
         period: "2020-2025",
-        title: "Full-Stack Developer — RipeMetrics",
+        title: "Lead Frontend & AI Engineer — RipeMetrics",
         description:
-            "Led complete technical refactor from Laravel Livewire to React/Next.js, reducing network response times by 6 seconds. Integrated language models into customer service automation, engagement systems, and data pipelines.",
+            "Led complete frontend refactor from Laravel Livewire to React/Next.js, reducing network response times by 6 seconds. Owned AI engineering: chatbot, RAG pipeline, voice AI, and automated onboarding across a team of up to 12 developers and 8 codebases.",
     },
     {
         period: "2025-Present",
