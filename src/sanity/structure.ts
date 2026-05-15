@@ -21,4 +21,20 @@ export const structure: StructureResolver = (S) =>
                         .title("Changelog Entries")
                         .defaultOrdering([{ field: "date", direction: "desc" }]),
                 ),
+            S.listItem()
+                .title("Weekly Digests")
+                .icon(CalendarIcon)
+                .child(
+                    S.documentTypeList("weeklyDigest")
+                        .title("Weekly Digests")
+                        .defaultOrdering([{ field: "weekOf", direction: "desc" }]),
+                ),
+            S.listItem()
+                .title("Daily Digests")
+                .icon(DocumentTextIcon)
+                .child(
+                    S.documentTypeList("dailyDigest")
+                        .title("Daily Digests")
+                        .defaultOrdering([{ field: "date", direction: "desc" }]),
+                ),
         ]);
