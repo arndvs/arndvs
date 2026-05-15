@@ -64,7 +64,15 @@ async function enhancePostSeo(post: PostContent): Promise<EnhancementResult> {
 
     if (!content) throw new Error("OpenAI returned empty response");
 
-    const parsed = JSON.parse(content) as Record<string, unknown>;
+    let parsed: Record<string, unknown>;
+    try {
+        parsed = JSON.parse(content) as Record<string, unknown>;
+    } catch (cause) {
+        throw new Error(
+            `Failed to parse OpenAI JSON for post "${post.title}": ${content.slice(0, 200)}`,
+            { cause },
+        );
+    }
 
     if (!parsed.metaTitle || !parsed.metaDescription || !parsed.focusKeyword)
         throw new Error(`OpenAI returned incomplete data: ${content}`);
