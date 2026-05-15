@@ -62,6 +62,211 @@ export type Seo = {
     noIndex?: boolean;
 };
 
+export type WeeklyDigestReference = {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "weeklyDigest";
+};
+
+export type Project = {
+    _id: string;
+    _type: "project";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    slug: Slug;
+    status: "active" | "building" | "archived";
+    accentColor?: string;
+    category?:
+        | "Web Application"
+        | "Infrastructure"
+        | "Open Source"
+        | "Mobile App"
+        | "API / Backend"
+        | "Design System"
+        | "Other";
+    year?: string;
+    role?: string;
+    description?: string;
+    tags?: Array<string>;
+    thumbnail?: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+    };
+    externalUrl?: string;
+    hero?: {
+        badge?: string;
+        title?: string;
+        tagline?: string;
+        stats?: Array<{
+            label: string;
+            value: string;
+            _type: "statItem";
+            _key: string;
+        }>;
+        cta?: {
+            text?: string;
+            href?: string;
+        };
+        screenshot?: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: "image";
+        };
+    };
+    situation?: {
+        narrative?: Array<string>;
+        context?: {
+            role?: string;
+            timeline?: string;
+            client?: string;
+            live?: string;
+            stack?: Array<string>;
+        };
+    };
+    architecture?: {
+        intro?: string;
+        diagram?: string;
+        secondaryDiagram?: string;
+        secondaryDiagramTitle?: string;
+        subsystems?: Array<{
+            title?: string;
+            description?: string;
+            _key: string;
+        }>;
+    };
+    deepDives?: Array<{
+        id?: string;
+        title?: string;
+        subtitle?: string;
+        problem?: string;
+        beforeDiagram?: string;
+        diagram?: string;
+        walkthrough?: Array<string>;
+        insight?: {
+            title?: string;
+            body?: string;
+        };
+        screenshot?: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: "image";
+        };
+        _key: string;
+    }>;
+    decisions?: Array<{
+        decision?: string;
+        alternatives?: string;
+        reasoning?: string;
+        _key: string;
+    }>;
+    learnings?: Array<{
+        title?: string;
+        body?: string;
+        _key: string;
+    }>;
+    metrics?: {
+        hero?: Array<{
+            value: number;
+            label: string;
+            prefix?: string;
+            suffix?: string;
+            _type: "metricItem";
+            _key: string;
+        }>;
+        supporting?: Array<{
+            value: number;
+            label: string;
+            prefix?: string;
+            suffix?: string;
+            _type: "metricItem";
+            _key: string;
+        }>;
+    };
+    gallery?: Array<{
+        image: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: "image";
+        };
+        alt?: string;
+        caption?: string;
+        _key: string;
+    }>;
+    cta?: {
+        text?: string;
+        buttons?: Array<{
+            text: string;
+            href?: string;
+            variant?: "primary" | "secondary" | "outline" | "ghost";
+            _type: "ctaButton";
+            _key: string;
+        }>;
+    };
+    buildLog?: Array<{
+        weekOf: string;
+        summary?: string;
+        digestRef?: WeeklyDigestReference;
+        stats?: {
+            commits?: number;
+            repos?: number;
+            linesAdded?: number;
+            linesRemoved?: number;
+        };
+        _key: string;
+    }>;
+};
+
+export type SanityImageCrop = {
+    _type: "sanity.imageCrop";
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+};
+
+export type SanityImageHotspot = {
+    _type: "sanity.imageHotspot";
+    x: number;
+    y: number;
+    height: number;
+    width: number;
+};
+
+export type Slug = {
+    _type: "slug";
+    current: string;
+    source?: string;
+};
+
+export type SocialDraft = {
+    _id: string;
+    _type: "socialDraft";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    platform: "linkedin" | "twitter";
+    contentType: "post" | "thread" | "tweet";
+    body?: string;
+    editedBody?: string;
+    editorNotes?: string;
+    status: "draft" | "editing" | "ready" | "posted" | "skipped";
+    sourceDigest?: WeeklyDigestReference;
+    generatedAt?: string;
+    postedAt?: string;
+};
+
 export type DailyDigest = {
     _id: string;
     _type: "dailyDigest";
@@ -99,12 +304,6 @@ export type DailyDigest = {
         linesAdded?: number;
         linesRemoved?: number;
     };
-};
-
-export type Slug = {
-    _type: "slug";
-    current: string;
-    source?: string;
 };
 
 export type DailyDigestReference = {
@@ -274,22 +473,6 @@ export type Post = {
     };
 };
 
-export type SanityImageCrop = {
-    _type: "sanity.imageCrop";
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-};
-
-export type SanityImageHotspot = {
-    _type: "sanity.imageHotspot";
-    x: number;
-    y: number;
-    height: number;
-    width: number;
-};
-
 export type SanityImagePaletteSwatch = {
     _type: "sanity.imagePaletteSwatch";
     background?: string;
@@ -391,14 +574,17 @@ export type AllSanitySchemaTypes =
     | CodeBlock
     | SanityImageAssetReference
     | Seo
-    | DailyDigest
+    | WeeklyDigestReference
+    | Project
+    | SanityImageCrop
+    | SanityImageHotspot
     | Slug
+    | SocialDraft
+    | DailyDigest
     | DailyDigestReference
     | WeeklyDigest
     | ChangelogEntry
     | Post
-    | SanityImageCrop
-    | SanityImageHotspot
     | SanityImagePaletteSwatch
     | SanityImagePalette
     | SanityImageDimensions
