@@ -20,8 +20,8 @@ export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: schema.json
 export type CodeBlock = {
     _type: "codeBlock";
-    code: string;
-    language:
+    code?: string;
+    language?:
         | "typescript"
         | "javascript"
         | "tsx"
@@ -75,9 +75,9 @@ export type Project = {
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    title: string;
-    slug: Slug;
-    status: "active" | "building" | "archived";
+    title?: string;
+    slug?: Slug;
+    status?: "active" | "building" | "archived";
     accentColor?: string;
     category?:
         | "Web Application"
@@ -96,7 +96,7 @@ export type Project = {
         media?: unknown;
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        alt: string;
+        alt?: string;
         _type: "image";
     };
     externalUrl?: string;
@@ -105,8 +105,8 @@ export type Project = {
         title?: string;
         tagline?: string;
         stats?: Array<{
-            label: string;
-            value: string;
+            label?: string;
+            value?: string;
             _type: "statItem";
             _key: string;
         }>;
@@ -119,7 +119,7 @@ export type Project = {
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
-            alt: string;
+            alt?: string;
             _type: "image";
         };
     };
@@ -161,7 +161,7 @@ export type Project = {
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
-            alt: string;
+            alt?: string;
             _type: "image";
         };
         _key: string;
@@ -179,16 +179,16 @@ export type Project = {
     }>;
     metrics?: {
         hero?: Array<{
-            value: number;
-            label: string;
+            value?: number;
+            label?: string;
             prefix?: string;
             suffix?: string;
             _type: "metricItem";
             _key: string;
         }>;
         supporting?: Array<{
-            value: number;
-            label: string;
+            value?: number;
+            label?: string;
             prefix?: string;
             suffix?: string;
             _type: "metricItem";
@@ -196,29 +196,29 @@ export type Project = {
         }>;
     };
     gallery?: Array<{
-        image: {
+        image?: {
             asset?: SanityImageAssetReference;
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
             _type: "image";
         };
-        alt: string;
+        alt?: string;
         caption?: string;
         _key: string;
     }>;
     cta?: {
         text?: string;
         buttons?: Array<{
-            text: string;
+            text?: string;
             href?: string;
-            variant?: "primary" | "secondary" | "outline" | "ghost";
+            variant?: "default" | "secondary" | "outline" | "ghost";
             _type: "ctaButton";
             _key: string;
         }>;
     };
     buildLog?: Array<{
-        weekOf: string;
+        weekOf?: string;
         summary?: string;
         digestRef?: WeeklyDigestReference;
         stats?: {
@@ -233,23 +233,23 @@ export type Project = {
 
 export type SanityImageCrop = {
     _type: "sanity.imageCrop";
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
 };
 
 export type SanityImageHotspot = {
     _type: "sanity.imageHotspot";
-    x: number;
-    y: number;
-    height: number;
-    width: number;
+    x?: number;
+    y?: number;
+    height?: number;
+    width?: number;
 };
 
 export type Slug = {
     _type: "slug";
-    current: string;
+    current?: string;
     source?: string;
 };
 
@@ -259,12 +259,12 @@ export type SocialDraft = {
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    platform: "linkedin" | "twitter";
-    contentType: "post" | "thread" | "tweet";
+    platform?: "linkedin" | "twitter";
+    contentType?: "post" | "thread" | "tweet";
     body?: string;
     editedBody?: string;
     editorNotes?: string;
-    status: "draft" | "editing" | "ready" | "posted" | "skipped";
+    status?: "draft" | "editing" | "ready" | "posted" | "skipped";
     sourceDigest?: WeeklyDigestReference;
     generatedAt?: string;
     postedAt?: string;
@@ -276,9 +276,9 @@ export type DailyDigest = {
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    title: string;
-    slug: Slug;
-    date: string;
+    title?: string;
+    slug?: Slug;
+    date?: string;
     weekOf?: string;
     publishedAt?: string;
     excerpt?: string;
@@ -322,9 +322,9 @@ export type WeeklyDigest = {
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    title: string;
-    slug: Slug;
-    weekOf: string;
+    title?: string;
+    slug?: Slug;
+    weekOf?: string;
     weekLabel?: string;
     publishedAt?: string;
     excerpt?: string;
@@ -382,11 +382,11 @@ export type ChangelogEntry = {
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    title: string;
-    slug: Slug;
-    date: string;
-    type: "feature" | "improvement" | "fix" | "content" | "infrastructure";
-    summary: string;
+    title?: string;
+    slug?: Slug;
+    date?: string;
+    type?: "feature" | "improvement" | "fix" | "content" | "infrastructure";
+    summary?: string;
     body?: Array<{
         children?: Array<{
             marks?: Array<string>;
@@ -418,10 +418,10 @@ export type Post = {
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    title: string;
-    slug: Slug;
+    title?: string;
+    slug?: Slug;
     author?: string;
-    publishedAt: string;
+    publishedAt?: string;
     excerpt?: string;
     tldr?: string;
     mainImage?: {
@@ -429,7 +429,7 @@ export type Post = {
         media?: unknown;
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        alt: string;
+        alt?: string;
         _type: "image";
     };
     body?: Array<
@@ -457,7 +457,7 @@ export type Post = {
               media?: unknown;
               hotspot?: SanityImageHotspot;
               crop?: SanityImageCrop;
-              alt: string;
+              alt?: string;
               caption?: string;
               _type: "inlineImage";
               _key: string;
@@ -497,9 +497,9 @@ export type SanityImagePalette = {
 
 export type SanityImageDimensions = {
     _type: "sanity.imageDimensions";
-    height: number;
-    width: number;
-    aspectRatio: number;
+    height?: number;
+    width?: number;
+    aspectRatio?: number;
 };
 
 export type SanityImageMetadata = {
@@ -525,14 +525,14 @@ export type SanityFileAsset = {
     title?: string;
     description?: string;
     altText?: string;
-    sha1hash: string;
-    extension: string;
-    mimeType: string;
-    size: number;
-    assetId: string;
+    sha1hash?: string;
+    extension?: string;
+    mimeType?: string;
+    size?: number;
+    assetId?: string;
     uploadId?: string;
-    path: string;
-    url: string;
+    path?: string;
+    url?: string;
     source?: SanityAssetSourceData;
 };
 
@@ -554,14 +554,14 @@ export type SanityImageAsset = {
     title?: string;
     description?: string;
     altText?: string;
-    sha1hash: string;
-    extension: string;
-    mimeType: string;
-    size: number;
-    assetId: string;
+    sha1hash?: string;
+    extension?: string;
+    mimeType?: string;
+    size?: number;
+    assetId?: string;
     uploadId?: string;
-    path: string;
-    url: string;
+    path?: string;
+    url?: string;
     metadata?: SanityImageMetadata;
     source?: SanityAssetSourceData;
 };
@@ -602,14 +602,14 @@ export type AllSanitySchemaTypes =
 // Query: *[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {    _id,    title,    "slug": slug.current,    excerpt,    publishedAt,    mainImage {        asset->{ _id, url, metadata { dimensions, lqip } },  hotspot,  crop,      alt    },    categories,    "bodyCharCount": length(pt::text(body))  }
 export type POSTS_QUERY_RESULT = Array<{
     _id: string;
-    title: string;
-    slug: string;
+    title: string | null;
+    slug: string | null;
     excerpt: string | null;
     publishedAt: string;
     mainImage: {
         asset: {
             _id: string;
-            url: string;
+            url: string | null;
             metadata: {
                 dimensions: SanityImageDimensions | null;
                 lqip: string | null;
@@ -617,7 +617,7 @@ export type POSTS_QUERY_RESULT = Array<{
         } | null;
         hotspot: SanityImageHotspot | null;
         crop: SanityImageCrop | null;
-        alt: string;
+        alt: string | null;
     } | null;
     categories: Array<string> | null;
     bodyCharCount: number;
@@ -629,16 +629,16 @@ export type POSTS_QUERY_RESULT = Array<{
 export type POST_QUERY_RESULT = {
     _id: string;
     _updatedAt: string;
-    title: string;
-    slug: string;
+    title: string | null;
+    slug: string | null;
     author: string | null;
-    publishedAt: string;
+    publishedAt: string | null;
     excerpt: string | null;
     tldr: string | null;
     mainImage: {
         asset: {
             _id: string;
-            url: string;
+            url: string | null;
             metadata: {
                 dimensions: SanityImageDimensions | null;
                 lqip: string | null;
@@ -646,7 +646,7 @@ export type POST_QUERY_RESULT = {
         } | null;
         hotspot: SanityImageHotspot | null;
         crop: SanityImageCrop | null;
-        alt: string;
+        alt: string | null;
     } | null;
     body: Array<
         | {
@@ -671,8 +671,8 @@ export type POST_QUERY_RESULT = {
         | {
               _key: string;
               _type: "codeBlock";
-              code: string;
-              language:
+              code?: string;
+              language?:
                   | "bash"
                   | "css"
                   | "graphql"
@@ -692,7 +692,7 @@ export type POST_QUERY_RESULT = {
         | {
               asset: {
                   _id: string;
-                  url: string;
+                  url: string | null;
                   metadata: {
                       dimensions: SanityImageDimensions | null;
                       lqip: string | null;
@@ -701,7 +701,7 @@ export type POST_QUERY_RESULT = {
               media?: unknown;
               hotspot: SanityImageHotspot | null;
               crop: SanityImageCrop | null;
-              alt: string;
+              alt?: string;
               caption?: string;
               _type: "inlineImage";
               _key: string;
@@ -718,7 +718,7 @@ export type POST_QUERY_RESULT = {
         image: {
             asset: {
                 _id: string;
-                url: string;
+                url: string | null;
                 metadata: {
                     dimensions: SanityImageDimensions | null;
                 } | null;
@@ -732,13 +732,13 @@ export type POST_QUERY_RESULT = {
 // Source: src/sanity/lib/queries.ts
 // Variable: POST_SLUGS_QUERY
 // Query: *[_type == "post" && defined(slug.current)][].slug.current
-export type POST_SLUGS_QUERY_RESULT = Array<string>;
+export type POST_SLUGS_QUERY_RESULT = Array<string | null>;
 
 // Source: src/sanity/lib/queries.ts
 // Variable: SITEMAP_POSTS_QUERY
 // Query: *[_type == "post" && defined(slug.current)] {    "slug": slug.current,    _updatedAt  }
 export type SITEMAP_POSTS_QUERY_RESULT = Array<{
-    slug: string;
+    slug: string | null;
     _updatedAt: string;
 }>;
 
@@ -747,11 +747,11 @@ export type SITEMAP_POSTS_QUERY_RESULT = Array<{
 // Query: *[_type == "changelogEntry"] | order(date desc) [0...50] {    _id,    title,    "slug": slug.current,    date,    type,    summary,    body,    relatedProject,    commitHash,    commitRange,    isHighlight,    source  }
 export type CHANGELOG_QUERY_RESULT = Array<{
     _id: string;
-    title: string;
-    slug: string;
-    date: string;
-    type: "content" | "feature" | "fix" | "improvement" | "infrastructure";
-    summary: string;
+    title: string | null;
+    slug: string | null;
+    date: string | null;
+    type: "content" | "feature" | "fix" | "improvement" | "infrastructure" | null;
+    summary: string | null;
     body: Array<{
         children?: Array<{
             marks?: Array<string>;
@@ -787,7 +787,7 @@ export type CHANGELOG_LATEST_DATE_QUERY_RESULT = string | null;
 // Query: *[_type == "post" && _id == $id][0] {    _id,    title,    excerpt,    "bodyText": pt::text(body),    categories  }
 export type ENHANCE_POST_QUERY_RESULT = {
     _id: string;
-    title: string;
+    title: string | null;
     excerpt: string | null;
     bodyText: string;
     categories: Array<string> | null;
@@ -798,9 +798,9 @@ export type ENHANCE_POST_QUERY_RESULT = {
 // Query: *[_type == "weeklyDigest"] | order(weekOf desc) [0...52] {    _id,    title,    "slug": slug.current,    weekOf,    weekLabel,    publishedAt,    excerpt,    tags,    stats {      totalCommits,      reposActive,      linesAdded,      linesRemoved    },    projects[] {      repoName,      projectType,      summary,      skillsDemonstrated,      url    }  }
 export type WEEKLY_DIGESTS_QUERY_RESULT = Array<{
     _id: string;
-    title: string;
-    slug: string;
-    weekOf: string;
+    title: string | null;
+    slug: string | null;
+    weekOf: string | null;
     weekLabel: string | null;
     publishedAt: string | null;
     excerpt: string | null;
@@ -835,9 +835,9 @@ export type WEEKLY_DIGESTS_QUERY_RESULT = Array<{
 export type WEEKLY_DIGEST_QUERY_RESULT = {
     _id: string;
     _updatedAt: string;
-    title: string;
-    slug: string;
-    weekOf: string;
+    title: string | null;
+    slug: string | null;
+    weekOf: string | null;
     weekLabel: string | null;
     publishedAt: string | null;
     excerpt: string | null;
@@ -884,9 +884,9 @@ export type WEEKLY_DIGEST_QUERY_RESULT = {
     }> | null;
     dailyRefs: Array<{
         _id: string;
-        title: string;
-        slug: string;
-        date: string;
+        title: string | null;
+        slug: string | null;
+        date: string | null;
         excerpt: string | null;
         stats: {
             totalCommits: number | null;
@@ -900,16 +900,16 @@ export type WEEKLY_DIGEST_QUERY_RESULT = {
 // Source: src/sanity/lib/queries.ts
 // Variable: WEEKLY_DIGEST_SLUGS_QUERY
 // Query: *[_type == "weeklyDigest" && defined(slug.current)][].slug.current
-export type WEEKLY_DIGEST_SLUGS_QUERY_RESULT = Array<string>;
+export type WEEKLY_DIGEST_SLUGS_QUERY_RESULT = Array<string | null>;
 
 // Source: src/sanity/lib/queries.ts
 // Variable: DAILY_DIGESTS_BY_WEEK_QUERY
 // Query: *[_type == "dailyDigest" && weekOf == $weekOf] | order(date asc) {    _id,    title,    "slug": slug.current,    date,    excerpt,    stats {      totalCommits,      reposActive,      linesAdded,      linesRemoved    }  }
 export type DAILY_DIGESTS_BY_WEEK_QUERY_RESULT = Array<{
     _id: string;
-    title: string;
-    slug: string;
-    date: string;
+    title: string | null;
+    slug: string | null;
+    date: string | null;
     excerpt: string | null;
     stats: {
         totalCommits: number | null;
@@ -923,7 +923,7 @@ export type DAILY_DIGESTS_BY_WEEK_QUERY_RESULT = Array<{
 // Variable: SITEMAP_WEEKLY_DIGESTS_QUERY
 // Query: *[_type == "weeklyDigest" && defined(slug.current)] {    "slug": slug.current,    _updatedAt  }
 export type SITEMAP_WEEKLY_DIGESTS_QUERY_RESULT = Array<{
-    slug: string;
+    slug: string | null;
     _updatedAt: string;
 }>;
 
