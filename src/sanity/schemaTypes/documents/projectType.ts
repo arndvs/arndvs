@@ -186,6 +186,14 @@ export const projectType = defineType({
             type: "image",
             group: "overview",
             options: { hotspot: true },
+            fields: [
+                defineField({
+                    name: "alt",
+                    title: "Alt Text",
+                    type: "string",
+                    validation: (r) => r.required(),
+                }),
+            ],
         }),
         defineField({
             name: "externalUrl",
@@ -225,6 +233,14 @@ export const projectType = defineType({
                     title: "Screenshot",
                     type: "image",
                     options: { hotspot: true },
+                    fields: [
+                        defineField({
+                            name: "alt",
+                            title: "Alt Text",
+                            type: "string",
+                            validation: (r) => r.required(),
+                        }),
+                    ],
                 }),
             ],
         }),
@@ -251,7 +267,7 @@ export const projectType = defineType({
                         defineField({ name: "role", title: "Role", type: "string" }),
                         defineField({ name: "timeline", title: "Timeline", type: "string" }),
                         defineField({ name: "client", title: "Client", type: "string" }),
-                        defineField({ name: "live", title: "Live URL", type: "string" }),
+                        defineField({ name: "live", title: "Live URL", type: "url" }),
                         defineField({
                             name: "stack",
                             title: "Stack",
@@ -359,6 +375,14 @@ export const projectType = defineType({
                             title: "Screenshot",
                             type: "image",
                             options: { hotspot: true },
+                            fields: [
+                                defineField({
+                                    name: "alt",
+                                    title: "Alt Text",
+                                    type: "string",
+                                    validation: (r) => r.required(),
+                                }),
+                            ],
                         }),
                     ],
                     preview: { select: { title: "title", subtitle: "subtitle" } },
@@ -452,7 +476,12 @@ export const projectType = defineType({
                             options: { hotspot: true },
                             validation: (r) => r.required(),
                         }),
-                        defineField({ name: "alt", title: "Alt Text", type: "string" }),
+                        defineField({
+                            name: "alt",
+                            title: "Alt Text",
+                            type: "string",
+                            validation: (r) => r.required(),
+                        }),
                         defineField({ name: "caption", title: "Caption", type: "string" }),
                     ],
                     preview: {
