@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { PortableText } from "next-sanity";
 import { notFound } from "next/navigation";
 
 import { generateSiteMetadata } from "@/lib/metadata";
