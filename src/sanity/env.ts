@@ -1,3 +1,5 @@
+import { assertValue } from "./lib/assert-value";
+
 export const apiVersion = assertValue(
     process.env.NEXT_PUBLIC_SANITY_API_VERSION,
     "Missing environment variable: NEXT_PUBLIC_SANITY_API_VERSION",
@@ -20,11 +22,3 @@ export const siteConfig = {
     ),
     studioUrl: process.env.NEXT_PUBLIC_SANITY_STUDIO_URL ?? "/studio",
 } as const;
-
-function assertValue<T>(v: T | undefined, errorMessage: string): T {
-    if (v === undefined) throw new Error(errorMessage);
-
-    if (typeof v === "string" && v.trim().length === 0) throw new Error(errorMessage);
-
-    return v;
-}
