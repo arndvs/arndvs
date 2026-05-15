@@ -110,3 +110,101 @@ export const ENHANCE_POST_QUERY = defineQuery(/* groq */ `
     categories
   }
 `);
+
+// ——————————————————————————————————————————————
+// Weekly / Daily Digest queries
+// ——————————————————————————————————————————————
+
+export const WEEKLY_DIGESTS_QUERY = defineQuery(/* groq */ `
+  *[_type == "weeklyDigest"] | order(weekOf desc) [0...52] {
+    _id,
+    title,
+    "slug": slug.current,
+    weekOf,
+    weekLabel,
+    publishedAt,
+    excerpt,
+    tags,
+    stats {
+      totalCommits,
+      reposActive,
+      linesAdded,
+      linesRemoved
+    },
+    projects[] {
+      repoName,
+      projectType,
+      summary,
+      skillsDemonstrated,
+      url
+    }
+  }
+`);
+
+export const WEEKLY_DIGEST_QUERY = defineQuery(/* groq */ `
+  *[_type == "weeklyDigest" && slug.current == $slug][0] {
+    _id,
+    _updatedAt,
+    title,
+    "slug": slug.current,
+    weekOf,
+    weekLabel,
+    publishedAt,
+    excerpt,
+    tags,
+    body,
+    stats {
+      totalCommits,
+      reposActive,
+      linesAdded,
+      linesRemoved
+    },
+    projects[] {
+      repoName,
+      projectType,
+      summary,
+      skillsDemonstrated,
+      url
+    },
+    dailyRefs[]-> {
+      _id,
+      title,
+      "slug": slug.current,
+      date,
+      excerpt,
+      stats {
+        totalCommits,
+        reposActive,
+        linesAdded,
+        linesRemoved
+      }
+    }
+  }
+`);
+
+export const WEEKLY_DIGEST_SLUGS_QUERY = defineQuery(/* groq */ `
+  *[_type == "weeklyDigest" && defined(slug.current)][].slug.current
+`);
+
+export const DAILY_DIGESTS_BY_WEEK_QUERY = defineQuery(/* groq */ `
+  *[_type == "dailyDigest" && weekOf == $weekOf] | order(date asc) {
+    _id,
+    title,
+    "slug": slug.current,
+    date,
+    excerpt,
+    stats {
+      totalCommits,
+      reposActive,
+      linesAdded,
+      linesRemoved
+    }
+  }
+`);
+
+export const SITEMAP_WEEKLY_DIGESTS_QUERY = defineQuery(/* groq */ `
+  *[_type == "weeklyDigest" && defined(slug.current)] {
+    "slug": slug.current,
+    _updatedAt
+  }
+`);

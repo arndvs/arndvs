@@ -20,6 +20,8 @@ const navItems = [
     { name: "About", href: "/about", ariaLabel: "Learn more about Aaron" },
     { name: "Projects", href: "/projects", ariaLabel: "View project portfolio" },
     { name: "Blog", href: "/blog", ariaLabel: "Read blog posts" },
+    { name: "Changelog", href: "/changelog", ariaLabel: "View site changelog" },
+    { name: "Shipped", href: "/shipped", ariaLabel: "Weekly development digest" },
     { name: "Work With Me", href: "/work-with-me", ariaLabel: "Work with Aaron" },
 ];
 
