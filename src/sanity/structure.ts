@@ -126,6 +126,16 @@ export const structure: StructureResolver = (S) =>
                                             { field: "postedAt", direction: "desc" },
                                         ]),
                                 ),
+                            S.listItem()
+                                .title("Skipped")
+                                .child(
+                                    S.documentList()
+                                        .title("Skipped")
+                                        .filter('_type == "socialDraft" && status == "skipped"')
+                                        .defaultOrdering([
+                                            { field: "generatedAt", direction: "desc" },
+                                        ]),
+                                ),
                             S.divider(),
                             S.listItem()
                                 .title("All Drafts")
