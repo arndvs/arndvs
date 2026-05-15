@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail } from "lucide-react";
 
 import Link from "next/link";
 
+import { SOCIAL_LINKS } from "@/lib/data/social";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
 const footerData = {
@@ -19,26 +19,7 @@ const footerData = {
         { name: "Blog", href: "/blog" },
         { name: "Work with me", href: "/work-with-me" },
     ],
-    social: [
-        {
-            name: "GitHub",
-            href: "https://github.com/arndvs",
-            icon: Github,
-            ariaLabel: "Visit Aaron's GitHub profile",
-        },
-        {
-            name: "LinkedIn",
-            href: "https://linkedin.com/in/arndvs",
-            icon: Linkedin,
-            ariaLabel: "Visit Aaron's LinkedIn profile",
-        },
-        {
-            name: "Email",
-            href: "mailto:aaron@arndvs.com",
-            icon: Mail,
-            ariaLabel: "Email Aaron",
-        },
-    ],
+    social: SOCIAL_LINKS,
     location: "San Diego, CA",
 };
 export function Footer() {
