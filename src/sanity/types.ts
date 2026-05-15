@@ -96,6 +96,7 @@ export type Project = {
         media?: unknown;
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
+        alt: string;
         _type: "image";
     };
     externalUrl?: string;
@@ -118,6 +119,7 @@ export type Project = {
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
+            alt: string;
             _type: "image";
         };
     };
@@ -159,6 +161,7 @@ export type Project = {
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
+            alt: string;
             _type: "image";
         };
         _key: string;
@@ -200,7 +203,7 @@ export type Project = {
             crop?: SanityImageCrop;
             _type: "image";
         };
-        alt?: string;
+        alt: string;
         caption?: string;
         _key: string;
     }>;
