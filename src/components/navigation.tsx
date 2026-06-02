@@ -1,12 +1,13 @@
 "use client";
 
-import { Github, Linkedin, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import { useEffect, useState } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { SOCIAL_LINKS } from "@/lib/data/social";
 import { cn } from "@/lib/utils";
 
 import { ContactForm } from "./contact-form";
@@ -25,18 +26,7 @@ const navItems = [
     { name: "Work With Me", href: "/work-with-me", ariaLabel: "Work with Aaron" },
 ];
 
-const socialLinks = [
-    {
-        href: "https://github.com/arndvs",
-        icon: Github,
-        label: "GitHub",
-    },
-    {
-        href: "https://linkedin.com/in/arndvs",
-        icon: Linkedin,
-        label: "LinkedIn",
-    },
-];
+const navSocialLinks = SOCIAL_LINKS.filter((link) => !link.href.startsWith("mailto"));
 
 export function Navigation() {
     const pathname = usePathname();
@@ -102,7 +92,7 @@ export function Navigation() {
 
                     {/* Desktop actions */}
                     <div className="hidden items-center gap-1 md:flex">
-                        {socialLinks.map((link) => (
+                        {navSocialLinks.map((link) => (
                             <Button
                                 key={link.href}
                                 variant="ghost"
@@ -114,7 +104,7 @@ export function Navigation() {
                                     href={link.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    aria-label={link.label}
+                                    aria-label={link.ariaLabel}
                                 >
                                     <link.icon className="h-4 w-4" />
                                 </a>
@@ -161,7 +151,7 @@ export function Navigation() {
                                         </Link>
                                     ))}
                                     <div className="border-border mt-4 flex items-center gap-2 border-t pt-4">
-                                        {socialLinks.map((link) => (
+                                        {navSocialLinks.map((link) => (
                                             <Button
                                                 key={link.href}
                                                 variant="outline"
@@ -173,7 +163,7 @@ export function Navigation() {
                                                     href={link.href}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    aria-label={link.label}
+                                                    aria-label={link.ariaLabel}
                                                 >
                                                     <link.icon className="h-4 w-4" />
                                                 </a>

@@ -208,3 +208,7 @@ export const SITEMAP_WEEKLY_DIGESTS_QUERY = defineQuery(/* groq */ `
     _updatedAt
   }
 `);
+
+export const SITEMAP_CHANGELOG_LATEST_DATE_QUERY = defineQuery(/* groq */ `
+  *[_type == "changelogEntry"] | order(_updatedAt desc) [0]._updatedAt
+`);
