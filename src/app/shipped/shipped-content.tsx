@@ -19,7 +19,7 @@ function StatBadge({
     value: number | null;
     label: string;
 }) {
-    if (!value) return null;
+    if (value == null) return null;
     return (
         <span
             className="text-muted-foreground inline-flex items-center gap-1 text-xs"
