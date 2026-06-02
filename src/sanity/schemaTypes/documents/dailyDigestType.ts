@@ -70,6 +70,31 @@ export const dailyDigestType = defineType({
                             { title: "Em", value: "em" },
                             { title: "Code", value: "code" },
                         ],
+                        annotations: [
+                            {
+                                name: "link",
+                                type: "object",
+                                title: "Link",
+                                fields: [
+                                    {
+                                        name: "href",
+                                        type: "url",
+                                        title: "URL",
+                                        validation: (rule) =>
+                                            rule.uri({
+                                                allowRelative: true,
+                                                scheme: ["http", "https", "mailto"],
+                                            }),
+                                    },
+                                    {
+                                        name: "blank",
+                                        type: "boolean",
+                                        title: "Open in new tab",
+                                        initialValue: false,
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 }),
             ],
