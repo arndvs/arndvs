@@ -44,9 +44,9 @@ const projects = [
         title: "RipeMetrics",
         category: "AI / SaaS",
         year: "2017–2025",
-        role: "Founder & Full-Stack Developer",
+        role: "Founder, Lead Frontend & AI Engineer",
         description:
-            "AI-powered customer growth platform with automated customer service, reducing costs by 40% and achieving 95%+ uptime over 8 years in production.",
+            "AI-powered customer growth platform I founded and led AI engineering on — automated customer service reducing costs by 40%, achieving 95%+ uptime over 8 years in production.",
         tags: ["React", "Next.js", "TypeScript", "Redux RTK", "OpenAI", "Pinecone", "PostgreSQL"],
         stats: [
             { value: "8", label: "Years in Production" },

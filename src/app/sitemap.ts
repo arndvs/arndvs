@@ -3,7 +3,11 @@ import type { MetadataRoute } from "next";
 import { PROJECTS } from "@/lib/data/projects";
 import { siteConfig } from "@/sanity/env";
 import { client } from "@/sanity/lib/client";
-import { SITEMAP_POSTS_QUERY } from "@/sanity/lib/queries";
+import {
+    SITEMAP_CHANGELOG_LATEST_DATE_QUERY,
+    SITEMAP_POSTS_QUERY,
+    SITEMAP_WEEKLY_DIGESTS_QUERY,
+} from "@/sanity/lib/queries";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = siteConfig.url;
@@ -22,6 +26,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly",
         priority: 0.7,
     }));
+
+    let digestEntries: MetadataRoute.Sitemap = [];
+    try {
+        const digests = await client
+            .withConfig({ useCdn: false })
+            .fetch(SITEMAP_WEEKLY_DIGESTS_QUERY);
+        digestEntries = digests.map((digest: { slug: string; _updatedAt: string }) => ({
+            url: `${baseUrl}/shipped/${digest.slug}`,
+            lastModified: new Date(digest._updatedAt),
+            changeFrequency: "weekly" as const,
+            priority: 0.7,
+        }));
+    } catch (error) {
+        console.error("Failed to fetch digest slugs for sitemap:", error);
+    }
+
+    let changelogLastModified: Date = new Date();
+    try {
+        const latestDate = await client
+            .withConfig({ useCdn: false })
+            .fetch(SITEMAP_CHANGELOG_LATEST_DATE_QUERY);
+        if (latestDate) changelogLastModified = new Date(latestDate);
+    } catch (error) {
+        console.error("Failed to fetch changelog date for sitemap:", error);
+    }
 
     const projectEntries: MetadataRoute.Sitemap = PROJECTS.map((project) => ({
         url: `${baseUrl}/projects/${project.slug}`,
@@ -57,7 +86,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
         {
             url: `${baseUrl}/changelog`,
-            lastModified: new Date(),
+            lastModified: changelogLastModified,
             changeFrequency: "weekly",
             priority: 0.6,
         },
@@ -67,7 +96,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: "monthly",
             priority: 0.9,
         },
+        {
+            url: `${baseUrl}/shipped`,
+            lastModified: new Date(),
+            changeFrequency: "weekly",
+            priority: 0.7,
+        },
         ...projectEntries,
         ...blogEntries,
+        ...digestEntries,
     ];
 }

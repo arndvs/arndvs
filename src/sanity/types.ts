@@ -20,8 +20,8 @@ export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: schema.json
 export type CodeBlock = {
     _type: "codeBlock";
-    code?: string;
-    language?:
+    code: string;
+    language:
         | "typescript"
         | "javascript"
         | "tsx"
@@ -62,6 +62,322 @@ export type Seo = {
     noIndex?: boolean;
 };
 
+export type WeeklyDigestReference = {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "weeklyDigest";
+};
+
+export type Project = {
+    _id: string;
+    _type: "project";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    slug: Slug;
+    status: "active" | "building" | "archived";
+    accentColor?: string;
+    category?:
+        | "Web Application"
+        | "Infrastructure"
+        | "Open Source"
+        | "Mobile App"
+        | "API / Backend"
+        | "Design System"
+        | "Other";
+    year?: string;
+    role?: string;
+    description?: string;
+    tags?: Array<string>;
+    thumbnail?: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt: string;
+        _type: "image";
+    };
+    externalUrl?: string;
+    hero?: {
+        badge?: string;
+        title?: string;
+        tagline?: string;
+        stats?: Array<{
+            label: string;
+            value: string;
+            _type: "statItem";
+            _key: string;
+        }>;
+        cta?: {
+            text?: string;
+            href?: string;
+        };
+        screenshot?: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt: string;
+            _type: "image";
+        };
+    };
+    situation?: {
+        narrative?: Array<string>;
+        context?: {
+            role?: string;
+            timeline?: string;
+            client?: string;
+            live?: string;
+            stack?: Array<string>;
+        };
+    };
+    architecture?: {
+        intro?: string;
+        diagram?: string;
+        secondaryDiagram?: string;
+        secondaryDiagramTitle?: string;
+        subsystems?: Array<{
+            title?: string;
+            description?: string;
+            _key: string;
+        }>;
+    };
+    deepDives?: Array<{
+        id?: string;
+        title?: string;
+        subtitle?: string;
+        problem?: string;
+        beforeDiagram?: string;
+        diagram?: string;
+        walkthrough?: Array<string>;
+        insight?: {
+            title?: string;
+            body?: string;
+        };
+        screenshot?: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt: string;
+            _type: "image";
+        };
+        _key: string;
+    }>;
+    decisions?: Array<{
+        decision?: string;
+        alternatives?: string;
+        reasoning?: string;
+        _key: string;
+    }>;
+    learnings?: Array<{
+        title?: string;
+        body?: string;
+        _key: string;
+    }>;
+    metrics?: {
+        hero?: Array<{
+            value: number;
+            label: string;
+            prefix?: string;
+            suffix?: string;
+            _type: "metricItem";
+            _key: string;
+        }>;
+        supporting?: Array<{
+            value: number;
+            label: string;
+            prefix?: string;
+            suffix?: string;
+            _type: "metricItem";
+            _key: string;
+        }>;
+    };
+    gallery?: Array<{
+        image: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: "image";
+        };
+        alt: string;
+        caption?: string;
+        _key: string;
+    }>;
+    cta?: {
+        text?: string;
+        buttons?: Array<{
+            text: string;
+            href?: string;
+            variant?: "default" | "secondary" | "outline" | "ghost";
+            _type: "ctaButton";
+            _key: string;
+        }>;
+    };
+    buildLog?: Array<{
+        weekOf: string;
+        summary?: string;
+        digestRef?: WeeklyDigestReference;
+        stats?: {
+            commits?: number;
+            repos?: number;
+            linesAdded?: number;
+            linesRemoved?: number;
+        };
+        _key: string;
+    }>;
+};
+
+export type SanityImageCrop = {
+    _type: "sanity.imageCrop";
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+};
+
+export type SanityImageHotspot = {
+    _type: "sanity.imageHotspot";
+    x: number;
+    y: number;
+    height: number;
+    width: number;
+};
+
+export type Slug = {
+    _type: "slug";
+    current: string;
+    source?: string;
+};
+
+export type SocialDraft = {
+    _id: string;
+    _type: "socialDraft";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    platform: "linkedin" | "twitter";
+    contentType: "post" | "thread" | "tweet";
+    body?: string;
+    editedBody?: string;
+    editorNotes?: string;
+    status: "draft" | "editing" | "ready" | "posted" | "skipped";
+    sourceDigest?: WeeklyDigestReference;
+    generatedAt?: string;
+    postedAt?: string;
+};
+
+export type DailyDigest = {
+    _id: string;
+    _type: "dailyDigest";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    slug: Slug;
+    date: string;
+    weekOf?: string;
+    publishedAt?: string;
+    excerpt?: string;
+    tags?: Array<string>;
+    body?: Array<{
+        children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+        }>;
+        style?: "normal" | "h2" | "h3";
+        listItem?: "bullet";
+        markDefs?: Array<{
+            href?: string;
+            blank?: boolean;
+            _type: "link";
+            _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+    }>;
+    stats?: {
+        totalCommits?: number;
+        reposActive?: number;
+        linesAdded?: number;
+        linesRemoved?: number;
+    };
+};
+
+export type DailyDigestReference = {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "dailyDigest";
+};
+
+export type WeeklyDigest = {
+    _id: string;
+    _type: "weeklyDigest";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    slug: Slug;
+    weekOf: string;
+    weekLabel?: string;
+    publishedAt?: string;
+    excerpt?: string;
+    tags?: Array<string>;
+    body?: Array<{
+        children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+        }>;
+        style?: "normal" | "h2" | "h3";
+        listItem?: "bullet";
+        markDefs?: Array<{
+            href?: string;
+            blank?: boolean;
+            _type: "link";
+            _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+    }>;
+    stats?: {
+        totalCommits?: number;
+        reposActive?: number;
+        linesAdded?: number;
+        linesRemoved?: number;
+    };
+    projects?: Array<{
+        repoName?: string;
+        projectType?:
+            | "web app"
+            | "CLI tool"
+            | "library"
+            | "config/dotfiles"
+            | "data pipeline"
+            | "API"
+            | "mobile app"
+            | "other";
+        summary?: string;
+        skillsDemonstrated?: Array<string>;
+        url?: string;
+        _key: string;
+    }>;
+    dailyRefs?: Array<
+        {
+            _key: string;
+        } & DailyDigestReference
+    >;
+};
+
 export type ChangelogEntry = {
     _id: string;
     _type: "changelogEntry";
@@ -96,12 +412,6 @@ export type ChangelogEntry = {
     commitRange?: string;
     isHighlight?: boolean;
     source?: "manual" | "automated";
-};
-
-export type Slug = {
-    _type: "slug";
-    current: string;
-    source?: string;
 };
 
 export type Post = {
@@ -166,22 +476,6 @@ export type Post = {
         confidence?: number;
         model?: string;
     };
-};
-
-export type SanityImageCrop = {
-    _type: "sanity.imageCrop";
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-};
-
-export type SanityImageHotspot = {
-    _type: "sanity.imageHotspot";
-    x: number;
-    y: number;
-    height: number;
-    width: number;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -285,11 +579,17 @@ export type AllSanitySchemaTypes =
     | CodeBlock
     | SanityImageAssetReference
     | Seo
-    | ChangelogEntry
-    | Slug
-    | Post
+    | WeeklyDigestReference
+    | Project
     | SanityImageCrop
     | SanityImageHotspot
+    | Slug
+    | SocialDraft
+    | DailyDigest
+    | DailyDigestReference
+    | WeeklyDigest
+    | ChangelogEntry
+    | Post
     | SanityImagePaletteSwatch
     | SanityImagePalette
     | SanityImageDimensions
@@ -373,8 +673,8 @@ export type POST_QUERY_RESULT = {
         | {
               _key: string;
               _type: "codeBlock";
-              code?: string;
-              language?:
+              code: string;
+              language:
                   | "bash"
                   | "css"
                   | "graphql"
@@ -495,6 +795,146 @@ export type ENHANCE_POST_QUERY_RESULT = {
     categories: Array<string> | null;
 } | null;
 
+// Source: src/sanity/lib/queries.ts
+// Variable: WEEKLY_DIGESTS_QUERY
+// Query: *[_type == "weeklyDigest"] | order(weekOf desc) [0...52] {    _id,    title,    "slug": slug.current,    weekOf,    weekLabel,    publishedAt,    excerpt,    tags,    stats {      totalCommits,      reposActive,      linesAdded,      linesRemoved    },    projects[] {      repoName,      projectType,      summary,      skillsDemonstrated,      url    }  }
+export type WEEKLY_DIGESTS_QUERY_RESULT = Array<{
+    _id: string;
+    title: string;
+    slug: string;
+    weekOf: string;
+    weekLabel: string | null;
+    publishedAt: string | null;
+    excerpt: string | null;
+    tags: Array<string> | null;
+    stats: {
+        totalCommits: number | null;
+        reposActive: number | null;
+        linesAdded: number | null;
+        linesRemoved: number | null;
+    } | null;
+    projects: Array<{
+        repoName: string | null;
+        projectType:
+            | "API"
+            | "CLI tool"
+            | "config/dotfiles"
+            | "data pipeline"
+            | "library"
+            | "mobile app"
+            | "other"
+            | "web app"
+            | null;
+        summary: string | null;
+        skillsDemonstrated: Array<string> | null;
+        url: string | null;
+    }> | null;
+}>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: WEEKLY_DIGEST_QUERY
+// Query: *[_type == "weeklyDigest" && slug.current == $slug][0] {    _id,    _updatedAt,    title,    "slug": slug.current,    weekOf,    weekLabel,    publishedAt,    excerpt,    tags,    body,    stats {      totalCommits,      reposActive,      linesAdded,      linesRemoved    },    projects[] {      repoName,      projectType,      summary,      skillsDemonstrated,      url    },    dailyRefs[]-> {      _id,      title,      "slug": slug.current,      date,      excerpt,      stats {        totalCommits,        reposActive,        linesAdded,        linesRemoved      }    }  }
+export type WEEKLY_DIGEST_QUERY_RESULT = {
+    _id: string;
+    _updatedAt: string;
+    title: string;
+    slug: string;
+    weekOf: string;
+    weekLabel: string | null;
+    publishedAt: string | null;
+    excerpt: string | null;
+    tags: Array<string> | null;
+    body: Array<{
+        children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+        }>;
+        style?: "h2" | "h3" | "normal";
+        listItem?: "bullet";
+        markDefs?: Array<{
+            href?: string;
+            blank?: boolean;
+            _type: "link";
+            _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+    }> | null;
+    stats: {
+        totalCommits: number | null;
+        reposActive: number | null;
+        linesAdded: number | null;
+        linesRemoved: number | null;
+    } | null;
+    projects: Array<{
+        repoName: string | null;
+        projectType:
+            | "API"
+            | "CLI tool"
+            | "config/dotfiles"
+            | "data pipeline"
+            | "library"
+            | "mobile app"
+            | "other"
+            | "web app"
+            | null;
+        summary: string | null;
+        skillsDemonstrated: Array<string> | null;
+        url: string | null;
+    }> | null;
+    dailyRefs: Array<{
+        _id: string;
+        title: string;
+        slug: string;
+        date: string;
+        excerpt: string | null;
+        stats: {
+            totalCommits: number | null;
+            reposActive: number | null;
+            linesAdded: number | null;
+            linesRemoved: number | null;
+        } | null;
+    }> | null;
+} | null;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: WEEKLY_DIGEST_SLUGS_QUERY
+// Query: *[_type == "weeklyDigest" && defined(slug.current)][].slug.current
+export type WEEKLY_DIGEST_SLUGS_QUERY_RESULT = Array<string>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: DAILY_DIGESTS_BY_WEEK_QUERY
+// Query: *[_type == "dailyDigest" && weekOf == $weekOf] | order(date asc) {    _id,    title,    "slug": slug.current,    date,    excerpt,    stats {      totalCommits,      reposActive,      linesAdded,      linesRemoved    }  }
+export type DAILY_DIGESTS_BY_WEEK_QUERY_RESULT = Array<{
+    _id: string;
+    title: string;
+    slug: string;
+    date: string;
+    excerpt: string | null;
+    stats: {
+        totalCommits: number | null;
+        reposActive: number | null;
+        linesAdded: number | null;
+        linesRemoved: number | null;
+    } | null;
+}>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: SITEMAP_WEEKLY_DIGESTS_QUERY
+// Query: *[_type == "weeklyDigest" && defined(slug.current)] {    "slug": slug.current,    _updatedAt  }
+export type SITEMAP_WEEKLY_DIGESTS_QUERY_RESULT = Array<{
+    slug: string;
+    _updatedAt: string;
+}>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: SITEMAP_CHANGELOG_LATEST_DATE_QUERY
+// Query: *[_type == "changelogEntry"] | order(_updatedAt desc) [0]._updatedAt
+export type SITEMAP_CHANGELOG_LATEST_DATE_QUERY_RESULT = string | null;
+
 declare module "@sanity/client" {
     interface SanityQueries {
         '\n  *[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    publishedAt,\n    mainImage {\n      \n  asset->{ _id, url, metadata { dimensions, lqip } },\n  hotspot,\n  crop\n,\n      alt\n    },\n    categories,\n    "bodyCharCount": length(pt::text(body))\n  }\n': POSTS_QUERY_RESULT;
@@ -504,5 +944,11 @@ declare module "@sanity/client" {
         '\n  *[_type == "changelogEntry"] | order(date desc) [0...50] {\n    _id,\n    title,\n    "slug": slug.current,\n    date,\n    type,\n    summary,\n    body,\n    relatedProject,\n    commitHash,\n    commitRange,\n    isHighlight,\n    source\n  }\n': CHANGELOG_QUERY_RESULT;
         '\n  *[_type == "changelogEntry"] | order(date desc) [0].date\n': CHANGELOG_LATEST_DATE_QUERY_RESULT;
         '\n  *[_type == "post" && _id == $id][0] {\n    _id,\n    title,\n    excerpt,\n    "bodyText": pt::text(body),\n    categories\n  }\n': ENHANCE_POST_QUERY_RESULT;
+        '\n  *[_type == "weeklyDigest"] | order(weekOf desc) [0...52] {\n    _id,\n    title,\n    "slug": slug.current,\n    weekOf,\n    weekLabel,\n    publishedAt,\n    excerpt,\n    tags,\n    stats {\n      totalCommits,\n      reposActive,\n      linesAdded,\n      linesRemoved\n    },\n    projects[] {\n      repoName,\n      projectType,\n      summary,\n      skillsDemonstrated,\n      url\n    }\n  }\n': WEEKLY_DIGESTS_QUERY_RESULT;
+        '\n  *[_type == "weeklyDigest" && slug.current == $slug][0] {\n    _id,\n    _updatedAt,\n    title,\n    "slug": slug.current,\n    weekOf,\n    weekLabel,\n    publishedAt,\n    excerpt,\n    tags,\n    body,\n    stats {\n      totalCommits,\n      reposActive,\n      linesAdded,\n      linesRemoved\n    },\n    projects[] {\n      repoName,\n      projectType,\n      summary,\n      skillsDemonstrated,\n      url\n    },\n    dailyRefs[]-> {\n      _id,\n      title,\n      "slug": slug.current,\n      date,\n      excerpt,\n      stats {\n        totalCommits,\n        reposActive,\n        linesAdded,\n        linesRemoved\n      }\n    }\n  }\n': WEEKLY_DIGEST_QUERY_RESULT;
+        '\n  *[_type == "weeklyDigest" && defined(slug.current)][].slug.current\n': WEEKLY_DIGEST_SLUGS_QUERY_RESULT;
+        '\n  *[_type == "dailyDigest" && weekOf == $weekOf] | order(date asc) {\n    _id,\n    title,\n    "slug": slug.current,\n    date,\n    excerpt,\n    stats {\n      totalCommits,\n      reposActive,\n      linesAdded,\n      linesRemoved\n    }\n  }\n': DAILY_DIGESTS_BY_WEEK_QUERY_RESULT;
+        '\n  *[_type == "weeklyDigest" && defined(slug.current)] {\n    "slug": slug.current,\n    _updatedAt\n  }\n': SITEMAP_WEEKLY_DIGESTS_QUERY_RESULT;
+        '\n  *[_type == "changelogEntry"] | order(_updatedAt desc) [0]._updatedAt\n': SITEMAP_CHANGELOG_LATEST_DATE_QUERY_RESULT;
     }
 }

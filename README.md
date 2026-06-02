@@ -1,6 +1,6 @@
 # Aaron Davis
 
-Full-stack engineer based in San Diego with 15+ years building for the web. I spent 8 years building RipeMetrics — a marketing automation, business intelligence, and customer support platform — which is where I learned how to ship AI features in production and what it actually takes to keep a SaaS product alive long term.
+Full-stack engineer based in San Diego with 15+ years building for the web. I founded RipeMetrics in 2017 and spent 8 years leading product and AI engineering on a marketing automation, business intelligence, and customer support platform — which is where I learned how to ship AI features in production and what it actually takes to keep a SaaS product alive long term.
 
 I'm currently going deep on agentic engineering — Claude Code, autonomous workflows, human-in-the-loop patterns, and the infrastructure that makes AI systems reliable rather than just impressive in a demo.
 
@@ -38,7 +38,7 @@ A fictional smart bed company built as a sandbox for implementing AI video gener
 ## Background
 
 - Building for the web since 2010 — HTML/CSS → Joomla → WordPress → Laravel → React/Next.js
-- Founded and built RipeMetrics (2017–2025) — full stack, solo and with a team
+- Founded RipeMetrics (2017–2025) — led product, frontend, and AI engineering across a team of up to 12
 - Based in San Diego, open to remote
 
 ---

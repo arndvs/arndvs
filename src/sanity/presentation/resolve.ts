@@ -16,6 +16,10 @@ export const resolve: PresentationPluginOptions["resolve"] = {
             route: "/blog/:slug",
             filter: '_type == "post" && slug.current == $slug',
         },
+        {
+            route: "/shipped/:slug",
+            filter: '_type == "weeklyDigest" && slug.current == $slug',
+        },
     ]),
     locations: {
         post: defineLocations({
@@ -40,6 +44,22 @@ export const resolve: PresentationPluginOptions["resolve"] = {
             },
             resolve: (doc) => ({
                 locations: [{ title: "Changelog", href: "/changelog" }, homeLocation],
+            }),
+        }),
+        weeklyDigest: defineLocations({
+            select: {
+                title: "title",
+                slug: "slug.current",
+            },
+            resolve: (doc) => ({
+                locations: [
+                    {
+                        title: doc?.title || "Untitled",
+                        href: `/shipped/${doc?.slug}`,
+                    },
+                    { title: "Shipped", href: "/shipped" },
+                    homeLocation,
+                ],
             }),
         }),
     },

@@ -70,7 +70,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
     };
 
     return (
-        <nav aria-label="Table of contents">
+        <nav aria-label="Table of contents" className="h-full">
             {/* Mobile: collapsible */}
             <details className="mb-8 rounded-lg border p-4 lg:hidden">
                 <summary className="flex cursor-pointer items-center gap-2 text-sm font-medium">

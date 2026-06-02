@@ -41,7 +41,7 @@ const featuredProjects = [
         category: "AI Platform",
         year: "2017–2025",
         description:
-            "AI-native customer growth platform. Reduced customer service costs by 40% through AI automation over 8 years.",
+            "AI-native customer growth platform I founded and led AI engineering on. Reduced customer service costs by 40% through AI automation over 8 years.",
         stats: [
             { value: "8", label: "Years in Production" },
             { value: "40%", label: "Cost Reduction" },
@@ -135,10 +135,10 @@ export default function HomeContent() {
                                     transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
                                 }}
                             >
-                                15+ years building for the web. Founded and built RipeMetrics — an
-                                AI-native customer experience platform — over 8 years. Now I build
-                                full-stack applications and AI-powered systems for teams that need
-                                production-grade software, not a demo.
+                                15+ years building for the web. Founded RipeMetrics and led product
+                                and AI engineering on an AI-native customer experience platform for
+                                8 years. Now I build full-stack applications and AI-powered systems
+                                for teams that need production-grade software, not a demo.
                             </p>
 
                             <div
