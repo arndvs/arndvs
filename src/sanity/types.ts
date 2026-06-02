@@ -75,9 +75,9 @@ export type Project = {
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    title?: string;
-    slug?: Slug;
-    status?: "active" | "building" | "archived";
+    title: string;
+    slug: Slug;
+    status: "active" | "building" | "archived";
     accentColor?: string;
     category?:
         | "Web Application"
@@ -96,7 +96,7 @@ export type Project = {
         media?: unknown;
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
-        alt?: string;
+        alt: string;
         _type: "image";
     };
     externalUrl?: string;
@@ -105,8 +105,8 @@ export type Project = {
         title?: string;
         tagline?: string;
         stats?: Array<{
-            label?: string;
-            value?: string;
+            label: string;
+            value: string;
             _type: "statItem";
             _key: string;
         }>;
@@ -119,7 +119,7 @@ export type Project = {
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
-            alt?: string;
+            alt: string;
             _type: "image";
         };
     };
@@ -161,7 +161,7 @@ export type Project = {
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
-            alt?: string;
+            alt: string;
             _type: "image";
         };
         _key: string;
@@ -179,16 +179,16 @@ export type Project = {
     }>;
     metrics?: {
         hero?: Array<{
-            value?: number;
-            label?: string;
+            value: number;
+            label: string;
             prefix?: string;
             suffix?: string;
             _type: "metricItem";
             _key: string;
         }>;
         supporting?: Array<{
-            value?: number;
-            label?: string;
+            value: number;
+            label: string;
             prefix?: string;
             suffix?: string;
             _type: "metricItem";
@@ -196,21 +196,21 @@ export type Project = {
         }>;
     };
     gallery?: Array<{
-        image?: {
+        image: {
             asset?: SanityImageAssetReference;
             media?: unknown;
             hotspot?: SanityImageHotspot;
             crop?: SanityImageCrop;
             _type: "image";
         };
-        alt?: string;
+        alt: string;
         caption?: string;
         _key: string;
     }>;
     cta?: {
         text?: string;
         buttons?: Array<{
-            text?: string;
+            text: string;
             href?: string;
             variant?: "default" | "secondary" | "outline" | "ghost";
             _type: "ctaButton";
@@ -218,7 +218,7 @@ export type Project = {
         }>;
     };
     buildLog?: Array<{
-        weekOf?: string;
+        weekOf: string;
         summary?: string;
         digestRef?: WeeklyDigestReference;
         stats?: {
@@ -229,6 +229,45 @@ export type Project = {
         };
         _key: string;
     }>;
+};
+
+export type SanityImageCrop = {
+    _type: "sanity.imageCrop";
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+};
+
+export type SanityImageHotspot = {
+    _type: "sanity.imageHotspot";
+    x: number;
+    y: number;
+    height: number;
+    width: number;
+};
+
+export type Slug = {
+    _type: "slug";
+    current: string;
+    source?: string;
+};
+
+export type SocialDraft = {
+    _id: string;
+    _type: "socialDraft";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    platform: "linkedin" | "twitter";
+    contentType: "post" | "thread" | "tweet";
+    body?: string;
+    editedBody?: string;
+    editorNotes?: string;
+    status: "draft" | "editing" | "ready" | "posted" | "skipped";
+    sourceDigest?: WeeklyDigestReference;
+    generatedAt?: string;
+    postedAt?: string;
 };
 
 export type DailyDigest = {
@@ -255,6 +294,7 @@ export type DailyDigest = {
         listItem?: "bullet";
         markDefs?: Array<{
             href?: string;
+            blank?: boolean;
             _type: "link";
             _key: string;
         }>;
@@ -268,29 +308,6 @@ export type DailyDigest = {
         linesAdded?: number;
         linesRemoved?: number;
     };
-};
-
-export type Slug = {
-    _type: "slug";
-    current: string;
-    source?: string;
-};
-
-export type SocialDraft = {
-    _id: string;
-    _type: "socialDraft";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    platform?: "linkedin" | "twitter";
-    contentType?: "post" | "thread" | "tweet";
-    body?: string;
-    editedBody?: string;
-    editorNotes?: string;
-    status?: "draft" | "editing" | "ready" | "posted" | "skipped";
-    sourceDigest?: WeeklyDigestReference;
-    generatedAt?: string;
-    postedAt?: string;
 };
 
 export type DailyDigestReference = {
@@ -324,6 +341,7 @@ export type WeeklyDigest = {
         listItem?: "bullet";
         markDefs?: Array<{
             href?: string;
+            blank?: boolean;
             _type: "link";
             _key: string;
         }>;
@@ -460,22 +478,6 @@ export type Post = {
     };
 };
 
-export type SanityImageCrop = {
-    _type: "sanity.imageCrop";
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-};
-
-export type SanityImageHotspot = {
-    _type: "sanity.imageHotspot";
-    x: number;
-    y: number;
-    height: number;
-    width: number;
-};
-
 export type SanityImagePaletteSwatch = {
     _type: "sanity.imagePaletteSwatch";
     background?: string;
@@ -579,15 +581,15 @@ export type AllSanitySchemaTypes =
     | Seo
     | WeeklyDigestReference
     | Project
-    | DailyDigest
+    | SanityImageCrop
+    | SanityImageHotspot
     | Slug
     | SocialDraft
+    | DailyDigest
     | DailyDigestReference
     | WeeklyDigest
     | ChangelogEntry
     | Post
-    | SanityImageCrop
-    | SanityImageHotspot
     | SanityImagePaletteSwatch
     | SanityImagePalette
     | SanityImageDimensions
@@ -853,6 +855,7 @@ export type WEEKLY_DIGEST_QUERY_RESULT = {
         listItem?: "bullet";
         markDefs?: Array<{
             href?: string;
+            blank?: boolean;
             _type: "link";
             _key: string;
         }>;
@@ -927,6 +930,11 @@ export type SITEMAP_WEEKLY_DIGESTS_QUERY_RESULT = Array<{
     _updatedAt: string;
 }>;
 
+// Source: src/sanity/lib/queries.ts
+// Variable: SITEMAP_CHANGELOG_LATEST_DATE_QUERY
+// Query: *[_type == "changelogEntry"] | order(_updatedAt desc) [0]._updatedAt
+export type SITEMAP_CHANGELOG_LATEST_DATE_QUERY_RESULT = string | null;
+
 declare module "@sanity/client" {
     interface SanityQueries {
         '\n  *[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    publishedAt,\n    mainImage {\n      \n  asset->{ _id, url, metadata { dimensions, lqip } },\n  hotspot,\n  crop\n,\n      alt\n    },\n    categories,\n    "bodyCharCount": length(pt::text(body))\n  }\n': POSTS_QUERY_RESULT;
@@ -941,5 +949,6 @@ declare module "@sanity/client" {
         '\n  *[_type == "weeklyDigest" && defined(slug.current)][].slug.current\n': WEEKLY_DIGEST_SLUGS_QUERY_RESULT;
         '\n  *[_type == "dailyDigest" && weekOf == $weekOf] | order(date asc) {\n    _id,\n    title,\n    "slug": slug.current,\n    date,\n    excerpt,\n    stats {\n      totalCommits,\n      reposActive,\n      linesAdded,\n      linesRemoved\n    }\n  }\n': DAILY_DIGESTS_BY_WEEK_QUERY_RESULT;
         '\n  *[_type == "weeklyDigest" && defined(slug.current)] {\n    "slug": slug.current,\n    _updatedAt\n  }\n': SITEMAP_WEEKLY_DIGESTS_QUERY_RESULT;
+        '\n  *[_type == "changelogEntry"] | order(_updatedAt desc) [0]._updatedAt\n': SITEMAP_CHANGELOG_LATEST_DATE_QUERY_RESULT;
     }
 }
