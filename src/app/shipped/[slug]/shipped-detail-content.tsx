@@ -19,7 +19,7 @@ function StatsBar({ stats }: { stats: Digest["stats"] }) {
         { icon: GitFork, value: stats.reposActive, label: "Repos" },
         { icon: Plus, value: stats.linesAdded, label: "Added" },
         { icon: Minus, value: stats.linesRemoved, label: "Removed" },
-    ].filter((item) => item.value);
+    ].filter((item) => item.value != null);
 
     if (items.length === 0) return null;
 
@@ -41,7 +41,7 @@ function ProjectCard({ project }: { project: NonNullable<Digest["projects"]>[num
         <div className="border-border bg-card rounded-lg border p-4">
             <div className="flex items-start justify-between">
                 <div>
-                    <h3 className="font-semibold">{project.repoName}</h3>
+                    <h3 className="font-semibold">{project.repoName ?? "Untitled project"}</h3>
                     {project.projectType && (
                         <span className="text-muted-foreground text-sm">{project.projectType}</span>
                     )}
@@ -52,7 +52,7 @@ function ProjectCard({ project }: { project: NonNullable<Digest["projects"]>[num
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-muted-foreground hover:text-foreground transition-colors"
-                        aria-label={`View ${project.repoName} on GitHub`}
+                        aria-label={`View ${project.repoName ?? "project"} on GitHub`}
                     >
                         <ExternalLink className="h-4 w-4" />
                     </a>
@@ -154,8 +154,11 @@ export function ShippedDetailContent({ digest }: { digest: Digest }) {
                         <motion.div variants={itemVariants} className="space-y-4">
                             <h2 className="text-2xl font-bold">Projects</h2>
                             <div className="grid gap-4 sm:grid-cols-2">
-                                {digest.projects.map((project) => (
-                                    <ProjectCard key={project.repoName} project={project} />
+                                {digest.projects.map((project, index) => (
+                                    <ProjectCard
+                                        key={project.repoName ?? project.url ?? index}
+                                        project={project}
+                                    />
                                 ))}
                             </div>
                         </motion.div>
