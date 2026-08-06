@@ -107,11 +107,11 @@ const proofProjects = [
         href: "/projects/ripemetrics",
     },
     {
-        tag: "Healthcare · AI · 2026",
-        title: "AlignSD",
+        tag: "E-Commerce · Edge Computing · 2026",
+        title: "MCRDSE",
         description:
-            "277,000-line healthcare platform with 5 AI integrations, 203 programmatic pages, and custom JSON-LD architecture.",
-        href: "/projects/align-san-diego-family-chiropractic",
+            "6-repo Cloudflare edge ecosystem for a functional-mushroom brand — two storefronts, a loyalty program built for correctness under concurrency, and order reconciliation across four external systems.",
+        href: "/projects/mcrdse-commerce",
     },
 ];
 

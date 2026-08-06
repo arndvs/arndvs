@@ -43,7 +43,7 @@ export const metadata: Metadata = {
         template: "%s | Aaron Davis",
     },
     description:
-        "Full-stack engineer and creative technologist based in San Diego. Founded RipeMetrics, built a 277k-line healthcare platform with 5 AI integrations. React, Next.js, TypeScript, AI systems, OpenAI, RAG. Available for contract.",
+        "Full-stack engineer and creative technologist based in San Diego. Founded RipeMetrics, built a 277k-line healthcare platform with 5 AI integrations, and lead a 6-repo Cloudflare edge e-commerce ecosystem. React, Next.js, TypeScript, AI systems, OpenAI, RAG. Available for contract.",
     keywords: [
         "Full Stack Developer",
         "Software Engineer",
