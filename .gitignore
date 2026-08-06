@@ -47,3 +47,10 @@ schema.json
 working/
 b_CaYJGvaMzXi/
 b_oHSAWyIusj5/
+# Artifact lifecycle — ignored runtime lanes
+# Never blanket-ignore working/ — only specific subdirectories containing runtime noise.
+working/runtime/
+working/tmp/
+working/logs/
+# Sandcastle vendored engine — ignore installed dependencies (root /node_modules rule is anchored)
+.sandcastle/engine/node_modules/
