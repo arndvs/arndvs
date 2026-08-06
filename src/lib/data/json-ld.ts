@@ -7,7 +7,7 @@ export const personJsonLd = {
     url: siteConfig.url,
     jobTitle: "Full-Stack Engineer & Creative Technologist",
     description:
-        "Full-stack engineer and creative technologist with 15+ years building for the web — from CMS platforms to AI-powered SaaS products and creative technology projects.",
+        "Full-stack engineer and creative technologist with 15+ years building for the web — from CMS platforms to AI-powered SaaS products, edge-computing e-commerce ecosystems, and creative technology projects.",
     sameAs: ["https://github.com/arndvs", "https://linkedin.com/in/arndvs"],
     knowsAbout: [
         "React",

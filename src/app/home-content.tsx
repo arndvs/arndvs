@@ -50,18 +50,18 @@ const featuredProjects = [
         href: "/projects/ripemetrics",
     },
     {
-        id: "alignsd-wellness",
-        title: "AlignSD Wellness Center",
-        category: "Healthcare",
-        year: "2024–2026",
+        id: "mcrdse-commerce",
+        title: "MCRDSE — E-Commerce & Loyalty Platform",
+        category: "E-Commerce / Edge Computing",
+        year: "2026 – Present",
         description:
-            "A 277,000-line healthcare platform serving 5,000+ families — 5 AI integrations, 76 JSON-LD schemas, 203 programmatic pages, and 27 email templates.",
+            "A 6-repo Cloudflare edge ecosystem for a functional-mushroom supplement brand — two storefronts, a loyalty program built for correctness under concurrency, and order reconciliation across four external systems.",
         stats: [
-            { value: "277K+", label: "Lines of Code" },
-            { value: "5K+", label: "Families Served" },
-            { value: "76", label: "JSON-LD Schemas" },
+            { value: "6", label: "Repos" },
+            { value: "1,400+", label: "Commits" },
+            { value: "2", label: "Storefronts" },
         ],
-        href: "/projects/align-san-diego-family-chiropractic",
+        href: "/projects/mcrdse-commerce",
     },
 ];
 
