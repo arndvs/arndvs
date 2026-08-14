@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@arndvs/config':
+        specifier: workspace:*
+        version: link:packages/config
+      '@arndvs/contracts':
+        specifier: workspace:*
+        version: link:packages/contracts
       '@react-email/components':
         specifier: ^0.5.6
         version: 0.5.6(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
