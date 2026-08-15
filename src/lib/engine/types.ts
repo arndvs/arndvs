@@ -51,6 +51,8 @@ export interface SocialDraftStore {
     create(input: CreateSocialDraftInput): Promise<SocialDraftRecord>;
     getById(id: string): Promise<SocialDraftRecord | null>;
     listByStatus(status: SocialDraftStatus): Promise<SocialDraftRecord[]>;
+    /** List drafts in actionable states (draft/editing/ready), sorted by score desc. */
+    listActionable(): Promise<SocialDraftRecord[]>;
     transition(id: string, to: SocialDraftStatus): Promise<SocialDraftRecord>;
     updateBody(id: string, body: string): Promise<SocialDraftRecord>;
     markPosted(id: string): Promise<SocialDraftRecord>;
