@@ -3,3 +3,8 @@ export * from "./sanity";
 export * from "./prompts";
 export * from "./social-drafter";
 export * from "./halbert-editor";
+export * from "./comment-scout-types";
+export * from "./scoring";
+export * from "./comment-drafter";
+export * from "./linkedin-client";
+export * from "./comment-scout";
