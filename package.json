@@ -21,6 +21,7 @@
         "seed:changelog": "pnpm exec tsx scripts/seed-changelog.ts",
         "changelog:digest": "pnpm exec tsx scripts/generate-changelog-digest.ts",
         "linkedin:draft": "pnpm exec tsx scripts/generate-linkedin-draft.ts",
+        "comment:scout": "pnpm exec tsx scripts/comment-scout.ts",
         "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
         "prepare": "husky"
     },
