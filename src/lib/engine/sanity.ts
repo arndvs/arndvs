@@ -81,6 +81,13 @@ export function createSanitySocialDraftStore(): SocialDraftStore {
             return docs.map(toRecord);
         },
 
+        async listActionable() {
+            const docs = await client.fetch<Array<Record<string, unknown>>>(
+                `*[_type == "socialDraft" && status in ["draft", "editing", "ready"]] | order(score desc, generatedAt desc)`,
+            );
+            return docs.map(toRecord);
+        },
+
         async transition(id, to) {
             const current = await this.getById(id);
             if (!current) throw new Error(`Social draft not found: ${id}`);
