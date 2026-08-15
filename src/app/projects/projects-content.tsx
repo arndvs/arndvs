@@ -74,6 +74,42 @@ const projects = [
         thumbnail: "/projects/alignsd/hero-webgl-shader.png",
     },
     {
+        id: "mcrdse-commerce",
+        title: "MCRDSE — E-Commerce & Loyalty Platform",
+        category: "E-Commerce / Edge Computing",
+        year: "2026 – Present",
+        role: "Lead Engineer",
+        description:
+            "A 6-repo Cloudflare edge ecosystem for a functional-mushroom supplement brand — two storefronts, a loyalty program built for correctness under concurrency, and order reconciliation across four external systems.",
+        tags: ["Astro", "Cloudflare", "D1", "Authorize.net", "ShipStation", "GoHighLevel"],
+        stats: [
+            { value: "6", label: "Repos" },
+            { value: "1,400+", label: "Commits" },
+            { value: "2", label: "Storefronts" },
+        ],
+        href: "/projects/mcrdse-commerce",
+        link: "https://mcrdse.com",
+        thumbnail: "/projects/mcrdse-commerce/mcrdse-home.png",
+    },
+    {
+        id: "mcrdse-content",
+        title: "MCRDSE — Content & Community Platform",
+        category: "Content Operations / AI-Search",
+        year: "2026 – Present",
+        role: "Lead Engineer",
+        description:
+            "A content approval-and-shipping worker with cryptographic approval locking, an educational community site with a branching archetype quiz, and a forward-looking AI-search (GEO) strategy.",
+        tags: ["Cloudflare", "D1", "R2", "Astro", "Preact", "Zernio", "Linear"],
+        stats: [
+            { value: "250", label: "Scripts in D1" },
+            { value: "56", label: "Articles" },
+            { value: "7", label: "Archetypes" },
+        ],
+        href: "/projects/mcrdse-content",
+        link: "https://mcrdsemovement.com",
+        thumbnail: "/projects/mcrdse-content/movement-home.png",
+    },
+    {
         id: "push",
         title: "PUSH",
         category: "AI Video / Creative Technology",
