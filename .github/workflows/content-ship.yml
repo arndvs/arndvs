@@ -1,0 +1,32 @@
+name: Content Ship
+
+on:
+    schedule:
+        # Every Sunday at 00:30 UTC (after Changelog Digest at 00:00)
+        - cron: "30 0 * * 0"
+    workflow_dispatch:
+
+jobs:
+    generate-linkedin-draft:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: pnpm
+
+            - run: pnpm install --frozen-lockfile
+
+            - name: Generate LinkedIn draft from latest weekly digest
+              run: pnpm linkedin:draft
+              env:
+                  NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+                  NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET }}
+                  NEXT_PUBLIC_SANITY_API_VERSION: ${{ vars.NEXT_PUBLIC_SANITY_API_VERSION }}
+                  NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+                  SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+                  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
