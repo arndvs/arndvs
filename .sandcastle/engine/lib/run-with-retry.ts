@@ -1,11 +1,10 @@
 import {
-    type OutputObjectDefinition,
-    type RunOptions,
-    type RunResult,
-    StructuredOutputError,
-    run,
+  run,
+  StructuredOutputError,
+  type OutputObjectDefinition,
+  type RunOptions,
+  type RunResult,
 } from "@ai-hero/sandcastle";
-
 import { buildRetryFeedback } from "./retry-feedback.js";
 
 /**
@@ -13,13 +12,13 @@ import { buildRetryFeedback } from "./retry-feedback.js";
  * required and a `maxAttempts` cap added.
  */
 export interface RunWithRetryOptions<T> extends Omit<RunOptions, "output"> {
-    /** Structured output to extract. Applied to the first call and every retry. */
-    readonly output: OutputObjectDefinition<T>;
-    /**
-     * Total number of attempts (the first call plus retries) before giving up.
-     * Default: 3 — one initial call and up to two resumed retries.
-     */
-    readonly maxAttempts?: number;
+  /** Structured output to extract. Applied to the first call and every retry. */
+  readonly output: OutputObjectDefinition<T>;
+  /**
+   * Total number of attempts (the first call plus retries) before giving up.
+   * Default: 3 — one initial call and up to two resumed retries.
+   */
+  readonly maxAttempts?: number;
 }
 
 /**
@@ -48,54 +47,56 @@ export interface RunWithRetryOptions<T> extends Omit<RunOptions, "output"> {
  * mirrors the pre-wrapper failure path.
  */
 export async function runWithRetry<T>(
-    options: RunWithRetryOptions<T>,
+  options: RunWithRetryOptions<T>
 ): Promise<RunResult & { output: T }> {
-    const { output, maxAttempts = 3, ...runOptions } = options;
+  const { output, maxAttempts = 3, ...runOptions } = options;
 
-    if (maxAttempts < 1) {
-        throw new Error("runWithRetry: maxAttempts must be at least 1.");
+  if (maxAttempts < 1) {
+    throw new Error("runWithRetry: maxAttempts must be at least 1.");
+  }
+
+  let lastError: StructuredOutputError | undefined;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      if (!lastError) {
+        // First attempt: the original prompt does the work AND emits output.
+        return await run({ ...runOptions, output });
+      }
+
+      // Retry: resume the failed session and feed back what went wrong. The
+      // session still holds everything the agent did, so it only re-emits.
+      const sessionId = lastError.sessionId;
+      if (!sessionId) {
+        throw new Error(
+          "runWithRetry: the failed run carried no sessionId, so it cannot be " +
+            "resumed for a retry. Session capture must be enabled (Claude Code " +
+            "provider with sessions written to the host)."
+        );
+      }
+
+      // The retry uses an inline `prompt` (the feedback message), so drop
+      // `promptArgs` — Sandcastle only allows promptArgs alongside a promptFile,
+      // and the feedback prompt needs no substitution.
+      const { promptArgs: _retryArgs, ...retryOptions } = runOptions;
+      return await run({
+        ...retryOptions,
+        name: runOptions.name
+          ? `${runOptions.name} (retry ${attempt - 1})`
+          : undefined,
+        promptFile: undefined,
+        prompt: buildRetryFeedback(lastError, attempt, maxAttempts),
+        resumeSession: sessionId,
+        output,
+      });
+    } catch (error) {
+      if (error instanceof StructuredOutputError) {
+        lastError = error;
+        continue;
+      }
+      throw error;
     }
+  }
 
-    let lastError: StructuredOutputError | undefined;
-
-    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-        try {
-            if (!lastError) {
-                // First attempt: the original prompt does the work AND emits output.
-                return await run({ ...runOptions, output });
-            }
-
-            // Retry: resume the failed session and feed back what went wrong. The
-            // session still holds everything the agent did, so it only re-emits.
-            const sessionId = lastError.sessionId;
-            if (!sessionId) {
-                throw new Error(
-                    "runWithRetry: the failed run carried no sessionId, so it cannot be " +
-                        "resumed for a retry. Session capture must be enabled (Claude Code " +
-                        "provider with sessions written to the host).",
-                );
-            }
-
-            // The retry uses an inline `prompt` (the feedback message), so drop
-            // `promptArgs` — Sandcastle only allows promptArgs alongside a promptFile,
-            // and the feedback prompt needs no substitution.
-            const { promptArgs: _retryArgs, ...retryOptions } = runOptions;
-            return await run({
-                ...retryOptions,
-                name: runOptions.name ? `${runOptions.name} (retry ${attempt - 1})` : undefined,
-                promptFile: undefined,
-                prompt: buildRetryFeedback(lastError, attempt, maxAttempts),
-                resumeSession: sessionId,
-                output,
-            });
-        } catch (error) {
-            if (error instanceof StructuredOutputError) {
-                lastError = error;
-                continue;
-            }
-            throw error;
-        }
-    }
-
-    throw lastError;
+  throw lastError;
 }

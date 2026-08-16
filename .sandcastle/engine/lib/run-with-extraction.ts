@@ -1,10 +1,9 @@
 import {
-    type OutputObjectDefinition,
-    type RunOptions,
-    type RunResult,
-    run,
+  run,
+  type OutputObjectDefinition,
+  type RunOptions,
+  type RunResult,
 } from "@ai-hero/sandcastle";
-
 import { runWithRetry } from "./run-with-retry.js";
 
 /**
@@ -14,17 +13,20 @@ import { runWithRetry } from "./run-with-retry.js";
  * The `output` definition is NOT applied to the produce run (see the module
  * docs); it is applied to the extraction run(s) instead.
  */
-export interface RunWithExtractionOptions<T> extends Omit<RunOptions, "output"> {
-    /** Structured output to extract during the extraction pass. */
-    readonly output: OutputObjectDefinition<T>;
-    /**
-     * Prompt for the extraction pass, sent after resuming the produce session.
-     * Must contain the configured opening tag literal (e.g. `<output>`), since
-     * Sandcastle requires the resolved prompt to contain it.
-     */
-    readonly extractionPrompt: string;
-    /** Maximum number of extraction attempts before giving up. Default: 3. */
-    readonly maxAttempts?: number;
+export interface RunWithExtractionOptions<T> extends Omit<
+  RunOptions,
+  "output"
+> {
+  /** Structured output to extract during the extraction pass. */
+  readonly output: OutputObjectDefinition<T>;
+  /**
+   * Prompt for the extraction pass, sent after resuming the produce session.
+   * Must contain the configured opening tag literal (e.g. `<output>`), since
+   * Sandcastle requires the resolved prompt to contain it.
+   */
+  readonly extractionPrompt: string;
+  /** Maximum number of extraction attempts before giving up. Default: 3. */
+  readonly maxAttempts?: number;
 }
 
 /**
@@ -59,37 +61,37 @@ export interface RunWithExtractionOptions<T> extends Omit<RunOptions, "output"> 
  * pass is pure overhead.
  */
 export async function runWithExtraction<T>(
-    options: RunWithExtractionOptions<T>,
+  options: RunWithExtractionOptions<T>
 ): Promise<RunResult & { output: T }> {
-    const { output, extractionPrompt, maxAttempts, ...produceOptions } = options;
+  const { output, extractionPrompt, maxAttempts, ...produceOptions } = options;
 
-    const produce = await run(produceOptions);
+  const produce = await run(produceOptions);
 
-    const sessionId = produce.iterations.at(-1)?.sessionId;
-    if (!sessionId) {
-        throw new Error(
-            "runWithExtraction: produce run returned no sessionId, so the extraction " +
-                "pass cannot resume it. Session capture must be enabled (Claude Code " +
-                "provider with sessions written to the host).",
-        );
-    }
+  const sessionId = produce.iterations.at(-1)?.sessionId;
+  if (!sessionId) {
+    throw new Error(
+      "runWithExtraction: produce run returned no sessionId, so the extraction " +
+        "pass cannot resume it. Session capture must be enabled (Claude Code " +
+        "provider with sessions written to the host)."
+    );
+  }
 
-    // The extraction pass uses an inline `prompt` (extractionPrompt), so drop the
-    // produce phase's `promptArgs` — Sandcastle only allows promptArgs alongside
-    // a promptFile, and the extraction prompt needs no substitution.
-    const { promptArgs: _produceArgs, ...extractionOptions } = produceOptions;
+  // The extraction pass uses an inline `prompt` (extractionPrompt), so drop the
+  // produce phase's `promptArgs` — Sandcastle only allows promptArgs alongside
+  // a promptFile, and the extraction prompt needs no substitution.
+  const { promptArgs: _produceArgs, ...extractionOptions } = produceOptions;
 
-    const extraction = await runWithRetry({
-        ...extractionOptions,
-        name: produceOptions.name ? `${produceOptions.name} (extract)` : undefined,
-        promptFile: undefined,
-        prompt: extractionPrompt,
-        resumeSession: sessionId,
-        output,
-        maxAttempts,
-    });
+  const extraction = await runWithRetry({
+    ...extractionOptions,
+    name: produceOptions.name ? `${produceOptions.name} (extract)` : undefined,
+    promptFile: undefined,
+    prompt: extractionPrompt,
+    resumeSession: sessionId,
+    output,
+    maxAttempts,
+  });
 
-    // Commits/branch come from the produce run (extraction does no work); only
-    // the structured output comes from the extraction pass.
-    return { ...produce, output: extraction.output };
+  // Commits/branch come from the produce run (extraction does no work); only
+  // the structured output comes from the extraction pass.
+  return { ...produce, output: extraction.output };
 }

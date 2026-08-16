@@ -33,6 +33,6 @@ Rules:
 
 - `prTitle` must be a single line, under 70 characters, conventional-commit style (`feat:`, `fix:`, `refactor:`, etc.), framed around the PRD as a whole.
 - `prDescription` must:
-    - describe the PRD's overall intent (restate the goal from the PRD body),
-    - list every sub-issue with its number and title,
-    - end with `Closes #{{PRD_NUMBER}}` so the PR auto-closes the PRD on merge.
+  - describe the PRD's overall intent (restate the goal from the PRD body),
+  - list every sub-issue with its number and title,
+  - end with `Closes #{{PRD_NUMBER}}` so the PR auto-closes the PRD on merge.

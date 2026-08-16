@@ -5,34 +5,34 @@
  * .sandcastle/package.json pins this dispatcher to ESM regardless of the host repo package type.
  * Supported flags are parsed centrally in engine/lib/parse-cli-args.ts.
  */
+
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-
-import { WORKFLOW_NAMES, resolveWorkflow } from "./engine/lib/dispatch.js";
 import { parseCli } from "./engine/lib/parse-cli-args.js";
+import { resolveWorkflow, WORKFLOW_NAMES } from "./engine/lib/dispatch.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const templatesDir = path.resolve(__dirname, "templates", "prompts");
 
 async function main(): Promise<void> {
-    const args = parseCli(process.argv.slice(2));
+  const args = parseCli(process.argv.slice(2));
 
-    const runner = resolveWorkflow(args.workflow);
+  const runner = resolveWorkflow(args.workflow);
 
-    if (!runner) {
-        const available = WORKFLOW_NAMES.join(", ");
-        console.error(`Unknown workflow: "${args.workflow}". Available: ${available}`);
-        process.exitCode = 1;
-        return;
-    }
+  if (!runner) {
+    const available = WORKFLOW_NAMES.join(", ");
+    console.error(`Unknown workflow: "${args.workflow}". Available: ${available}`);
+    process.exitCode = 1;
+    return;
+  }
 
-    try {
-        const repoDir = args.repo ? path.resolve(args.repo) : path.resolve(__dirname, "..");
-        await runner({ args, repoDir, templatesDir });
-    } catch (error) {
-        console.error(`[${args.workflow}] Failed:`, error);
-        process.exitCode = 1;
-    }
+  try {
+    const repoDir = args.repo ? path.resolve(args.repo) : path.resolve(__dirname, "..");
+    await runner({ args, repoDir, templatesDir });
+  } catch (error) {
+    console.error(`[${args.workflow}] Failed:`, error);
+    process.exitCode = 1;
+  }
 }
 
 void main();

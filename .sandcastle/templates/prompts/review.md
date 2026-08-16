@@ -42,7 +42,6 @@ Existing review threads on this PR (resolved and unresolved). Do not duplicate f
 ## Severity guide
 
 Use these prefixes in your comment bodies:
-
 - `🔴 bug:` — Likely incorrect behavior
 - `🟡 issue:` — Potential problem or missed edge case
 - `💭 question:` — Clarification needed before approving
@@ -88,16 +87,16 @@ If the code looks correct and you have no findings:
 
 ## Field reference
 
-| Field                   | Type    | Required | Notes                                                                           |
-| ----------------------- | ------- | -------- | ------------------------------------------------------------------------------- |
-| `summary`               | string  | **yes**  | Overall review summary. Becomes the review body on GitHub.                      |
-| `inlineComments`        | array   | no       | Inline comments anchored to specific diff lines.                                |
-| `inlineComments[].path` | string  | **yes**  | Relative file path.                                                             |
-| `inlineComments[].line` | integer | **yes**  | Line number on the selected `side`. Dropped if not in diff.                     |
-| `inlineComments[].side` | string  | no       | `RIGHT` for added/context lines, `LEFT` for removed lines. Defaults to `RIGHT`. |
-| `inlineComments[].body` | string  | **yes**  | Markdown comment body. Use severity prefixes above.                             |
-| `replies`               | array   | no       | Replies to existing unresolved review threads.                                  |
-| `replies[].commentId`   | string  | **yes**  | Must match a `commentId` from `<existing-threads>`. Do not invent.              |
-| `replies[].body`        | string  | **yes**  | Markdown reply.                                                                 |
+| Field                      | Type    | Required | Notes                                                                 |
+| -------------------------- | ------- | -------- | --------------------------------------------------------------------- |
+| `summary`                  | string  | **yes**  | Overall review summary. Becomes the review body on GitHub.            |
+| `inlineComments`           | array   | no       | Inline comments anchored to specific diff lines.                     |
+| `inlineComments[].path`    | string  | **yes**  | Relative file path.                                                   |
+| `inlineComments[].line`    | integer | **yes**  | Line number on the selected `side`. Dropped if not in diff.          |
+| `inlineComments[].side`    | string  | no       | `RIGHT` for added/context lines, `LEFT` for removed lines. Defaults to `RIGHT`. |
+| `inlineComments[].body`    | string  | **yes**  | Markdown comment body. Use severity prefixes above.                  |
+| `replies`                  | array   | no       | Replies to existing unresolved review threads.                       |
+| `replies[].commentId`      | string  | **yes**  | Must match a `commentId` from `<existing-threads>`. Do not invent.   |
+| `replies[].body`           | string  | **yes**  | Markdown reply.                                                       |
 
 Do not add fields not listed above.
