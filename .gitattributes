@@ -1,0 +1,4 @@
+# Normalize line endings to LF for all text files.
+# Prevents core.autocrlf from checking out CRLF, which breaks prettier's
+# format:check (the repo's .prettierrc uses endOfLine: lf).
+* text=auto eol=lf
