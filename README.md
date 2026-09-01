@@ -31,7 +31,7 @@ The core of what I'm working on: infrastructure that makes AI coding agents repr
 The system your AI agents are missing — synced instructions, workflow skills, hardened secrets, and autonomous loops across every machine. Progressive context detection (14 framework signatures) loads only the rules relevant to each stack. Includes a full planning pipeline (grill-me → write-a-prd → prd-to-issues → do-work) and an autonomous agent loop that picks GitHub issues, implements them, commits, and moves on while you're AFK.
 
 - **Safety & observability built in:** a three-tier credential model so agents never see secrets, lifecycle hooks, and a real-time compliance HUD (WebSocket + HTTP) that surfaces rule loads, file reads, and compliance violations as they happen.
-- **Companions:** [llm-gateway](https://github.com/arndvs/llm-gateway) — route Claude Code through a GitHub Copilot subscription via a secure LiteLLM proxy (no separate Anthropic API key); [advise-project-approach](https://github.com/arndvs/advise-project-approach) — a skill that makes agents research comparable projects and tradeoffs before advising; personal agent skills live in a private `skills` repo.
+- **Companions:** [llm-gateway](https://github.com/arndvs/llm-gateway) — route Claude Code through a GitHub Copilot subscription via a secure LiteLLM proxy (no separate Anthropic API key); personal agent skills live in a private `skills` repo.
 
 ### [cmd](https://github.com/arndvs/cmd)
 
@@ -39,15 +39,7 @@ A markdown-first business operating system for solo operators and AI agents — 
 
 ### [sandcastle-hub](https://github.com/arndvs/sandcastle-hub)
 
-The single source of truth for the Sandcastle agent engine — composite actions, reusable workflows, templates, and the TypeScript engine. Consumers reference it remotely; nothing is vendored. Pairs with [sandcastle](https://github.com/arndvs/sandcastle) — orchestrate sandboxed coding agents with sandcastle.run().
-
-### [orca](https://github.com/arndvs/orca)
-
-An agent development environment for working with a fleet of parallel agents — run any coding agent with your own subscription, on desktop and mobile.
-
-### [sheal](https://github.com/arndvs/sheal)
-
-Your AI agent keeps making the same mistakes. sheal fixes that — closing the loop between what an agent did and what it should have done.
+The single source of truth for the Sandcastle agent engine — composite actions, reusable workflows, templates, and the TypeScript engine. Consumers reference it remotely; nothing is vendored. (The underlying engine is [Matt Pocock's sandcastle](https://github.com/mattpocock/sandcastle), which I vendored and heavily customized — this repo is my hub for that work.)
 
 ---
 
@@ -110,13 +102,11 @@ The work is systems-with-guardrails: an AI editorial pipeline where "approved" i
 
 Small, focused things I built because I needed them.
 
-- [open-design](https://github.com/arndvs/open-design) — local-first, open-source alternative to Anthropic's Claude Design. 19 skills, 71 brand-grade design systems, sandboxed preview across web/desktop/mobile prototypes.
 - [tailwind-indicator](https://github.com/arndvs/tailwind-indicator) — tiny zero-dep screen-size indicator for Tailwind CSS (breakpoint, dimensions, orientation, pixel ratio).
 - [preact-chatbot](https://github.com/arndvs/preact-chatbot) _(private)_ — multi-tenant AI chatbot widget — embeddable Preact island with Shadow DOM isolation, Pusher streaming, per-site branding.
 - [comedian-voices](https://github.com/arndvs/comedian-voices) — agent skills for writing in the voice of famous stand-up comedians — structural moves, rhetorical patterns, and anti-patterns.
 - [voiceprint](https://github.com/arndvs/voiceprint) _(private)_ — voice style generator — turns raw source material into loadable writing-style skills (SKILL.md).
-- [ha-aurora-calendar](https://github.com/arndvs/ha-aurora-calendar) — family calendar for Home Assistant (month/week/today views, weather overlay, per-person filters).
-- [kitchen-skylight](https://github.com/arndvs/kitchen-skylight) — family kitchen skylight display — calendar, recipes, home automation hub (fork of OpenSkyLight).
+- [kitchen-skylight](https://github.com/arndvs/kitchen-skylight) — family kitchen skylight display — calendar, recipes, home automation hub (based on OpenSkyLight).
 - [dynacraft](https://github.com/arndvs/dynacraft) _(private)_ — dynamically craft customized CVs and cover letters for job applications.
 - [kenesis-360-keyboard-layout](https://github.com/arndvs/kenesis-360-keyboard-layout) — alternative layouts for a split ergonomic keyboard.
 
