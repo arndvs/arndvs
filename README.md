@@ -37,9 +37,9 @@ The system your AI agents are missing — synced instructions, workflow skills, 
 
 A markdown-first business operating system for solo operators and AI agents — the operational companion to ctrl+shft. Strategy, cadence, ventures, clients, and content living in plain files an agent can read and act on. (There's also a private instance, `cmd-private`, where my own business state lives.)
 
-### [sandcastle-hub](https://github.com/arndvs/sandcastle-hub)
+### [ctrlshft-hub](https://github.com/arndvs/ctrlshft-hub)
 
-The single source of truth for the Sandcastle agent engine — composite actions, reusable workflows, templates, and the TypeScript engine. Consumers reference it remotely; nothing is vendored. (The underlying engine is [Matt Pocock's sandcastle](https://github.com/mattpocock/sandcastle), which I vendored and heavily customized — this repo is my hub for that work.)
+The single source of truth for the ctrl+shft agent layer — composite actions, reusable workflows, templates, and the TypeScript engine that bootstraps consumer repos. Consumers reference it remotely; nothing is vendored. The project started as a fork of the open-source [sandcastle](https://github.com/mattpocock/sandcastle) engine and has grown into its own system: versioned workflows, template generation, and sync tooling that keep every consumer aligned with a single source of truth.
 
 ---
 
