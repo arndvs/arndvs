@@ -84,6 +84,19 @@ Creative automation pipeline for generating localized social ad creatives at sca
 
 Website for a San Diego chiropractic clinic, built well beyond what the brief required. Next.js 16, Sanity CMS, 2,000+ TypeScript files. Five AI integrations: GPT-4o Vision insurance verification, OpenAI content enhancement pipeline, LLM review sentiment analysis, AI spam detection, and AEO endpoints. Custom JSON-LD composition architecture with 76 Schema.org types including medical schemas with ICD-10/SNOMED-CT codes. Programmatic SEO engine generating 203+ pages. 55 automated tests, 4 CI/CD pipelines. Credit on the footer.
 
+### MCRDSE (functional mushroom brand)
+
+Active client engineering — sales site, e-commerce, content operations, and agent infrastructure for MCRDSE, a functional mushroom company. (These live in the client's own GitHub orgs, `mcrdse` and `mcrdseorg`.)
+
+- [mcrdse-site](https://github.com/mcrdse/mcrdse-site) — the main sales site
+- [mcrdse-super-market](https://github.com/mcrdse/mcrdse-super-market) — e-commerce / storefront
+- [MCRDSE-Content-Ship](https://github.com/mcrdse/MCRDSE-Content-Ship) — content production + shipping pipeline
+- [mcrdse-outreach](https://github.com/mcrdse/mcrdse-outreach) — outreach automation
+- [mcrdsemovement-site](https://github.com/mcrdse/mcrdsemovement-site) — movement/community site
+- [mcrdse-command](https://github.com/mcrdse/mcrdse-command) — command-layer ops
+- [mcrdse-ops](https://github.com/mcrdse/mcrdse-ops) — operations infrastructure
+- [hermes-ops](https://github.com/mcrdseorg/hermes-ops) — agent ops (in the `mcrdseorg` org)
+
 ### Shared product foundation (private)
 
 [launch](https://github.com/arndvs/launch) _(private)_ — a mobile-first monorepo starter I fork into client products: [foreword](https://github.com/arndvs/foreword) _(private)_ — from idea to development-ready spec; [scorpion](https://github.com/arndvs/scorpion) _(private)_ — Scorpion Percussion app; [aligned](https://github.com/arndvs/aligned) _(private)_ — healthcare-aligned products. These are private client codebases; the pattern is public in principle.
