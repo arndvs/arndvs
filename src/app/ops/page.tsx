@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { requireAuth } from "@/lib/auth-guard";
-import { type JobPostingRecord } from "@/lib/engine/job-types";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
+import { type JobPostingRecord } from "@/lib/engine/job-types";
 import { createSanitySocialDraftStore } from "@/lib/engine/sanity";
 
 import { OpsConsole } from "./ops-console";

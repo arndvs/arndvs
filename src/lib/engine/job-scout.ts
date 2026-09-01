@@ -1,11 +1,11 @@
-import type { LinkedInJobsClient } from "./linkedin-jobs-client";
+import { scoreJobs } from "./job-scoring";
 import {
     type JobCandidate,
-    type JobSearchTarget,
     type JobScoringConfig,
+    type JobSearchTarget,
     type ScoredJob,
 } from "./job-types";
-import { scoreJobs } from "./job-scoring";
+import type { LinkedInJobsClient } from "./linkedin-jobs-client";
 
 /**
  * The job scout — orchestration.

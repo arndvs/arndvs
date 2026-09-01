@@ -79,13 +79,7 @@ export interface JobScoringConfig {
 }
 
 /** Job posting status lifecycle. */
-export const JOB_STATUSES = [
-    "discovered",
-    "saved",
-    "applied",
-    "skip",
-    "expired",
-] as const;
+export const JOB_STATUSES = ["discovered", "saved", "applied", "skip", "expired"] as const;
 export const jobStatusSchema = z.enum(JOB_STATUSES);
 export type JobStatus = z.infer<typeof jobStatusSchema>;
 

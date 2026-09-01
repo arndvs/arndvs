@@ -58,11 +58,15 @@ export function parseJobsFromText(text: string): JobCandidate[] {
     if (!text.trim()) return [];
 
     // Header/nav lines that are never job titles.
-    const SKIP = /^(set alert|set job|jump to|viewed|with verification|within the past|\d[\d,+]*\s*results?$|results?$)/i;
+    const SKIP =
+        /^(set alert|set job|jump to|viewed|with verification|within the past|\d[\d,+]*\s*results?$|results?$)/i;
     // Lines that end the header region.
     const HEADER_END = /^\d[\d,+]*\s*results?$/;
 
-    const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
+    const lines = text
+        .split("\n")
+        .map((l) => l.trim())
+        .filter(Boolean);
     const jobs: JobCandidate[] = [];
     let current: JobCandidate | null = null;
     let header = true;
@@ -156,11 +160,15 @@ export function parseJobsFromText(text: string): JobCandidate[] {
             const n = m?.[1] ? parseInt(m[1], 10) : undefined;
             const unit = m?.[2]?.toLowerCase();
             if (n !== undefined && unit) {
-                current.ageHours =
-                    unit.startsWith("min") ? n / 60 :
-                    unit.startsWith("hour") ? n :
-                    unit.startsWith("day") ? n * 24 :
-                    unit.startsWith("week") ? n * 168 : undefined;
+                current.ageHours = unit.startsWith("min")
+                    ? n / 60
+                    : unit.startsWith("hour")
+                      ? n
+                      : unit.startsWith("day")
+                        ? n * 24
+                        : unit.startsWith("week")
+                          ? n * 168
+                          : undefined;
             }
             continue;
         }
@@ -186,11 +194,7 @@ export function parseJobsFromText(text: string): JobCandidate[] {
     return jobs.filter((j) => j.title && j.title.length > 3);
 }
 
-function makeRequest(
-    baseUrl: string,
-    httpTransport: typeof fetch,
-    timeoutMs: number,
-) {
+function makeRequest(baseUrl: string, httpTransport: typeof fetch, timeoutMs: number) {
     return async (body: unknown): Promise<McpResponse> => {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -263,7 +267,11 @@ export function createLinkedInJobsClient(
             const raw = await callTool("get_job_details", { job_id: jobId });
             const text = String(raw ?? "");
             return text.trim()
-                ? { url: `https://www.linkedin.com/jobs/view/${jobId}`, title: text.slice(0, 80), source: "details" }
+                ? {
+                      url: `https://www.linkedin.com/jobs/view/${jobId}`,
+                      title: text.slice(0, 80),
+                      source: "details",
+                  }
                 : null;
         },
     };

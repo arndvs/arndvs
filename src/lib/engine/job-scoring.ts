@@ -117,10 +117,7 @@ function scoreCompany(candidate: JobCandidate, config: JobScoringConfig): [numbe
 /**
  * Hard rejections — score 0, cannot reach review.
  */
-function hardRejections(
-    candidate: JobCandidate,
-    config: JobScoringConfig,
-): [boolean, string[]] {
+function hardRejections(candidate: JobCandidate, config: JobScoringConfig): [boolean, string[]] {
     const reasons: string[] = [];
     const maxAge = config.maxAgeHours ?? DEFAULT_MAX_JOB_AGE_HOURS;
 

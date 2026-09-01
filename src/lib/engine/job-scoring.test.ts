@@ -75,10 +75,10 @@ describe("scoreJob — location", () => {
 
     it("gives a broad-region bonus when no preferred location matches", () => {
         const noRemoteProfile = { ...baseProfile, locations: ["San Diego"] };
-        const result = scoreJob(
-            job({ location: "United States (Remote)" }),
-            { ...baseConfig, profile: noRemoteProfile },
-        );
+        const result = scoreJob(job({ location: "United States (Remote)" }), {
+            ...baseConfig,
+            profile: noRemoteProfile,
+        });
         expect(result.reasons.some((r) => r.includes("Broad region"))).toBe(true);
     });
 

@@ -14,9 +14,9 @@
  */
 import { config as loadDotenv } from "dotenv";
 
-import { createLinkedInJobsClient } from "@/lib/engine/linkedin-jobs-client";
 import { runJobScout } from "@/lib/engine/job-scout";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
+import { createLinkedInJobsClient } from "@/lib/engine/linkedin-jobs-client";
 
 loadDotenv({ path: ".env.local" });
 
@@ -90,20 +90,30 @@ async function main() {
         (s) => s.decision === "review" || s.decision === "needs-verification",
     );
 
-    console.log(`Discovered ${result.candidates.length} candidates across ${TARGETS.length} targets.`);
-    console.log(`Reviewable: ${reviewable.length}. Persisted: ${result.persisted}. Deduped: ${result.deduped}.`);
+    console.log(
+        `Discovered ${result.candidates.length} candidates across ${TARGETS.length} targets.`,
+    );
+    console.log(
+        `Reviewable: ${reviewable.length}. Persisted: ${result.persisted}. Deduped: ${result.deduped}.`,
+    );
 
     if (DRY_RUN) {
         for (const s of reviewable.slice(0, 10)) {
             console.log(`\n[${s.score}] ${s.candidate.title} — ${s.candidate.company ?? "?"}`);
-            console.log(`  ${s.candidate.location ?? "?"} · ${s.candidate.workType ?? "?"} · ${s.candidate.ageHours !== undefined ? `${s.candidate.ageHours}h` : "age?"}`);
+            console.log(
+                `  ${s.candidate.location ?? "?"} · ${s.candidate.workType ?? "?"} · ${s.candidate.ageHours !== undefined ? `${s.candidate.ageHours}h` : "age?"}`,
+            );
             console.log(`  ${s.reasons.join(" | ")}`);
         }
-        console.log(`\n[dry-run] would persist ${reviewable.length} job postings. Nothing was stored.`);
+        console.log(
+            `\n[dry-run] would persist ${reviewable.length} job postings. Nothing was stored.`,
+        );
         return;
     }
 
-    console.log(`Persisted ${result.persisted} job postings (status: discovered). Nothing was applied.`);
+    console.log(
+        `Persisted ${result.persisted} job postings (status: discovered). Nothing was applied.`,
+    );
 }
 
 main().catch((err) => {

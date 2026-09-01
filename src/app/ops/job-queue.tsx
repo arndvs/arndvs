@@ -129,19 +129,16 @@ export function JobQueue({ jobs }: JobQueueProps) {
                 ))}
             </div>
 
-            {error && <p className="text-sm text-destructive">{error}</p>}
+            {error && <p className="text-destructive text-sm">{error}</p>}
 
             {filtered.length === 0 ? (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                     No job postings yet — the daily job scout populates this queue.
                 </p>
             ) : (
                 <div className="flex flex-col gap-2">
                     {filtered.map((job) => (
-                        <div
-                            key={job._id}
-                            className="flex flex-col gap-2 rounded-lg border p-4"
-                        >
+                        <div key={job._id} className="flex flex-col gap-2 rounded-lg border p-4">
                             <div className="flex items-start justify-between gap-4">
                                 <div className="flex flex-col gap-1">
                                     <a
@@ -152,13 +149,13 @@ export function JobQueue({ jobs }: JobQueueProps) {
                                     >
                                         {job.title}
                                     </a>
-                                    <div className="text-sm text-muted-foreground">
+                                    <div className="text-muted-foreground text-sm">
                                         {job.company ?? "Unknown company"}
                                         {job.location ? ` · ${job.location}` : ""}
                                         {job.workType ? ` · ${job.workType}` : ""}
                                     </div>
                                     {job.salary && (
-                                        <div className="text-sm text-muted-foreground">
+                                        <div className="text-muted-foreground text-sm">
                                             {job.salary}
                                         </div>
                                     )}

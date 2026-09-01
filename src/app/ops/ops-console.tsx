@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 import { DraftCard } from "./draft-card";
 import { DraftDetail } from "./draft-detail";
-import { JobQueue, type ConsoleJob } from "./job-queue";
+import { type ConsoleJob, JobQueue } from "./job-queue";
 import { StatsBar } from "./stats-bar";
 import type { ConsoleDraft } from "./types";
 

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { jsonError, requireApiAuth } from "@/lib/api-auth";
-import { type JobStatus, assertValidJobTransition } from "@/lib/engine/job-types";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
+import { type JobStatus, assertValidJobTransition } from "@/lib/engine/job-types";
 
 type RouteContext = { params: Promise<{ id: string }> };
 

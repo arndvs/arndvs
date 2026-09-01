@@ -64,6 +64,8 @@ Draft the application message now. Only the JSON body.`;
         if (!parsed.body?.trim()) throw new Error("Message body was empty");
         return { body: parsed.body.trim() };
     } catch (err) {
-        throw new Error(`Failed to parse draft response: ${err instanceof Error ? err.message : String(err)}`);
+        throw new Error(
+            `Failed to parse draft response: ${err instanceof Error ? err.message : String(err)}`,
+        );
     }
 }
