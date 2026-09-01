@@ -1,6 +1,6 @@
 # Aaron Davis
 
-Full-stack engineer in San Diego, 15+ years building for the web. Founded RipeMetrics in 2017 and spent 8 years leading product and AI engineering on a marketing automation, business intelligence, and customer support platform — which is where I learned how to ship AI features in production and what it actually takes to keep a SaaS product alive long term.
+Full-stack engineer in San Diego, 15+ years building for the web. Founded RipeMetrics in 2017 and spent 8 years leading product and AI engineering on a marketing automation, business intelligence, and customer support platform (8 repos, 50+ enterprise clients, production RAG across chat/SMS/email/voice) — which is where I learned how to ship AI features in production and what it actually takes to keep a SaaS product alive long term.
 
 I'm currently going deep on **agentic engineering** — Claude Code, autonomous workflows, human-in-the-loop patterns, and the infrastructure that makes AI systems reliable rather than just impressive in a demo. This profile is the working surface for that: the repos below are the actual systems I use, organized by how they relate.
 
@@ -28,8 +28,9 @@ The core of what I'm working on: infrastructure that makes AI coding agents repr
 
 ### [ctrl+shft](https://github.com/arndvs/ctrlshft)
 
-The system your AI agents are missing — synced instructions, workflow skills, hardened secrets, and autonomous loops across every machine. Progressive context detection loads only the rules relevant to each stack. Includes a full planning pipeline (grill-me → write-a-prd → prd-to-issues → do-work) and an autonomous agent loop that picks GitHub issues, implements them, commits, and moves on while you're AFK.
+The system your AI agents are missing — synced instructions, workflow skills, hardened secrets, and autonomous loops across every machine. Progressive context detection (14 framework signatures) loads only the rules relevant to each stack. Includes a full planning pipeline (grill-me → write-a-prd → prd-to-issues → do-work) and an autonomous agent loop that picks GitHub issues, implements them, commits, and moves on while you're AFK.
 
+- **Safety & observability built in:** a three-tier credential model so agents never see secrets, lifecycle hooks, and a real-time compliance HUD (WebSocket + HTTP) that surfaces rule loads, file reads, and compliance violations as they happen.
 - **Companions:** [llm-gateway](https://github.com/arndvs/llm-gateway) — route Claude Code through a GitHub Copilot subscription via a secure LiteLLM proxy (no separate Anthropic API key); [advise-project-approach](https://github.com/arndvs/advise-project-approach) — a skill that makes agents research comparable projects and tradeoffs before advising; personal agent skills live in a private `skills` repo.
 
 ### [cmd](https://github.com/arndvs/cmd)
@@ -88,6 +89,8 @@ Website for a San Diego chiropractic clinic, built well beyond what the brief re
 
 Active client engineering — sales site, e-commerce, content operations, and agent infrastructure for MCRDSE, a functional mushroom company. (These live in the client's own GitHub orgs, `mcrdse` and `mcrdseorg`.)
 
+The work is systems-with-guardrails: an AI editorial pipeline where "approved" is a SHA-256 fingerprint of copy + assets, a fact-check pass that caught 8 fabricated citations before publication, a human-in-the-loop reply assistant where every send is operator-approved, and an order pipeline rebuilt around "the database is the record of truth" after an incident shipped ~$381 of product to people who never paid. The work also included a from-scratch quality baseline (the main storefront went from no tests to 195) and a 284-item audit of things that "looked worked but didn't" — each closed with a fix or a written decision. The backlog now runs on a label-driven agent pipeline (Sandcastle, vendored + customized) through my own LiteLLM proxy.
+
 - [mcrdse-site](https://github.com/mcrdse/mcrdse-site) — the main sales site
 - [mcrdse-super-market](https://github.com/mcrdse/mcrdse-super-market) — e-commerce / storefront
 - [MCRDSE-Content-Ship](https://github.com/mcrdse/MCRDSE-Content-Ship) — content production + shipping pipeline
@@ -122,6 +125,8 @@ Small, focused things I built because I needed them.
 ## Earlier work
 
 Learning projects and older experiments (mostly historical — kept for reference): the AI Engineering Bootcamp repo, LangChain/Chroma RAG experiments, React/Redux learning repos, Laravel courses, and assorted early web work. The current direction is the agentic engineering stack and applied AI above.
+
+Notable from the RipeMetrics years (2017–2025, now wrapped): tenant-isolated RAG with OpenAI/Anthropic provider fallback so one vendor going down never took it offline, an AI onboarding pipeline that cut client setup from ~30 minutes to under 60 seconds, and a Laravel → React/Next.js migration (880 components, 85 routes) done behind feature flags without downtime.
 
 ---
 
