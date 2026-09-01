@@ -7,14 +7,16 @@ import { Button } from "@/components/ui/button";
 
 import { DraftCard } from "./draft-card";
 import { DraftDetail } from "./draft-detail";
+import { type ConsoleJob, JobQueue } from "./job-queue";
 import { StatsBar } from "./stats-bar";
 import type { ConsoleDraft } from "./types";
 
 interface OpsConsoleProps {
     drafts: ConsoleDraft[];
+    jobs: ConsoleJob[];
 }
 
-type Tab = "posts" | "comments";
+type Tab = "posts" | "comments" | "jobs";
 
 /**
  * The ops console — a triage surface for LinkedIn drafts.
@@ -23,7 +25,7 @@ type Tab = "posts" | "comments";
  * and can be approved/edited/rejected/sent. Client component: all actions
  * hit the /api/ops routes and optimistically update.
  */
-export function OpsConsole({ drafts }: OpsConsoleProps) {
+export function OpsConsole({ drafts, jobs }: OpsConsoleProps) {
     const [tab, setTab] = useState<Tab>("posts");
     const [activeId, setActiveId] = useState<string | null>(null);
     const [localDrafts, setLocalDrafts] = useState(drafts);
@@ -80,6 +82,16 @@ export function OpsConsole({ drafts }: OpsConsoleProps) {
                 >
                     Comments ({comments.length})
                 </Button>
+                <Button
+                    variant={tab === "jobs" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => {
+                        setTab("jobs");
+                        setActiveId(null);
+                    }}
+                >
+                    Jobs ({jobs.length})
+                </Button>
             </div>
 
             {tab === "posts" ? (
@@ -108,6 +120,8 @@ export function OpsConsole({ drafts }: OpsConsoleProps) {
                         )}
                     </div>
                 </div>
+            ) : tab === "jobs" ? (
+                <JobQueue jobs={jobs} />
             ) : (
                 <div className="flex flex-col gap-4">
                     {comments.length === 0 ? (

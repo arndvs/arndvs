@@ -7,7 +7,7 @@ export interface ConsoleDraft {
     editedBody?: string;
     editorNotes?: string;
     status: "draft" | "editing" | "ready" | "posted" | "skipped";
-    sourceType: "weeklyDigest" | "comment";
+    sourceType: "weeklyDigest" | "comment" | "job";
     sourceDigestId?: string;
     targetPerson?: string;
     score?: number;

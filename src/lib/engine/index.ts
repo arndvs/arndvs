@@ -8,3 +8,8 @@ export * from "./scoring";
 export * from "./comment-drafter";
 export * from "./linkedin-client";
 export * from "./comment-scout";
+export * from "./job-types";
+export * from "./job-scoring";
+export * from "./job-store";
+export * from "./linkedin-jobs-client";
+export * from "./job-scout";
