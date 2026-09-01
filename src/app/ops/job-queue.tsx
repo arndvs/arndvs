@@ -88,6 +88,25 @@ export function JobQueue({ jobs }: JobQueueProps) {
         }
     }
 
+    async function draftApplication(id: string) {
+        setBusy(id);
+        setError(null);
+        try {
+            const res = await fetch(`/api/ops/jobs/${id}/draft-application`, { method: "POST" });
+            if (!res.ok) {
+                const body = (await res.json()) as { error?: string };
+                throw new Error(body.error ?? "Failed to draft application");
+            }
+            setLocalJobs((prev) =>
+                prev.map((j) => (j._id === id ? { ...j, status: "applied" as const } : j)),
+            );
+        } catch (e) {
+            setError(e instanceof Error ? e.message : "Draft failed");
+        } finally {
+            setBusy(null);
+        }
+    }
+
     return (
         <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
@@ -168,6 +187,15 @@ export function JobQueue({ jobs }: JobQueueProps) {
                                         onClick={() => transition(job._id, "saved")}
                                     >
                                         Save
+                                    </Button>
+                                )}
+                                {job.status === "saved" && (
+                                    <Button
+                                        size="sm"
+                                        disabled={busy === job._id}
+                                        onClick={() => draftApplication(job._id)}
+                                    >
+                                        Draft application
                                     </Button>
                                 )}
                                 {job.status !== "skip" && job.status !== "expired" && (

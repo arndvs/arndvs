@@ -13,7 +13,7 @@ export const createSocialDraftInputSchema = z.object({
     platform: z.enum(["linkedin", "twitter"]),
     contentType: z.enum(["post", "thread", "tweet"]),
     body: z.string().min(1),
-    sourceType: z.enum(["weeklyDigest", "comment"]),
+    sourceType: z.enum(["weeklyDigest", "comment", "job"]),
     sourceDigestId: z.string().optional(),
     targetPerson: z.string().optional(),
     score: z.number().min(0).max(100).optional(),
