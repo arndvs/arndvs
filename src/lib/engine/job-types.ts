@@ -58,11 +58,11 @@ export interface ScoredJob {
 /** Role-fit profile — the collection of titles/skills you're a fit for. */
 export interface RoleFitProfile {
     /** Authority titles to match (e.g. "Forward Deployed Engineer"). */
-    titles: string[];
+    titles: readonly string[];
     /** Skills/keywords to match. */
-    skills: string[];
+    skills: readonly string[];
     /** Preferred locations. */
-    locations: string[];
+    locations: readonly string[];
     /** Work models you accept. */
     workTypes?: readonly ("on-site" | "hybrid" | "remote")[];
 }

@@ -5,7 +5,7 @@ import {
     type JobSearchTarget,
     type ScoredJob,
 } from "./job-types";
-import type { LinkedInJobsClient } from "./linkedin-jobs-client";
+import { type LinkedInJobsClient, jobDedupeKey } from "./linkedin-jobs-client";
 
 /**
  * The job scout — orchestration.
@@ -31,22 +31,24 @@ export interface JobScoutResult {
 
 export async function runJobScout(
     client: LinkedInJobsClient,
-    dedupe: (url: string) => Promise<boolean>,
+    dedupe: (key: string) => Promise<boolean>,
     persist: (scored: ScoredJob) => Promise<{ created: boolean }>,
     config: JobScoutConfig,
 ): Promise<JobScoutResult> {
     const candidates: JobCandidate[] = [];
     const seen = new Set<string>();
 
-    // 1. Discover — run each search target, dedupe by URL.
+    // 1. Discover — run each search target, dedupe by composite key
+    //    (title|company|location). The search text has no reliable URL.
     for (const target of config.targets) {
         const results = await client.searchJobs({
             keywords: target.keywords,
             ...(target.location ? { location: target.location } : {}),
         });
         for (const c of results) {
-            if (c.url && !seen.has(c.url)) {
-                seen.add(c.url);
+            const key = jobDedupeKey(c);
+            if (key && !seen.has(key)) {
+                seen.add(key);
                 candidates.push(c);
             }
         }
@@ -62,7 +64,7 @@ export async function runJobScout(
     let deduped = 0;
     const max = config.maxPersist ?? 15;
     for (const s of scored.slice(0, max)) {
-        const alreadyStored = await dedupe(s.candidate.url);
+        const alreadyStored = await dedupe(jobDedupeKey(s.candidate));
         if (alreadyStored) {
             deduped++;
             continue;

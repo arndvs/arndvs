@@ -37,6 +37,7 @@ export function OpsConsole({ drafts, jobs }: OpsConsoleProps) {
 
     const posts = localDrafts.filter((d) => d.sourceType === "weeklyDigest");
     const comments = localDrafts.filter((d) => d.sourceType === "comment");
+    const jobDrafts = localDrafts.filter((d) => d.sourceType === "job");
 
     function handleUpdated(updated: ConsoleDraft) {
         setLocalDrafts((prev) => prev.map((d) => (d._id === updated._id ? updated : d)));
@@ -121,7 +122,7 @@ export function OpsConsole({ drafts, jobs }: OpsConsoleProps) {
                     </div>
                 </div>
             ) : tab === "jobs" ? (
-                <JobQueue jobs={jobs} />
+                <JobQueue jobs={jobs} jobDrafts={jobDrafts} />
             ) : (
                 <div className="flex flex-col gap-4">
                     {comments.length === 0 ? (

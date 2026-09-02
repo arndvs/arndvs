@@ -5,6 +5,8 @@ import { useCallback, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+import type { ConsoleDraft } from "./types";
+
 /** Client-safe job posting shape for the ops console. */
 export interface ConsoleJob {
     _id: string;
@@ -24,6 +26,8 @@ export interface ConsoleJob {
 
 interface JobQueueProps {
     jobs: ConsoleJob[];
+    /** Job application drafts (sourceType === "job") to show in a sub-view. */
+    jobDrafts?: ConsoleDraft[];
 }
 
 type StatusFilter = "all" | ConsoleJob["status"];
@@ -34,9 +38,9 @@ type StatusFilter = "all" | ConsoleJob["status"];
  * Lists scored LinkedIn jobs from the daily scout, filterable by status.
  * Save / skip / expire actions hit the /api/ops/jobs routes. This never
  * applies to anything — application drafts flow through the socialDraft
- * queue.
+ * queue and are shown in the "Drafts" sub-view.
  */
-export function JobQueue({ jobs }: JobQueueProps) {
+export function JobQueue({ jobs, jobDrafts = [] }: JobQueueProps) {
     const [filter, setFilter] = useState<StatusFilter>("all");
     const [localJobs, setLocalJobs] = useState(jobs);
     const [busy, setBusy] = useState<string | null>(null);
@@ -97,9 +101,12 @@ export function JobQueue({ jobs }: JobQueueProps) {
                 const body = (await res.json()) as { error?: string };
                 throw new Error(body.error ?? "Failed to draft application");
             }
-            setLocalJobs((prev) =>
-                prev.map((j) => (j._id === id ? { ...j, status: "applied" as const } : j)),
-            );
+            // The server transitions saved → applied atomically and returns
+            // the applied job. Use the server response — no local faking.
+            const data = (await res.json()) as { job?: ConsoleJob };
+            if (data.job) {
+                setLocalJobs((prev) => prev.map((j) => (j._id === id ? data.job! : j)));
+            }
         } catch (e) {
             setError(e instanceof Error ? e.message : "Draft failed");
         } finally {
@@ -216,6 +223,23 @@ export function JobQueue({ jobs }: JobQueueProps) {
                                     </>
                                 )}
                             </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {jobDrafts.length > 0 && (
+                <div className="mt-6 flex flex-col gap-2 border-t pt-4">
+                    <h3 className="text-sm font-semibold">Application drafts</h3>
+                    {jobDrafts.map((d) => (
+                        <div key={d._id} className="flex flex-col gap-1 rounded-lg border p-3">
+                            <div className="flex items-center justify-between gap-2">
+                                <span className="text-sm font-medium">
+                                    {d.targetPerson ?? "Unknown company"}
+                                </span>
+                                <Badge variant="outline">{d.status}</Badge>
+                            </div>
+                            <p className="text-muted-foreground line-clamp-2 text-sm">{d.body}</p>
                         </div>
                     ))}
                 </div>

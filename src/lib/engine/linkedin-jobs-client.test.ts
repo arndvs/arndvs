@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { parseJobsFromText } from "./linkedin-jobs-client";
+import { extractJobUrl, jobDedupeKey, parseJobsFromText } from "./linkedin-jobs-client";
 
 const sampleResults = `forward deployed engineer in United States
 49,000+ results
@@ -50,5 +50,27 @@ describe("parseJobsFromText", () => {
     it("returns empty for empty input", () => {
         expect(parseJobsFromText("")).toEqual([]);
         expect(parseJobsFromText("   \n  ")).toEqual([]);
+    });
+
+    it("dedupes identical jobs by composite key (title|company|location)", () => {
+        const dup = `${sampleResults}\n\nSoftware Engineer Staff\nSoftware Engineer Staff with verification\nBreeze Airways™\nCottonwood Heights, UT (Remote)\nViewed`;
+        const jobs = parseJobsFromText(dup);
+        const softwareEngineer = jobs.filter((j) => j.title?.includes("Software Engineer Staff"));
+        expect(softwareEngineer.length).toBe(1);
+    });
+
+    it("extracts a LinkedIn job URL when present in a line", () => {
+        const line = "https://www.linkedin.com/jobs/view/1234567890?refId=abc";
+        expect(extractJobUrl(line)).toBe("https://www.linkedin.com/jobs/view/1234567890");
+        expect(extractJobUrl("no url here")).toBeUndefined();
+    });
+
+    it("builds a stable composite dedupe key", () => {
+        expect(
+            jobDedupeKey({ title: "  Senior  Engineer ", company: "Acme", location: "Remote" }),
+        ).toBe("senior engineer|acme|remote");
+        expect(
+            jobDedupeKey({ title: "Senior Engineer", company: undefined, location: undefined }),
+        ).toBe("senior engineer");
     });
 });
