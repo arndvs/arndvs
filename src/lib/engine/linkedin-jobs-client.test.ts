@@ -31,7 +31,7 @@ United States (Remote)
 Within the past 24 hours`;
 
 describe("parseJobsFromText", () => {
-    it("parses multiple job rows with title, company, location, workType, salary, age", () => {
+    it("parses job rows with title, company, location, workType, salary, age", () => {
         const jobs = parseJobsFromText(sampleResults);
         expect(jobs.length).toBeGreaterThanOrEqual(3);
 
@@ -52,20 +52,24 @@ describe("parseJobsFromText", () => {
         expect(parseJobsFromText("   \n  ")).toEqual([]);
     });
 
-    it("dedupes identical jobs by composite key (title|company|location)", () => {
+    it("dedupes identical jobs by composite key after reparsing full text", () => {
         const dup = `${sampleResults}\n\nSoftware Engineer Staff\nSoftware Engineer Staff with verification\nBreeze Airways™\nCottonwood Heights, UT (Remote)\nViewed`;
         const jobs = parseJobsFromText(dup);
         const softwareEngineer = jobs.filter((j) => j.title?.includes("Software Engineer Staff"));
         expect(softwareEngineer.length).toBe(1);
     });
+});
 
-    it("extracts a LinkedIn job URL when present in a line", () => {
+describe("extractJobUrl", () => {
+    it("extracts a LinkedIn job URL and strips tracking params", () => {
         const line = "https://www.linkedin.com/jobs/view/1234567890?refId=abc";
         expect(extractJobUrl(line)).toBe("https://www.linkedin.com/jobs/view/1234567890");
         expect(extractJobUrl("no url here")).toBeUndefined();
     });
+});
 
-    it("builds a stable composite dedupe key", () => {
+describe("jobDedupeKey", () => {
+    it("builds a stable, normalized composite key", () => {
         expect(
             jobDedupeKey({ title: "  Senior  Engineer ", company: "Acme", location: "Remote" }),
         ).toBe("senior engineer|acme|remote");

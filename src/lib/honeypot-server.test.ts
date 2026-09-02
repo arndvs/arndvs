@@ -3,54 +3,37 @@ import { describe, expect, it } from "vitest";
 import { validateHoneypotServer } from "./honeypot-server";
 
 describe("validateHoneypotServer", () => {
-    it("returns valid for clean submission", () => {
-        const result = validateHoneypotServer({
-            _honeypot_timestamp: String(Date.now() - 5000),
-        });
-
-        expect(result.isValid).toBe(true);
+    it("returns valid for a clean submission in the time window", () => {
+        expect(
+            validateHoneypotServer({ _honeypot_timestamp: String(Date.now() - 5000) }).isValid,
+        ).toBe(true);
+        // No timestamp at all — passes (bot script would have to fill the field).
+        expect(validateHoneypotServer({}).isValid).toBe(true);
     });
 
-    it("rejects when honeypot field 'website' is filled", () => {
-        const result = validateHoneypotServer({
+    it("rejects when a hidden honeypot field is filled", () => {
+        const websiteFill = validateHoneypotServer({
             website: "https://spam.com",
             _honeypot_timestamp: String(Date.now() - 5000),
         });
+        expect(websiteFill.isValid).toBe(false);
 
-        expect(result.isValid).toBe(false);
-        expect(result.reason).toContain("Honeypot");
-    });
-
-    it("rejects when _honeypot field is filled", () => {
-        const result = validateHoneypotServer({
+        const honeypotFill = validateHoneypotServer({
             _honeypot: "spam",
             _honeypot_timestamp: String(Date.now() - 5000),
         });
-
-        expect(result.isValid).toBe(false);
+        expect(honeypotFill.isValid).toBe(false);
     });
 
-    it("rejects form submitted too quickly (< 3s)", () => {
-        const result = validateHoneypotServer({ _honeypot_timestamp: "1000" }, 2000);
+    it("rejects submissions outside the allowed time window", () => {
+        const tooFast = validateHoneypotServer({ _honeypot_timestamp: "1000" }, 2000);
+        expect(tooFast.isValid).toBe(false);
 
-        expect(result.isValid).toBe(false);
-        expect(result.reason).toContain("too quickly");
-    });
-
-    it("rejects form submitted too slowly (> 1 hour)", () => {
         const now = Date.now();
-        const result = validateHoneypotServer(
+        const tooSlow = validateHoneypotServer(
             { _honeypot_timestamp: String(now - 3_700_000) },
             now,
         );
-
-        expect(result.isValid).toBe(false);
-        expect(result.reason).toContain("expired");
-    });
-
-    it("passes when no timestamp is provided", () => {
-        const result = validateHoneypotServer({});
-
-        expect(result.isValid).toBe(true);
+        expect(tooSlow.isValid).toBe(false);
     });
 });

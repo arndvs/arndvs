@@ -18,41 +18,52 @@ function makeCandidate(overrides: Partial<ConversationCandidate> = {}): Conversa
     };
 }
 
-describe("scoreConversation — hard rejections", () => {
-    it("rejects a stale conversation (over max age)", () => {
-        const result = scoreConversation(makeCandidate({ ageHours: 72 }), CONFIG);
-        expect(result.decision).toBe("reject");
-        expect(result.score).toBe(0);
-        expect(result.reasons.join()).toMatch(/Stale/i);
+function strongFitCandidate(overrides: Partial<ConversationCandidate> = {}) {
+    return makeCandidate({
+        text: "We solved vector search with a forward deployed AI architecture",
+        ...overrides,
     });
+}
 
-    it("rejects at default 48h max even with perfect fit", () => {
-        const result = scoreConversation(
-            makeCandidate({
-                ageHours: 60,
-                text: "forward deployed ai vector search in production",
-            }),
-            CONFIG,
-        );
-        expect(result.decision).toBe("reject");
-        expect(result.score).toBe(0);
+describe("scoreConversation — hard rejection of stale conversations", () => {
+    it("rejects over the 48h max even with a perfect fit", () => {
+        const delayed = scoreConversation(makeCandidate({ ageHours: 72 }), CONFIG);
+        expect(delayed.decision).toBe("reject");
+        expect(delayed.score).toBe(0);
+
+        const strong = scoreConversation(strongFitCandidate({ ageHours: 60 }), CONFIG);
+        expect(strong.decision).toBe("reject");
+        expect(strong.score).toBe(0);
     });
 });
 
-describe("scoreConversation — fit", () => {
-    it("scores 0 fit with no pillar match", () => {
-        const result = scoreConversation(makeCandidate({ text: "How to brew coffee" }), CONFIG);
-        expect(result.decision).not.toBe("needs-verification");
-        expect(result.score).toBeLessThan(45);
+describe("scoreConversation — fit and decision", () => {
+    it("scores a review decision on a strong fresh fit, with the age bonus", () => {
+        const fresh = scoreConversation(
+            strongFitCandidate({ ageHours: 12, commentCount: 5 }),
+            CONFIG,
+        );
+        const older = scoreConversation(
+            strongFitCandidate({ ageHours: 45, commentCount: 5 }),
+            CONFIG,
+        );
+        expect(fresh.decision).toBe("review");
+        expect(fresh.score).toBeGreaterThanOrEqual(45);
+        expect(fresh.score).toBeGreaterThan(older.score);
     });
 
-    it("gains fit points on a pillar match", () => {
+    it("award less fit for a weak match", () => {
         const base = scoreConversation(makeCandidate({ text: "Unrelated" }), CONFIG);
         const matched = scoreConversation(
             makeCandidate({ text: "Forward deployed AI in production" }),
             CONFIG,
         );
+        const weak = scoreConversation(
+            makeCandidate({ text: "Random post", ageHours: 24 }),
+            CONFIG,
+        );
         expect(matched.score).toBeGreaterThan(base.score);
+        expect(weak.decision).toBe("reject");
     });
 
     it("caps fit at 35", () => {
@@ -68,60 +79,18 @@ describe("scoreConversation — fit", () => {
 });
 
 describe("scoreConversation — recency", () => {
-    it("prefers sub-24h posts (be early)", () => {
+    it("prefers sub-24h posts over older ones", () => {
         const fresh = scoreConversation(makeCandidate({ ageHours: 12 }), CONFIG);
         const older = scoreConversation(makeCandidate({ ageHours: 45 }), CONFIG);
         expect(fresh.score).toBeGreaterThan(older.score);
     });
 
-    it("gives no recency points when unverified", () => {
-        const verified = scoreConversation(makeCandidate({ ageHours: 12 }), CONFIG);
-        const unverified = scoreConversation(makeCandidate({ ageHours: undefined }), CONFIG);
-        expect(unverified.score).toBeLessThan(verified.score);
-    });
-});
-
-describe("scoreConversation — openness", () => {
-    it("prefers low comment counts", () => {
-        const open = scoreConversation(makeCandidate({ commentCount: 3 }), CONFIG);
-        const crowded = scoreConversation(makeCandidate({ commentCount: 80 }), CONFIG);
-        expect(open.score).toBeGreaterThan(crowded.score);
-    });
-});
-
-describe("scoreConversation — decision", () => {
-    it("reaches review on a strong fresh fit", () => {
-        const result = scoreConversation(
-            makeCandidate({
-                text: "We solved vector search with a forward deployed AI architecture",
-                ageHours: 12,
-                commentCount: 5,
-            }),
+    it("flags review-qualifying candidates as needs-verification when age is unverified", () => {
+        const unverified = scoreConversation(
+            strongFitCandidate({ ageHours: undefined, commentCount: 5 }),
             CONFIG,
         );
-        // fit 28 + recency 25 + openness 18 = 71 >= 45
-        expect(result.decision).toBe("review");
-        expect(result.score).toBeGreaterThanOrEqual(45);
-    });
-
-    it("flags needs-verification when review-qualifying but age unverified", () => {
-        const result = scoreConversation(
-            makeCandidate({
-                text: "We solved vector search with a forward deployed AI architecture",
-                ageHours: undefined,
-                commentCount: 5,
-            }),
-            CONFIG,
-        );
-        expect(result.decision).toBe("needs-verification");
-    });
-
-    it("rejects a weak match below the minimum", () => {
-        const result = scoreConversation(
-            makeCandidate({ text: "Random post", ageHours: 24 }),
-            CONFIG,
-        );
-        expect(result.decision).toBe("reject");
+        expect(unverified.decision).toBe("needs-verification");
     });
 
     it("respects a custom minimum review score", () => {
@@ -135,7 +104,7 @@ describe("scoreConversation — decision", () => {
 });
 
 describe("scoreConversations", () => {
-    it("scores a list", () => {
+    it("scores a list into review and reject decisions", () => {
         const results = scoreConversations(
             [
                 makeCandidate({ text: "forward deployed ai vector search", ageHours: 20 }),

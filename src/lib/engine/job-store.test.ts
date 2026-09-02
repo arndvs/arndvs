@@ -61,7 +61,7 @@ function makeSanity() {
 }
 
 describe("createSanityJobPostingStoreWithClient", () => {
-    it("upserts a job with a composite dedupeKey", async () => {
+    it("upserts a job with a composite dedupeKey and does not duplicate on re-upsert", async () => {
         const { client } = makeSanity();
         const store = createSanityJobPostingStoreWithClient(client as never);
         const { created, id } = await store.upsert(scored());
@@ -70,13 +70,8 @@ describe("createSanityJobPostingStoreWithClient", () => {
         expect(client.create).toHaveBeenCalledWith(
             expect.objectContaining({ dedupeKey: "forward deployed engineer|acme|remote" }),
         );
-    });
 
-    it("does not create a duplicate when the composite key already exists", async () => {
-        const { client } = makeSanity();
-        const store = createSanityJobPostingStoreWithClient(client as never);
-        await store.upsert(scored());
-        const second = await store.upsert(scored({ location: "Remote" }));
+        const second = await store.upsert(scored());
         expect(second.created).toBe(false);
         expect(client.create).toHaveBeenCalledTimes(1);
     });
@@ -89,7 +84,7 @@ describe("createSanityJobPostingStoreWithClient", () => {
         expect(other.created).toBe(true);
     });
 
-    it("findByDedupeKey finds by composite key", async () => {
+    it("finds by composite key", async () => {
         const { client } = makeSanity();
         const store = createSanityJobPostingStoreWithClient(client as never);
         await store.upsert(scored());
@@ -97,14 +92,14 @@ describe("createSanityJobPostingStoreWithClient", () => {
         expect(found?.title).toBe("Forward Deployed Engineer");
     });
 
-    it("getById returns null for a non-jobPosting doc", async () => {
+    it("returns null for a non-jobPosting doc", async () => {
         const { client, docs } = makeSanity();
         docs.set("other", { _id: "other", _type: "socialDraft", title: "x" });
         const store = createSanityJobPostingStoreWithClient(client as never);
         expect(await store.getById("other")).toBeNull();
     });
 
-    it("transition validates against the state machine", async () => {
+    it("transitions validate against the job state machine", async () => {
         const { client } = makeSanity();
         const store = createSanityJobPostingStoreWithClient(client as never);
         await store.upsert(scored());

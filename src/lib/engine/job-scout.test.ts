@@ -53,8 +53,8 @@ describe("runJobScout", () => {
         expect(result.candidates.length).toBe(2);
     });
 
-    it("persists only review-qualifying jobs, up to maxPersist", async () => {
-        const client = makeClient([
+    it("persists only review-qualifying jobs, up to maxPersist, counting store hits as deduped", async () => {
+        const persistedClient = makeClient([
             [
                 candidate({ title: "Forward Deployed Engineer", company: "Acme" }),
                 candidate({ title: "Applied AI Engineer", company: "Beta" }),
@@ -62,27 +62,24 @@ describe("runJobScout", () => {
             ],
         ]);
         const persist = vi.fn(async () => ({ created: true }));
-        const result = await runJobScout(client, async () => false, persist, {
+        const persisted = await runJobScout(persistedClient, async () => false, persist, {
             scoring: { profile: PROFILE },
             targets: TARGETS,
             maxPersist: 1,
         });
         expect(persist).toHaveBeenCalledTimes(1);
-        expect(result.persisted).toBe(1);
-        expect(result.deduped).toBe(0);
-    });
+        expect(persisted.persisted).toBe(1);
+        expect(persisted.deduped).toBe(0);
 
-    it("counts store-deduped jobs as deduped, not persisted", async () => {
-        const client = makeClient([[candidate({ company: "Acme" })]]);
+        const dedupedClient = makeClient([[candidate({ company: "Acme" })]]);
         const dedupe = vi.fn(async () => true); // already stored
-        const persist = vi.fn(async () => ({ created: true }));
-        const result = await runJobScout(client, dedupe, persist, {
+        const deduped = await runJobScout(dedupedClient, dedupe, persist, {
             scoring: { profile: PROFILE },
             targets: TARGETS,
         });
-        expect(persist).not.toHaveBeenCalled();
-        expect(result.deduped).toBe(1);
-        expect(result.persisted).toBe(0);
+        expect(persist).not.toHaveBeenCalledTimes(2);
+        expect(deduped.deduped).toBe(1);
+        expect(deduped.persisted).toBe(0);
     });
 
     it("passes needs-verification jobs through to the review queue", async () => {

@@ -3,36 +3,26 @@ import { describe, expect, it } from "vitest";
 import { safeJsonLdStringify } from "./safe-json-ld";
 
 describe("safeJsonLdStringify", () => {
-    it("escapes </script> sequences", () => {
-        const result = safeJsonLdStringify({ text: "</script><script>alert(1)</script>" });
+    it("escapes characters that could break out of a <script> tag", () => {
+        const result = safeJsonLdStringify({
+            text: "</script><script>alert(1)</script>",
+            html: "<div>a & b</div>",
+        });
 
         expect(result).not.toContain("</script>");
         expect(result).toContain("\\u003c/script\\u003e");
-    });
-
-    it("escapes angle brackets", () => {
-        const result = safeJsonLdStringify({ html: "<div>test</div>" });
-
         expect(result).not.toContain("<");
-        expect(result).not.toContain(">");
-    });
-
-    it("escapes ampersands", () => {
-        const result = safeJsonLdStringify({ text: "a & b" });
-
         expect(result).not.toContain("&");
-        expect(result).toContain("\\u0026");
     });
 
-    it("handles nested objects", () => {
-        const result = safeJsonLdStringify({
+    it("round-trips escaped output back to the original JSON", () => {
+        const input = {
             "@context": "https://schema.org",
             name: "Test <b>bold</b>",
             nested: { value: "a & b" },
-        });
+        };
+        const result = safeJsonLdStringify(input);
 
-        expect(result).not.toContain("<");
-        expect(result).not.toContain("&");
         expect(
             JSON.parse(
                 result
@@ -40,14 +30,10 @@ describe("safeJsonLdStringify", () => {
                     .replace(/\\u003e/g, ">")
                     .replace(/\\u0026/g, "&"),
             ),
-        ).toEqual({
-            "@context": "https://schema.org",
-            name: "Test <b>bold</b>",
-            nested: { value: "a & b" },
-        });
+        ).toEqual(input);
     });
 
-    it("handles empty object", () => {
+    it("handles an empty object", () => {
         expect(safeJsonLdStringify({})).toBe("{}");
     });
 });

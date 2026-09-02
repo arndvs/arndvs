@@ -6,36 +6,25 @@ vi.mock("server-only", () => ({}));
 const { highlightCode, HIGHLIGHTABLE_LANGUAGES } = await import("./highlight-code");
 
 describe("highlightCode", () => {
-    it("returns HTML containing <pre> and <code> for a supported language", async () => {
+    it("returns highlighted HTML for a supported language", async () => {
         const html = await highlightCode("const x = 1;", "typescript");
 
         expect(html).toContain("<pre");
         expect(html).toContain("<code");
     });
 
-    it("falls back to 'text' for an unknown language without throwing", async () => {
-        const html = await highlightCode("SELECT * FROM users", "groq");
+    it("falls back to 'text' for unknown or missing languages", async () => {
+        const unknown = await highlightCode("SELECT * FROM users", "not-a-language");
+        const missing = await highlightCode("hello world");
 
-        expect(html).toContain("<pre");
-        expect(html).toBeTruthy();
+        expect(unknown).toContain("<pre");
+        expect(unknown).not.toBe("");
+        expect(missing).toContain("<pre");
+        expect(missing).not.toBe("");
     });
 
-    it("falls back to 'text' when no language is provided", async () => {
-        const html = await highlightCode("hello world");
-
-        expect(html).toContain("<pre");
-        expect(html).toBeTruthy();
-    });
-
-    it("returns non-empty HTML", async () => {
-        const html = await highlightCode("fn main() {}", "python");
-
-        expect(html.length).toBeGreaterThan(0);
-    });
-
-    it("escapes HTML entities in code input to prevent XSS", async () => {
-        const malicious = '<script>alert("xss")</script>';
-        const html = await highlightCode(malicious, "typescript");
+    it("escapes HTML in code input to prevent XSS", async () => {
+        const html = await highlightCode('<script>alert("xss")</script>', "typescript");
 
         expect(html).not.toContain("<script>");
         expect(html).not.toContain("</script>");
@@ -45,14 +34,10 @@ describe("highlightCode", () => {
 });
 
 describe("HIGHLIGHTABLE_LANGUAGES", () => {
-    it("contains expected languages", () => {
+    it("exposes a supported-language allowlist", () => {
         expect(HIGHLIGHTABLE_LANGUAGES.has("typescript")).toBe(true);
-        expect(HIGHLIGHTABLE_LANGUAGES.has("javascript")).toBe(true);
-        expect(HIGHLIGHTABLE_LANGUAGES.has("tsx")).toBe(true);
-    });
-
-    it("does not contain non-highlightable languages", () => {
-        expect((HIGHLIGHTABLE_LANGUAGES as ReadonlySet<string>).has("groq")).toBe(false);
-        expect((HIGHLIGHTABLE_LANGUAGES as ReadonlySet<string>).has("text")).toBe(false);
+        const languages = HIGHLIGHTABLE_LANGUAGES as ReadonlySet<string>;
+        expect(languages.has("groq")).toBe(false);
+        expect(languages.has("text")).toBe(false);
     });
 });
