@@ -22,6 +22,7 @@ export interface ConsoleJob {
     reasons: string[];
     ageHours?: number;
     discoveredAt?: string;
+    followUpIssueUrl?: string;
 }
 
 interface JobQueueProps {
@@ -127,6 +128,34 @@ export function JobQueue({ jobs, jobDrafts = [] }: JobQueueProps) {
         }
     }
 
+    async function dispatchToIssue(id: string) {
+        if (busy.has(id)) return;
+        setBusy((prev) => new Set(prev).add(id));
+        setError(null);
+        try {
+            const res = await fetch(`/api/ops/jobs/${id}/to-issue`, { method: "POST" });
+            if (!res.ok) {
+                const body = (await res.json()) as { error?: string };
+                throw new Error(body.error ?? "Failed to create follow-up issue");
+            }
+            const data = (await res.json()) as { job?: ConsoleJob; issueUrl?: string };
+            if (data.job) {
+                setLocalJobs((prev) => prev.map((j) => (j._id === id ? data.job! : j)));
+            }
+            if (data.issueUrl) {
+                window.open(data.issueUrl, "_blank", "noopener,noreferrer");
+            }
+        } catch (e) {
+            setError(e instanceof Error ? e.message : "Dispatch failed");
+        } finally {
+            setBusy((prev) => {
+                const next = new Set(prev);
+                next.delete(id);
+                return next;
+            });
+        }
+    }
+
     return (
         <div className="flex flex-col gap-4">
             <div
@@ -213,13 +242,25 @@ export function JobQueue({ jobs, jobDrafts = [] }: JobQueueProps) {
                                     </Button>
                                 )}
                                 {job.status === "saved" && (
-                                    <Button
-                                        size="sm"
-                                        disabled={busy.has(job._id)}
-                                        onClick={() => draftApplication(job._id)}
-                                    >
-                                        Draft application
-                                    </Button>
+                                    <>
+                                        <Button
+                                            size="sm"
+                                            disabled={busy.has(job._id)}
+                                            onClick={() => draftApplication(job._id)}
+                                        >
+                                            Draft application
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            variant="secondary"
+                                            disabled={busy.has(job._id)}
+                                            onClick={() => dispatchToIssue(job._id)}
+                                        >
+                                            {job.followUpIssueUrl
+                                                ? "Follow-up created"
+                                                : "Send to follow-up"}
+                                        </Button>
+                                    </>
                                 )}
                                 {job.status !== "skip" && job.status !== "expired" && (
                                     <>
