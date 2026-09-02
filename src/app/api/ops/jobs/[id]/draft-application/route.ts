@@ -14,6 +14,11 @@ type RouteContext = { params: Promise<{ id: string }> };
  * (sourceType: "job" — extends the existing types with a new value).
  *
  * Never sends. The draft lands in the human review queue.
+ *
+ * Atomicity: the job is transitioned saved → applied server-side, and the
+ * draft is created, in one request. A repeat call returns 409 (the job is
+ * already applied) — this prevents duplicate drafts + repeated OpenAI spend
+ * from double-clicks or stale client state.
  */
 export async function POST(request: NextRequest, { params }: RouteContext) {
     const auth = await requireApiAuth(request);
@@ -29,39 +34,68 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
         return jsonError("Only saved jobs can be drafted for application", 400);
     }
 
-    const draft = await draftJobApplication(
-        {
-            url: job.url,
-            title: job.title,
-            company: job.company,
-            location: job.location,
-            workType: job.workType,
-            salary: job.salary,
-        },
-        // Role-fit profile for the drafter's context.
-        {
-            titles: [
-                "Forward Deployed Engineer",
-                "Applied AI Engineer",
-                "Senior Full Stack Engineer",
-                "AI Agent Engineer",
-                "Software Engineering Generalist",
-                "AI Solutions Engineer",
-            ],
-            skills: [],
-            locations: ["San Diego"],
-        },
-    );
+    let draft;
+    try {
+        draft = await draftJobApplication(
+            {
+                url: job.url,
+                title: job.title,
+                company: job.company,
+                location: job.location,
+                workType: job.workType,
+                salary: job.salary,
+            },
+            // Role-fit profile for the drafter's context.
+            {
+                titles: [
+                    "Forward Deployed Engineer",
+                    "Applied AI Engineer",
+                    "Senior Full Stack Engineer",
+                    "AI Agent Engineer",
+                    "Software Engineering Generalist",
+                    "AI Solutions Engineer",
+                ],
+                skills: [],
+                locations: ["San Diego"],
+            },
+        );
+    } catch (err) {
+        console.error("draft-application: OpenAI draft failed", err);
+        return jsonError("Failed to draft application", 500);
+    }
+
+    // Transition saved → applied BEFORE creating the draft, so a failure
+    // here leaves no orphan draft. If the transition fails (e.g. the job
+    // was already applied in another tab), return 409 — no draft is created.
+    let applied;
+    try {
+        applied = await jobStore.transition(id, "applied");
+    } catch (err) {
+        console.error("draft-application: transition failed", err);
+        return jsonError("Job is no longer in a draftable state", 409);
+    }
 
     const store = createSanitySocialDraftStore();
-    const created = await store.create({
-        platform: "linkedin",
-        contentType: "post",
-        body: draft.body,
-        sourceType: "job", // extended from weeklyDigest/comment
-        score: job.score,
-        targetPerson: job.company,
-    });
+    let created;
+    try {
+        created = await store.create({
+            platform: "linkedin",
+            contentType: "post",
+            body: draft.body,
+            sourceType: "job", // extended from weeklyDigest/comment
+            score: job.score,
+            targetPerson: job.company,
+        });
+    } catch (err) {
+        console.error("draft-application: draft persist failed", err);
+        // Roll back the transition so the job stays draftable.
+        try {
+            await jobStore.transition(id, "saved");
+        } catch {
+            // Best-effort rollback; the job may be stuck applied — surface it.
+        }
+        return jsonError("Failed to persist draft", 500);
+    }
 
-    return NextResponse.json({ draft: created }, { status: 201 });
+    return NextResponse.json({ draft: created, job: applied }, { status: 201 });
 }

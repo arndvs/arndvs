@@ -1,13 +1,12 @@
 import { type SanityClient, createClient } from "@sanity/client";
 
-import { apiVersion, dataset, projectId } from "@/sanity/env";
-
 import {
     type JobPostingRecord,
     type JobStatus,
     type ScoredJob,
     assertValidJobTransition,
 } from "./job-types";
+import { jobDedupeKey } from "./linkedin-jobs-client";
 
 export { assertValidJobTransition } from "./job-types";
 
@@ -18,10 +17,14 @@ export { assertValidJobTransition } from "./job-types";
  * is driven by the pure transition map; this layer is a mechanical
  * translation, never business logic. Applications flow into socialDraft
  * (see createSanitySocialDraftStore) — this store never applies.
+ *
+ * Dedupe: the LinkedIn search text has no reliable URL, so identity is the
+ * composite key (title|company|location), stored on the doc as `dedupeKey`.
+ * URL is best-effort and optional.
  */
 
 export interface JobPostingStore {
-    /** Persist a scored job if it's not already stored (dedupe by URL). */
+    /** Persist a scored job if it's not already stored (dedupe by composite key). */
     upsert(scored: ScoredJob): Promise<{ created: boolean; id: string }>;
     /** List job postings, optionally by status. */
     listByStatus(status?: JobStatus): Promise<JobPostingRecord[]>;
@@ -29,13 +32,22 @@ export interface JobPostingStore {
     getById(id: string): Promise<JobPostingRecord | null>;
     /** Transition status (validates against the pure state machine). */
     transition(id: string, to: JobStatus): Promise<JobPostingRecord>;
-    /** Get a job posting by its LinkedIn URL (dedupe check). */
-    findByUrl(url: string): Promise<JobPostingRecord | null>;
+    /** Get a job posting by its composite dedupe key. */
+    findByDedupeKey(key: string): Promise<JobPostingRecord | null>;
 }
 
 function getWriteClient(): SanityClient {
     const token = process.env.SANITY_API_TOKEN;
     if (!token) throw new Error("Missing environment variable: SANITY_API_TOKEN");
+    // Lazy env read so the module imports cleanly in tests. These are the
+    // same public values @/sanity/env asserts, read directly to avoid the
+    // import-time throw when env vars are absent (e.g. unit tests).
+    const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+    const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+    const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION;
+    if (!projectId || !dataset || !apiVersion) {
+        throw new Error("Missing environment variable: NEXT_PUBLIC_SANITY_*");
+    }
     return createClient({
         projectId,
         dataset,
@@ -66,19 +78,23 @@ function toRecord(doc: Record<string, unknown>): JobPostingRecord {
 }
 
 export function createSanityJobPostingStore(): JobPostingStore {
-    const client = getWriteClient();
+    return createSanityJobPostingStoreWithClient(getWriteClient());
+}
 
-    async function findByUrl(url: string): Promise<JobPostingRecord | null> {
+/** Internal — inject a client for tests. */
+export function createSanityJobPostingStoreWithClient(client: SanityClient): JobPostingStore {
+    async function findByDedupeKey(key: string): Promise<JobPostingRecord | null> {
         const found = await client.fetch<Record<string, unknown> | null>(
-            `*[_type == "jobPosting" && url == $url][0]`,
-            { url },
+            `*[_type == "jobPosting" && dedupeKey == $key][0]`,
+            { key },
         );
         return found ? toRecord(found) : null;
     }
 
     return {
         async upsert(scored) {
-            const existing = await findByUrl(scored.candidate.url);
+            const key = jobDedupeKey(scored.candidate);
+            const existing = await findByDedupeKey(key);
             if (existing) return { created: false, id: existing._id };
 
             const doc = await client.create({
@@ -90,6 +106,7 @@ export function createSanityJobPostingStore(): JobPostingStore {
                 location: scored.candidate.location,
                 salary: scored.candidate.salary,
                 url: scored.candidate.url,
+                dedupeKey: key,
                 status: "discovered",
                 score: scored.score,
                 reasons: scored.reasons,
@@ -111,7 +128,9 @@ export function createSanityJobPostingStore(): JobPostingStore {
 
         async getById(id) {
             const doc = await client.getDocument(id);
-            return doc ? toRecord(doc as unknown as Record<string, unknown>) : null;
+            if (!doc) return null;
+            if (doc._type !== "jobPosting") return null;
+            return toRecord(doc as unknown as Record<string, unknown>);
         },
 
         async transition(id, to) {
@@ -123,6 +142,6 @@ export function createSanityJobPostingStore(): JobPostingStore {
             return toRecord(doc as unknown as Record<string, unknown>);
         },
 
-        findByUrl,
+        findByDedupeKey,
     };
 }

@@ -74,7 +74,7 @@ async function main() {
 
     const result = await runJobScout(
         client,
-        async (url) => (await store.findByUrl(url)) !== null,
+        async (key) => (await store.findByDedupeKey(key)) !== null,
         async (scored) => store.upsert(scored),
         {
             scoring: {

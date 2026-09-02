@@ -57,7 +57,16 @@ export const jobPostingType = defineType({
             name: "url",
             title: "Job URL",
             type: "url",
-            validation: (rule) => rule.required(),
+            description:
+                "LinkedIn job permalink (best-effort — the search text does not always include it).",
+        }),
+        defineField({
+            name: "dedupeKey",
+            title: "Dedupe Key",
+            type: "string",
+            description:
+                "Composite identity (title|company|location) used to avoid duplicate postings.",
+            readOnly: true,
         }),
         defineField({
             name: "status",

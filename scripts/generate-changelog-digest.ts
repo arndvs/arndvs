@@ -8,7 +8,7 @@
  */
 import { createClient } from "@sanity/client";
 import { config } from "dotenv";
-import { execFileSync } from "node:child_process";
+import { execFileSync, execSync } from "node:child_process";
 import OpenAI from "openai";
 
 config({ path: ".env.local" });

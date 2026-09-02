@@ -54,6 +54,34 @@ export const DEFAULT_MCP_BASE_URL = "http://127.0.0.1:8899/mcp";
  *   `<age> ago`
  *   `<blank>`
  */
+/**
+ * Best-effort extraction of a LinkedIn job permalink from a raw line.
+ * The search result text does not reliably embed URLs, so this is a
+ * fallback — the durable dedupe key is the composite (title+company+location).
+ */
+const JOB_URL_RE = /(https?:\/\/[^\s]+linkedin\.com\/jobs\/view\/\d+[^\s]*)/i;
+
+export function extractJobUrl(line: string): string | undefined {
+    const m = line.match(JOB_URL_RE);
+    if (!m?.[1]) return undefined;
+    // Strip tracking params so the URL is stable for dedupe.
+    return m[1].split("?")[0];
+}
+
+/**
+ * Composite dedupe key — the search text has no reliable URL, so we key on
+ * the fields the parser actually extracts. Normalized (lowercase, collapsed
+ * whitespace) so minor formatting differences don't split the same job.
+ */
+export function jobDedupeKey(
+    candidate: Pick<JobCandidate, "title" | "company" | "location">,
+): string {
+    const parts = [candidate.title, candidate.company, candidate.location]
+        .filter(Boolean)
+        .map((p) => String(p).toLowerCase().replace(/\s+/g, " ").trim());
+    return parts.join("|");
+}
+
 export function parseJobsFromText(text: string): JobCandidate[] {
     if (!text.trim()) return [];
 
@@ -87,7 +115,7 @@ export function parseJobsFromText(text: string): JobCandidate[] {
             // Heuristic: a plausible job title is 3+ words, no salary/dollar,
             // not a pure location. Guard: the next non-empty line should be
             // a company (title length > line we just saw, or contains "with").
-            current = { url: "", title: line, source: "search:date" };
+            current = { url: extractJobUrl(line) ?? "", title: line, source: "search:date" };
             continue;
         }
 
@@ -113,6 +141,7 @@ export function parseJobsFromText(text: string): JobCandidate[] {
             const locMatch = line.match(/^(.+?)\s*\((remote|hybrid|on-site)\)/i);
             const locText = locMatch?.[1]?.trim();
             if (locText && !current.location) current.location = locText;
+            if (!current.url) current.url = extractJobUrl(line) ?? "";
             continue;
         }
 
@@ -144,6 +173,7 @@ export function parseJobsFromText(text: string): JobCandidate[] {
             // Company lines are typically the token right before a location.
             if (!looksLikeLocation && !(nextText && /ago/i.test(nextText))) {
                 current.company = line;
+                if (!current.url) current.url = extractJobUrl(line) ?? "";
                 continue;
             }
         }
@@ -151,6 +181,7 @@ export function parseJobsFromText(text: string): JobCandidate[] {
         // Salary.
         if (/\$\d/.test(line) && !current.salary) {
             current.salary = line;
+            if (!current.url) current.url = extractJobUrl(line) ?? "";
             continue;
         }
 
@@ -191,7 +222,16 @@ export function parseJobsFromText(text: string): JobCandidate[] {
     }
     if (current?.title) jobs.push(current);
 
-    return jobs.filter((j) => j.title && j.title.length > 3);
+    // Dedupe by composite key (title|company|location) — the search text has
+    // no reliable URL, so this is the durable identity. First occurrence wins.
+    const seen = new Set<string>();
+    return jobs.filter((j) => {
+        if (!j.title || j.title.length <= 3) return false;
+        const key = jobDedupeKey(j);
+        if (!key || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+    });
 }
 
 function makeRequest(baseUrl: string, httpTransport: typeof fetch, timeoutMs: number) {
