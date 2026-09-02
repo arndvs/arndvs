@@ -109,6 +109,8 @@ export interface JobPostingRecord {
     easyApply?: boolean;
     source?: string;
     discoveredAt: string;
+    /** URL of the hidden cmd-private follow-up issue, once dispatched. */
+    followUpIssueUrl?: string;
 }
 
 /** Pure transition validator — mirrors socialDraft's assertValidTransition. */

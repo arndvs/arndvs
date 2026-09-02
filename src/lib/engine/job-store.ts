@@ -34,6 +34,8 @@ export interface JobPostingStore {
     getById(id: string): Promise<JobPostingRecord | null>;
     /** Transition status (validates against the pure state machine). */
     transition(id: string, to: JobStatus): Promise<JobPostingRecord>;
+    /** Record the hidden follow-up issue URL once a job is dispatched. */
+    setFollowUpIssueUrl(id: string, url: string): Promise<JobPostingRecord>;
     /** Get a job posting by its composite dedupe key. */
     findByDedupeKey(key: string): Promise<JobPostingRecord | null>;
 }
@@ -76,6 +78,7 @@ function toRecord(doc: Record<string, unknown>): JobPostingRecord {
         easyApply: doc.easyApply as boolean | undefined,
         source: doc.source as string | undefined,
         discoveredAt: doc.discoveredAt as string,
+        followUpIssueUrl: doc.followUpIssueUrl as string | undefined,
     };
 }
 
@@ -152,6 +155,11 @@ export function createSanityJobPostingStoreWithClient(client: SanityClient): Job
             const from = current.status as JobStatus;
             assertValidJobTransition(from, to);
             const doc = await client.patch(id).set({ status: to }).commit();
+            return toRecord(doc as unknown as Record<string, unknown>);
+        },
+
+        async setFollowUpIssueUrl(id, url) {
+            const doc = await client.patch(id).set({ followUpIssueUrl: url }).commit();
             return toRecord(doc as unknown as Record<string, unknown>);
         },
 

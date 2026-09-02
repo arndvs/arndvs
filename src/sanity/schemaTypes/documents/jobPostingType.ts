@@ -122,6 +122,14 @@ export const jobPostingType = defineType({
             type: "datetime",
         }),
         defineField({
+            name: "followUpIssueUrl",
+            title: "Follow-up Issue URL",
+            type: "url",
+            description:
+                "Hidden cmd-private GitHub issue created when this job is dispatched for follow-up.",
+            readOnly: true,
+        }),
+        defineField({
             name: "applicationDraft",
             title: "Application Draft",
             type: "reference",
