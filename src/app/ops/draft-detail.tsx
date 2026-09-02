@@ -65,7 +65,10 @@ export function DraftDetail({ draft, onUpdated }: DraftDetailProps) {
         setBusy(true);
         const result = await api<{ draft: ConsoleDraft }>(`/api/ops/drafts/${draft._id}`, {
             method: "PATCH",
-            body: JSON.stringify({ body: text }),
+            // Write to editedBody so the edited version is what the UI reads
+            // back (editedBody ?? body). Writing to body left stale editedBody
+            // winning on refresh, making edits appear lost.
+            body: JSON.stringify({ editedBody: text }),
         });
         setBusy(false);
         if ("error" in result) {

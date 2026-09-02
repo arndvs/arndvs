@@ -79,6 +79,38 @@ export const socialDraftType = defineType({
             description: "The weekly digest this draft was generated from.",
         }),
         defineField({
+            name: "sourceType",
+            title: "Source Type",
+            type: "string",
+            options: {
+                list: [
+                    { title: "Weekly Digest", value: "weeklyDigest" },
+                    { title: "Comment", value: "comment" },
+                    { title: "Job", value: "job" },
+                ],
+            },
+            description: "What generated this draft.",
+        }),
+        defineField({
+            name: "sourceDigestId",
+            title: "Source Digest ID",
+            type: "string",
+            description: "Plain-string digest/job id used for idempotency lookups.",
+        }),
+        defineField({
+            name: "targetPerson",
+            title: "Target Person / Company",
+            type: "string",
+            description: "For job drafts, the company the application targets.",
+        }),
+        defineField({
+            name: "score",
+            title: "Fit Score",
+            type: "number",
+            description: "For job drafts, the source job's role-fit score (0–100).",
+            validation: (rule) => rule.min(0).max(100),
+        }),
+        defineField({
             name: "generatedAt",
             title: "Generated At",
             type: "datetime",

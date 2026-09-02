@@ -12,7 +12,9 @@ export async function GET(request: NextRequest) {
     if ("response" in auth) return auth.response;
 
     const store = createSanitySocialDraftStore();
-    const drafts = await store.listActionable();
+    // Include terminal states (posted/skipped) — this is the audit trail,
+    // not the triage queue.
+    const drafts = await store.listAll(200);
 
     // Note: v1 audit = all actionable drafts with their state + timestamps.
     // A dedicated append-only socialDraftEvent/revision doc type is a
