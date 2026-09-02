@@ -8,12 +8,12 @@ I'm currently going deep on **agentic engineering** — Claude Code, autonomous 
 
 ## Tech stack
 
-**Agentic engineering:** Claude Code · MCP · GitHub Copilot · autonomous loops · skills & instruction layers · LiteLLM gateway · sandboxed execution
-**AI & LLMs:** OpenAI · Anthropic · Azure OpenAI · RAG · embeddings · vector search · tool calling · structured output (Zod) · prompt engineering · LangChain · Pinecone · Chroma · pgvector · fal.ai · Ollama
-**Frontend:** TypeScript · React · Next.js · Astro · Redux · RTK Query · Tailwind · shadcn/ui · Zod
-**Backend:** Node.js · Python · FastAPI · Express · Laravel · PHP · Koa · tRPC
-**Data:** PostgreSQL (+pgvector) · MySQL · Redis · SQLite · Drizzle · Cloudflare D1 · Supabase
-**Cloud & DevOps:** Azure (OpenAI · Blob Storage · Functions) · Cloudflare (Workers · D1 · R2 · KV) · AWS (in progress) · Docker · GitHub Actions · CI/CD · Vercel · Railway
+**Agentic engineering:** Claude Code · MCP · GitHub Copilot · autonomous loops · skills & instruction layers · LiteLLM gateway · sandboxed execution<br>
+**AI & LLMs:** OpenAI · Anthropic · Azure OpenAI · RAG · embeddings · vector search · tool calling · structured output (Zod) · prompt engineering · LangChain · Pinecone · Chroma · pgvector · fal.ai · Ollama<br>
+**Frontend:** TypeScript · React · Next.js · Astro · Redux · RTK Query · Tailwind · shadcn/ui · Zod<br>
+**Backend:** Node.js · Python · FastAPI · Express · Laravel · PHP · Koa · tRPC<br>
+**Data:** PostgreSQL (+pgvector) · MySQL · Redis · SQLite · Drizzle · Cloudflare D1 · Supabase<br>
+**Cloud & DevOps:** Azure (OpenAI · Blob Storage · Functions) · Cloudflare (Workers · D1 · R2 · KV) · AWS (in progress) · Docker · GitHub Actions · CI/CD · Vercel · Railway<br>
 **Integrations:** GoHighLevel · WooCommerce · Stripe · Authorize.net · PayPal · Twilio · ElevenLabs · Shopify · ShipStation · Sanity · Resend · SendGrid · PostHog · Sentry
 
 **Currently studying:** Azure AI Foundry · OpenAI Agents SDK · Google ADK · Vertex AI · AWS Solutions Architect Associate
@@ -94,9 +94,9 @@ Private client codebases; the pattern is public in principle.
 Small, focused things I built because I needed them.
 
 - [tailwind-indicator](https://github.com/arndvs/tailwind-indicator) — zero-dep screen-size indicator for Tailwind CSS (breakpoint, dimensions, orientation, pixel ratio).
-- [preact-chatbot](https://github.com/arndvs/preact-chatbot) _(private)_ — multi-tenant AI chatbot widget — Preact island, Shadow DOM isolation, Pusher streaming.
+- [preact-chatbot](https://github.com/arndvs/preact-chatbot) — multi-tenant AI chatbot widget — Preact island, Shadow DOM isolation, Pusher streaming.
 - [comedian-voices](https://github.com/arndvs/comedian-voices) — agent skills for writing in famous stand-up voices — structural moves, rhetorical patterns.
-- [voiceprint](https://github.com/arndvs/voiceprint) _(private)_ — voice style generator — turns raw material into loadable SKILL.md writing skills.
+- [voiceprint](https://github.com/arndvs/voiceprint) — voice style generator — turns raw material into loadable SKILL.md writing skills.
 - [kitchen-skylight](https://github.com/arndvs/kitchen-skylight) — family kitchen skylight display — calendar, recipes, home automation hub (OpenSkyLight-based).
 - [dynacraft](https://github.com/arndvs/dynacraft) _(private)_ — dynamically craft customized CVs and cover letters for job applications.
 - [kenesis-360-keyboard-layout](https://github.com/arndvs/kenesis-360-keyboard-layout) — alternative layouts for a split ergonomic keyboard.
@@ -109,12 +109,6 @@ Small, focused things I built because I needed them.
 Learning projects and older experiments (mostly historical — kept for reference): the AI Engineering Bootcamp repo, LangChain/Chroma RAG experiments, React/Redux learning repos, Laravel courses, and assorted early web work. The current direction is the agentic engineering stack and applied AI above.
 
 Notable from the RipeMetrics years (2017–2025, now wrapped): tenant-isolated RAG with OpenAI/Anthropic provider fallback so one vendor going down never took it offline, an AI onboarding pipeline that cut client setup from ~30 minutes to under 60 seconds, and a Laravel → React/Next.js migration (880 components, 85 routes) done behind feature flags without downtime.
-
----
-
-## A note on platforms
-
-Everything here exists because I needed it and I use all of it — on my own setup: Windows and Android, plus the readers and tablets I own. None of it has been tested on macOS, iOS, Linux, or other platforms. If you want to run one of these somewhere I have not, the quickest route is to hand the repo to Claude Code, Codex, or whatever agent you use and have it adapt the project to your environment.
 
 ---
 
