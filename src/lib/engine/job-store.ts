@@ -26,8 +26,10 @@ export { assertValidJobTransition } from "./job-types";
 export interface JobPostingStore {
     /** Persist a scored job if it's not already stored (dedupe by composite key). */
     upsert(scored: ScoredJob): Promise<{ created: boolean; id: string }>;
-    /** List job postings, optionally by status. */
-    listByStatus(status?: JobStatus): Promise<JobPostingRecord[]>;
+    /** List job postings, optionally by status, with a max result limit. */
+    listByStatus(status?: JobStatus, limit?: number): Promise<JobPostingRecord[]>;
+    /** List actionable (non-terminal) job postings, newest-scored first. */
+    listActionable(limit?: number): Promise<JobPostingRecord[]>;
     /** Get a single job posting by id. */
     getById(id: string): Promise<JobPostingRecord | null>;
     /** Transition status (validates against the pure state machine). */
@@ -118,11 +120,22 @@ export function createSanityJobPostingStoreWithClient(client: SanityClient): Job
             return { created: true, id: String(doc._id) };
         },
 
-        async listByStatus(status) {
+        async listByStatus(status, limit = 100) {
             const query = status
-                ? `*[_type == "jobPosting" && status == $status] | order(score desc)`
-                : `*[_type == "jobPosting"] | order(score desc)`;
-            const docs = await client.fetch<Array<Record<string, unknown>>>(query, { status });
+                ? `*[_type == "jobPosting" && status == $status] | order(score desc)[0..$limit]`
+                : `*[_type == "jobPosting"] | order(score desc)[0..$limit]`;
+            const docs = await client.fetch<Array<Record<string, unknown>>>(query, {
+                status,
+                limit: limit - 1, // Sanity ranges are inclusive
+            });
+            return docs.map(toRecord);
+        },
+
+        async listActionable(limit = 100) {
+            const query = `*[_type == "jobPosting" && status in ["discovered", "saved", "applied"]] | order(score desc)[0..$limit]`;
+            const docs = await client.fetch<Array<Record<string, unknown>>>(query, {
+                limit: limit - 1,
+            });
             return docs.map(toRecord);
         },
 

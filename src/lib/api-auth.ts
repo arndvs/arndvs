@@ -18,6 +18,34 @@ export async function requireApiAuth(
         };
     }
 
+    // Defense-in-depth: for state-changing methods, require a same-origin
+    // request. SameSite=Lax already blocks cross-site POST cookies, but this
+    // adds a second layer if cookie policy ever changes. GET is safe to allow
+    // cross-origin (no state change).
+    const method = request.method.toUpperCase();
+    if (method !== "GET" && method !== "HEAD" && method !== "OPTIONS") {
+        const origin = request.headers.get("origin");
+        const host = request.headers.get("host");
+        if (origin && host) {
+            try {
+                const originHost = new URL(origin).host;
+                if (originHost !== host) {
+                    return {
+                        response: NextResponse.json(
+                            { error: "Cross-origin request rejected" },
+                            { status: 403 },
+                        ),
+                    };
+                }
+            } catch {
+                // Malformed origin — reject to be safe.
+                return {
+                    response: NextResponse.json({ error: "Invalid origin" }, { status: 403 }),
+                };
+            }
+        }
+    }
+
     return { session };
 }
 

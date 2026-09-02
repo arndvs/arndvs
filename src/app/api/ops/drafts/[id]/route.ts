@@ -43,7 +43,7 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
         await store.transition(id, "editing");
     }
 
-    const updated = await store.updateBody(id, body.body ?? draft.body);
+    const updated = await store.updateBody(id, body.editedBody ?? body.body ?? draft.body);
 
     return NextResponse.json({ draft: updated });
 }

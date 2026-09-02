@@ -43,7 +43,10 @@ type StatusFilter = "all" | ConsoleJob["status"];
 export function JobQueue({ jobs, jobDrafts = [] }: JobQueueProps) {
     const [filter, setFilter] = useState<StatusFilter>("all");
     const [localJobs, setLocalJobs] = useState(jobs);
-    const [busy, setBusy] = useState<string | null>(null);
+    // Per-job busy set so an in-flight action on one job doesn't disable
+    // the buttons of every other job, and double-clicks on the same job
+    // are guarded.
+    const [busy, setBusy] = useState<Set<string>>(new Set());
     const [error, setError] = useState<string | null>(null);
 
     const filtered = useMemo(
@@ -71,7 +74,8 @@ export function JobQueue({ jobs, jobDrafts = [] }: JobQueueProps) {
     );
 
     async function transition(id: string, to: ConsoleJob["status"]) {
-        setBusy(id);
+        if (busy.has(id)) return; // guard double-click
+        setBusy((prev) => new Set(prev).add(id));
         setError(null);
         try {
             const res = await fetch(`/api/ops/jobs/${id}`, {
@@ -88,12 +92,17 @@ export function JobQueue({ jobs, jobDrafts = [] }: JobQueueProps) {
         } catch (e) {
             setError(e instanceof Error ? e.message : "Update failed");
         } finally {
-            setBusy(null);
+            setBusy((prev) => {
+                const next = new Set(prev);
+                next.delete(id);
+                return next;
+            });
         }
     }
 
     async function draftApplication(id: string) {
-        setBusy(id);
+        if (busy.has(id)) return; // guard double-click → duplicate OpenAI + drafts
+        setBusy((prev) => new Set(prev).add(id));
         setError(null);
         try {
             const res = await fetch(`/api/ops/jobs/${id}/draft-application`, { method: "POST" });
@@ -110,29 +119,39 @@ export function JobQueue({ jobs, jobDrafts = [] }: JobQueueProps) {
         } catch (e) {
             setError(e instanceof Error ? e.message : "Draft failed");
         } finally {
-            setBusy(null);
+            setBusy((prev) => {
+                const next = new Set(prev);
+                next.delete(id);
+                return next;
+            });
         }
     }
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2">
-                <Badge
-                    variant={filter === "all" ? "default" : "secondary"}
-                    className="cursor-pointer"
+            <div
+                className="flex items-center gap-2"
+                role="group"
+                aria-label="Filter jobs by status"
+            >
+                <Button
+                    variant={filter === "all" ? "default" : "outline"}
+                    size="sm"
+                    aria-pressed={filter === "all"}
                     onClick={() => setFilter("all")}
                 >
                     All ({localJobs.length})
-                </Badge>
+                </Button>
                 {(["discovered", "saved", "applied"] as const).map((s) => (
-                    <Badge
+                    <Button
                         key={s}
-                        variant={filter === s ? "default" : "secondary"}
-                        className="cursor-pointer"
+                        variant={filter === s ? "default" : "outline"}
+                        size="sm"
+                        aria-pressed={filter === s}
                         onClick={() => setFilter(s)}
                     >
                         {s} ({localJobs.filter((j) => j.status === s).length})
-                    </Badge>
+                    </Button>
                 ))}
             </div>
 
@@ -187,7 +206,7 @@ export function JobQueue({ jobs, jobDrafts = [] }: JobQueueProps) {
                                 {job.status === "discovered" && (
                                     <Button
                                         size="sm"
-                                        disabled={busy === job._id}
+                                        disabled={busy.has(job._id)}
                                         onClick={() => transition(job._id, "saved")}
                                     >
                                         Save
@@ -196,7 +215,7 @@ export function JobQueue({ jobs, jobDrafts = [] }: JobQueueProps) {
                                 {job.status === "saved" && (
                                     <Button
                                         size="sm"
-                                        disabled={busy === job._id}
+                                        disabled={busy.has(job._id)}
                                         onClick={() => draftApplication(job._id)}
                                     >
                                         Draft application
@@ -207,7 +226,7 @@ export function JobQueue({ jobs, jobDrafts = [] }: JobQueueProps) {
                                         <Button
                                             size="sm"
                                             variant="secondary"
-                                            disabled={busy === job._id}
+                                            disabled={busy.has(job._id)}
                                             onClick={() => transition(job._id, "skip")}
                                         >
                                             Skip
@@ -215,7 +234,7 @@ export function JobQueue({ jobs, jobDrafts = [] }: JobQueueProps) {
                                         <Button
                                             size="sm"
                                             variant="ghost"
-                                            disabled={busy === job._id}
+                                            disabled={busy.has(job._id)}
                                             onClick={() => transition(job._id, "expired")}
                                         >
                                             Expire

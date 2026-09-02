@@ -32,7 +32,7 @@ export interface SocialDraftRecord {
     editedBody?: string;
     editorNotes?: string;
     status: SocialDraftStatus;
-    sourceType: "weeklyDigest" | "comment";
+    sourceType: "weeklyDigest" | "comment" | "job";
     sourceDigestId?: string;
     targetPerson?: string;
     score?: number;
@@ -53,6 +53,8 @@ export interface SocialDraftStore {
     listByStatus(status: SocialDraftStatus): Promise<SocialDraftRecord[]>;
     /** List drafts in actionable states (draft/editing/ready), sorted by score desc. */
     listActionable(): Promise<SocialDraftRecord[]>;
+    /** List all drafts including terminal states (for the audit trail). */
+    listAll(limit?: number): Promise<SocialDraftRecord[]>;
     transition(id: string, to: SocialDraftStatus): Promise<SocialDraftRecord>;
     updateBody(id: string, body: string): Promise<SocialDraftRecord>;
     markPosted(id: string): Promise<SocialDraftRecord>;

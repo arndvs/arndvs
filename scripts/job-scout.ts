@@ -18,7 +18,10 @@ import { runJobScout } from "@/lib/engine/job-scout";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
 import { createLinkedInJobsClient } from "@/lib/engine/linkedin-jobs-client";
 
-loadDotenv({ path: ".env.local" });
+// override: true so .env.local wins over any OS/process env — on the
+// always-on OptiPlex, Task Scheduler may inject env vars that would
+// otherwise silently shadow the repo's .env.local.
+loadDotenv({ path: ".env.local", override: true });
 
 const DRY_RUN = process.argv.includes("--dry-run");
 

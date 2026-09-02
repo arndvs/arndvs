@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { jsonError, requireApiAuth } from "@/lib/api-auth";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
-import { type JobStatus, assertValidJobTransition } from "@/lib/engine/job-types";
+import { assertValidJobTransition, jobStatusSchema } from "@/lib/engine/job-types";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -34,12 +34,19 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
     const job = await store.getById(id);
     if (!job) return jsonError("Job posting not found", 404);
 
-    const body = (await request.json()) as { status?: JobStatus };
-    if (!body.status) return jsonError("status is required", 400);
+    // Validate the status value against the schema before using it.
+    const parsed = jobStatusSchema.safeParse((await request.json()).status);
+    if (!parsed.success) {
+        return jsonError("Invalid job status", 400);
+    }
 
     // Validate the transition against the pure state machine.
-    assertValidJobTransition(job.status, body.status);
+    try {
+        assertValidJobTransition(job.status, parsed.data);
+    } catch {
+        return jsonError(`Cannot transition job from ${job.status} to ${parsed.data}`, 409);
+    }
 
-    const updated = await store.transition(id, body.status);
+    const updated = await store.transition(id, parsed.data);
     return NextResponse.json({ job: updated });
 }
