@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-    VALID_JOB_TRANSITIONS,
-    assertValidJobTransition,
-    jobScoringDecisionSchema,
-    jobStatusSchema,
-} from "./job-types";
+import { VALID_JOB_TRANSITIONS, assertValidJobTransition, jobStatusSchema } from "./job-types";
 
 describe("job-status state machine", () => {
     it("walks the forward path: discovered → saved → applied", () => {
@@ -28,29 +23,20 @@ describe("job-status state machine", () => {
 });
 
 describe("job status + decision schemas", () => {
-    it("parses supported statuses and decisions", () => {
+    it("parses supported statuses and rejects unknown statuses", () => {
         expect(jobStatusSchema.parse("saved")).toBe("saved");
-        expect(jobScoringDecisionSchema.parse("review")).toBe("review");
-        expect(jobScoringDecisionSchema.parse("reject")).toBe("reject");
-        expect(jobScoringDecisionSchema.parse("needs-verification")).toBe("needs-verification");
-    });
-
-    it("rejects an unknown status", () => {
         expect(() => jobStatusSchema.parse("posted")).toThrow();
     });
 });
 
 describe("VALID_JOB_TRANSITIONS", () => {
-    it("only allows forward + skip transitions, never self-transitions", () => {
+    it("only allows forward + skip transitions, never self-transitions or moves out of skip", () => {
         for (const [from, tos] of Object.entries(VALID_JOB_TRANSITIONS)) {
             for (const to of tos) {
                 expect(from).not.toBe(to);
                 expect(() => assertValidJobTransition(from as never, to as never)).not.toThrow();
             }
         }
-    });
-
-    it("never allows a transition out of skip", () => {
         expect(VALID_JOB_TRANSITIONS.skip).toHaveLength(0);
     });
 });

@@ -74,6 +74,9 @@ describe("createSanityJobPostingStoreWithClient", () => {
         const second = await store.upsert(scored());
         expect(second.created).toBe(false);
         expect(client.create).toHaveBeenCalledTimes(1);
+
+        const found = await store.findByDedupeKey("forward deployed engineer|acme|remote");
+        expect(found?.title).toBe("Forward Deployed Engineer");
     });
 
     it("treats differently-located jobs as distinct", async () => {
@@ -82,14 +85,6 @@ describe("createSanityJobPostingStoreWithClient", () => {
         await store.upsert(scored({ location: "Remote" }));
         const other = await store.upsert(scored({ location: "San Diego" }));
         expect(other.created).toBe(true);
-    });
-
-    it("finds by composite key", async () => {
-        const { client } = makeSanity();
-        const store = createSanityJobPostingStoreWithClient(client as never);
-        await store.upsert(scored());
-        const found = await store.findByDedupeKey("forward deployed engineer|acme|remote");
-        expect(found?.title).toBe("Forward Deployed Engineer");
     });
 
     it("returns null for a non-jobPosting doc", async () => {

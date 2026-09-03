@@ -124,22 +124,19 @@ describe("scoreJob — recency", () => {
     });
 });
 
-describe("scoreJob — company tiers", () => {
-    it("adds a company tier bonus", () => {
-        const result = scoreJob(job({ company: "Anthropic" }), baseConfig);
-        expect(result.reasons.some((r) => r.includes("Company tier"))).toBe(true);
-        expect(result.score).toBeGreaterThan(50);
-    });
-});
-
 describe("scoreJobs", () => {
-    it("scores a list", () => {
+    it("scores a list, mixing in a company tier bonus", () => {
         const results = scoreJobs(
-            [job(), job({ title: "Janitor", ageHours: DEFAULT_MAX_JOB_AGE_HOURS + 5 })],
+            [
+                job({ company: "Anthropic" }),
+                job({ title: "Janitor", ageHours: DEFAULT_MAX_JOB_AGE_HOURS + 5 }),
+            ],
             baseConfig,
         );
         expect(results).toHaveLength(2);
         expect(results[0]?.decision).toBe("review");
+        expect(results[0]?.reasons.some((r) => r.includes("Company tier"))).toBe(true);
+        expect(results[0]?.score).toBeGreaterThan(50);
         expect(results[1]?.decision).toBe("reject");
     });
 });

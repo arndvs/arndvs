@@ -60,9 +60,7 @@ describe("createSanitySocialDraftStore", () => {
                 platform: "linkedin",
             }),
         );
-    });
 
-    it("returns null when a document is not a socialDraft", async () => {
         mockClient.getDocument.mockResolvedValue({ _id: "x", _type: "post" });
         expect(await createSanitySocialDraftStore().getById("x")).toBeNull();
     });

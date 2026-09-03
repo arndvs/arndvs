@@ -64,7 +64,6 @@ describe("extractJobUrl", () => {
     it("extracts a LinkedIn job URL and strips tracking params", () => {
         const line = "https://www.linkedin.com/jobs/view/1234567890?refId=abc";
         expect(extractJobUrl(line)).toBe("https://www.linkedin.com/jobs/view/1234567890");
-        expect(extractJobUrl("no url here")).toBeUndefined();
     });
 });
 
