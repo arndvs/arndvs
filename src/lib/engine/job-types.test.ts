@@ -8,54 +8,43 @@ import {
 } from "./job-types";
 
 describe("job-status state machine", () => {
-    it("accepts a valid transition (discovered -> saved)", () => {
+    it("walks the forward path: discovered → saved → applied", () => {
         expect(() => assertValidJobTransition("discovered", "saved")).not.toThrow();
-    });
-
-    it("accepts saved -> applied", () => {
         expect(() => assertValidJobTransition("saved", "applied")).not.toThrow();
     });
 
-    it("throws on an invalid transition (discovered -> applied directly)", () => {
-        // Must save before applying — mirrors the human-gate invariant.
+    it("throws on transitions that skip a gate or leave a terminal state", () => {
         expect(() => assertValidJobTransition("discovered", "applied")).toThrow(
             /Invalid job transition/,
         );
-    });
-
-    it("throws on a terminal-state transition", () => {
         expect(() => assertValidJobTransition("skip", "saved")).toThrow();
         expect(() => assertValidJobTransition("expired", "discovered")).toThrow();
     });
 
-    it("expired is reachable from discovered and saved", () => {
+    it("allows expiration from discovered and saved", () => {
         expect(VALID_JOB_TRANSITIONS.discovered).toContain("expired");
         expect(VALID_JOB_TRANSITIONS.saved).toContain("expired");
     });
 });
 
 describe("job status + decision schemas", () => {
-    it("parses all statuses", () => {
-        const parsed = jobStatusSchema.parse("saved");
-        expect(parsed).toBe("saved");
+    it("parses supported statuses and decisions", () => {
+        expect(jobStatusSchema.parse("saved")).toBe("saved");
+        expect(jobScoringDecisionSchema.parse("review")).toBe("review");
+        expect(jobScoringDecisionSchema.parse("reject")).toBe("reject");
+        expect(jobScoringDecisionSchema.parse("needs-verification")).toBe("needs-verification");
     });
 
     it("rejects an unknown status", () => {
         expect(() => jobStatusSchema.parse("posted")).toThrow();
     });
-
-    it("parses all scoring decisions", () => {
-        expect(jobScoringDecisionSchema.parse("review")).toBe("review");
-        expect(jobScoringDecisionSchema.parse("reject")).toBe("reject");
-        expect(jobScoringDecisionSchema.parse("needs-verification")).toBe("needs-verification");
-    });
 });
 
 describe("VALID_JOB_TRANSITIONS", () => {
-    it("only allows forward + skip transitions", () => {
+    it("only allows forward + skip transitions, never self-transitions", () => {
         for (const [from, tos] of Object.entries(VALID_JOB_TRANSITIONS)) {
             for (const to of tos) {
-                expect(from).not.toBe(to); // no self-transitions
+                expect(from).not.toBe(to);
                 expect(() => assertValidJobTransition(from as never, to as never)).not.toThrow();
             }
         }

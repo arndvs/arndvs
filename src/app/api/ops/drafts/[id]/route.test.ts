@@ -54,7 +54,7 @@ describe("GET /api/ops/drafts/[id]", () => {
 describe("POST /api/ops/drafts/[id] (approve)", () => {
     beforeEach(() => vi.clearAllMocks());
 
-    it("approves an editing draft to ready", async () => {
+    it("approves an editing draft to ready via the state machine", async () => {
         mockAuthed();
         getById.mockResolvedValue({ _id: "d1", status: "editing", body: "x" });
         transition.mockResolvedValue({ _id: "d1", status: "ready", body: "x" });
@@ -66,7 +66,7 @@ describe("POST /api/ops/drafts/[id] (approve)", () => {
         expect(transition).toHaveBeenCalledWith("d1", "ready");
     });
 
-    it("rejects approving a draft state", async () => {
+    it("rejects approving a draft in a non-approvable state", async () => {
         mockAuthed();
         getById.mockResolvedValue({ _id: "d1", status: "skipped", body: "x" });
         const res = await POST(mockRequest(), { params: Promise.resolve({ id: "d1" }) });

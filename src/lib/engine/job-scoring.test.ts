@@ -82,10 +82,9 @@ describe("scoreJob — location", () => {
         expect(result.reasons.some((r) => r.includes("Broad region"))).toBe(true);
     });
 
-    it("scores 0 for a far location", () => {
+    it("scores 0 for a far location but can still reach review on title alone", () => {
         const result = scoreJob(job({ location: "Berlin, Germany" }), baseConfig);
         expect(result.reasons.some((r) => r.includes("Location: Berlin"))).toBe(true);
-        // Still can reach review on title alone.
         expect(result.decision).toBe("review");
     });
 });
