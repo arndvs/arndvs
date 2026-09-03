@@ -1,7 +1,10 @@
 import { redirect } from "next/navigation";
 
 import { requireAuth } from "@/lib/auth-guard";
+import { createSanityJobPostingStore } from "@/lib/engine/job-store";
+import { type JobPostingRecord } from "@/lib/engine/job-types";
 import { createSanitySocialDraftStore } from "@/lib/engine/sanity";
+import type { SocialDraftRecord } from "@/lib/engine/types";
 
 import { OpsConsole } from "./ops-console";
 
@@ -12,7 +15,7 @@ export const metadata = {
 
 /**
  * /ops — the LinkedIn awareness engine ops console.
- * Server component: guards auth, loads the queue, renders the client console.
+ * Server component: guards auth, loads the queue + jobs, renders the client console.
  */
 export default async function OpsPage() {
     await requireAuth().catch(() => {
@@ -20,7 +23,25 @@ export default async function OpsPage() {
     });
 
     const store = createSanitySocialDraftStore();
-    const drafts = await store.listActionable();
+    let drafts: SocialDraftRecord[] = [];
+    try {
+        drafts = await store.listActionable();
+    } catch (err) {
+        console.error("ops: failed to load drafts", err);
+        // A missing SANITY_API_TOKEN or schema issue shouldn't 500 the whole
+        // page — render an empty queue so the console still loads.
+        drafts = [];
+    }
 
-    return <OpsConsole drafts={drafts} />;
+    let jobs: JobPostingRecord[] = [];
+    try {
+        const jobStore = createSanityJobPostingStore();
+        // Load only actionable (non-terminal) jobs, capped — terminal
+        // skip/expired rows are not useful in the triage console.
+        jobs = await jobStore.listActionable(100);
+    } catch {
+        // Job store is optional — the queue works even if jobPosting schema is not deployed.
+    }
+
+    return <OpsConsole drafts={drafts} jobs={jobs} />;
 }

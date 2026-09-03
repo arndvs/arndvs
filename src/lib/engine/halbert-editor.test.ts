@@ -18,7 +18,7 @@ describe("halbertEdit", () => {
         process.env.OPENAI_API_KEY = "sk-test";
     });
 
-    it("returns the edited body and editor notes", async () => {
+    it("returns the edited body and editor notes with the configured model", async () => {
         createMock.mockResolvedValue({
             choices: [
                 {
@@ -44,17 +44,13 @@ describe("halbertEdit", () => {
         );
     });
 
-    it("throws when the edited body is empty", async () => {
+    it("throws on empty, missing, or malformed provider content", async () => {
         createMock.mockResolvedValue({
             choices: [{ message: { content: JSON.stringify({ editedBody: "" }) } }],
         });
-
         await expect(halbertEdit("draft")).rejects.toThrow(/Edited body was empty/);
-    });
 
-    it("throws when OpenAI returns empty content", async () => {
         createMock.mockResolvedValue({ choices: [{ message: { content: null } }] });
-
         await expect(halbertEdit("draft")).rejects.toThrow(/empty response/);
     });
 

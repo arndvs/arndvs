@@ -29,7 +29,7 @@ describe("GET /api/ops/queue", () => {
         vi.clearAllMocks();
     });
 
-    it("returns 401 when unauthenticated", async () => {
+    it("returns 401 when unauthenticated without listing drafts", async () => {
         (requireApiAuth as ReturnType<typeof vi.fn>).mockResolvedValue({
             response: new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 }),
         });

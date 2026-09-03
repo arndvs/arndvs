@@ -88,6 +88,14 @@ export function createSanitySocialDraftStore(): SocialDraftStore {
             return docs.map(toRecord);
         },
 
+        async listAll(limit = 200) {
+            const docs = await client.fetch<Array<Record<string, unknown>>>(
+                `*[_type == "socialDraft"] | order(generatedAt desc)[0..$limit]`,
+                { limit: limit - 1 },
+            );
+            return docs.map(toRecord);
+        },
+
         async transition(id, to) {
             const current = await this.getById(id);
             if (!current) throw new Error(`Social draft not found: ${id}`);

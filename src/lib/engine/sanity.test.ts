@@ -32,7 +32,7 @@ describe("createSanitySocialDraftStore", () => {
         process.env.SANITY_API_TOKEN = "test-token";
     });
 
-    it("creates a draft with status 'draft'", async () => {
+    it("creates a draft stamped with the 'draft' status", async () => {
         mockClient.create.mockResolvedValue({
             _id: "draft-1",
             _type: "socialDraft",
@@ -44,8 +44,7 @@ describe("createSanitySocialDraftStore", () => {
             generatedAt: "2026-08-14T00:00:00.000Z",
         });
 
-        const store = createSanitySocialDraftStore();
-        const result = await store.create({
+        const result = await createSanitySocialDraftStore().create({
             platform: "linkedin",
             contentType: "post",
             body: "Hello world",
@@ -65,12 +64,10 @@ describe("createSanitySocialDraftStore", () => {
 
     it("returns null when a document is not a socialDraft", async () => {
         mockClient.getDocument.mockResolvedValue({ _id: "x", _type: "post" });
-        const store = createSanitySocialDraftStore();
-        const result = await store.getById("x");
-        expect(result).toBeNull();
+        expect(await createSanitySocialDraftStore().getById("x")).toBeNull();
     });
 
-    it("throws on an invalid transition", async () => {
+    it("throws on an invalid status transition", async () => {
         mockClient.getDocument.mockResolvedValue({
             _id: "draft-1",
             _type: "socialDraft",
@@ -81,9 +78,8 @@ describe("createSanitySocialDraftStore", () => {
             sourceType: "weeklyDigest",
         });
 
-        const store = createSanitySocialDraftStore();
-        await expect(store.transition("draft-1", "posted")).rejects.toThrow(
-            /Invalid social draft transition/,
-        );
+        await expect(
+            createSanitySocialDraftStore().transition("draft-1", "posted"),
+        ).rejects.toThrow(/Invalid social draft transition/);
     });
 });

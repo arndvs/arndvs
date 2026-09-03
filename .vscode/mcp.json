@@ -3,6 +3,23 @@
         "figma": {
             "type": "http",
             "url": "https://mcp.figma.com/mcp"
+        },
+        "mcp-server-linkedin": {
+            "type": "stdio",
+            "command": "uv",
+            "args": [
+                "run",
+                "--no-project",
+                "--with",
+                "mcp-server-linkedin",
+                "--with",
+                "fastmcp<4",
+                "-m",
+                "linkedin_mcp_server"
+            ],
+            "env": {
+                "UV_HTTP_TIMEOUT": "300"
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ import type { SchemaTypeDefinition } from "sanity";
 
 import { changelogEntryType } from "./documents/changelogEntryType";
 import { dailyDigestType } from "./documents/dailyDigestType";
+import { jobPostingType } from "./documents/jobPostingType";
 import { postType } from "./documents/postType";
 import { projectType } from "./documents/projectType";
 import { socialDraftType } from "./documents/socialDraftType";
@@ -15,6 +16,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         changelogEntryType,
         weeklyDigestType,
         dailyDigestType,
+        jobPostingType,
         socialDraftType,
         projectType,
         seoType,

@@ -11,35 +11,31 @@ const BASE_ENV = {
 };
 
 describe("env schema", () => {
-    it("accepts a minimal valid env", () => {
+    it("accepts a minimal valid env with capability flags off by default", () => {
         const result = envSchema.safeParse(BASE_ENV);
         expect(result.success).toBe(true);
-    });
-
-    it("defaults capability flags to false", () => {
-        const result = envSchema.safeParse(BASE_ENV);
-        expect(result.success && result.data.ENABLE_AI).toBe(false);
-        expect(result.success && result.data.ENABLE_CONTENT_SHIP).toBe(false);
-    });
-
-    it("fails when ENABLE_AI=true without OPENAI_API_KEY", () => {
-        const result = envSchema.safeParse({ ...BASE_ENV, ENABLE_AI: "true" });
-        expect(result.success).toBe(false);
-        if (!result.success) {
-            expect(JSON.stringify(result.error.issues)).toContain("OPENAI_API_KEY");
+        if (result.success) {
+            expect(result.data.ENABLE_AI).toBe(false);
+            expect(result.data.ENABLE_CONTENT_SHIP).toBe(false);
         }
     });
 
-    it("passes when ENABLE_AI=true with OPENAI_API_KEY", () => {
-        const result = envSchema.safeParse({
+    it("requires OPENAI_API_KEY when ENABLE_AI=true", () => {
+        const missing = envSchema.safeParse({ ...BASE_ENV, ENABLE_AI: "true" });
+        expect(missing.success).toBe(false);
+        if (!missing.success) {
+            expect(JSON.stringify(missing.error.issues)).toContain("OPENAI_API_KEY");
+        }
+
+        const present = envSchema.safeParse({
             ...BASE_ENV,
             ENABLE_AI: "true",
             OPENAI_API_KEY: "sk-test",
         });
-        expect(result.success).toBe(true);
+        expect(present.success).toBe(true);
     });
 
-    it("fails when ENABLE_CONTENT_SHIP=true without SANITY_API_TOKEN", () => {
+    it("requires SANITY_API_TOKEN when ENABLE_CONTENT_SHIP=true", () => {
         const result = envSchema.safeParse({
             ...BASE_ENV,
             ENABLE_CONTENT_SHIP: "true",

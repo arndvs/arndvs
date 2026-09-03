@@ -25,7 +25,7 @@ describe("generateLinkedInDraft", () => {
         process.env.OPENAI_API_KEY = "sk-test";
     });
 
-    it("returns the parsed draft body", async () => {
+    it("returns the parsed draft body with the configured model", async () => {
         createMock.mockResolvedValue({
             choices: [
                 { message: { content: JSON.stringify({ body: "We shipped something real." }) } },
@@ -43,24 +43,17 @@ describe("generateLinkedInDraft", () => {
         );
     });
 
-    it("throws when the draft body is empty", async () => {
+    it("throws on empty, unparseable, or missing provider content", async () => {
         createMock.mockResolvedValue({
             choices: [{ message: { content: JSON.stringify({ body: "   " }) } }],
         });
-
         await expect(generateLinkedInDraft(digest)).rejects.toThrow(/Draft body was empty/);
-    });
 
-    it("throws when OpenAI returns empty content", async () => {
-        createMock.mockResolvedValue({ choices: [{ message: { content: null } }] });
-
-        await expect(generateLinkedInDraft(digest)).rejects.toThrow(/empty response/);
-    });
-
-    it("throws when the response is not parseable JSON", async () => {
         createMock.mockResolvedValue({ choices: [{ message: { content: "not json" } }] });
-
         await expect(generateLinkedInDraft(digest)).rejects.toThrow(/Failed to parse/);
+
+        createMock.mockResolvedValue({ choices: [{ message: { content: null } }] });
+        await expect(generateLinkedInDraft(digest)).rejects.toThrow(/empty response/);
     });
 
     it("throws without an API key", async () => {

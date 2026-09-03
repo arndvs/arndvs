@@ -3,36 +3,30 @@ import { describe, expect, it, vi } from "vitest";
 import { parseApiResponse } from "./transcribe-client-utils";
 
 describe("parseApiResponse", () => {
-    it("returns parsed JSON payload for successful JSON responses", async () => {
+    it("returns parsed JSON payload for successful responses", async () => {
         const response = new Response(JSON.stringify({ success: true }), {
             status: 200,
             headers: { "content-type": "application/json" },
         });
 
-        const payload = await parseApiResponse<{ success: boolean }>(response);
-
-        expect(payload.success).toBe(true);
+        expect((await parseApiResponse<{ success: boolean }>(response)).success).toBe(true);
     });
 
-    it("throws server-provided JSON error message for non-ok responses", async () => {
-        const response = new Response(JSON.stringify({ error: "Unauthorized" }), {
+    it("throws server-provided JSON error messages and falls back to status text", async () => {
+        const serverError = new Response(JSON.stringify({ error: "Unauthorized" }), {
             status: 401,
             headers: { "content-type": "application/json" },
         });
+        await expect(parseApiResponse(serverError)).rejects.toThrow("Unauthorized");
 
-        await expect(parseApiResponse(response)).rejects.toThrow("Unauthorized");
-    });
-
-    it("throws fallback status message for non-ok JSON without an error field", async () => {
-        const response = new Response(JSON.stringify({ ok: false }), {
+        const fallback = new Response(JSON.stringify({ ok: false }), {
             status: 429,
             headers: { "content-type": "application/json" },
         });
-
-        await expect(parseApiResponse(response)).rejects.toThrow("Request failed with status 429");
+        await expect(parseApiResponse(fallback)).rejects.toThrow("Request failed with status 429");
     });
 
-    it("throws non-json text preview and logs it", async () => {
+    it("throws the raw text preview for non-JSON errors and logs it", async () => {
         const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
         const response = new Response("<!DOCTYPE html><html><body>Oops</body></html>", {
             status: 500,
