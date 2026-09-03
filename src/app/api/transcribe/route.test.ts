@@ -272,33 +272,32 @@ describe("POST /api/transcribe", () => {
         expect(response.status).toBe(502);
     });
 
-    it("returns 502 when provider throws", async () => {
+    it("returns a generic 502 on provider failure and a sanitized 502 on auth failure", async () => {
         transcriptionCreateMock.mockRejectedValue(new Error("upstream error"));
 
-        const file = new File(["audio"], "recording.wav", { type: "audio/wav" });
+        const genericFile = new File(["audio"], "recording.wav", { type: "audio/wav" });
 
         const { POST } = await importRoute();
-        const response = await POST(createRequest({ password: "correct-pass", file }) as never);
-        const body = (await response.json()) as { error: string };
+        const generic = await POST(
+            createRequest({ password: "correct-pass", file: genericFile }) as never,
+        );
+        const genericBody = (await generic.json()) as { error: string };
+        expect(generic.status).toBe(502);
+        expect(genericBody.error).toBe("Transcription failed. Check server logs for details.");
 
-        expect(response.status).toBe(502);
-        expect(body.error).toBe("Transcription failed. Check server logs for details.");
-    });
-
-    it("returns sanitized auth error when provider rejects API key", async () => {
         transcriptionCreateMock.mockRejectedValue({
             status: 401,
             message: "Incorrect API key provided",
         });
 
-        const file = new File(["audio"], "recording.wav", { type: "audio/wav" });
+        const authFile = new File(["audio"], "recording.wav", { type: "audio/wav" });
 
-        const { POST } = await importRoute();
-        const response = await POST(createRequest({ password: "correct-pass", file }) as never);
-        const body = (await response.json()) as { error: string };
-
-        expect(response.status).toBe(502);
-        expect(body.error).toBe(
+        const auth = await POST(
+            createRequest({ password: "correct-pass", file: authFile }) as never,
+        );
+        const authBody = (await auth.json()) as { error: string };
+        expect(auth.status).toBe(502);
+        expect(authBody.error).toBe(
             "Transcription provider authentication failed. Check OPENAI_API_KEY.",
         );
     });

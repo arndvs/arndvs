@@ -104,7 +104,7 @@ describe("scoreConversation — recency", () => {
 });
 
 describe("scoreConversations", () => {
-    it("scores a list into review and reject decisions", () => {
+    it("scores a list into review and reject decisions, preserving order", () => {
         const results = scoreConversations(
             [
                 makeCandidate({ text: "forward deployed ai vector search", ageHours: 20 }),
@@ -113,8 +113,7 @@ describe("scoreConversations", () => {
             CONFIG,
         );
         expect(results).toHaveLength(2);
-        const decisions = results.map((r) => r.decision);
-        expect(decisions).toContain("review");
-        expect(decisions).toContain("reject");
+        expect(results[0]?.decision).toBe("review");
+        expect(results[1]?.decision).toBe("reject");
     });
 });
