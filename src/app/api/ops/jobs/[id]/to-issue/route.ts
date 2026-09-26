@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { jsonError, requireApiAuth } from "@/lib/api-auth";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
+import { canDispatchJob } from "@/lib/engine/policy";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -24,8 +25,8 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
     const job = await store.getById(id);
     if (!job) return jsonError("Job posting not found", 404);
 
-    // Only saved jobs can be dispatched for follow-up (human gate).
-    if (job.status !== "saved") {
+    // Only saved jobs without a follow-up issue can be dispatched (human gate).
+    if (!canDispatchJob(job.status, job.followUpIssueUrl)) {
         return jsonError("Only saved jobs can be dispatched for follow-up", 400);
     }
 

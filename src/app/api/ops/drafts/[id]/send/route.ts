@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { jsonError, requireApiAuth } from "@/lib/api-auth";
+import { isSendable } from "@/lib/engine/policy";
 import { createSanitySocialDraftStore } from "@/lib/engine/sanity";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
 
     if (!draft) return jsonError("Draft not found", 404);
 
-    if (draft.status !== "ready") {
+    if (!isSendable(draft.status)) {
         return jsonError(
             `Cannot send a draft in state "${draft.status}" — only "ready" drafts can be sent`,
             409,

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { jsonError, requireApiAuth } from "@/lib/api-auth";
+import { isApprovable, isEditable } from "@/lib/engine/policy";
 import { createSanitySocialDraftStore } from "@/lib/engine/sanity";
 import { assertValidTransition } from "@/lib/engine/types";
 
@@ -41,6 +42,8 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
     if (draft.status === "draft") {
         assertValidTransition(draft.status, "editing");
         await store.transition(id, "editing");
+    } else if (!isEditable(draft.status)) {
+        return jsonError(`Cannot edit a draft in state "${draft.status}"`, 409);
     }
 
     const updated = await store.updateBody(id, body.editedBody ?? body.body ?? draft.body);
@@ -60,7 +63,7 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
     const draft = await store.getById(id);
     if (!draft) return jsonError("Draft not found", 404);
 
-    if (draft.status !== "editing" && draft.status !== "ready") {
+    if (!isApprovable(draft.status)) {
         return jsonError(`Cannot approve a draft in state "${draft.status}"`, 409);
     }
 

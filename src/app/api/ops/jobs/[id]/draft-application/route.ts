@@ -4,6 +4,7 @@ import { jsonError, requireApiAuth } from "@/lib/api-auth";
 import { draftJobApplication } from "@/lib/engine/job-drafter";
 import { JOB_ROLE_PROFILE } from "@/lib/engine/job-profile";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
+import { canDraftApplication } from "@/lib/engine/policy";
 import { createSanitySocialDraftStore } from "@/lib/engine/sanity";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -30,8 +31,8 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
     const job = await jobStore.getById(id);
     if (!job) return jsonError("Job posting not found", 404);
 
-    // Only saved jobs can be drafted for application (human gate invariant).
-    if (job.status !== "saved") {
+    // Only saved jobs without a follow-up issue can be drafted (human gate).
+    if (!canDraftApplication(job)) {
         return jsonError("Only saved jobs can be drafted for application", 400);
     }
 
