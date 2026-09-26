@@ -31,7 +31,7 @@ export function OpsConsole({ drafts, jobs }: OpsConsoleProps) {
     const [localDrafts, setLocalDrafts] = useState(drafts);
 
     const activeDraft = useMemo(
-        () => (tab === "posts" ? (localDrafts.find((d) => d._id === activeId) ?? null) : null),
+        () => (tab === "posts" || tab === "comments" ? (localDrafts.find((d) => d._id === activeId) ?? null) : null),
         [localDrafts, activeId, tab],
     );
 
@@ -124,14 +124,30 @@ export function OpsConsole({ drafts, jobs }: OpsConsoleProps) {
             ) : tab === "jobs" ? (
                 <JobQueue jobs={jobs} jobDrafts={jobDrafts} />
             ) : (
-                <div className="flex flex-col gap-4">
-                    {comments.length === 0 ? (
-                        <EmptyState kind="comments" />
-                    ) : (
-                        comments.map((d) => (
-                            <DraftCard key={d._id} draft={d} active={false} onClick={() => {}} />
-                        ))
-                    )}
+                <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+                    <div className="flex flex-col gap-4">
+                        {comments.length === 0 ? (
+                            <EmptyState kind="comments" />
+                        ) : (
+                            comments.map((d) => (
+                                <DraftCard
+                                    key={d._id}
+                                    draft={d}
+                                    active={d._id === activeId}
+                                    onClick={() => setActiveId(d._id)}
+                                />
+                            ))
+                        )}
+                    </div>
+                    <div>
+                        {activeDraft ? (
+                            <DraftDetail draft={activeDraft} onUpdated={handleUpdated} />
+                        ) : (
+                            <p className="text-muted-foreground text-sm">
+                                Select a comment draft to review it.
+                            </p>
+                        )}
+                    </div>
                 </div>
             )}
         </div>
