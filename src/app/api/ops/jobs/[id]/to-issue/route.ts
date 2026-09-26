@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { jsonError, requireApiAuth } from "@/lib/api-auth";
+import { dispatchJob } from "@/lib/engine/job-dispatch";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
-import { canDispatchJob } from "@/lib/engine/policy";
+import { createSanitySocialDraftStore } from "@/lib/engine/sanity";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -13,79 +14,32 @@ type RouteContext = { params: Promise<{ id: string }> };
  * `cmd-private` repo, labeled `agent:prep`. An agent can then pick it up
  * to research the company and draft outreach — never to apply.
  *
- * Idempotent: if the job already has a followUpIssueUrl, returns it (409
- * would be wrong — re-dispatch is a no-op, not an error).
+ * Thin shim over the job-dispatch layer (refs #64): the dispatch module
+ * owns the saved-gate, idempotency (re-dispatch returns the existing
+ * issue), and mutual exclusion with application drafting.
  */
 export async function POST(request: NextRequest, { params }: RouteContext) {
     const auth = await requireApiAuth(request);
     if ("response" in auth) return auth.response;
 
     const { id } = await params;
-    const store = createSanityJobPostingStore();
-    const job = await store.getById(id);
-    if (!job) return jsonError("Job posting not found", 404);
-
-    // Only saved jobs without a follow-up issue can be dispatched (human gate).
-    if (!canDispatchJob(job.status, job.followUpIssueUrl)) {
-        return jsonError("Only saved jobs can be dispatched for follow-up", 400);
-    }
-
-    // Idempotent — already dispatched.
-    if (job.followUpIssueUrl) {
-        return NextResponse.json({ job, issueUrl: job.followUpIssueUrl });
-    }
-
-    const token = process.env.AGENT_PAT;
-    if (!token) {
-        return jsonError("AGENT_PAT is not configured", 500);
-    }
-
-    const repo = process.env.JOB_FOLLOWUP_REPO ?? "arndvs/cmd-private";
-    const label = process.env.JOB_FOLLOWUP_LABEL ?? "agent:prep";
-
-    const title = `Job: ${job.company ?? "Unknown"} — ${job.title}`;
-    const body = [
-        `## Job follow-up (prep only — never apply)`,
-        ``,
-        `**Role:** ${job.title}`,
-        `**Company:** ${job.company ?? "Unknown"}`,
-        job.location ? `**Location:** ${job.location}` : null,
-        job.workType ? `**Work type:** ${job.workType}` : null,
-        job.salary ? `**Salary:** ${job.salary}` : null,
-        job.url ? `**Posting:** ${job.url}` : null,
-        `**Fit score:** ${job.score}`,
-        ``,
-        `**Task:** Research the company and role, then draft an outreach note and talking points.`,
-        `**Never send or apply** — output lands in the socialDraft queue for human review.`,
-        ``,
-        `Sanity job id: \`${job._id}\``,
-    ]
-        .filter((l): l is string => l !== null)
-        .join("\n");
 
     try {
-        const res = await fetch(`https://api.github.com/repos/${repo}/issues`, {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: "application/vnd.github+json",
-                "Content-Type": "application/json",
-                "X-GitHub-Api-Version": "2022-11-28",
-            },
-            body: JSON.stringify({ title, body, labels: [label] }),
+        const result = await dispatchJob(id, "followup", {
+            jobStore: createSanityJobPostingStore(),
+            draftStore: createSanitySocialDraftStore(),
         });
 
-        if (!res.ok) {
-            const errText = await res.text();
-            console.error("to-issue: GitHub create failed", res.status, errText);
-            return jsonError("Failed to create follow-up issue", 502);
+        if (result.alreadyDispatched) {
+            return NextResponse.json({ job: result.job, issueUrl: result.issueUrl });
         }
-
-        const issue = (await res.json()) as { html_url: string };
-        const updated = await store.setFollowUpIssueUrl(id, issue.html_url);
-        return NextResponse.json({ job: updated, issueUrl: issue.html_url }, { status: 201 });
+        return NextResponse.json({ job: result.job, issueUrl: result.issueUrl }, { status: 201 });
     } catch (err) {
-        console.error("to-issue: unexpected error", err);
+        const message = err instanceof Error ? err.message : "Failed to create follow-up issue";
+        console.error("to-issue:", err);
+        if (message.includes("not found")) return jsonError(message, 404);
+        if (message.includes("Only saved jobs")) return jsonError(message, 400);
+        if (message.includes("AGENT_PAT")) return jsonError(message, 500);
         return jsonError("Failed to create follow-up issue", 500);
     }
 }

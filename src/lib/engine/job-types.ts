@@ -87,7 +87,11 @@ export type JobStatus = z.infer<typeof jobStatusSchema>;
 export const VALID_JOB_TRANSITIONS: Record<JobStatus, JobStatus[]> = {
     discovered: ["saved", "skip", "expired"],
     saved: ["applied", "skip", "expired"],
-    applied: ["skip"],
+    // applied → saved is a compensating transition: if the application-draft
+    // persist fails after saved → applied, the job must be able to return to
+    // saved (the code already attempts this; the map used to forbid it,
+    // stranding jobs in applied — refs #64).
+    applied: ["saved", "skip"],
     skip: [],
     expired: [],
 };

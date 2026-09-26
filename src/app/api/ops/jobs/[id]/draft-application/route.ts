@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { jsonError, requireApiAuth } from "@/lib/api-auth";
-import { draftJobApplication } from "@/lib/engine/job-drafter";
-import { JOB_ROLE_PROFILE } from "@/lib/engine/job-profile";
+import { dispatchJob } from "@/lib/engine/job-dispatch";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
-import { canDraftApplication } from "@/lib/engine/policy";
 import { createSanitySocialDraftStore } from "@/lib/engine/sanity";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -13,81 +11,35 @@ type RouteContext = { params: Promise<{ id: string }> };
  * POST /api/ops/jobs/[id]/draft-application
  *
  * Drafts a cover note for a saved job and persists it as a socialDraft
- * (sourceType: "job" — extends the existing types with a new value).
+ * (sourceType: "job"). Never sends — the draft lands in the human review
+ * queue.
  *
- * Never sends. The draft lands in the human review queue.
- *
- * Atomicity: the job is transitioned saved → applied server-side, and the
- * draft is created, in one request. A repeat call returns 409 (the job is
- * already applied) — this prevents duplicate drafts + repeated OpenAI spend
- * from double-clicks or stale client state.
+ * Thin shim over the job-dispatch layer (refs #64): the dispatch module
+ * owns the saved-gate, idempotency, mutual exclusion with follow-up
+ * dispatch, and the applied → saved compensating rollback.
  */
 export async function POST(request: NextRequest, { params }: RouteContext) {
     const auth = await requireApiAuth(request);
     if ("response" in auth) return auth.response;
 
     const { id } = await params;
-    const jobStore = createSanityJobPostingStore();
-    const job = await jobStore.getById(id);
-    if (!job) return jsonError("Job posting not found", 404);
 
-    // Only saved jobs without a follow-up issue can be drafted (human gate).
-    if (!canDraftApplication(job)) {
-        return jsonError("Only saved jobs can be drafted for application", 400);
-    }
-
-    let draft;
     try {
-        draft = await draftJobApplication(
-            {
-                url: job.url,
-                title: job.title,
-                company: job.company,
-                location: job.location,
-                workType: job.workType,
-                salary: job.salary,
-            },
-            // Role-fit profile for the drafter's context — shared const so
-            // drafting reads the same definition as scoring.
-            JOB_ROLE_PROFILE,
-        );
+        const result = await dispatchJob(id, "application", {
+            jobStore: createSanityJobPostingStore(),
+            draftStore: createSanitySocialDraftStore(),
+        });
+
+        if (result.alreadyDispatched) {
+            return NextResponse.json({ job: result.job, draft: result.draft ?? null });
+        }
+        return NextResponse.json({ draft: result.draft, job: result.job }, { status: 201 });
     } catch (err) {
-        console.error("draft-application: OpenAI draft failed", err);
+        const message = err instanceof Error ? err.message : "Failed to draft application";
+        console.error("draft-application:", err);
+        if (message.includes("not found")) return jsonError(message, 404);
+        if (message.includes("Only saved jobs")) return jsonError(message, 400);
+        if (message.includes("no longer in a draftable state")) return jsonError(message, 409);
         return jsonError("Failed to draft application", 500);
     }
-
-    // Transition saved → applied BEFORE creating the draft, so a failure
-    // here leaves no orphan draft. If the transition fails (e.g. the job
-    // was already applied in another tab), return 409 — no draft is created.
-    let applied;
-    try {
-        applied = await jobStore.transition(id, "applied");
-    } catch (err) {
-        console.error("draft-application: transition failed", err);
-        return jsonError("Job is no longer in a draftable state", 409);
-    }
-
-    const store = createSanitySocialDraftStore();
-    let created;
-    try {
-        created = await store.create({
-            platform: "linkedin",
-            contentType: "post",
-            body: draft.body,
-            sourceType: "job", // extended from weeklyDigest/comment
-            score: job.score,
-            targetPerson: job.company,
-        });
-    } catch (err) {
-        console.error("draft-application: draft persist failed", err);
-        // Roll back the transition so the job stays draftable.
-        try {
-            await jobStore.transition(id, "saved");
-        } catch {
-            // Best-effort rollback; the job may be stuck applied — surface it.
-        }
-        return jsonError("Failed to persist draft", 500);
-    }
-
-    return NextResponse.json({ draft: created, job: applied }, { status: 201 });
 }

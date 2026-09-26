@@ -20,6 +20,11 @@ describe("job-status state machine", () => {
         expect(VALID_JOB_TRANSITIONS.discovered).toContain("expired");
         expect(VALID_JOB_TRANSITIONS.saved).toContain("expired");
     });
+
+    it("allows applied → saved as a compensating rollback (refs #64)", () => {
+        expect(VALID_JOB_TRANSITIONS.applied).toContain("saved");
+        expect(() => assertValidJobTransition("applied", "saved")).not.toThrow();
+    });
 });
 
 describe("job status + decision schemas", () => {
