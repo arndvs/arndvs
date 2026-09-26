@@ -40,8 +40,6 @@ export interface ScoredConversation {
     decision: ScoringDecision;
     /** Why it scored this way — for the review queue UI. */
     reasons: string[];
-    /** True when the author is on the curated target list. */
-    isTarget?: boolean;
 }
 
 export interface ScoringConfig {

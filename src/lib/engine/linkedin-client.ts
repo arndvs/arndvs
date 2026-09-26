@@ -21,8 +21,6 @@ export interface LinkedInClient {
         keywords: string;
         datePosted?: "past-24h" | "past-week" | "past-month";
     }): Promise<ConversationCandidate[]>;
-    /** Get a person's recent posts. */
-    getPersonPosts(username: string): Promise<ConversationCandidate[]>;
 }
 
 export interface LinkedInClientOptions {
@@ -67,16 +65,6 @@ export function createLinkedInClient(options: LinkedInClientOptions = {}): Linke
             })) as { sections?: Record<string, string>; url?: string };
 
             // The MCP tool returns raw text sections; parse them into candidates.
-            const text = Object.values(result.sections ?? {}).join("\n");
-            return parsePostsFromText(text);
-        },
-
-        async getPersonPosts(username) {
-            const result = (await runTool("get_person_profile", {
-                linkedin_username: username,
-                sections: "posts",
-            })) as { sections?: Record<string, string> };
-
             const text = Object.values(result.sections ?? {}).join("\n");
             return parsePostsFromText(text);
         },

@@ -114,7 +114,6 @@ export function scoreConversation(
             score,
             decision: "needs-verification",
             reasons,
-            isTarget: undefined,
         };
     }
 
@@ -123,7 +122,6 @@ export function scoreConversation(
         score,
         decision,
         reasons,
-        isTarget: undefined,
     };
 }
 

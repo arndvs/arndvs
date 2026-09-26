@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { jsonError, requireApiAuth } from "@/lib/api-auth";
 import { draftJobApplication } from "@/lib/engine/job-drafter";
+import { JOB_ROLE_PROFILE } from "@/lib/engine/job-profile";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
 import { createSanitySocialDraftStore } from "@/lib/engine/sanity";
 
@@ -45,19 +46,9 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
                 workType: job.workType,
                 salary: job.salary,
             },
-            // Role-fit profile for the drafter's context.
-            {
-                titles: [
-                    "Forward Deployed Engineer",
-                    "Applied AI Engineer",
-                    "Senior Full Stack Engineer",
-                    "AI Agent Engineer",
-                    "Software Engineering Generalist",
-                    "AI Solutions Engineer",
-                ],
-                skills: [],
-                locations: ["San Diego"],
-            },
+            // Role-fit profile for the drafter's context — shared const so
+            // drafting reads the same definition as scoring.
+            JOB_ROLE_PROFILE,
         );
     } catch (err) {
         console.error("draft-application: OpenAI draft failed", err);
