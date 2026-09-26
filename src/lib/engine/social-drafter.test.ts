@@ -41,14 +41,14 @@ describe("generateLinkedInDraft", () => {
                 temperature: 0.7,
             }),
         );
-    });
 
-    it("throws on empty, unparseable, or missing provider content", async () => {
         createMock.mockResolvedValue({
             choices: [{ message: { content: JSON.stringify({ body: "   " }) } }],
         });
         await expect(generateLinkedInDraft(digest)).rejects.toThrow(/Draft body was empty/);
+    });
 
+    it("throws on unparseable or missing provider content", async () => {
         createMock.mockResolvedValue({ choices: [{ message: { content: "not json" } }] });
         await expect(generateLinkedInDraft(digest)).rejects.toThrow(/Failed to parse/);
 
