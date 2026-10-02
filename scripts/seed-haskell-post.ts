@@ -183,40 +183,33 @@ const body = [
 
     codeBlock(TYPESCRIPT, "typescript", "explained.ts"),
 
-    block("h2", "The animation is the explanation"),
+    block("h2", "The translation isn't the point"),
 
     block(
         "normal",
-        "The embed above is the point of this whole exercise. I didn't write a paragraph explaining the morph — I built an animation that does it. Each Haskell token flies to its TypeScript twin, the background shifts from purple to blue, and the banana tiles hop into aaabnn. You watched the idea become legible.",
+        "Here's the thing I almost missed: the Haskell-to-TypeScript trick is a demo, not the thesis. Translation between languages isn't new. What's new is the question underneath it.",
     ),
 
     block(
         "normal",
-        "This is AI-assisted animation: using a well-designed visual to make a complex idea comprehensible in seconds. The animation was written by Claude using the motion-graphics skill stack — HyperFrames for the MP4 render, GSAP and Remotion skill packs for motion reference, ffmpeg for post-work. The file itself is hand-built HTML/CSS/JS with zero dependencies, so it embeds anywhere.",
+        "For forty years, nearly every design decision in computing assumed a human was reading, writing, or operating the system. Consoles exist because mainframes had human operators. Languages evolve at the speed humans can learn — LINQ took five to eight years to catch on, Python 2 to 3 took about fifteen. Companies keep separate Ruby, .NET, and Java teams because people specialize. Library ecosystems mattered because humans needed them.",
     ),
 
     block(
         "normal",
-        "This visual is one output of a small hub I keep — a repo that houses the rules, tools, skills, and templates for making these visuals, with each visual as a folder of outputs. The point is that the next visual is faster to make: the machinery is already there, documented, and reusable.",
+        "Take the human out of the reading seat, and every one of those choices is open again. That's the real argument. Readable code is just the most familiar example of a much bigger pattern.",
+    ),
+
+    block("h2", "Verification replaces readability"),
+
+    block(
+        "normal",
+        "Readable code was always a stand-in for \u201ccan we trust this?\u201d In a world where an agent writes the code, trust comes from machine checks: strict types, compilers, and simulators that catch the agent's mistakes on every loop.",
     ),
 
     block(
         "normal",
-        "The bet is that when an idea is hard to hold in your head, a few seconds of well-designed motion can compress a page of reasoning into something you instantly get. The morph from Haskell to TypeScript is the \u201cexplainable on demand\u201d argument made visible — the animation is the explanation, not a decoration on top of it.",
-    ),
-
-    block("h2", "Readable vs. explainable"),
-
-    block(
-        "normal",
-        "Huntley's argument is that code no longer needs to be readable to a human reading it cold. It needs to be explainable on demand. The artifact doesn't need to be optimized for a human to read cold — it needs to be something a model can explain to a human on demand.",
-    ),
-
-    block("normal", "I'm not fully sold. Someone still has to own what ships."),
-
-    block(
-        "normal",
-        "But his second point hit home: strict types are guardrails. Compiler errors give AI agents feedback on every loop, so a typed codebase stays on the rails better than a loose one.",
+        "That's why porting works \u201cwhen the end result is easy to verify,\u201d and why Huntley can get away with cheaper models. The human moves from reading every line to defining what must be true.",
     ),
 
     block(
@@ -256,7 +249,7 @@ const body = [
         "The pattern across all of these: guardrails aren't about restricting the AI. They're about making the boundaries explicit and machine-enforced. Types do this at the language level. Process gates do it at the system level. Both give the agent feedback on every loop.",
     ),
 
-    block("h2", "The skill that matters"),
+    block("h2", "The human doesn't leave"),
 
     block(
         "normal",
@@ -265,7 +258,12 @@ const body = [
 
     block(
         "normal",
-        "Would you ship code your team can't read, as long as an AI can explain it? That's the question. I don't have a clean answer. But I know the guardrails are what make the question worth asking — and the animation above is what makes the answer worth seeing.",
+        "The human doesn't leave. We stop reading every line and start deciding what must be true. That's a different job, and it's the one worth getting good at.",
+    ),
+
+    block(
+        "normal",
+        "Which practice on your team exists only because a person had to read the code?",
     ),
 ];
 
@@ -284,13 +282,13 @@ async function seed() {
     await client.createOrReplace({
         _id: POST_ID,
         _type: "post",
-        title: "Readable vs. Explainable: 12 Lines of Haskell Changed How I Think About Code",
+        title: "Readable Code Was a Stand-in for Trust",
         slug: { _type: "slug", current: SLUG },
         author: "Aaron Davis",
         publishedAt: "2026-10-02T12:00:00Z",
         excerpt:
-            "I pasted 12 lines of Haskell I couldn't read into an AI. Thirty seconds later I understood them — and it made me rethink what code is actually for.",
-        tldr: "Code no longer needs to be readable by a human reading it cold — it needs to be explainable on demand. But explainable isn't a license to write garbage. It's a contract: the artifact must be verifiable, and the process around it must have guardrails. Here's how I think about both.",
+            "The Haskell-to-TypeScript trick is a demo, not the thesis. The real argument: forty years of computing assumed a human was reading, writing, or operating the system. Take the human out, and every one of those choices is open again.",
+        tldr: "For forty years, nearly every design decision in computing assumed a human was reading, writing, or operating the system. Take the human out of the reading seat and every one of those choices is open again. What replaces readability is verification — strict types, compilers, and simulators that catch an agent's mistakes on every loop. The human doesn't leave; we stop reading every line and start deciding what must be true.",
         categories: ["AI", "Software Engineering", "Developer Experience"],
         body,
     });
