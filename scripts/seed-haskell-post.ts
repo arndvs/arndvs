@@ -187,7 +187,7 @@ const body = [
 
     block(
         "normal",
-        "Here's the thing I almost missed: the Haskell-to-TypeScript trick is a demo, not the thesis. Translation between languages isn't new. What's new is the question underneath it.",
+        "Here's the thing some readers will skim past: the Haskell-to-TypeScript trick is a demo, not the thesis. Translation between languages isn't new. What's new is the question underneath it.",
     ),
 
     block(
@@ -222,6 +222,10 @@ const body = [
     block(
         "normal",
         "This is where I have something concrete to add, because I run an agent engine — ctrl+shft — that ships code autonomously. Types are one form of guardrail. They're not the only one, and they're not the most important one.",
+        {
+            text: "ctrl+shft",
+            href: "https://github.com/arndvs/ctrlshft",
+        },
     ),
 
     block(
