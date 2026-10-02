@@ -18,8 +18,6 @@ export interface ScoutTarget {
     keyword: string;
     /** Optional company-scoped search. */
     company?: string;
-    /** Optional person usernames to watch directly. */
-    usernames?: string[];
 }
 
 export interface ScoutConfig {
@@ -56,23 +54,12 @@ export async function runScout(
                 candidates.push(c);
             }
         }
-
-        // 2. Direct person watch.
-        for (const username of target.usernames ?? []) {
-            const personPosts = await client.getPersonPosts(username);
-            for (const c of personPosts) {
-                if (!seen.has(c.url)) {
-                    seen.add(c.url);
-                    candidates.push(c);
-                }
-            }
-        }
     }
 
-    // 3. Score everything.
+    // 2. Score everything.
     const scored = scoreConversations(candidates, config.scoring);
 
-    // 4. Draft comments only for review-qualifying conversations.
+    // 3. Draft comments only for review-qualifying conversations.
     const drafts: Record<string, string> = {};
     for (const s of scored) {
         if (s.decision === "review" || s.decision === "needs-verification") {

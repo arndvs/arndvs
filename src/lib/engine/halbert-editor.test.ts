@@ -42,14 +42,14 @@ describe("halbertEdit", () => {
                 temperature: 0.4,
             }),
         );
-    });
 
-    it("throws on empty, missing, or malformed provider content", async () => {
         createMock.mockResolvedValue({
             choices: [{ message: { content: JSON.stringify({ editedBody: "" }) } }],
         });
         await expect(halbertEdit("draft")).rejects.toThrow(/Edited body was empty/);
+    });
 
+    it("throws on malformed provider content", async () => {
         createMock.mockResolvedValue({ choices: [{ message: { content: null } }] });
         await expect(halbertEdit("draft")).rejects.toThrow(/empty response/);
     });

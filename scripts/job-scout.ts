@@ -14,6 +14,7 @@
  */
 import { config as loadDotenv } from "dotenv";
 
+import { JOB_COMPANY_TIERS, JOB_ROLE_PROFILE, JOB_SEARCH_TARGETS } from "@/lib/engine/job-profile";
 import { runJobScout } from "@/lib/engine/job-scout";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
 import { createLinkedInJobsClient } from "@/lib/engine/linkedin-jobs-client";
@@ -28,43 +29,6 @@ const DRY_RUN = process.argv.includes("--dry-run");
 // Kill switch — mirrors MCRDSE research-only default.
 const ENABLED = process.env.JOB_SCOUT_ENABLED === "true";
 const MCP_BASE_URL = process.env.LINKEDIN_MCP_URL ?? "http://127.0.0.1:8899/mcp";
-
-// Role-fit profile — mirrors the cmd role-fit collection.
-const PROFILE = {
-    titles: [
-        "Forward Deployed Engineer",
-        "Applied AI Engineer",
-        "Senior Full Stack Engineer",
-        "AI Agent",
-        "Software Engineering Generalist",
-        "AI Solutions Engineer",
-        "Senior Software Engineer",
-    ],
-    skills: ["rag", "agents", "copilot", "llm", "python", "typescript", "react", "next.js"],
-    locations: ["San Diego", "Remote"],
-    workTypes: ["remote", "hybrid", "on-site"],
-} as const;
-
-const COMPANY_TIERS: Record<string, number> = {
-    anthropic: 12,
-    openai: 12,
-    adobe: 10,
-    "flock freight": 8,
-    vercel: 8,
-    linear: 8,
-    sanity: 8,
-    runway: 8,
-    "@cursor": 8,
-};
-
-const TARGETS = [
-    { keywords: "forward deployed engineer" },
-    { keywords: "applied ai engineer" },
-    { keywords: "ai agent engineer" },
-    { keywords: "senior full stack engineer" },
-    { keywords: "ai solutions engineer" },
-    { keywords: "software engineering generalist" },
-];
 
 async function main() {
     if (!ENABLED) {
@@ -81,10 +45,10 @@ async function main() {
         async (scored) => store.upsert(scored),
         {
             scoring: {
-                profile: PROFILE,
-                companyTiers: COMPANY_TIERS,
+                profile: JOB_ROLE_PROFILE,
+                companyTiers: JOB_COMPANY_TIERS,
             },
-            targets: TARGETS,
+            targets: JOB_SEARCH_TARGETS,
             maxPersist: 15,
         },
     );
@@ -94,7 +58,7 @@ async function main() {
     );
 
     console.log(
-        `Discovered ${result.candidates.length} candidates across ${TARGETS.length} targets.`,
+        `Discovered ${result.candidates.length} candidates across ${JOB_SEARCH_TARGETS.length} targets.`,
     );
     console.log(
         `Reviewable: ${reviewable.length}. Persisted: ${result.persisted}. Deduped: ${result.deduped}.`,

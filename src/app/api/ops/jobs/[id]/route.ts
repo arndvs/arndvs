@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { jsonError, requireApiAuth } from "@/lib/api-auth";
 import { createSanityJobPostingStore } from "@/lib/engine/job-store";
 import { assertValidJobTransition, jobStatusSchema } from "@/lib/engine/job-types";
+import { canSaveJob } from "@/lib/engine/policy";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -38,6 +39,12 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
     const parsed = jobStatusSchema.safeParse((await request.json()).status);
     if (!parsed.success) {
         return jsonError("Invalid job status", 400);
+    }
+
+    // Saving is a human-gate decision: only discovered jobs may be saved.
+    // Other transitions (skip | expired) stay on the pure state machine.
+    if (parsed.data === "saved" && !canSaveJob(job.status)) {
+        return jsonError(`Cannot save a job in state "${job.status}"`, 409);
     }
 
     // Validate the transition against the pure state machine.

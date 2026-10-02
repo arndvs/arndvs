@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { jsonError, requireApiAuth } from "@/lib/api-auth";
+import { isRejectable } from "@/lib/engine/policy";
 import { createSanitySocialDraftStore } from "@/lib/engine/sanity";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest, { params }: RouteContext) {
     const draft = await store.getById(id);
     if (!draft) return jsonError("Draft not found", 404);
 
-    if (draft.status === "posted" || draft.status === "skipped") {
+    if (!isRejectable(draft.status)) {
         return jsonError(`Cannot reject a draft in state "${draft.status}"`, 409);
     }
 
