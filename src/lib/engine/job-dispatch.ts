@@ -2,7 +2,7 @@ import { draftJobApplication } from "./job-drafter";
 import { JOB_ROLE_PROFILE } from "./job-profile";
 import { type JobPostingStore } from "./job-store";
 import { type JobPostingRecord } from "./job-types";
-import { canDraftApplication, canDispatchJob } from "./policy";
+import { canDispatchJob, canDraftApplication } from "./policy";
 import { type SocialDraftStore } from "./types";
 
 /**

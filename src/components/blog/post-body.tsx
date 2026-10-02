@@ -23,6 +23,7 @@ const LANGUAGE_NAMES: Partial<Record<string, string>> = {
     graphql: "GraphQL",
     sql: "SQL",
     python: "Python",
+    haskell: "Haskell",
     text: "Plain Text",
 };
 
@@ -96,6 +97,40 @@ function createComponents(
                             </pre>
                         )}
                     </div>
+                );
+            },
+            htmlEmbed: ({
+                value,
+            }: {
+                value: {
+                    url?: string;
+                    title?: string;
+                    aspectRatio?: string;
+                    caption?: string;
+                };
+            }) => {
+                if (!value?.url) return null;
+                return (
+                    <figure className="my-8">
+                        <div
+                            className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950"
+                            style={{ aspectRatio: value.aspectRatio || "4 / 5" }}
+                        >
+                            <iframe
+                                src={value.url}
+                                title={value.title || "Embedded content"}
+                                className="h-full w-full"
+                                loading="lazy"
+                                sandbox="allow-scripts allow-same-origin"
+                                referrerPolicy="no-referrer"
+                            />
+                        </div>
+                        {value.caption && (
+                            <figcaption className="text-muted-foreground mt-2 text-center text-sm">
+                                {value.caption}
+                            </figcaption>
+                        )}
+                    </figure>
                 );
             },
         },
