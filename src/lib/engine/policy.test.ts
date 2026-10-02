@@ -1,6 +1,5 @@
-import { describe, expect, it } from "vitest";
-
 import { SOCIAL_DRAFT_STATUSES } from "@arndvs/contracts";
+import { describe, expect, it } from "vitest";
 
 import { JOB_STATUSES, type JobPostingRecord, type JobStatus } from "./job-types";
 import {
@@ -44,7 +43,10 @@ describe("canDispatchJob", () => {
     it("is true only for saved jobs without a follow-up issue", () => {
         for (const status of JOB_STATUSES) {
             expect(canDispatchJob(status), `canDispatchJob(${status})`).toBe(status === "saved");
-            expect(canDispatchJob(status, "https://issue"), `canDispatchJob(${status}, issued)`).toBe(false);
+            expect(
+                canDispatchJob(status, "https://issue"),
+                `canDispatchJob(${status}, issued)`,
+            ).toBe(false);
         }
     });
 });
@@ -55,9 +57,10 @@ describe("canDraftApplication", () => {
             expect(canDraftApplication(job(status)), `canDraftApplication(${status})`).toBe(
                 status === "saved",
             );
-            expect(canDraftApplication(job(status, "https://issue")), `canDraftApplication(${status}, issued)`).toBe(
-                false,
-            );
+            expect(
+                canDraftApplication(job(status, "https://issue")),
+                `canDraftApplication(${status}, issued)`,
+            ).toBe(false);
         }
     });
 });

@@ -31,7 +31,10 @@ export function OpsConsole({ drafts, jobs }: OpsConsoleProps) {
     const [localDrafts, setLocalDrafts] = useState(drafts);
 
     const activeDraft = useMemo(
-        () => (tab === "posts" || tab === "comments" ? (localDrafts.find((d) => d._id === activeId) ?? null) : null),
+        () =>
+            tab === "posts" || tab === "comments"
+                ? (localDrafts.find((d) => d._id === activeId) ?? null)
+                : null,
         [localDrafts, activeId, tab],
     );
 

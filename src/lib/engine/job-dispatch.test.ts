@@ -25,14 +25,16 @@ function job(status: JobStatus, followUpIssueUrl?: string): JobPostingRecord {
     };
 }
 
-function makeDeps(overrides: Partial<{
-    getById: (id: string) => Promise<JobPostingRecord | null>;
-    transition: (id: string, to: JobStatus) => Promise<JobPostingRecord>;
-    setFollowUpIssueUrl: (id: string, url: string) => Promise<JobPostingRecord>;
-    create: (input: unknown) => Promise<SocialDraftRecord>;
-    createFollowUpIssue: (job: JobPostingRecord) => Promise<string>;
-    draftApplication: (job: JobPostingRecord) => Promise<{ body: string }>;
-}>) {
+function makeDeps(
+    overrides: Partial<{
+        getById: (id: string) => Promise<JobPostingRecord | null>;
+        transition: (id: string, to: JobStatus) => Promise<JobPostingRecord>;
+        setFollowUpIssueUrl: (id: string, url: string) => Promise<JobPostingRecord>;
+        create: (input: unknown) => Promise<SocialDraftRecord>;
+        createFollowUpIssue: (job: JobPostingRecord) => Promise<string>;
+        draftApplication: (job: JobPostingRecord) => Promise<{ body: string }>;
+    }>,
+) {
     const current = { value: job("saved") };
     const draftRecord = (): SocialDraftRecord => ({
         _id: "d1",
@@ -48,18 +50,24 @@ function makeDeps(overrides: Partial<{
             listByStatus: async () => [],
             listActionable: async () => [],
             findByDedupeKey: async () => null,
-            getById: overrides.getById ?? (async (id: string) => {
-                if (id !== current.value._id) return null;
-                return current.value;
-            }),
-            transition: overrides.transition ?? (async (id: string, to: JobStatus) => {
-                current.value = { ...current.value, status: to };
-                return current.value;
-            }),
-            setFollowUpIssueUrl: overrides.setFollowUpIssueUrl ?? (async (id: string, url: string) => {
-                current.value = { ...current.value, followUpIssueUrl: url };
-                return current.value;
-            }),
+            getById:
+                overrides.getById ??
+                (async (id: string) => {
+                    if (id !== current.value._id) return null;
+                    return current.value;
+                }),
+            transition:
+                overrides.transition ??
+                (async (id: string, to: JobStatus) => {
+                    current.value = { ...current.value, status: to };
+                    return current.value;
+                }),
+            setFollowUpIssueUrl:
+                overrides.setFollowUpIssueUrl ??
+                (async (id: string, url: string) => {
+                    current.value = { ...current.value, followUpIssueUrl: url };
+                    return current.value;
+                }),
         },
         draftStore: {
             create: overrides.create ?? (async () => draftRecord()),
@@ -69,9 +77,14 @@ function makeDeps(overrides: Partial<{
             listAll: async () => [],
             transition: async () => draftRecord(),
             updateBody: async () => draftRecord(),
-            markPosted: async (): Promise<SocialDraftRecord> => ({ ...draftRecord(), status: "posted" }),
+            markPosted: async (): Promise<SocialDraftRecord> => ({
+                ...draftRecord(),
+                status: "posted",
+            }),
         },
-        createFollowUpIssue: overrides.createFollowUpIssue ?? (async () => "https://github.com/arndvs/cmd-private/issues/1"),
+        createFollowUpIssue:
+            overrides.createFollowUpIssue ??
+            (async () => "https://github.com/arndvs/cmd-private/issues/1"),
         draftApplication: overrides.draftApplication ?? (async () => ({ body: "cover note" })),
     };
     return { deps, current };
@@ -149,7 +162,9 @@ describe("dispatchJob — followup", () => {
 
         expect(result.alreadyDispatched).toBe(false);
         expect(result.issueUrl).toBe("https://github.com/arndvs/cmd-private/issues/1");
-        expect(current.value.followUpIssueUrl).toBe("https://github.com/arndvs/cmd-private/issues/1");
+        expect(current.value.followUpIssueUrl).toBe(
+            "https://github.com/arndvs/cmd-private/issues/1",
+        );
     });
 
     it("is idempotent when the job already has a follow-up issue", async () => {

@@ -1,7 +1,7 @@
 import {
+    type SocialDraftStatus,
     isSendable as contractIsSendable,
     isValidSocialDraftTransition,
-    type SocialDraftStatus,
 } from "@arndvs/contracts";
 
 import type { JobPostingRecord, JobStatus } from "./job-types";
