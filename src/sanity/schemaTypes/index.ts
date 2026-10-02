@@ -8,6 +8,7 @@ import { projectType } from "./documents/projectType";
 import { socialDraftType } from "./documents/socialDraftType";
 import { weeklyDigestType } from "./documents/weeklyDigestType";
 import { codeBlockType } from "./objects/codeBlockType";
+import { htmlEmbedType } from "./objects/htmlEmbedType";
 import { seoType } from "./objects/seoType";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -21,5 +22,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         projectType,
         seoType,
         codeBlockType,
+        htmlEmbedType,
     ],
 };

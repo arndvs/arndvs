@@ -34,6 +34,7 @@ export const codeBlockType = defineType({
                     { title: "GraphQL", value: "graphql" },
                     { title: "SQL", value: "sql" },
                     { title: "Python", value: "python" },
+                    { title: "Haskell", value: "haskell" },
                     { title: "Plain Text", value: "text" },
                 ],
             },
