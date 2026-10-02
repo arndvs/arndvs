@@ -14,6 +14,7 @@ const HIGHLIGHTABLE_LANGS = [
     "graphql",
     "sql",
     "python",
+    "haskell",
 ] as const satisfies readonly BundledLanguage[];
 
 export const HIGHLIGHTABLE_LANGUAGES: ReadonlySet<BundledLanguage> = new Set(HIGHLIGHTABLE_LANGS);

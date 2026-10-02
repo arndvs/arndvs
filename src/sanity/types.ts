@@ -18,6 +18,14 @@ import "@sanity/client";
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
+export type HtmlEmbed = {
+    _type: "htmlEmbed";
+    url: string;
+    title: string;
+    aspectRatio?: "4 / 5" | "1 / 1" | "16 / 9" | "3 / 2";
+    caption?: string;
+};
+
 export type CodeBlock = {
     _type: "codeBlock";
     code: string;
@@ -35,6 +43,7 @@ export type CodeBlock = {
         | "graphql"
         | "sql"
         | "python"
+        | "haskell"
         | "text";
     filename?: string;
 };
@@ -253,6 +262,38 @@ export type Slug = {
     source?: string;
 };
 
+export type SocialDraftReference = {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "socialDraft";
+};
+
+export type JobPosting = {
+    _id: string;
+    _type: "jobPosting";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string;
+    company?: string;
+    level?: string;
+    workType?: "on-site" | "hybrid" | "remote";
+    location?: string;
+    salary?: string;
+    url?: string;
+    dedupeKey?: string;
+    status: "discovered" | "saved" | "applied" | "skip" | "expired";
+    score?: number;
+    reasons?: Array<string>;
+    ageHours?: number;
+    easyApply?: boolean;
+    source?: string;
+    discoveredAt?: string;
+    followUpIssueUrl?: string;
+    applicationDraft?: SocialDraftReference;
+};
+
 export type SocialDraft = {
     _id: string;
     _type: "socialDraft";
@@ -266,6 +307,10 @@ export type SocialDraft = {
     editorNotes?: string;
     status: "draft" | "editing" | "ready" | "posted" | "skipped";
     sourceDigest?: WeeklyDigestReference;
+    sourceType?: "weeklyDigest" | "comment" | "job";
+    sourceDigestId?: string;
+    targetPerson?: string;
+    score?: number;
     generatedAt?: string;
     postedAt?: string;
 };
@@ -467,6 +512,9 @@ export type Post = {
         | ({
               _key: string;
           } & CodeBlock)
+        | ({
+              _key: string;
+          } & HtmlEmbed)
     >;
     categories?: Array<string>;
     seo?: Seo;
@@ -576,6 +624,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+    | HtmlEmbed
     | CodeBlock
     | SanityImageAssetReference
     | Seo
@@ -584,6 +633,8 @@ export type AllSanitySchemaTypes =
     | SanityImageCrop
     | SanityImageHotspot
     | Slug
+    | SocialDraftReference
+    | JobPosting
     | SocialDraft
     | DailyDigest
     | DailyDigestReference
@@ -679,6 +730,7 @@ export type POST_QUERY_RESULT = {
                   | "css"
                   | "graphql"
                   | "groq"
+                  | "haskell"
                   | "html"
                   | "javascript"
                   | "json"
@@ -690,6 +742,14 @@ export type POST_QUERY_RESULT = {
                   | "typescript"
                   | "yaml";
               filename?: string;
+          }
+        | {
+              _key: string;
+              _type: "htmlEmbed";
+              url: string;
+              title: string;
+              aspectRatio?: "1 / 1" | "16 / 9" | "3 / 2" | "4 / 5";
+              caption?: string;
           }
         | {
               asset: {

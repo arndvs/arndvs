@@ -138,6 +138,9 @@ export const postType = defineType({
                 defineArrayMember({
                     type: "codeBlock",
                 }),
+                defineArrayMember({
+                    type: "htmlEmbed",
+                }),
             ],
         }),
         defineField({
