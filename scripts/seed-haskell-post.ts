@@ -173,7 +173,7 @@ const body = [
     ),
 
     htmlEmbed(
-        "https://arndvs.github.io/haskell-to-typescript/",
+        "https://arndvs.github.io/ai-visuals/visuals/haskell-to-typescript/",
         "Haskell to TypeScript morph animation",
         "4 / 5",
         "Each Haskell token flies to its TypeScript twin. It's bubble sort the whole time.",
@@ -193,6 +193,11 @@ const body = [
     block(
         "normal",
         "This is AI-assisted animation: using a well-designed visual to make a complex idea comprehensible in seconds. The animation was written by Claude using the motion-graphics skill stack — HyperFrames for the MP4 render, GSAP and Remotion skill packs for motion reference, ffmpeg for post-work. The file itself is hand-built HTML/CSS/JS with zero dependencies, so it embeds anywhere.",
+    ),
+
+    block(
+        "normal",
+        "This visual is one output of a small hub I keep — a repo that houses the rules, tools, skills, and templates for making these visuals, with each visual as a folder of outputs. The point is that the next visual is faster to make: the machinery is already there, documented, and reusable.",
     ),
 
     block(
