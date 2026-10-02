@@ -183,6 +183,23 @@ const body = [
 
     codeBlock(TYPESCRIPT, "typescript", "explained.ts"),
 
+    block("h2", "The animation is the explanation"),
+
+    block(
+        "normal",
+        "The embed above is the point of this whole exercise. I didn't write a paragraph explaining the morph — I built an animation that does it. Each Haskell token flies to its TypeScript twin, the background shifts from purple to blue, and the banana tiles hop into aaabnn. You watched the idea become legible.",
+    ),
+
+    block(
+        "normal",
+        "This is AI-assisted animation: using a well-designed visual to make a complex idea comprehensible in seconds. The animation was written by Claude using the motion-graphics skill stack — HyperFrames for the MP4 render, GSAP and Remotion skill packs for motion reference, ffmpeg for post-work. The file itself is hand-built HTML/CSS/JS with zero dependencies, so it embeds anywhere.",
+    ),
+
+    block(
+        "normal",
+        "The bet is that when an idea is hard to hold in your head, a few seconds of well-designed motion can compress a page of reasoning into something you instantly get. The morph from Haskell to TypeScript is the \u201cexplainable on demand\u201d argument made visible — the animation is the explanation, not a decoration on top of it.",
+    ),
+
     block("h2", "Readable vs. explainable"),
 
     block(
@@ -243,7 +260,7 @@ const body = [
 
     block(
         "normal",
-        "Would you ship code your team can't read, as long as an AI can explain it? That's the question. I don't have a clean answer. But I know the guardrails are what make the question worth asking.",
+        "Would you ship code your team can't read, as long as an AI can explain it? That's the question. I don't have a clean answer. But I know the guardrails are what make the question worth asking — and the animation above is what makes the answer worth seeing.",
     ),
 ];
 
