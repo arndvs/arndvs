@@ -1,6 +1,6 @@
 /**
- * Seed script — saves the "Readable Code Was a Stand-in for Trust" LinkedIn
- * post as a socialDraft in Sanity.
+ * Seed script — saves the "The Human Doesn't Leave. We Stop Reading Every
+ * Line." LinkedIn post as a socialDraft in Sanity.
  *
  * Idempotent: skips if a socialDraft with this sourceDigestId exists.
  * Run: pnpm exec tsx scripts/seed-haskell-linkedin.ts

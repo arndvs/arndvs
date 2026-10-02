@@ -282,7 +282,7 @@ async function seed() {
     await client.createOrReplace({
         _id: POST_ID,
         _type: "post",
-        title: "Readable Code Was a Stand-in for Trust",
+        title: "The Human Doesn't Leave. We Stop Reading Every Line.",
         slug: { _type: "slug", current: SLUG },
         author: "Aaron Davis",
         publishedAt: "2026-10-02T12:00:00Z",
