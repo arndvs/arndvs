@@ -28,10 +28,10 @@ export function parseFrontmatter(source: string): {
     if (!match) return { data: {}, content: source };
 
     const data: Record<string, string | string[]> = {};
-    for (const line of match[1].split("\n")) {
+    for (const line of (match[1] ?? "").split("\n")) {
         const kv = line.match(/^(\w+):\s*(.*)$/);
         if (!kv) continue;
-        const [, key, raw] = kv;
+        const [, key = "", raw = ""] = kv;
         const value = raw.trim();
         if (value.startsWith("[") && value.endsWith("]")) {
             data[key] = value
@@ -68,18 +68,18 @@ export function markdownToPortableText(markdown: string, keyPrefix = "b"): Porta
             if (index > last) children.push(span(text.slice(last, index), []));
             if (m[1] !== undefined) children.push(span(m[1], ["strong"]));
             else if (m[2] !== undefined || m[3] !== undefined)
-                children.push(span(m[2] ?? m[3], ["em"]));
+                children.push(span(m[2] ?? m[3] ?? "", ["em"]));
             else if (m[4] !== undefined) children.push(span(m[4], ["code"]));
             else {
                 const linkKey = key("link");
-                const href = m[6];
+                const href = m[6] ?? "";
                 markDefs.push({
                     _type: "link",
                     _key: linkKey,
                     href,
                     ...(href.startsWith("http") ? { blank: true } : {}),
                 });
-                children.push(span(m[5], [linkKey]));
+                children.push(span(m[5] ?? "", [linkKey]));
             }
             last = index + m[0].length;
         }
@@ -113,13 +113,13 @@ export function markdownToPortableText(markdown: string, keyPrefix = "b"): Porta
     };
 
     for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
+        const line = lines[i] ?? "";
 
         const fence = line.match(/^```(\w+)?(?:\s+title="([^"]+)")?\s*$/);
         if (fence) {
             flush();
             const code: string[] = [];
-            while (++i < lines.length && !lines[i].startsWith("```")) code.push(lines[i]);
+            while (++i < lines.length && !lines[i]?.startsWith("```")) code.push(lines[i] ?? "");
             nodes.push({
                 _type: "codeBlock",
                 _key: key("code"),
@@ -133,7 +133,9 @@ export function markdownToPortableText(markdown: string, keyPrefix = "b"): Porta
         const embed = line.match(/^@embed\s+(.+)$/);
         if (embed) {
             flush();
-            const [url, title, aspectRatio, caption] = embed[1].split("|").map((p) => p.trim());
+            const [url, title, aspectRatio, caption] = (embed[1] ?? "")
+                .split("|")
+                .map((p) => p.trim());
             nodes.push({
                 _type: "htmlEmbed",
                 _key: key("embed"),
@@ -148,21 +150,21 @@ export function markdownToPortableText(markdown: string, keyPrefix = "b"): Porta
         const heading = line.match(/^(#{2,4})\s+(.+)$/);
         if (heading) {
             flush();
-            nodes.push(textBlock(`h${heading[1].length}`, heading[2]));
+            nodes.push(textBlock(`h${heading[1]?.length ?? 2}`, heading[2] ?? ""));
             continue;
         }
 
         const bullet = line.match(/^[-*]\s+(.+)$/);
         if (bullet) {
             flush();
-            nodes.push(textBlock("normal", bullet[1], { listItem: "bullet" }));
+            nodes.push(textBlock("normal", bullet[1] ?? "", { listItem: "bullet" }));
             continue;
         }
 
         const numbered = line.match(/^\d+\.\s+(.+)$/);
         if (numbered) {
             flush();
-            nodes.push(textBlock("normal", numbered[1], { listItem: "number" }));
+            nodes.push(textBlock("normal", numbered[1] ?? "", { listItem: "number" }));
             continue;
         }
 
