@@ -277,15 +277,15 @@ function buildBody(img: { journey: ImageRef; twoPaths: ImageRef }) {
             "15 to 20 seconds, muted, cut from walkthrough 3.",
         ),
         p(
-            "The second path is the nightly sync. A rake task exports the Rails tables and MERGEs them into a `RAILS_DEMO` schema in Snowflake, which the same CDI view reads. The **CDI preview** page at `/warehouse/cdi_preview` shows what Braze would receive for each user, including the nulls that clear a spent reward.",
+            "The second path is the warehouse. Every 10 minutes, a background job exports new and changed rows and MERGEs them into a `RAILS_DEMO` schema in Snowflake, which the same CDI view reads. The **CDI preview** page at `/warehouse/cdi_preview` shows what Braze would receive for each user, including the nulls that clear a spent reward.",
         ),
         image(
             img.twoPaths,
-            "Diagram of two paths from a saved payment to the Braze profile: in real time, a track job sends a purchase event to /users/track; nightly, an export MERGEs into Snowflake and the CDI view sends the unused reward as null.",
+            "Diagram of two paths from a saved payment to the Braze profile: in real time, a track job sends a purchase event to /users/track; every 10 minutes, an export MERGEs into Snowflake and the CDI view sends the unused reward as null.",
             "The event exits the Canvas. The sync clears the reward.",
         ),
         p(
-            "So there are two ways the fact reaches Braze: in real time through the event, and nightly through the warehouse. If the event never arrives, the next sync still clears the reward, and the message's own check stops the send because there's no unused reward left to promote.",
+            "So there are two ways the fact reaches Braze: in real time through the event, and every few minutes through the warehouse. If the event never arrives, the next sync still clears the reward, and the message's own check stops the send because there's no unused reward left to promote.",
         ),
         youtube(
             "ZBk5Az8jVrs",
@@ -308,7 +308,7 @@ function buildBody(img: { journey: ImageRef; twoPaths: ImageRef }) {
         li("number", "**The agent drafts** on a branch and opens a pull request."),
         li(
             "number",
-            "**CI decides.** The 180 Liquid tests, the 137 Rails tests and the 11 SQL checks all run. If one fails, the PR doesn't merge, no matter how good the diff looks.",
+            "**CI decides.** The 180 Liquid tests and the 137 Rails tests run on every pull request. If one fails, the PR doesn't merge, no matter how good the diff looks. The 11 SQL checks need a Snowflake account, so I run those by hand in a worksheet.",
         ),
         li(
             "number",
