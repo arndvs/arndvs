@@ -481,7 +481,8 @@ async function uploadImage(file: string): Promise<ImageRef> {
 }
 
 async function main() {
-    console.log("Uploading diagrams...");
+    console.log("Uploading images...");
+    const hero = await uploadImage("hero.png");
     const journey = await uploadImage("journey.png");
     const twoPaths = await uploadImage("two-paths.png");
 
@@ -498,8 +499,8 @@ async function main() {
         categories: ["Braze", "Lifecycle Marketing", "Snowflake", "Liquid", "Rails", "AI"],
         mainImage: {
             _type: "image",
-            asset: journey,
-            alt: "Flowchart of the first-reward Canvas, from a saved restaurant to a 4:30 PM push or email, a purchase check, and a Friday follow-up.",
+            asset: hero,
+            alt: "A phone lock screen at 4:30 on a Friday showing a push notification: Your $25 is waiting at Lantern Row. Beside it, the title The dinner inKind missed.",
         },
         seo: {
             _type: "seo",
