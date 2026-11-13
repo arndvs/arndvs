@@ -2,6 +2,8 @@ import { PortableText, type PortableTextReactComponents } from "next-sanity";
 import Image from "next/image";
 
 import type { SanityImageWithAlt } from "@/lib/types/sanity";
+import { cssAspectRatio } from "@/lib/utils/aspect-ratio";
+import { embedReferrerPolicy } from "@/lib/utils/embed-referrer-policy";
 import { slugify } from "@/lib/utils/extract-headings";
 import { highlightCode, isHighlightable } from "@/lib/utils/highlight-code";
 import { urlFor } from "@/sanity/lib/image";
@@ -114,7 +116,7 @@ function createComponents(
                     <figure className="my-8">
                         <div
                             className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950"
-                            style={{ aspectRatio: value.aspectRatio || "4 / 5" }}
+                            style={{ aspectRatio: cssAspectRatio(value.aspectRatio) }}
                         >
                             <iframe
                                 src={value.url}
@@ -122,7 +124,7 @@ function createComponents(
                                 className="h-full w-full"
                                 loading="lazy"
                                 sandbox="allow-scripts allow-same-origin"
-                                referrerPolicy="no-referrer"
+                                referrerPolicy={embedReferrerPolicy(value.url)}
                             />
                         </div>
                         {value.caption && (
