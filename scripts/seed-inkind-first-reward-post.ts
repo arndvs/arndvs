@@ -184,10 +184,10 @@ function buildBody(img: { journey: ImageRef; twoPaths: ImageRef }) {
             'The nearby-restaurants lookup is optional, so it\'s built to fail quietly. If the call fails or returns nothing, the email falls back to a "Find a spot near you" button instead of breaking.',
         ),
         p(
-            "The Liquid has 180 tests that run in CI. They render every block and message against fixture users: a saved restaurant, a saved ID missing from the Catalog, nothing saved, the recommendations call down, a $12.50 reward, long restaurant names that have to fit a push. One parity test makes sure the email and the push always make the same offer, because it's easy for a person or an agent to update one and forget the other. Another fails if any email loads an image from outside the repo.",
+            "The Liquid has 184 tests that run in CI. They render every block and message against fixture users: a saved restaurant, a saved ID missing from the Catalog, nothing saved, the recommendations call down, a $12.50 reward, long restaurant names that have to fit a push. One parity test makes sure the email and the push always make the same offer, because it's easy for a person or an agent to update one and forget the other. Another fails if any email loads an image from outside the repo.",
         ),
         todoClip(
-            "the 180 Liquid tests running and passing in the terminal",
+            "the 184 Liquid tests running and passing in the terminal",
             "10 to 15 seconds, muted. The green summary line is the point.",
         ),
 
@@ -292,7 +292,7 @@ function buildBody(img: { journey: ImageRef; twoPaths: ImageRef }) {
             "Walkthrough 3: a payment flowing from Rails to Snowflake",
             "Walkthrough 3 (4:30): a payment recorded once in the outbox, exported with a MERGE, and the reward going to null in the CDI preview. Record mode, nothing sent to Braze.",
         ),
-        p("The Rails app has 137 tests."),
+        p("The Rails app has 146 tests."),
 
         // ── How it was built ──
         h2("How it was built: agents draft, tests decide"),
@@ -308,7 +308,7 @@ function buildBody(img: { journey: ImageRef; twoPaths: ImageRef }) {
         li("number", "**The agent drafts** on a branch and opens a pull request."),
         li(
             "number",
-            "**CI decides.** The 180 Liquid tests and the 137 Rails tests run on every pull request. If one fails, the PR doesn't merge, no matter how good the diff looks. The 11 SQL checks need a Snowflake account, so I run those by hand in a worksheet.",
+            "**CI decides.** The 184 Liquid tests and the 146 Rails tests run on every pull request. If one fails, the PR doesn't merge, no matter how good the diff looks. The 11 SQL checks need a Snowflake account, so I run those by hand in a worksheet.",
         ),
         li(
             "number",
@@ -327,6 +327,27 @@ function buildBody(img: { journey: ImageRef; twoPaths: ImageRef }) {
         ),
         p(
             "That's the pattern I'd bring to campaign QA: let agents do the volume, and make the checks strict enough that a wrong change can't get through.",
+        ),
+
+        // ── One change, start to finish ──
+        h2("One change, start to finish: removing a saved restaurant"),
+        p(
+            "After the first version shipped, I ran a simple check against the design: everything a user can create, they should also be able to change or remove. Saved restaurants failed it. A user could save a place and never drop it, and the Braze profile had the same problem: `saved_restaurants` could only grow, so a message could keep naming a restaurant the user had given up on.",
+        ),
+        p(
+            "The fix went in one slice at a time, each starting with a failing test: the model writes a `restaurant_unsaved` event, the payload carries the remaining list, the delivery can be resent, and the console gets a Remove button. Nine new Rails tests and four new Liquid cases, which is where the 146 and 184 come from.",
+        ),
+        p("The tests and a walk through the flow found two problems the design hadn't covered:"),
+        li(
+            "bullet",
+            "**A queued job crashed after its record was removed.** If someone removed a save before its `restaurant_saved` job ran, the job couldn't find the record and raised. Now the job notices the record is gone and sends nothing. The removal's own event carries the current list, so nothing is lost.",
+        ),
+        li(
+            "bullet",
+            "**A removed restaurant could still be named.** A Canvas carries the restaurant from the save that started it, and it can sit in its 4:30 delay for hours. A failing test reproduced it, and now the message only uses that restaurant while the profile still lists it. The same rule went into the Content Block and the single-file message, so the parity test still holds.",
+        ),
+        p(
+            `One gap is still open, and it's on Braze's side: a Canvas doesn't exit when a restaurant is removed. That's a Canvas setting the repo can't configure, so it's written down in [docs/gaps.md](${REPO}/blob/main/docs/gaps.md) rather than papered over. The whole change, including the two places I broke a test file along the way, is in [docs/change-log.md](${REPO}/blob/main/docs/change-log.md).`,
         ),
 
         // ── Next ──
