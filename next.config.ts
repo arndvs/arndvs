@@ -3,15 +3,16 @@ import type { NextConfig } from "next";
 type Header = { key: string; value: string };
 
 function buildSecurityHeaders({
-    frameOptions = "DENY",
     permissionsPolicy = "camera=(), microphone=(), geolocation=()",
 }: {
-    frameOptions?: string;
     permissionsPolicy?: string;
 } = {}): Header[] {
     return [
         { key: "X-Content-Type-Options", value: "nosniff" },
-        { key: "X-Frame-Options", value: frameOptions },
+        // SAMEORIGIN, not DENY: the Studio's Presentation tool renders previewed
+        // pages in a same-origin iframe, and DENY blocks that outright. This still
+        // refuses any third-party framing, which is the clickjacking case.
+        { key: "X-Frame-Options", value: "SAMEORIGIN" },
         { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
         {
             key: "Strict-Transport-Security",
@@ -37,17 +38,13 @@ const nextConfig: NextConfig = {
     async headers() {
         return [
             {
-                source: "/studio/:path*",
-                headers: buildSecurityHeaders({ frameOptions: "SAMEORIGIN" }),
-            },
-            {
                 source: "/transcribe",
                 headers: buildSecurityHeaders({
                     permissionsPolicy: "camera=(), microphone=(self), geolocation=()",
                 }),
             },
             {
-                source: "/((?!studio|transcribe).*)",
+                source: "/((?!transcribe).*)",
                 headers: buildSecurityHeaders(),
             },
             {
