@@ -16,6 +16,9 @@ import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
 import { POST_QUERY, POST_SLUGS_QUERY } from "@/sanity/lib/queries";
 
+// Bounds how long a CDN copy can outlive a publish.
+export const revalidate = 300;
+
 type Params = Promise<{ slug: string }>;
 
 export async function generateStaticParams() {
