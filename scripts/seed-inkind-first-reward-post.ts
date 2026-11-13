@@ -500,7 +500,7 @@ async function main() {
         mainImage: {
             _type: "image",
             asset: hero,
-            alt: "A phone lock screen at 4:30 on a Friday showing a push notification: Your $25 is waiting at Lantern Row. Beside it, the title The dinner inKind missed.",
+            alt: "A phone showing a rich message sent Friday at 4:30 PM, with a photo of a fictional restaurant and the text: Your $25 is waiting at Lantern Row. Beside it, the title The dinner inKind missed.",
         },
         seo: {
             _type: "seo",
