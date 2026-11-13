@@ -404,16 +404,22 @@ function rich(text: string): { children: Span[]; markDefs: MarkDef[] } {
     const token = /\*\*(.+?)\*\*|`(.+?)`|\[(.+?)\]\((.+?)\)/g;
     let last = 0;
     for (const m of text.matchAll(token)) {
+        // noUncheckedIndexedAccess types destructured array elements as `string | undefined`,
+        // so each capture has to be narrowed before use.
+        const [matched, strong, code, linkText, href] = m;
         const at = m.index ?? 0;
         if (at > last) children.push(span(text.slice(last, at)));
-        if (m[1] !== undefined) children.push(span(m[1], ["strong"]));
-        else if (m[2] !== undefined) children.push(span(m[2], ["code"]));
-        else {
+        if (strong !== undefined) children.push(span(strong, ["strong"]));
+        else if (code !== undefined) children.push(span(code, ["code"]));
+        else if (linkText !== undefined && href !== undefined) {
             const linkKey = key("link");
-            markDefs.push({ _type: "link", _key: linkKey, href: m[4], blank: true });
-            children.push(span(m[3], [linkKey]));
+            markDefs.push({ _type: "link", _key: linkKey, href, blank: true });
+            children.push(span(linkText, [linkKey]));
+        } else {
+            // The alternation above should make this unreachable; fail loudly if it changes.
+            throw new Error(`rich(): unrecognised token ${JSON.stringify(matched)}`);
         }
-        last = at + m[0].length;
+        last = at + matched.length;
     }
     if (last < text.length) children.push(span(text.slice(last)));
     return { children, markDefs };
