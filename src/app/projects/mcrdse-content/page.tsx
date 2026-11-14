@@ -23,6 +23,14 @@ export const metadata: Metadata = generateSiteMetadata({
     description:
         "Case study: A content approval-and-shipping worker with content-hash approval locking, an educational community site with a branching archetype quiz, and a forward-looking AI-search (GEO) strategy.",
     path: "/projects/mcrdse-content",
+    images: [
+        {
+            url: "/og/mcrdse-content.jpg",
+            width: 1200,
+            height: 630,
+            alt: "MCRDSE Content — content operations platform",
+        },
+    ],
 });
 
 export default function MCRDSEContentPage() {

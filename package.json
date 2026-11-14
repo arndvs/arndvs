@@ -19,6 +19,7 @@
         "format:check": "prettier --check .",
         "verify": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm build",
         "seed:changelog": "pnpm exec tsx scripts/seed-changelog.ts",
+        "seed:post-heroes": "pnpm exec tsx scripts/upload-post-heroes.ts",
         "changelog:digest": "pnpm exec tsx scripts/generate-changelog-digest.ts",
         "linkedin:draft": "pnpm exec tsx scripts/generate-linkedin-draft.ts",
         "comment:scout": "pnpm exec tsx scripts/comment-scout.ts",

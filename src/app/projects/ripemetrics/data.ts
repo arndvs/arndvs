@@ -1,3 +1,5 @@
+import type { GalleryImage } from "@/lib/types/case-study";
+
 import type { DiagramKey } from "./diagrams";
 
 export interface HeaderData {
@@ -75,6 +77,8 @@ export interface PageData {
     technicalImplementation: { title: string; sections: TechSection[] };
     achievements: { title: string; items: Achievement[] };
     conclusion: ConclusionData;
+    heroImage: { src: string; alt: string };
+    gallery: GalleryImage[];
 }
 
 export const pageData: PageData = {
@@ -349,4 +353,50 @@ export const pageData: PageData = {
             secondary: { text: "View More Projects", href: "/projects" },
         },
     },
+    heroImage: {
+        src: "/projects/ripemetrics/marketing-campaigns-screenshot.jpg",
+        alt: "RipeMetrics Marketing Campaigns screen with the drag-and-drop email template editor",
+    },
+    gallery: [
+        {
+            src: "/projects/ripemetrics/ripe-engage.png",
+            alt: "RipeMetrics email editor with content blocks and text styling controls",
+            caption: "Engage — email editor with content blocks and per-block styling",
+        },
+        {
+            src: "/projects/ripemetrics/communication-theater-screenshot.jpg",
+            alt: "RipeMetrics Communication Theater inbox with a customer conversation",
+            caption: "Communication Theater — one inbox for direct message, email, and call",
+        },
+        {
+            src: "/projects/ripemetrics/communication-crm-ai-chatbot.png",
+            alt: "RipeMetrics Communication CRM showing a customer conversation with AI-written notes",
+            caption: "Communication CRM — customer conversations with AI-written notes",
+        },
+        {
+            src: "/projects/ripemetrics/ripe-crm.png",
+            alt: "RipeMetrics sales workflow board with leads grouped by stage",
+            caption: "CRM — sales workflow board by lead stage",
+        },
+        {
+            src: "/projects/ripemetrics/ripe-intel.png",
+            alt: "RipeMetrics customer retention cohort chart",
+            caption: "Intel — customer retention by cohort",
+        },
+        {
+            src: "/projects/ripemetrics/shopping-trends-screenshot.jpg",
+            alt: "RipeMetrics shopping trends dashboard with sales by channel",
+            caption: "Business Intelligence — shopping trends by sales channel",
+        },
+        {
+            src: "/projects/ripemetrics/summary-feedback-screenshot.jpg",
+            alt: "RipeMetrics customer feedback dashboard with NPS, product, and experience scores",
+            caption: "Customer Feedback — NPS, product, and experience scores",
+        },
+        {
+            src: "/projects/ripemetrics/product-performance.jpg",
+            alt: "RipeMetrics product performance dashboard",
+            caption: "Business Intelligence — product performance",
+        },
+    ],
 };

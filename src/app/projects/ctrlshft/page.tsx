@@ -23,6 +23,14 @@ export const metadata: Metadata = generateSiteMetadata({
     description:
         "Autonomous AI agent infrastructure — 50+ skills (including a 7-phase UX design process), 19 lifecycle hooks, compliance HUD, and secrets management from a single dotfiles repo. One git pull updates every machine.",
     path: "/projects/ctrlshft",
+    images: [
+        {
+            url: "/og/ctrlshft.jpg",
+            width: 1200,
+            height: 630,
+            alt: "ctrl+shft — AI agent infrastructure, open source",
+        },
+    ],
 });
 
 export default function CtrlShftPage() {

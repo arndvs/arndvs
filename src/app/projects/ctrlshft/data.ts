@@ -384,7 +384,13 @@ export const pageData: PageData<DiagramKey> = {
 
     gallery: [
         {
-            src: "/projects/ctrlshft/landing-page.png",
+            src: "/projects/ctrlshft/hud.jpg",
+            alt: "The ctrl+shft HUD showing compliance rate, loaded rules, active contexts, and a session log",
+            caption:
+                "HUD — compliance rate, loaded rules and skills, active contexts, and the session log, as shown on ctrlshft.dev",
+        },
+        {
+            src: "/projects/ctrlshft/landing-page.jpg",
             alt: "ctrlshft.dev — The landing page for ctrl+shft, a single-file HTML marketing site built with Tailwind CSS",
             caption:
                 "ctrlshft.dev — a ~1,500-line single-file marketing site covering system architecture, the autonomous pipeline, UX methodology, coding principles, security model, and the compliance HUD. Built as a portfolio-ready deliverable, not just documentation.",

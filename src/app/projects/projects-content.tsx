@@ -54,6 +54,7 @@ const projects = [
             { value: "128K+", label: "Lines of Code" },
         ],
         href: "/projects/ripemetrics",
+        thumbnail: "/projects/ripemetrics/marketing-campaigns-screenshot.jpg",
     },
     {
         id: "align-san-diego-family-chiropractic",
@@ -140,6 +141,7 @@ const projects = [
             { value: "6", label: "Legal Docs" },
         ],
         href: "/projects/rise-awake",
+        thumbnail: "/projects/rise-awake/rise-home.jpg",
         link: "https://riseawake.com",
     },
 ];
