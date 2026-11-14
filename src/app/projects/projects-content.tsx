@@ -13,6 +13,24 @@ import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
 const projects = [
     {
+        id: "inkind-first-reward-journey",
+        title: "First-Reward Journey",
+        category: "Lifecycle Marketing / Work Sample",
+        year: "2026",
+        role: "Solo: journey design, data contract, Liquid, Rails",
+        description:
+            "A Braze first-reward journey built end to end from one missed dinner: a Snowflake data contract, Liquid that stops itself when the data is wrong, and a Rails outbox. Fictional data, not affiliated with inKind.",
+        tags: ["Braze", "Liquid", "Snowflake", "Cloud Data Ingestion", "Rails", "pytest"],
+        stats: [
+            { value: "184", label: "Liquid Tests" },
+            { value: "146", label: "Rails Tests" },
+            { value: "11/11", label: "SQL Checks" },
+        ],
+        href: "/projects/inkind-first-reward-journey",
+        link: "https://github.com/arndvs/inkind-first-reward-journey",
+        thumbnail: "/projects/inkind-first-reward-journey/hero.jpg",
+    },
+    {
         id: "ctrlshft",
         title: "ctrl+shft",
         category: "AI Infrastructure / Developer Tools",
@@ -297,16 +315,35 @@ export default function ProjectsContent() {
                                             {/* External link */}
                                             {project.link && (
                                                 <div className="mt-6">
-                                                    <a
-                                                        href={project.link}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="text-muted-foreground hover:text-primary inline-flex items-center gap-2 text-sm transition-colors"
-                                                        onClick={(e) => e.stopPropagation()}
+                                                    {/* A span, not an anchor: this card is already inside a link, and nested anchors break hydration. */}
+                                                    <span
+                                                        role="link"
+                                                        tabIndex={0}
+                                                        className="text-muted-foreground hover:text-primary inline-flex cursor-pointer items-center gap-2 text-sm transition-colors"
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            window.open(
+                                                                project.link,
+                                                                "_blank",
+                                                                "noopener,noreferrer",
+                                                            );
+                                                        }}
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === "Enter") {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                window.open(
+                                                                    project.link,
+                                                                    "_blank",
+                                                                    "noopener,noreferrer",
+                                                                );
+                                                            }
+                                                        }}
                                                     >
                                                         <ExternalLink className="h-3 w-3" />
                                                         {project.link.replace(/^https?:\/\//, "")}
-                                                    </a>
+                                                    </span>
                                                 </div>
                                             )}
                                         </div>

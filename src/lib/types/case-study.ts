@@ -47,6 +47,13 @@ export interface DeepDive<TDiagramKey extends string = string> {
     };
     screenshotSrc?: string;
     screenshotAlt?: string;
+    /** Animated visual from the ai-visuals repo, shown in an iframe below the walkthrough. */
+    embed?: {
+        src: string;
+        title: string;
+        /** Width / height, e.g. 16 / 9. Defaults to 16 / 9. */
+        aspectRatio?: number;
+    };
 }
 
 export interface Decision {

@@ -44,12 +44,14 @@ Left off the site: seven 2022 React, Redux, and Next.js intro courses.
 
 ## ctrl+shft
 
-| Fact               | Value | Status             | Notes                                                                                                                         |
-| ------------------ | ----- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| Skills             | 50+   | Counted 2026-11-14 | The repo README says 56. 40 skill folders are in `skills/`; the rest are installed from the lock file. Retire 33, 37, and 43. |
-| Guardrail hooks    | 19    | Counted 2026-11-14 | 19 hook scripts in `hooks/`, not counting the shared library and experiments. Retire 8 and 16.                                |
-| Sub-agent personas | 6     | Counted 2026-11-14 | `agents/`                                                                                                                     |
-| Slash commands     | 16    | Counted 2026-11-14 | LinkedIn says 15.                                                                                                             |
+| Fact               | Value     | Status             | Notes                                                                                                                         |
+| ------------------ | --------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| Skills             | 50+       | Counted 2026-11-14 | The repo README says 56. 40 skill folders are in `skills/`; the rest are installed from the lock file. Retire 33, 37, and 43. |
+| Guardrail hooks    | 19        | Counted 2026-11-14 | 19 hook scripts in `hooks/`, not counting the shared library and experiments. Retire 8 and 16.                                |
+| Sub-agent personas | 6         | Counted 2026-11-14 | `agents/`                                                                                                                     |
+| Slash commands     | 16        | Counted 2026-11-14 | LinkedIn says 15.                                                                                                             |
+| Shell scripts      | 137       | Counted 2026-11-14 | About 22,700 lines. Retire 43 scripts and 5,900 lines.                                                                        |
+| Commits            | not shown | Open               | The site used to say 328. Not re-counted, so it was removed from the page.                                                    |
 
 ## AlignSD
 

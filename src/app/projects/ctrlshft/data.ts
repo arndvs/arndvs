@@ -10,7 +10,7 @@ export const pageData: PageData<DiagramKey> = {
             "Autonomous AI agent infrastructure — 50+ skills (including a complete 7-phase UX design process), 19 lifecycle hooks, a real-time compliance HUD, and hardened secrets from a single source of truth. One git pull updates everything. Agents load only what's relevant.",
         stats: [
             { label: "Skills", value: "50+" },
-            { label: "Shell Scripts", value: "43" },
+            { label: "Slash Commands", value: "16" },
             { label: "Lifecycle Hooks", value: "19" },
             { label: "Agent Personas", value: "6" },
             { label: "Framework Detections", value: "11" },
@@ -23,7 +23,7 @@ export const pageData: PageData<DiagramKey> = {
     situation: {
         narrative: [
             "Most AI coding setups are per-machine and per-session. You paste the same instructions into every chat. You rebuild context from scratch. Agents stall on tasks that should run unattended — and when they do run, they have access to every secret on the machine. There's no visibility into what rules they loaded, what files they read, or whether they followed instructions.",
-            "ctrl+shft fixes that. A single dotfiles repo configures VS Code Copilot, Claude Code, and an autonomous agent loop with progressive disclosure — agents see only instructions relevant to the current project. A three-tier security model ensures agents never access credentials. Lifecycle hooks mechanically block dangerous commands before they execute. A real-time compliance HUD tracks every rule load, file read, and session event. The pipeline takes a rough idea through Socratic interrogation, formal PRD, vertical-slice issue creation, and autonomous implementation — 43 skills chained from extraction through shipping, including a complete 7-phase UX design process encoded as executable AI skills.",
+            "ctrl+shft fixes that. A single dotfiles repo configures VS Code Copilot, Claude Code, and an autonomous agent loop with progressive disclosure — agents see only instructions relevant to the current project. A three-tier security model keeps credentials out of the agent's process: secrets are injected only into the command that needs them. Lifecycle hooks mechanically block dangerous commands before they execute. A real-time compliance HUD tracks every rule load, file read, and session event. The pipeline takes a rough idea through Socratic interrogation, formal PRD, vertical-slice issue creation, and autonomous implementation — 43 skills chained from extraction through shipping, including a complete 7-phase UX design process encoded as executable AI skills.",
         ],
         context: {
             role: "Solo Developer & Architect",
@@ -114,7 +114,7 @@ export const pageData: PageData<DiagramKey> = {
                 "shft/afk.sh chains this into an autonomous loop — pick an issue, assign it, implement, commit, close, repeat until the backlog is empty or max iterations hit. After each task, skills self-evaluate and update their own SKILL.md inline with lessons learned.",
             ],
             insight: {
-                title: "AFK/HITL Classification Is the Breakthrough",
+                title: "Labeling tasks as unattended or needs-a-human",
                 body: "Most AI agent systems are binary: fully manual or fully autonomous. Explicit classification of every task as AFK (agent ships alone) or HITL (human reviews) bridges the gap. It's honest about what AI can and can't do, making the autonomous loop trustworthy. The human reviews only what requires judgment — everything else ships while they sleep.",
             },
         },
@@ -132,7 +132,7 @@ export const pageData: PageData<DiagramKey> = {
                 "once.sh provides the HITL counterpart: same issue fetch and sanitization, but runs Claude with --permission-mode accept-edits instead of in Docker. You watch it work, approve edits in real time. Same prompt.md, same priority system — different trust boundary.",
             ],
             insight: {
-                title: "Docker + Max Iterations + Exit Signal = Trust",
+                title: "Three limits on the unattended loop",
                 body: "Three constraints make AFK safe. Docker sandbox isolates from host — the agent can't touch files outside the repo. Max iterations prevent runaway loops — even if the agent never says \"no more tasks,\" it stops after 5 cycles. The NO MORE TASKS exit signal means clean shutdown when the backlog is empty. And the prompt injection sanitization on issue content means malicious issue titles can't break the agent's XML context.",
             },
         },
@@ -150,7 +150,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Service-triggered instructions load conditionally on the task: working with Sentry loads sentry.instructions.md, CSS work loads css.instructions.md. Skills are auto-discovered via the ~/.claude/skills symlink that bootstrap.sh creates — Claude Code and VS Code Copilot both discover skills from this directory. No per-project configuration needed.",
             ],
             insight: {
-                title: "The cd() Hook Is the Entire Architecture",
+                title: "Everything hangs off the cd() hook",
                 body: "By hooking into cd, context detection is automatic every time you change directories. Never configure per-project. Agent knowledge adapts — Next.js project loads Next.js rules, PHP project loads PHP rules, new terminal in a different repo means instant context switch. The entire progressive disclosure system is triggered by a single shell function override.",
             },
         },
@@ -168,7 +168,7 @@ export const pageData: PageData<DiagramKey> = {
                 "validate-env.sh audits the entire posture: PYTHONUTF8 and GITHUB_USERNAME must be set, Claude deny rules must exist, and four keys — OPENAI_API_KEY, GITHUB_TOKEN, ANTHROPIC_API_KEY, GITHUB_PACKAGE_REGISTRY_TOKEN — must NOT be in the shell environment. Any hard fail means something leaked. bootstrap.sh also sets up supply chain protection: npm min-release-age=7 and uv exclude-newer prevent installing packages published less than 7 days ago.",
             ],
             insight: {
-                title: "Process-Scoped Injection Is the Key Innovation",
+                title: "Secrets are injected per process",
                 body: "Most secret management is about storing secrets safely. This system is about injecting them safely. run-with-secrets.sh sources credentials into a child process via exec — they exist only in that process and vanish on exit. The agent literally cannot access credentials because they're never in its environment. Combined with validate-env.sh that fails hard if any secret is found in the shell, the system is self-auditing.",
             },
         },
@@ -186,7 +186,7 @@ export const pageData: PageData<DiagramKey> = {
                 'Three adversarial pressure tests red-team the agent\'s discipline: Scenario 1 is $15k/minute production loss (follow process or skip to fix?), Scenario 2 is 8 hours of sunk cost plus exhaustion (stay systematic or try one more thing?), Scenario 3 is a senior engineer saying "just deploy the workaround." The correct answer is always follow the process. This is AI alignment testing applied to debugging methodology.',
             ],
             insight: {
-                title: "Pressure Tests Are Red-Team Alignment",
+                title: "Pressure tests check the agent holds the method",
                 body: "The three scenarios are designed to test whether the agent follows its own rules under realistic human pressure. Each presents follow-process, shortcut, and compromise options. It's the same idea as constitutional AI — but applied to engineering discipline instead of safety. If the agent can resist $15k/min pressure in a prompt, it'll resist the real temptation to skip root cause analysis.",
             },
         },
@@ -204,7 +204,7 @@ export const pageData: PageData<DiagramKey> = {
                 "ctrl hud exposes 11 subcommands: start/stop/restart the daemon, open the dashboard, tail the event stream, show status, query events by type or time range, and reset the database. The entire observability stack is managed through one CLI entry point.",
             ],
             insight: {
-                title: "Observability Creates Trust",
+                title: "Seeing what the agent loaded",
                 body: "Before the HUD, running afk.sh required faith — set it running, check back later, hope for the best. With real-time visibility into rule loads, file reads, and compliance rate, trust is earned through evidence. You can watch an agent's session unfold in real time and intervene if compliance drops. The HUD doesn't make agents safer — it makes their safety verifiable.",
             },
         },
@@ -222,7 +222,7 @@ export const pageData: PageData<DiagramKey> = {
                 "compaction-guard.sh prevents automatic context compaction — when an agent hits ~95% context usage, it blocks auto-compaction and forces the handoff protocol: write a plan to working/, provide a pickup command, and stop. This prevents the silent context loss that makes agents repeat mistakes or lose critical decisions.",
             ],
             insight: {
-                title: "Mechanical Enforcement Beats Cultural Enforcement",
+                title: "Hooks block commands that instructions only discourage",
                 body: "The difference between a rule and a hook is the same as speed limits versus guardrails. One is aspirational, the other is physical. secret-guard.sh doesn't ask the agent not to leak secrets — it blocks the command with a non-zero exit code. migration-guard.sh doesn't trust the agent to check the database URL — it inspects it mechanically. Every safety constraint worth having should be a hook, not a rule.",
             },
         },
@@ -240,7 +240,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Each phase is a standalone skill that can be invoked independently or chained. The agent reads the output of each phase as input to the next. The entire methodology lives in SKILL.md files — no external tools, no Figma dependency, no design system required. An AI agent can run the complete process from user stories through tested wireframes.",
             ],
             insight: {
-                title: "Design Thinking as Code",
+                title: "A design process written as skills",
                 body: "Most AI coding tools skip design entirely — they go straight from a prompt to implementation. ctrl+shft treats UX design as a first-class engineering discipline by encoding a complete methodology as executable skills. The agent doesn't just implement screens — it identifies user goals, maps entity relationships, derives screen requirements, and validates designs against user stories before a single line of code is written.",
             },
         },
@@ -258,7 +258,7 @@ export const pageData: PageData<DiagramKey> = {
                 'Goal-Driven Execution transforms vague asks into verifiable outcomes. "Add validation" becomes "write tests for invalid inputs, then make them pass." "Fix the bug" becomes "write a test that reproduces it, then make it pass." Strong success criteria let the agent loop independently; weak criteria require constant clarification.',
             ],
             insight: {
-                title: "Derived from Karpathy, Refined Through Practice",
+                title: "Where the four rules came from",
                 body: "These four principles started as observations from Andrej Karpathy on LLM coding pitfalls and were adapted into enforceable rules through hundreds of agent sessions. They bias toward caution over speed — and that's the point. The most expensive debugging session is the one caused by an agent that confidently built the wrong thing. For trivial tasks, the agent uses judgment. For everything else, the principles gate every decision.",
             },
         },
@@ -346,23 +346,23 @@ export const pageData: PageData<DiagramKey> = {
 
     learnings: [
         {
-            title: "Skills That Learn From Their Own Mistakes",
+            title: "Skills record their own failures",
             body: "After completing any task where a skill was loaded, the agent self-evaluates: did anything go wrong, require a workaround, or behave differently than documented? If yes, it updates the SKILL.md inline — not in a separate section, but right where the fix belongs. The fix persists for every future invocation. This is a Kaizen loop — continuous improvement baked into the execution cycle.",
         },
         {
-            title: "The ctrl+shft Naming Is Architecture",
+            title: "The name maps to the two halves",
             body: "ctrl is the rules — instructions, skills, configuration. shft is the worker — the autonomous loop that consumes issues. The keyboard metaphor communicates the entire system in two words: ctrl sets the context, shft does the work. Every developer already has the mental model.",
         },
         {
-            title: "Supply Chain Security Is a Bootstrap Concern",
+            title: "Supply chain checks belong in bootstrap",
             body: "npm min-release-age=7 and uv exclude-newer prevent installing packages published less than 7 days ago. This isn't a feature you add later — it's wired into bootstrap.sh so every machine is protected from the first git pull. One idempotent command and the machine won't install compromised packages.",
         },
         {
-            title: "Observability Changes How You Trust Agents",
+            title: "The HUD changed how much I let agents run",
             body: "Before the HUD, running afk.sh was an act of faith — start the loop, walk away, check back later. With real-time compliance tracking, trust shifted from hope to evidence. Watching an agent's rule loads and file reads in real time revealed patterns: certain projects triggered more instruction loads, some skills were loaded but never used. The data improved both the system and the workflow.",
         },
         {
-            title: "Mechanical Enforcement Is the Only Enforcement",
+            title: "Rules an agent can ignore get ignored",
             body: "Every time a safety rule was expressed as an instruction ('don't access production databases'), it eventually failed under edge cases. Every time it was expressed as a hook (migration-guard.sh exits non-zero for non-test URLs), it never failed. The lesson generalized: if a constraint matters, express it as code that blocks, not text that advises.",
         },
     ],
@@ -370,15 +370,15 @@ export const pageData: PageData<DiagramKey> = {
     metrics: {
         hero: [
             { value: 50, label: "Skills", suffix: "+" },
-            { value: 43, label: "Shell Scripts" },
-            { value: 5900, label: "Lines of Shell", suffix: "+" },
-            { value: 328, label: "Commits" },
+            { value: 19, label: "Lifecycle Hooks" },
+            { value: 16, label: "Slash Commands" },
+            { value: 6, label: "Agent Personas" },
         ],
         supporting: [
-            { value: 11, label: "Instructions" },
-            { value: 19, label: "Lifecycle Hooks" },
-            { value: 6, label: "Agent Personas" },
-            { value: 12, label: "Lines of Source", suffix: "K+" },
+            { value: 137, label: "Shell Scripts" },
+            { value: 22, label: "Lines of Shell", suffix: "K+" },
+            { value: 3, label: "Agent Consumers" },
+            { value: 7, label: "UX Design Phases" },
         ],
     },
 

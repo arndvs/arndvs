@@ -91,7 +91,7 @@ const proofProjects = [
         title: "First-Reward Journey",
         description:
             "A Braze journey built end to end from one missed dinner: a Snowflake data contract, Liquid that aborts when the data is wrong, and a Rails outbox. Fictional data, not affiliated with inKind.",
-        href: "/blog/inkind-first-reward-journey",
+        href: "/projects/inkind-first-reward-journey",
     },
     {
         tag: "AI Agent Infrastructure · Open Source",

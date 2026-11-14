@@ -98,7 +98,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Media-bearing Zernio drafts send approved versions with per-slide HMAC-signed R2 URLs (1-hour expiry), so downstream tools can fetch media without exposing the rest of the app.",
             ],
             insight: {
-                title: "Approval Is a Fingerprint, Not a Flag",
+                title: "Approval is tied to a content hash",
                 body: "Treating 'approved' as a cryptographic fingerprint of the exact artifact set — rather than a boolean — means any drift is detected at ship time instead of trusted blindly. The hash is the source of truth for what was actually reviewed. This is the difference between an approval system that catches mistakes and one that ships them.",
             },
         },
@@ -116,7 +116,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Gated lead-magnet PDFs (7 archetype guidebooks) are content-addressable with aggressive immutable caching, and doubly excluded from search via robots.txt + X-Robots-Tag: noindex, nofollow.",
             ],
             insight: {
-                title: "Design for the AI Crawler, Not Just Google",
+                title: "Pages written for AI crawlers as well as Google",
                 body: "The Content-Signal protocol is a deliberate bet: allow AI systems to read and cite your content, refuse to be training data. Combined with rich Person/BlogPosting/speakable schema, the site is structured to be the answer an AI assistant cites. This is a forward-looking distribution channel that most sites haven't started thinking about.",
             },
         },
@@ -135,7 +135,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Result pages render a 16personalities-style identity narrative with a curated content map per archetype, driven by the archetype-content-map.",
             ],
             insight: {
-                title: "Pure Logic, Decoupled UI",
+                title: "Scoring logic kept apart from the UI",
                 body: "By keeping the quiz engine a pure, DB-free state machine, the branching logic is trivially unit-testable and the UI is a thin rendering layer. The 'unsure' escape hatch and non-blocking submit mean a user is never trapped or blocked — the quiz always resolves to useful content. This is the pattern for any complex interactive flow: logic first, UI second.",
             },
         },
@@ -188,23 +188,23 @@ export const pageData: PageData<DiagramKey> = {
 
     learnings: [
         {
-            title: "Hash the Artifact, Not the Intent",
+            title: "Hash the content that was approved",
             body: "The approval system's power comes from hashing the exact copy, slides, and ZIP — not a status field. Any drift is caught at ship time. When correctness matters, bind state to the actual data, not to a flag that can go stale.",
         },
         {
-            title: "Feature-Gate Paid Integrations",
+            title: "Paid integrations sit behind feature flags",
             body: "Zernio is fully built but hidden behind a single var until the paid account is provisioned. This lets the code ship without the dependency and avoids a broken integration in production. Gate first, enable when ready.",
         },
         {
-            title: "Pure Logic Is Testable Logic",
+            title: "Pure functions made the quiz testable",
             body: "The quiz engine and the approval hashing are pure functions with no I/O. That makes the hardest logic trivially unit-testable and lets the orchestration around it be refactored freely. The financial and correctness cores should always be pure.",
         },
         {
-            title: "Idempotency for External Integrations",
+            title: "External calls are safe to retry",
             body: "Every external call (Zernio, Linear, Drive) has an abort timeout, an idempotency key, and a failure path that bounces state back rather than leaving it stuck. External systems fail; the design must make failure recoverable, not fatal.",
         },
         {
-            title: "Design for the AI Crawler",
+            title: "What AI crawlers needed from the pages",
             body: "The Content-Signal protocol and rich Person/BlogPosting/speakable schema are a deliberate bet on AI-search citation. Most sites optimize only for Google; structuring content for AI assistants is a compounding early-mover advantage.",
         },
     ],
@@ -244,7 +244,7 @@ export const pageData: PageData<DiagramKey> = {
     ],
 
     cta: {
-        text: "Interested in what I could build for your business? I'm currently taking on full-stack web development and content-operations projects. Read the full technical deep-dive on how I built this system.",
+        text: "This is one half of my work for MCRDSE. The other half is the commerce and lifecycle system. I'm looking for applied AI, full-stack, and marketing automation roles.",
         buttons: [
             { text: "Get in Touch", href: "/#contact", variant: "default" },
             { text: "View More Projects", href: "/projects", variant: "outline" },
