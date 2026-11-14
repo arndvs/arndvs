@@ -114,6 +114,10 @@ export const pageData: PageData<DiagramKey> = {
                 "The push and the email use the same logic blocks, and a parity test checks that both make the same offer. The repo has 184 Liquid tests covering blocks, messages, parity, nesting, and golden cards.",
                 "I loaded the blocks into a Braze trial by hand and previewed them against test users: the $25 user, a $12.50 user, and a zero-reward user that aborts with its reason. Preview only, nothing was sent.",
             ],
+            embed: {
+                src: "/visuals/inkind-message-logic/index.html?embed=1",
+                title: "Animation: the message checks the reward and aborts when the amount is zero",
+            },
             insight: {
                 title: "The copy always states the minimum",
                 body: "Copy that hides the minimum spend reads better and performs worse at checkout. A missing minimum aborts the send instead of sending a message that can't be honored.",

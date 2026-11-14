@@ -117,6 +117,10 @@ export const pageData: PageData<DiagramKey> = {
                 "Proof uploads are strictly validated as base64 JPEG (rejecting any other MIME prefix as malicious) and capped at 6 MB, stored in R2. Auto-verify only fires for a whitelisted subset of methods.",
                 "The webhook handler verifies the Authorize.net signature on every delivery, records each delivery to Analytics Engine for observability, and routes through the fail-closed gate before any fulfillment side-effect.",
             ],
+            embed: {
+                src: "/visuals/mcrdse-payment-gate/index.html?embed=1",
+                title: "Animation: a declined order stops at the payment gate",
+            },
             insight: {
                 title: "Ship only on an explicit paid status",
                 body: "A blocklist is a list of everything you've thought of so far. An allow-list is a statement of what's actually safe. For anything that ships physical product or fires customer-facing messages, the allow-list is the only correct default — it fails closed on the unknown instead of shipping on it. The $381 incident was the tuition that taught this lesson, and it's now a structural invariant, not a patch.",

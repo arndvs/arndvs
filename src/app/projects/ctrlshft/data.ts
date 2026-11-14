@@ -221,6 +221,10 @@ export const pageData: PageData<DiagramKey> = {
                 "format-check.sh and typecheck.sh are post-session hooks. When an agent session ends, format-check runs Biome/Prettier/ESLint on modified files and auto-formats them. typecheck runs tsc --noEmit and blocks until types pass. The agent can't ship code that doesn't compile.",
                 "compaction-guard.sh prevents automatic context compaction — when an agent hits ~95% context usage, it blocks auto-compaction and forces the handoff protocol: write a plan to working/, provide a pickup command, and stop. This prevents the silent context loss that makes agents repeat mistakes or lose critical decisions.",
             ],
+            embed: {
+                src: "/visuals/ctrlshft-migration-guard/index.html?embed=1",
+                title: "Animation: a hook blocks a migration that does not target a test database",
+            },
             insight: {
                 title: "Hooks block commands that instructions only discourage",
                 body: "The difference between a rule and a hook is the same as speed limits versus guardrails. One is aspirational, the other is physical. secret-guard.sh doesn't ask the agent not to leak secrets — it blocks the command with a non-zero exit code. migration-guard.sh doesn't trust the agent to check the database URL — it inspects it mechanically. Every safety constraint worth having should be a hook, not a rule.",

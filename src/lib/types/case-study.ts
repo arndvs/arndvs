@@ -47,12 +47,10 @@ export interface DeepDive<TDiagramKey extends string = string> {
     };
     screenshotSrc?: string;
     screenshotAlt?: string;
-    /** Animated visual from the ai-visuals repo, shown in an iframe below the walkthrough. */
+    /** Animated visual from the ai-visuals repo, shown in an iframe below the walkthrough: 4:5 on phones, 16:9 from the sm breakpoint up. */
     embed?: {
         src: string;
         title: string;
-        /** Width / height, e.g. 16 / 9. Defaults to 16 / 9. */
-        aspectRatio?: number;
     };
 }
 

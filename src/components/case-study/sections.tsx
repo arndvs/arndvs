@@ -384,8 +384,7 @@ export function createCaseStudySections(config: CaseStudyConfig) {
                 {data.embed && (
                     <motion.div
                         variants={itemVariants}
-                        className="mt-8 overflow-hidden rounded-lg border"
-                        style={{ aspectRatio: data.embed.aspectRatio ?? 16 / 9 }}
+                        className="mt-8 aspect-[4/5] overflow-hidden rounded-lg border sm:aspect-video"
                     >
                         <iframe
                             src={data.embed.src}
