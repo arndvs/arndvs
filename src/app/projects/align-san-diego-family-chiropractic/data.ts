@@ -91,7 +91,7 @@ export const pageData: PageData<DiagramKey> = {
         {
             id: "insurance-verification",
             title: "Insurance Verification",
-            subtitle: "Orchestrating 7 Services in 60 Seconds",
+            subtitle: "Seven Services Behind One Patient Form",
             problem:
                 'Patients called the front desk to verify insurance coverage — and often got no answer because the office was closed. A Thursday voicemail was the worst case: it stacked three separate "wait until next business day" delays before anything useful happened. When the front desk did pick up, each inquiry consumed 15-20 minutes of staff time, then required a manual handoff to the biller, who had her own 1-2 day processing queue. Total time from patient call to verified result: up to 7 days, 4 handoffs, and zero visibility for the patient in between. The practice needed a self-service flow that collapsed this entire chain into a single automated loop — collecting patient data, verifying insurance documents with AI, creating a CRM contact, sending confirmation emails, and notifying staff — all without the patient picking up the phone.',
             beforeDiagramKey: "insuranceVerificationBefore",
@@ -105,7 +105,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Downstream orchestration runs in parallel: CRM contact creation in GoHighLevel with deduplication by email, 4 separate emails (patient confirmation, staff notification, bizops summary, failure alerts), and a Slack notification — all wrapped in a 60-second maxDuration API route. Each of the 7 services fails independently, so a flaky CRM call doesn't leave a patient wondering if their insurance was received.",
             ],
             insight: {
-                title: "Partial Success > Total Rollback",
+                title: "Keep what succeeded when one step fails",
                 body: "The hardest part of multi-service orchestration isn't calling the APIs — it's deciding what happens when service #4 of 7 fails at 2am on a Saturday. I built each downstream call to be independently failable: if GoHighLevel has an outage, the patient still gets their confirmation email and staff still gets the Slack notification. For a non-transactional flow like insurance verification, partial success is always better than total rollback — the patient needs to know their submission was received, even if one backend system is degraded.",
             },
             screenshotSrc: "/projects/alignsd/start-here-hero.png",
@@ -114,7 +114,7 @@ export const pageData: PageData<DiagramKey> = {
         {
             id: "json-ld-composer",
             title: "JSON-LD @graph Composer",
-            subtitle: "81 Files That Google Actually Reads",
+            subtitle: "One Schema Graph Per Page",
             problem:
                 "Healthcare SEO depends heavily on structured data — Google uses it to display rich results, verify medical authority (E-E-A-T), and understand service areas. Most sites inline a single JSON-LD block per page. AlignSD needed 25+ Schema.org types (Organization, Physician, MedicalOrganization, FAQPage, etc.) composed dynamically per page, with medical codes (ICD-10, SNOMED-CT) attached to condition pages.",
             diagramKey: "jsonldComposer",
@@ -125,7 +125,7 @@ export const pageData: PageData<DiagramKey> = {
                 "The test suite validates every schema against Schema.org spec before deployment. Adding a new page type means adding a builder — the schemas, elements, and composer layers are untouched.",
             ],
             insight: {
-                title: "The Abstraction That Pays For Itself",
+                title: "One composer for every schema",
                 body: 'The composable architecture cost ~3x more upfront time than inlining JSON-LD per page. It paid for itself the first time the client added a new service category: zero frontend changes, the builder + composer automatically generated the right structured data from the Sanity schema. The abstraction boundary is "what data exists" (Sanity) vs. "what Google needs to see" (JSON-LD) — and those two things should never be coupled.',
             },
             screenshotSrc: "/projects/alignsd/services-categories.png",
@@ -144,7 +144,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Internal linking is bidirectional: area pages link to service pages, service pages link back to relevant areas. This creates a dense internal link graph that distributes authority across the entire programmatic SEO layer.",
             ],
             insight: {
-                title: "Content That Proves You Know the Neighborhood",
+                title: "Area pages need local detail",
                 body: 'The tabbed local guide (Parks, Health, Food, Landmarks) is what differentiates this from a content farm. Each tab contains hand-curated places with addresses and Google Maps links. This is the kind of content Google rewards — it\'s genuinely useful to someone searching "chiropractor near Mission Valley" because it proves the business actually knows the neighborhood. The CMS schema stores these as structured Sanity documents so the client can update them without touching code.',
             },
             screenshotSrc: "/projects/alignsd/services-hero.png",
@@ -159,7 +159,7 @@ export const pageData: PageData<DiagramKey> = {
             diagramKey: "spamPrevention",
             walkthrough: [
                 "Layer 1 — Honeypot (client-side, free): Three invisible traps. A hidden text field (bots fill it; humans don't see it). A timing check (submissions faster than 3 seconds = bot). A hidden checkbox (bots check everything; humans never see it). Any trigger = silent rejection with a fake success response + spam alert email to staff. The silent rejection is critical — returning an error tells the bot it was caught, so it adapts.",
-                "Layer 2 — Rate Limiter (server-side, cheap): In-memory store tracking submissions per IP per configurable time window. Different form types get different limits — insurance verification allows 2 per 24 hours, contact forms allow 5 per hour. Exceeding the limit returns 429. No database dependency — survives cold starts.",
+                "Layer 2 — Rate Limiter (server-side, cheap): In-memory store tracking submissions per IP per configurable time window. Different form types get different limits — insurance verification allows 2 per 24 hours, contact forms allow 5 per hour. Exceeding the limit returns 429. There is no database dependency. The trade-off is that the counters live in one server instance and reset on a cold start, so this layer slows casual abuse and the layers after it do the rest.",
                 "Layer 3 — IPHub Proxy/VPN Detection (external API): Checks the IP against IPHub's database of proxies, VPNs, and datacenter IPs. Apple Private Relay is explicitly whitelisted — blocking it would reject legitimate iPhone users. A chiropractor in San Diego doesn't need insurance verifications from a Russian datacenter.",
                 "Layer 4 — Geo-Blocking (configurable): Form submissions restricted to US IPs. Configurable per form type — the newsletter might accept international signups, but insurance verification is US-only. The geographic constraint is a business rule, not just a security measure.",
                 "Layer 5 — Manual IP Blocklist (CIDR ranges): A static blocklist with CIDR range support for persistent bad actors. When layers 1-4 don't catch a sophisticated attacker, the IP range gets added manually. CIDR support means blocking an entire subnet rather than playing whack-a-mole with individual IPs.",
@@ -168,7 +168,7 @@ export const pageData: PageData<DiagramKey> = {
                 "The layers are ordered by cost: honeypot is free (client-side), rate limiting is cheap (in-memory), and each subsequent layer adds cost. AI spam detection — the most expensive — only runs on the tiny fraction of submissions that passed everything else.",
             ],
             insight: {
-                title: "Defense in Depth Is an Economic Decision",
+                title: "Cheap checks run first",
                 body: "The 7 layers aren't redundant — they're ordered by cost. Layer 1 (honeypot) is free and catches 90% of bots. Layer 2 (rate limiter) is cheap and catches brute force. Layers 3-4 (IPHub + geo) cost one API call. Layers 5-6 (blocklist + email) are lookups. Layer 7 (AI) costs an OpenAI call — but it only fires on the <1% of submissions that passed everything else. The architecture means you spend almost nothing on the spam you catch, and almost everything on the spam that's genuinely hard to detect.",
             },
             screenshotSrc: "/projects/alignsd/contact-page.png",
@@ -188,7 +188,7 @@ export const pageData: PageData<DiagramKey> = {
                 "If OpenAI fails or returns invalid data, a fallback system truncates the content into basic SEO metadata with aiEnhancementStatus: 'failed' and aiMetadata.fallbackUsed: true. The editor always sees results \u2014 the pipeline self-heals rather than blocking the publish flow.",
             ],
             insight: {
-                title: "Constrain the Model, Trust the Output",
+                title: "Constrain the model with a schema",
                 body: "The biggest lesson from building AI integrations: structured output + Zod validation + reference-only category selection eliminates the three most common failure modes (hallucinated fields, type mismatches, broken references). The AI never invents a category name \u2014 it picks from what exists. This makes the output trustworthy enough to patch the document automatically without human review.",
             },
             screenshotSrc: "/projects/alignsd/services-categories.png",
@@ -208,16 +208,34 @@ export const pageData: PageData<DiagramKey> = {
                 "Every email trigger is traceable: Sentry captures send failures, Slack receives alerts for blocked or spam submissions, and the bizops summary email gives the practice owner a daily digest of patient interactions.",
             ],
             insight: {
-                title: "Email Is Infrastructure, Not an Afterthought",
+                title: "Emails as versioned components",
                 body: "Most projects treat email as a last-mile hack \u2014 hardcoded HTML strings or drag-and-drop builder templates that nobody version-controls. Building emails as React components with a shared component library turned email into maintainable infrastructure. The practice updated their brand colors once, and 27 templates updated in the same deploy. That's the ROI of treating email as code.",
             },
             screenshotSrc: "/projects/alignsd/start-here-wellness-system.png",
             screenshotAlt: "AlignSD multi-step form triggering email automation",
         },
         {
+            id: "lead-to-crm",
+            title: "Lead Capture to CRM",
+            subtitle: "Six Form Types, One Webhook, One Contact Record",
+            problem:
+                "The site has six kinds of form: contact, newsletter, lead magnet, event submission, career application, and insurance verification. Each one used to be its own path into the CRM. The same parent could end up as three contacts, and the follow-up sequence that fired depended on which form they happened to fill in last.",
+            diagramKey: "leadToCrm",
+            walkthrough: [
+                "Every form posts to one webhook route. The route validates the payload against a schema for that form type, sets an urgency (contact, career, and insurance are high; events and lead magnets are medium; newsletter is low), and builds one contact payload.",
+                "Before writing to GoHighLevel, the contact is looked up by email, then by phone. A match is updated, not duplicated. If GoHighLevel rejects the update as a duplicate anyway, a smaller update goes through with tags and custom fields only, leaving the identifier fields alone.",
+                "Tags are added and never overwritten. A parent who downloaded a lead magnet in March and verified insurance in June carries both tags, so the contact record shows the path they took. GoHighLevel workflows start from those tags.",
+                "The CRM write and the Slack notification report success separately. If the CRM write fails, the staff still get the Slack message and a failure alert goes out with the form type and the failure type, so a lead is not lost because one service was down.",
+            ],
+            insight: {
+                title: "Add tags, never replace them",
+                body: "The tag list is the only history the CRM has of what a person did on the site. Overwriting it on each submission would have erased the earlier steps, and every sequence downstream is triggered from those tags.",
+            },
+        },
+        {
             id: "event-approval-workflow",
             title: "Event Approval Workflow",
-            subtitle: "From Draft to Google in Under 60 Seconds",
+            subtitle: "From Draft to Indexed Without a Developer",
             problem:
                 "The practice hosts weekly community events — workshops, health fairs, kids' spine checks. Each event needed a page with SEO metadata, JSON-LD Event schema, and search engine indexing. The old workflow: the client emailed event details, the developer manually created a page, deployed, and submitted to Google Search Console. Turnaround: 2-3 business days. The practice needed same-day publishing with zero developer involvement.",
             diagramKey: "eventApprovalWorkflow",
@@ -228,7 +246,7 @@ export const pageData: PageData<DiagramKey> = {
                 "The cascade means the client can publish a Saturday workshop on Thursday afternoon and have it indexed by Friday morning — without touching code, without waiting for a developer, without manually submitting URLs to search engines.",
             ],
             insight: {
-                title: "The CMS Is the Workflow Engine",
+                title: "The CMS runs the approval workflow",
                 body: "Most headless CMS implementations treat the CMS as a data store. This system treats Sanity as a workflow engine — validation rules enforce content quality, document actions add AI capabilities, and webhooks trigger the entire post-publish pipeline. The developer is removed from the content lifecycle entirely, which is the whole point of a CMS.",
             },
             screenshotSrc: "/projects/alignsd/services-categories.png",
@@ -248,7 +266,7 @@ export const pageData: PageData<DiagramKey> = {
                 "The entire pipeline — webhook receipt, cache invalidation, related page cascade, IndexNow submission — completes in under 2 seconds. The client publishes in Sanity Studio, and the live site reflects the change on the next page load.",
             ],
             insight: {
-                title: "Proactive > Reactive for Small Sites",
+                title: "Telling search engines instead of waiting",
                 body: "Big sites get crawled constantly — Google visits nytimes.com thousands of times per day. A chiropractor's website might get crawled once a week. IndexNow flips the model: instead of waiting to be discovered, the site announces changes. Combined with on-demand revalidation (no stale content, no wasted rebuilds), this gives a small business site the indexing speed of a major publisher.",
             },
             screenshotSrc: "/projects/alignsd/services-hero.png",
@@ -268,7 +286,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Focus management is explicit: modal dialogs trap focus, the mobile navigation menu returns focus to the trigger on close, and skip-to-content links bypass the navigation for keyboard users. ARIA landmarks and live regions ensure screen readers can navigate the programmatic SEO pages (which have complex tabbed interfaces) without getting lost.",
             ],
             insight: {
-                title: "The Server Render Is the Accessibility Layer",
+                title: "The server render works without motion",
                 body: "The best accessibility decision was architectural: React Server Components as the default, 'use client' only for interactive islands. This means the fully accessible, semantic HTML version of every page ships by default. Animations, shaders, and interactive features are enhancements layered on top — if they fail to load or the user opts out, the page still works. You can't bolt accessibility onto a client-rendered SPA; you have to start with the server.",
             },
             screenshotSrc: "/projects/alignsd/hero-webgl-shader.png",
@@ -350,23 +368,23 @@ export const pageData: PageData<DiagramKey> = {
 
     learnings: [
         {
-            title: "Partial Success > Total Rollback",
+            title: "Keep what succeeded when one step fails",
             body: 'When orchestrating 7 external services (OpenAI, CRM, 4 emails, Slack), I stopped trying to make the entire pipeline transactional. Instead, each downstream call is independently failable. If the CRM call fails, the patient still gets their confirmation email. This reduced support tickets from "my form didn\'t work" to zero.',
         },
         {
-            title: "The Abstraction That Pays For Itself",
+            title: "One composer for every schema",
             body: "The JSON-LD composer system took 3x longer to build than inlining structured data. It paid for itself the first time the client added a new service category — zero frontend changes, the builder automatically generated the right @graph output. The rule: if the client can create new content types in the CMS, the structured data layer must handle them without a deploy.",
         },
         {
-            title: "Build the Audit Tools First",
+            title: "I should have built the audit tools first",
             body: "I wrote 6 custom code audit scripts (async waterfalls, bundle imports, client component boundaries, event listeners, suspense coverage, re-render patterns) before the codebase hit 30K lines. At 277K lines, those scripts catch regressions I'd never find manually. The 2 hours invested in tooling saved 20+ hours of debugging.",
         },
         {
-            title: "Animation Accessibility Is a Server Problem",
+            title: "Motion accessibility starts on the server",
             body: "The best reduced-motion implementation isn't a CSS media query — it's a rendering architecture. Server Components render full semantic HTML by default. Client islands add animation on top. If the animation layer fails or the user opts out, the page works. You can't retrofit this onto a client-rendered SPA — the server render IS the accessible version.",
         },
         {
-            title: "Documentation Is a Product Feature",
+            title: "The docs are part of the handoff",
             body: "LLMs.txt, comprehensive README, inline JSDoc on every public API, and a structured /llms.txt endpoint turned the codebase into something AI assistants can reason about. When ChatGPT can accurately describe your services because your site exposes structured context, that's not SEO — it's a new distribution channel.",
         },
     ],
@@ -435,7 +453,7 @@ export const pageData: PageData<DiagramKey> = {
     ],
 
     cta: {
-        text: "Interested in what I could build for your business? I'm currently taking on full-stack web development and AI integration projects. Read the full technical deep-dive on how I built this system.",
+        text: "I built and still maintain this platform on my own. The blog post goes deeper on the CMS and the AI content pipeline. I'm looking for applied AI, full-stack, and marketing automation roles.",
         buttons: [
             { text: "Get in Touch", href: "/#contact", variant: "default" },
             {

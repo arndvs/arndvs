@@ -16,7 +16,7 @@ export const pageData: PageData<DiagramKey> = {
             { label: "API Routes", value: "100+" },
         ],
         cta: { text: "Visit Live Site", href: "https://mcrdse.com" },
-        screenshotSrc: "/projects/mcrdse-commerce/mcrdse-home.png",
+        screenshotSrc: "/projects/mcrdse-commerce/mcrdse-home.jpg",
         screenshotAlt: "MCRDSE storefront homepage",
     },
 
@@ -100,7 +100,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Tier boundaries (Spore → Mycelium → Fruiting Body) are driven by lifetime spend with additive multipliers, and subscription orders earn 2x points. The economics live in one canonical generated file shared across both repos so the storefront and ops dashboard can't drift.",
             ],
             insight: {
-                title: "Derive, Don't Store, the Money",
+                title: "The balance is derived from the ledger",
                 body: "The single most important decision was making the balance a derived value from an append-only ledger rather than a stored mutable field. That one choice eliminates the entire class of double-spend and lost-update bugs that plague points systems — and it makes every point auditable. Combined with idempotency keys and an atomic balance-gated deduction, the system is correct under webhook retries and concurrency without needing distributed locks.",
             },
         },
@@ -117,8 +117,12 @@ export const pageData: PageData<DiagramKey> = {
                 "Proof uploads are strictly validated as base64 JPEG (rejecting any other MIME prefix as malicious) and capped at 6 MB, stored in R2. Auto-verify only fires for a whitelisted subset of methods.",
                 "The webhook handler verifies the Authorize.net signature on every delivery, records each delivery to Analytics Engine for observability, and routes through the fail-closed gate before any fulfillment side-effect.",
             ],
+            embed: {
+                src: "/visuals/mcrdse-payment-gate/index.html?embed=1",
+                title: "Animation: a declined order stops at the payment gate",
+            },
             insight: {
-                title: "Allow-List Over Block-List for Money",
+                title: "Ship only on an explicit paid status",
                 body: "A blocklist is a list of everything you've thought of so far. An allow-list is a statement of what's actually safe. For anything that ships physical product or fires customer-facing messages, the allow-list is the only correct default — it fails closed on the unknown instead of shipping on it. The $381 incident was the tuition that taught this lesson, and it's now a structural invariant, not a patch.",
             },
         },
@@ -137,8 +141,26 @@ export const pageData: PageData<DiagramKey> = {
                 "A dual-run fence between EasyPost and ShipStation prevents double postage purchase: whoever writes first owns the order via an atomic claim, and the other refuses.",
             ],
             insight: {
-                title: "Adopt, Don't Duplicate",
+                title: "Look up before creating",
                 body: "The pattern that makes reconciliation safe is 'adopt, don't duplicate' — every external system is looked up by a stable identity and upserted, never blindly inserted. Combined with D1 as the authoritative source and independent dispatch, the system self-heals: a retry adopts the existing record instead of creating a duplicate. This is the difference between a system that survives outages and one that amplifies them.",
+            },
+        },
+        {
+            id: "lifecycle-segments",
+            title: "Lifecycle Segments and the Recovery Sweep",
+            subtitle: "Six Stages, Recomputed Every Night",
+            problem:
+                "Lifecycle messages ran from GoHighLevel, but GoHighLevel only knew about the orders that had been pushed to it. When a push failed, the customer bought and then heard nothing: no confirmation sequence, no reorder reminder. Nobody could say how many customers that was, and segments built inside the CRM were built on the same incomplete data.",
+            diagramKey: "lifecycleSegments",
+            walkthrough: [
+                "The segments are computed from the order database, not from the CRM. A nightly job reads each customer's orders and places them in one of six lifecycle stages.",
+                "The stage is written to the GoHighLevel contact. Workflows key off the stage, so the rules for who gets which message live in one place, in code, with the order data they depend on.",
+                "A reconciliation sweep compares the order database with what GoHighLevel has. Any order missing on the CRM side is pushed again through the same idempotent path as a normal order, so a contact that already exists is updated and not duplicated.",
+                "The first full sweep found and recovered 580 orders that had missed their lifecycle messages.",
+            ],
+            insight: {
+                title: "Segment from the order database",
+                body: "The CRM is where messages are sent from. It was not a reliable record of who bought what. Computing stages from the database and writing them to the CRM kept the two from drifting apart, and the sweep catches it when they do.",
             },
         },
     ],
@@ -190,23 +212,23 @@ export const pageData: PageData<DiagramKey> = {
 
     learnings: [
         {
-            title: "Idempotency Is a Pervasive Invariant, Not a Feature",
+            title: "Every write is safe to retry",
             body: "Across every repo, the pattern is the same: INSERT OR IGNORE on unique keys, atomic conditional UPDATE claims, x-request-id dedup. Once idempotency is a default rather than an afterthought, webhook retries and concurrent requests stop being bugs and become no-ops. It's the highest-leverage engineering habit in this codebase.",
         },
         {
-            title: "The Database Is the Gate, Not the Code",
+            title: "The database decides what ships",
             body: "Alt-payment orders can't be pushed until payment_verified = 1 in D1 — enforced per-push, not in one place. When a safety invariant is enforced by the data layer rather than scattered checks, it can't be accidentally bypassed by a new code path.",
         },
         {
-            title: "Fail Closed on Money",
+            title: "When payment is unclear, nothing ships",
             body: "The $381 incident taught that block-lists are lists of what you've thought of so far. Allow-lists are statements of what's actually safe. For shipping, payments, and customer-facing messages, default to deny and enumerate what's allowed.",
         },
         {
-            title: "Pure Financial Cores Are Worth the Abstraction",
+            title: "The points math is a pure function",
             body: "computeEarnTxn is a pure, DB-free function — the money math is trivially unit-testable in isolation. When the financial core has no I/O, you can lock its correctness with contract tests and refactor the orchestration around it freely.",
         },
         {
-            title: "Cross-Repo Convergence Prevents Drift",
+            title: "Two storefronts share one reconciliation path",
             body: "The loyalty earn ceremony and economics were converged into a single shared module + generated economics file across the storefront and ops dashboard. Two copies of money logic will drift; one canonical source can't.",
         },
     ],
@@ -228,29 +250,41 @@ export const pageData: PageData<DiagramKey> = {
 
     gallery: [
         {
-            src: "/projects/mcrdse-commerce/mcrdse-home.png",
+            src: "/projects/mcrdse-commerce/mcrdse-home.jpg",
             alt: "MCRDSE storefront homepage",
             caption: "Homepage — Hormozi-style conversion layout for the Focus + Bliss bundle",
         },
         {
-            src: "/projects/mcrdse-commerce/mcrdse-shop.png",
-            alt: "MCRDSE Super Market storefront",
-            caption: "Super Market — Second storefront on mcrdse.shop with member gate",
+            src: "/projects/mcrdse-commerce/mcrdse-shop.jpg",
+            alt: "MCRDSE shop page with the Focus and Bliss duo featured",
+            caption: "Shop — Product collection on mcrdse.com",
         },
         {
-            src: "/projects/mcrdse-commerce/mcrdse-product.png",
+            src: "/projects/mcrdse-commerce/mcrdse-product.jpg",
             alt: "MCRDSE product detail page",
-            caption: "Product — Detail page with EffectMeter outcome tiles and ritual calendar",
+            caption: "Product — Detail page with the 90-day package and one-time purchase options",
         },
         {
-            src: "/projects/mcrdse-commerce/mcrdse-loyalty.png",
-            alt: "MCRDSE loyalty program",
-            caption: "Loyalty — Points ledger, tier boundaries, and reward ladder",
+            src: "/projects/mcrdse-commerce/mcrdse-loyalty.jpg",
+            alt: "MCRDSE Join the Fam page for the referral and points program",
+            caption: "Loyalty — Join page with a personal referral code and 200 starter points",
+        },
+        {
+            src: "/projects/mcrdse-commerce/mcrdse-super-market-placeholder.jpg",
+            alt: "Wireframe placeholder for the MCRDSE Super Market storefront",
+            caption:
+                "Super Market — Second storefront on mcrdse.shop with member gate (screenshot coming soon)",
+        },
+        {
+            src: "/projects/mcrdse-commerce/mcrdse-points-ledger-placeholder.jpg",
+            alt: "Wireframe placeholder for the MCRDSE loyalty points ledger",
+            caption:
+                "Loyalty account — Points ledger, tier boundaries, and reward ladder (screenshot coming soon)",
         },
     ],
 
     cta: {
-        text: "Interested in what I could build for your business? I'm currently taking on full-stack web development and edge-computing projects. Read the full technical deep-dive on how I built this system.",
+        text: "This is one half of my work for MCRDSE. The other half is the content operations system. I'm looking for applied AI, full-stack, and marketing automation roles.",
         buttons: [
             { text: "Get in Touch", href: "/#contact", variant: "default" },
             { text: "View More Projects", href: "/projects", variant: "outline" },

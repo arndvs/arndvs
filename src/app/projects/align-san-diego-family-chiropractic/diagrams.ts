@@ -297,6 +297,19 @@ export const diagrams = {
 
     VALIDATE -->|"Valid"| PROCESS["Process Form\\nCRM + Email + Slack"]`,
 
+    leadToCrm: `flowchart TD
+    F["Six form types<br/>contact, newsletter, lead magnet,<br/>event, career, insurance"] --> W["One webhook route<br/>validate against the form's schema"]
+    W --> U["Set urgency<br/>build one contact payload"]
+    U --> E{"Contact found<br/>by email?"}
+    E -- yes --> UP["Update the contact<br/>add tags, merge custom fields"]
+    E -- no --> PH{"Found by phone?"}
+    PH -- yes --> UP
+    PH -- no --> NEW["Create the contact"]
+    UP --> GHL["GoHighLevel workflows<br/>start from the tags"]
+    NEW --> GHL
+    U --> SL["Slack notification to staff"]
+    UP -. write fails .-> AL["Failure alert<br/>form type and failure type"]
+    NEW -. write fails .-> AL`,
     emailSystem: `graph TB
     subgraph Triggers["Trigger Events"]
         T1["Insurance Verification"]

@@ -12,28 +12,28 @@ import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
 const journey = [
     {
-        period: "2010-2017",
-        title: "Freelance Web Development & Sales",
+        period: "2006-2017",
+        title: "Payments, Loyalty & Marketing Automation",
         description:
-            "Full-stack web development and B2B sales. Seven years learning how businesses actually buy software and what makes customers stick around — while building custom applications, client portals, and marketing automation.",
+            "Consultative sales to restaurants and retailers, auditing card-processing statements line by line. From 2010, implemented loyalty and rewards programs with lifecycle segmentation (VIPs, guests lapsed 30/60/90+ days, win-backs for each group) and took on paying web clients. At MainStream Merchant Services, built journey automation on Infusionsoft and round-robin lead routing for a sales team.",
     },
     {
         period: "2017-2020",
-        title: "Founder & CEO — RipeMetrics",
+        title: "Co-Founder & CEO — RipeMetrics",
         description:
-            "Founded RipeMetrics and graduated from the CSD16 (Canopy San Diego) accelerator. Led product vision and AI engineering on a Customer Experience Management platform while managing teams across marketing, business development, and engineering.",
+            "Co-founded RipeMetrics, took it through the CSD16 (Canopy San Diego) accelerator, and recruited a CTO to build the MVP. Ran the company through its pivots from review management to customer analytics, CRM, and multi-channel messaging.",
     },
     {
         period: "2020-2025",
-        title: "Lead Frontend & AI Engineer — RipeMetrics",
+        title: "Co-Founder, President, Product & Engineering — RipeMetrics",
         description:
-            "Led complete frontend refactor from Laravel Livewire to React/Next.js, reducing network response times by 6 seconds. Owned AI engineering: chatbot, RAG pipeline, voice AI, and automated onboarding across a team of up to 12 developers and 8 codebases.",
+            "Hired a CEO and moved to product and engineering across 8 codebases. Co-designed and built the marketing automation module (a journey engine with 21 behavior triggers and 38 segmentation scopes), per-tenant SMS compliance, and tenant-isolated RAG across chat, SMS, email, and voice. Led the Laravel Livewire to React/Next.js migration behind feature flags.",
     },
     {
         period: "2025-Present",
-        title: "Full-Stack Engineer & Creative Technologist",
+        title: "Applied AI Full-Stack Engineer",
         description:
-            "Building ctrl+shft — open source infrastructure for AI coding agents. Shipping freelance projects with AI integrations. Exploring the intersection of software, music, and spatial computing with PUSH and RISE Awake.",
+            "Freelance engineering for a healthcare practice and a D2C brand: AI document extraction, human-approved AI replies, lifecycle journeys on GoHighLevel, and an order pipeline where the database is the record of truth. I maintain ctrl+shft, open-source infrastructure for AI coding agents. Braze and Snowflake certified in 2026.",
     },
 ];
 
@@ -41,20 +41,40 @@ const techStack = {
     frontend: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
     backend: ["Node.js", "Python", "FastAPI", "PostgreSQL", "Redis"],
     ai: ["OpenAI API", "Claude API", "LangChain", "RAG", "Pinecone", "Vector DBs"],
-    tools: ["Sanity CMS", "Stripe", "Twilio", "Docker", "Git"],
+    lifecycle: ["Braze", "GoHighLevel", "Liquid", "Snowflake", "Twilio", "SendGrid"],
     emerging: ["Model Context Protocol", "MCP UI", "Claude Code", "AI Agents"],
 };
 
 const certifications = [
     {
+        title: "Braze Certified Marketing Specialist",
+        issuer: "Braze",
+        date: "Oct 2026",
+    },
+    {
+        title: "Braze Certified Practitioner",
+        issuer: "Braze",
+        date: "Oct 2026",
+    },
+    {
+        title: "Snowflake Data Engineering Professional Certificate",
+        issuer: "Snowflake",
+        date: "Oct 2026",
+    },
+    {
+        title: "Snowflake Generative AI Professional Certificate",
+        issuer: "Snowflake",
+        date: "Oct 2026",
+    },
+    {
         title: "Claude Code for Real Engineers",
         issuer: "AI Hero",
-        date: "Apr 2026",
+        date: "May 2026",
     },
     {
         title: "Master the Model Context Protocol (MCP)",
-        issuer: "Kent C. Dodds",
-        date: "Sept 2025",
+        issuer: "EpicAI",
+        date: "Oct 2025",
     },
     {
         title: "AI Engineering Bootcamp",
@@ -67,14 +87,9 @@ const certifications = [
         date: "Mar 2025",
     },
     {
-        title: "LLM Engineering - Foundations to SLMs",
-        issuer: "AI Makerspace",
-        date: "Nov 2024",
-    },
-    {
-        title: "Cursor AI Bootcamp",
-        issuer: "Maven",
-        date: "Jan 2025",
+        title: "Content-Driven Web Application Foundations",
+        issuer: "Sanity",
+        date: "Mar 2025",
     },
     {
         title: "Landing Page Academy",
@@ -82,19 +97,19 @@ const certifications = [
         date: "Feb 2025",
     },
     {
+        title: "Cursor AI Bootcamp",
+        issuer: "Maven",
+        date: "Jan 2025",
+    },
+    {
+        title: "LLM Engineering - Foundations to SLMs",
+        issuer: "AI Makerspace",
+        date: "Dec 2024",
+    },
+    {
         title: "Effective Communication For Engineers",
         issuer: "Taro (YC S22)",
         date: "Sep 2024",
-    },
-    {
-        title: "Modern Redux with RTK & TypeScript",
-        issuer: "egghead.io",
-        date: "Oct 2022",
-    },
-    {
-        title: "Introduction to Next.js",
-        issuer: "Frontend Masters",
-        date: "Jul 2022",
     },
 ];
 
@@ -193,8 +208,8 @@ export default function AboutContent() {
                                 transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
                             }}
                         >
-                            Full-stack engineer.{" "}
-                            <span className="text-gradient">Creative technologist.</span>
+                            Applied AI full-stack engineer.{" "}
+                            <span className="text-gradient">Marketing automation roots.</span>
                         </h1>
 
                         <p
@@ -205,12 +220,12 @@ export default function AboutContent() {
                                 transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
                             }}
                         >
-                            Based in San Diego. I&apos;ve been doing freelance web development since
-                            2010. In 2017 I founded RipeMetrics — an AI-powered marketing automation
-                            and customer experience platform — and ran it for 8 years. Now I build
-                            production software and creative technology projects, with strong
-                            instincts for where AI belongs and where a button is still the right
-                            answer.
+                            Based in San Diego. I spent a decade in payments and restaurant loyalty
+                            programs, and have had paying web clients since 2010. In 2017 I
+                            co-founded RipeMetrics, a marketing automation, CRM, and AI customer
+                            service platform, and built on it for 8 years. Now I build AI systems
+                            and lifecycle marketing infrastructure, usually working directly with
+                            the person who owns the problem.
                         </p>
                     </div>
                 </div>
@@ -230,7 +245,7 @@ export default function AboutContent() {
                             The Journey
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
-                            From sales to engineering
+                            From payments and loyalty to AI systems
                         </h2>
                     </motion.div>
 
@@ -363,7 +378,7 @@ export default function AboutContent() {
                             Continuous Learning
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
-                            Recent certifications
+                            Certifications
                         </h2>
                     </motion.div>
 

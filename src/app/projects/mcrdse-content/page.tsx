@@ -21,8 +21,16 @@ import { pageData } from "./data";
 export const metadata: Metadata = generateSiteMetadata({
     title: "MCRDSE — Content & Community Platform",
     description:
-        "Case study: A content approval-and-shipping worker with cryptographic approval locking, an educational community site with a branching archetype quiz, and a forward-looking AI-search (GEO) strategy.",
+        "Case study: A content approval-and-shipping worker with content-hash approval locking, an educational community site with a branching archetype quiz, and a forward-looking AI-search (GEO) strategy.",
     path: "/projects/mcrdse-content",
+    images: [
+        {
+            url: "/og/mcrdse-content.jpg",
+            width: 1200,
+            height: 630,
+            alt: "MCRDSE Content — content operations platform",
+        },
+    ],
 });
 
 export default function MCRDSEContentPage() {
@@ -34,7 +42,7 @@ export default function MCRDSEContentPage() {
                 "@id": `${siteConfig.url}/projects/mcrdse-content/#work`,
                 name: "MCRDSE — Content & Community Platform",
                 description:
-                    "A content approval-and-shipping worker with cryptographic approval locking, an educational community site with a branching archetype quiz, and an AI-search (GEO) strategy.",
+                    "A content approval-and-shipping worker with content-hash approval locking, an educational community site with a branching archetype quiz, and an AI-search (GEO) strategy.",
                 url: `${siteConfig.url}/projects/mcrdse-content`,
                 author: { "@id": `${siteConfig.url}/#person` },
                 datePublished: "2026-04-01",

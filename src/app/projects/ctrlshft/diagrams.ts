@@ -26,7 +26,7 @@ export const diagrams = {
         LOCAL["copywriting · learnings"]
     end
 
-    subgraph Skills["43 Skills"]
+    subgraph Skills["50+ Skills"]
         PIPELINE_SKILLS["Pipeline\\ngrill-me → write-a-prd →\\nprd-to-issues → do-work"]
         ANALYSIS["Analysis\\nexplore · research ·\\ncodebase-audit · code-review"]
         DEV["Development\\ntdd · systematic-debugging ·\\nimprove-architecture · architect"]
