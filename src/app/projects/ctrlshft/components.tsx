@@ -42,7 +42,7 @@ export const {
     GallerySection,
     CTASection,
 } = createCaseStudySections({
-    accentColor: "orange",
+    accentColor: "teal",
     diagrams: diagrams as Record<string, string>,
     subsystemIcons,
     fallbackIcon: Terminal,

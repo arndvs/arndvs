@@ -19,6 +19,8 @@ export const pageData: PageData<DiagramKey> = {
             text: "Visit riseawake.com",
             href: "https://riseawake.com",
         },
+        screenshotSrc: "/projects/rise-awake/rise-home.jpg",
+        screenshotAlt: "riseawake.com homepage with the headline Rise. Awake.",
     },
 
     situation: {
@@ -280,7 +282,23 @@ export const pageData: PageData<DiagramKey> = {
         ],
     },
 
-    gallery: [],
+    gallery: [
+        {
+            src: "/projects/rise-awake/rise-home.jpg",
+            alt: "riseawake.com homepage with the headline Rise. Awake.",
+            caption: "Homepage — the bed that gets you up, whether you're ready or not",
+        },
+        {
+            src: "/projects/rise-awake/rise-push.jpg",
+            alt: "The Push product page on riseawake.com, marked out of stock",
+            caption: "The Push — product page, currently out of stock",
+        },
+        {
+            src: "/projects/rise-awake/rise-activate.jpg",
+            alt: "The device activation page on riseawake.com",
+            caption: "Activate — the start of the device activation configurator",
+        },
+    ],
 
     cta: {
         text: "riseawake.com is the companion piece to PUSH — the short film. The website is the company. The film is the marketing video. Together, they demonstrate full-stack engineering, creative technology, and transmedia storytelling as a single integrated portfolio piece.",

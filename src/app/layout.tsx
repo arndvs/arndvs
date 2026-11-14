@@ -7,7 +7,7 @@ import { Suspense } from "react";
 
 import type { Metadata } from "next";
 import { VisualEditing } from "next-sanity/visual-editing";
-import { DM_Sans, Outfit } from "next/font/google";
+import localFont from "next/font/local";
 import { draftMode } from "next/headers";
 
 import { DisableDraftMode } from "@/components/disable-draft-mode";
@@ -22,16 +22,23 @@ import { SanityLive } from "@/sanity/lib/live";
 
 import "./globals.css";
 
-const dmSans = DM_Sans({
-    subsets: ["latin"],
-    weight: ["400", "500", "700"],
+// Self-hosted so the build does not depend on fetching Google Fonts.
+const dmSans = localFont({
+    src: [
+        { path: "../assets/fonts/dm-sans-400.woff2", weight: "400", style: "normal" },
+        { path: "../assets/fonts/dm-sans-500.woff2", weight: "500", style: "normal" },
+        { path: "../assets/fonts/dm-sans-700.woff2", weight: "700", style: "normal" },
+    ],
     variable: "--font-satoshi",
     display: "swap",
 });
 
-const outfit = Outfit({
-    subsets: ["latin"],
-    weight: ["700", "800", "900"],
+const outfit = localFont({
+    src: [
+        { path: "../assets/fonts/outfit-700.woff2", weight: "700", style: "normal" },
+        { path: "../assets/fonts/outfit-800.woff2", weight: "800", style: "normal" },
+        { path: "../assets/fonts/outfit-900.woff2", weight: "900", style: "normal" },
+    ],
     variable: "--font-cabinet",
     display: "swap",
 });
@@ -39,12 +46,17 @@ const outfit = Outfit({
 export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.url),
     title: {
-        default: "Aaron Davis - Full-Stack Engineer & Creative Technologist",
+        default: "Aaron Davis - Applied AI Full-Stack Engineer",
         template: "%s | Aaron Davis",
     },
     description:
-        "Full-stack engineer and creative technologist based in San Diego. Founded RipeMetrics, built a 277k-line healthcare platform with 5 AI integrations, and lead a 6-repo Cloudflare edge e-commerce ecosystem. React, Next.js, TypeScript, AI systems, OpenAI, RAG. Available for contract.",
+        "Applied AI full-stack engineer in San Diego. Co-founded RipeMetrics and spent 8 years building its marketing automation and AI platform. Braze and Snowflake certified. TypeScript, Python, React, Next.js, RAG, agents. Open to full-time and contract roles.",
     keywords: [
+        "Applied AI Engineer",
+        "Forward Deployed Engineer",
+        "Marketing Automation Engineer",
+        "Lifecycle Marketing",
+        "Braze",
         "Full Stack Developer",
         "Software Engineer",
         "AI Engineer",
@@ -63,23 +75,23 @@ export const metadata: Metadata = {
         locale: "en_US",
         url: siteConfig.url,
         siteName: "Aaron Davis Portfolio",
-        title: "Aaron Davis - Full-Stack Engineer & Creative Technologist",
+        title: "Aaron Davis - Applied AI Full-Stack Engineer",
         description:
-            "Full-stack engineer and creative technologist. Founded RipeMetrics, built healthcare platforms with AI integrations. React, Next.js, TypeScript.",
+            "Applied AI full-stack engineer. Co-founded RipeMetrics and spent 8 years building its marketing automation and AI platform. Braze and Snowflake certified.",
         images: [
             {
                 url: "/images/og-image.jpg",
                 width: 1200,
                 height: 630,
-                alt: "Aaron Davis - Full Stack Software Engineer",
+                alt: "Aaron Davis - Applied AI Full-Stack Engineer",
             },
         ],
     },
     twitter: {
         card: "summary_large_image",
-        title: "Aaron Davis - Full-Stack Engineer & Creative Technologist",
+        title: "Aaron Davis - Applied AI Full-Stack Engineer",
         description:
-            "Full-stack engineer and creative technologist. Founded RipeMetrics, built healthcare platforms with AI integrations.",
+            "Applied AI full-stack engineer. Co-founded RipeMetrics and spent 8 years building its marketing automation and AI platform.",
         images: ["/images/og-image.jpg"],
     },
     robots: {

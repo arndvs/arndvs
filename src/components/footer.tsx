@@ -10,7 +10,7 @@ import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 const footerData = {
     brand: {
         name: "Aaron Davis",
-        description: "Full-stack engineer and creative technologist based in San Diego.",
+        description: "Applied AI full-stack engineer based in San Diego.",
     },
     navigation: [
         { name: "Home", href: "/" },

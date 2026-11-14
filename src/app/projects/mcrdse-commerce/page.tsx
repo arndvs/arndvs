@@ -23,6 +23,14 @@ export const metadata: Metadata = generateSiteMetadata({
     description:
         "Case study: A 6-repo Cloudflare edge ecosystem for a functional-mushroom brand — two storefronts, a loyalty program built for correctness under concurrency, and order reconciliation across four external systems.",
     path: "/projects/mcrdse-commerce",
+    images: [
+        {
+            url: "/og/mcrdse-commerce.jpg",
+            width: 1200,
+            height: 630,
+            alt: "MCRDSE Commerce — e-commerce and loyalty platform",
+        },
+    ],
 });
 
 export default function MCRDSECommercePage() {

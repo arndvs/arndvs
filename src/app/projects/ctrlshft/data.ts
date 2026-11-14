@@ -7,11 +7,11 @@ export const pageData: PageData<DiagramKey> = {
         badge: "AI Infrastructure · Open Source",
         title: "ctrl+shft",
         tagline:
-            "Autonomous AI agent infrastructure — 43 skills (including a complete 7-phase UX design process), lifecycle hooks, a real-time compliance HUD, and hardened secrets from a single source of truth. One git pull updates everything. Agents load only what's relevant.",
+            "Autonomous AI agent infrastructure — 50+ skills (including a complete 7-phase UX design process), 19 lifecycle hooks, a real-time compliance HUD, and hardened secrets from a single source of truth. One git pull updates everything. Agents load only what's relevant.",
         stats: [
-            { label: "Skills", value: "43" },
+            { label: "Skills", value: "50+" },
             { label: "Shell Scripts", value: "43" },
-            { label: "Lifecycle Hooks", value: "8" },
+            { label: "Lifecycle Hooks", value: "19" },
             { label: "Agent Personas", value: "6" },
             { label: "Framework Detections", value: "11" },
         ],
@@ -49,7 +49,7 @@ export const pageData: PageData<DiagramKey> = {
         subsystems: [
             {
                 title: "The Pipeline",
-                description: "43 skills chained from idea extraction through autonomous execution",
+                description: "50+ skills chained from idea extraction through autonomous execution",
             },
             {
                 title: "Compliance HUD",
@@ -59,7 +59,7 @@ export const pageData: PageData<DiagramKey> = {
             {
                 title: "Lifecycle Hooks",
                 description:
-                    "8 pre/post-exec hooks: secret-guard, migration-guard, format-check, typecheck",
+                    "19 pre/post-exec hooks, including secret-guard, migration-guard, format-check, typecheck",
             },
             {
                 title: "Dual CLI",
@@ -79,7 +79,7 @@ export const pageData: PageData<DiagramKey> = {
             {
                 title: "Skill System",
                 description:
-                    "43 auto-discovered, self-learning skills — 18 core workflow + 24 UX design + 1 domain",
+                    "50+ auto-discovered skills across core workflow, planning, audits, frontend, and agent ops",
             },
             {
                 title: "shft Loop",
@@ -102,7 +102,7 @@ export const pageData: PageData<DiagramKey> = {
         {
             id: "pipeline",
             title: "The Pipeline",
-            subtitle: "Chaining 43 Skills Into an Autonomous Shipping Loop",
+            subtitle: "Chaining Skills Into an Autonomous Shipping Loop",
             problem:
                 "Feature development is fragmented — ideas live in chat, PRDs rot in docs, issues miss context. Agents don't know what to build or in what order. Each conversation starts from scratch with no memory of previous decisions.",
             diagramKey: "pipeline",
@@ -369,14 +369,14 @@ export const pageData: PageData<DiagramKey> = {
 
     metrics: {
         hero: [
-            { value: 43, label: "Skills" },
+            { value: 50, label: "Skills", suffix: "+" },
             { value: 43, label: "Shell Scripts" },
             { value: 5900, label: "Lines of Shell", suffix: "+" },
             { value: 328, label: "Commits" },
         ],
         supporting: [
             { value: 11, label: "Instructions" },
-            { value: 8, label: "Lifecycle Hooks" },
+            { value: 19, label: "Lifecycle Hooks" },
             { value: 6, label: "Agent Personas" },
             { value: 12, label: "Lines of Source", suffix: "K+" },
         ],
@@ -384,7 +384,13 @@ export const pageData: PageData<DiagramKey> = {
 
     gallery: [
         {
-            src: "/projects/ctrlshft/landing-page.png",
+            src: "/projects/ctrlshft/hud.jpg",
+            alt: "The ctrl+shft HUD showing compliance rate, loaded rules, active contexts, and a session log",
+            caption:
+                "HUD — compliance rate, loaded rules and skills, active contexts, and the session log, as shown on ctrlshft.dev",
+        },
+        {
+            src: "/projects/ctrlshft/landing-page.jpg",
             alt: "ctrlshft.dev — The landing page for ctrl+shft, a single-file HTML marketing site built with Tailwind CSS",
             caption:
                 "ctrlshft.dev — a ~1,500-line single-file marketing site covering system architecture, the autonomous pipeline, UX methodology, coding principles, security model, and the compliance HUD. Built as a portfolio-ready deliverable, not just documentation.",

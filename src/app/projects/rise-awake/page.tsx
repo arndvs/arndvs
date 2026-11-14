@@ -23,6 +23,14 @@ export const metadata: Metadata = generateSiteMetadata({
     description:
         "A 41-route Next.js 16 application operating as a fictional corporate website — Sanity v5, Convex, Clerk, 22 internal documents, and a transmedia universe connected to the PUSH short film.",
     path: "/projects/rise-awake",
+    images: [
+        {
+            url: "/og/rise-awake.jpg",
+            width: 1200,
+            height: 630,
+            alt: "RISE Awake — creative technology and full-stack web",
+        },
+    ],
 });
 
 export default function RiseAwakePage() {

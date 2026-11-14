@@ -19,7 +19,7 @@ const projects = [
         year: "2026",
         role: "Solo Developer & Architect",
         description:
-            "The infrastructure behind my engineering workflow. 43 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo. Open source and in production.",
+            "The infrastructure behind my engineering workflow. 50+ skills, 19 guardrail hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo. Open source and in production.",
         tags: [
             "Bash",
             "TypeScript",
@@ -31,7 +31,7 @@ const projects = [
             "GitHub CLI",
         ],
         stats: [
-            { value: "43", label: "Agent Skills" },
+            { value: "50+", label: "Agent Skills" },
             { value: "100%", label: "Open Source" },
             { value: "3", label: "AI Runtimes" },
         ],
@@ -44,9 +44,9 @@ const projects = [
         title: "RipeMetrics",
         category: "AI / SaaS",
         year: "2017–2025",
-        role: "Founder, Lead Frontend & AI Engineer",
+        role: "Co-Founder, Lead Frontend & AI Engineer",
         description:
-            "AI-powered customer growth platform I founded and led AI engineering on — automated customer service reducing costs by 40%, achieving 95%+ uptime over 8 years in production.",
+            "AI-powered customer growth platform I co-founded and led AI engineering on — automated customer service reducing costs by 40%, achieving 95%+ uptime over 8 years in production.",
         tags: ["React", "Next.js", "TypeScript", "Redux RTK", "OpenAI", "Pinecone", "PostgreSQL"],
         stats: [
             { value: "8", label: "Years in Production" },
@@ -54,6 +54,7 @@ const projects = [
             { value: "128K+", label: "Lines of Code" },
         ],
         href: "/projects/ripemetrics",
+        thumbnail: "/projects/ripemetrics/marketing-campaigns-screenshot.jpg",
     },
     {
         id: "align-san-diego-family-chiropractic",
@@ -89,7 +90,7 @@ const projects = [
         ],
         href: "/projects/mcrdse-commerce",
         link: "https://mcrdse.com",
-        thumbnail: "/projects/mcrdse-commerce/mcrdse-home.png",
+        thumbnail: "/projects/mcrdse-commerce/mcrdse-home.jpg",
     },
     {
         id: "mcrdse-content",
@@ -98,7 +99,7 @@ const projects = [
         year: "2026 – Present",
         role: "Lead Engineer",
         description:
-            "A content approval-and-shipping worker with cryptographic approval locking, an educational community site with a branching archetype quiz, and a forward-looking AI-search (GEO) strategy.",
+            "A content approval-and-shipping worker with content-hash approval locking, an educational community site with a branching archetype quiz, and a forward-looking AI-search (GEO) strategy.",
         tags: ["Cloudflare", "D1", "R2", "Astro", "Preact", "Zernio", "Linear"],
         stats: [
             { value: "250", label: "Scripts in D1" },
@@ -107,7 +108,7 @@ const projects = [
         ],
         href: "/projects/mcrdse-content",
         link: "https://mcrdsemovement.com",
-        thumbnail: "/projects/mcrdse-content/movement-home.png",
+        thumbnail: "/projects/mcrdse-content/movement-home.jpg",
     },
     {
         id: "push",
@@ -140,6 +141,7 @@ const projects = [
             { value: "6", label: "Legal Docs" },
         ],
         href: "/projects/rise-awake",
+        thumbnail: "/projects/rise-awake/rise-home.jpg",
         link: "https://riseawake.com",
     },
 ];
@@ -204,8 +206,8 @@ export default function ProjectsContent() {
                                 transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
                             }}
                         >
-                            A curated collection of engineering, AI systems, and creative technology
-                            projects spanning 15+ years of building products at scale.
+                            AI systems, agent infrastructure, lifecycle marketing, and full-stack
+                            products. Client and open-source work first, creative projects after.
                         </p>
                     </div>
                 </div>
