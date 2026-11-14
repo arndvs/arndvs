@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import aaronWedding from "@/assets/images/aaron-wedding.webp";
+import aaronPortrait from "@/assets/images/aaron-portrait.webp";
 import { AnimatedCounter } from "@/components/animated-counter";
 import { Button } from "@/components/ui/button";
 import { technologiesData } from "@/lib/data/technologies";
@@ -219,7 +219,7 @@ export default function HomeContent() {
                             <div className="bg-card relative aspect-4/5 overflow-hidden rounded-2xl">
                                 <Image
                                     alt="Aaron Davis"
-                                    src={aaronWedding}
+                                    src={aaronPortrait}
                                     fill
                                     className="object-cover"
                                     sizes="(max-width: 768px) 100vw, 50vw"
