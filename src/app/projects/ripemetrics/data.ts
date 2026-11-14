@@ -187,7 +187,7 @@ export const pageData: PageData = {
                 "Material UI v5 provided the component foundation, but Tailwind handled all custom styling. A usePageType() hook let settings and onboarding share the same components in different contexts, eliminating 30+ duplicate screens.",
             ],
             insight: {
-                title: "Parallel Migration > Big Bang Rewrite",
+                title: "Migrating in parallel instead of rewriting",
                 body: "Running both frontends simultaneously cost extra infrastructure, but it eliminated the risk of a failed big-bang cutover. Feature flags let us validate the React app with power users first, catch edge cases, and roll back per-client if needed. The 6-second improvement in response times justified the migration cost within the first month.",
             },
         },
@@ -205,7 +205,7 @@ export const pageData: PageData = {
                 "For voice calls, the response goes through ElevenLabs TTS (eleven_flash_v2 model), gets cached in Redis, and plays back via Twilio's IVR system. The IVR decision tree routes callers through AI response → call center → voicemail based on availability.",
             ],
             insight: {
-                title: "Namespace Isolation Is Non-Negotiable",
+                title: "One namespace per tenant",
                 body: "Early prototypes used metadata filtering instead of namespaces for tenant isolation. During load testing, I discovered that metadata filters on large indexes added 200-400ms latency per query and had edge cases where filters could return cross-tenant results under high concurrency. Switching to dedicated namespaces eliminated both problems and simplified the query path.",
             },
         },
@@ -223,7 +223,7 @@ export const pageData: PageData = {
                 "A usePageType() hook lets the onboarding wizard and settings pages share the same AI configuration components — editing training data, adjusting chatbot personality, customizing widget theming — without duplicating 30+ screens of UI.",
             ],
             insight: {
-                title: "Bi-Directional Vector Sync Prevents Stale Knowledge",
+                title: "Keeping the vectors in sync in both directions",
                 body: "The AI setup controller syncs training data bi-directionally with Pinecone — updating text in the settings UI automatically re-embeds and upserts the corresponding vectors, and clearing a field deletes its Pinecone vectors. This eliminated a class of bugs where the chatbot's knowledge base drifted from the client's configured training data.",
             },
         },
@@ -245,7 +245,7 @@ export const pageData: PageData = {
             decision: "Pinecone with namespace-based multi-tenancy",
             alternatives: "Pinecone-only flat index, Weaviate, Qdrant, pgvector",
             reasoning:
-                "Pinecone's namespace isolation provides hard multi-tenant boundaries — each client's vectors are physically separated, eliminating the risk of cross-tenant data leakage. Metadata filtering was tested first but added 200-400ms latency and had concurrency edge cases. Namespaces eliminated both problems and simplified the query path to a single index with per-tenant namespaces.",
+                "Each client's vectors live in their own Pinecone namespace inside a shared index. The separation is logical, not physical: every query names one namespace, so a query cannot return another tenant's vectors unless the code passes the wrong namespace. Metadata filtering was tested first but added 200-400ms latency and had concurrency edge cases. Namespaces eliminated both problems and simplified the query path to a single index with per-tenant namespaces.",
         },
         {
             decision: "Preact islands for embeddable widgets",
@@ -268,15 +268,15 @@ export const pageData: PageData = {
     ],
     learnings: [
         {
-            title: "Multi-Tenant Vector DBs Need Hard Isolation",
+            title: "Tenant isolation in the vector store",
             body: "Metadata filtering looks simpler than namespaces but breaks under load. Always use hard isolation (namespaces, separate indexes, or separate collections) for multi-tenant vector stores. The performance and correctness guarantees are worth the operational complexity.",
         },
         {
-            title: "Channel-Aware AI Needs Per-Channel Constraints",
+            title: "Each channel needs its own constraints",
             body: "A chatbot response that works in a web widget (1,000 tokens, Markdown) is unusable as a voice IVR prompt (150 tokens, plain text) or an SMS reply (400 tokens). Building channel awareness into the AI service from day one — instead of retrofitting it — saved months of per-channel edge case fixes.",
         },
         {
-            title: "Product-Market Fit Tests Architecture",
+            title: "What changing direction did to the architecture",
             body: "RipeMetrics pivoted 3 times: from review management to customer analytics to AI chatbots. Each pivot stress-tested the architecture differently. The modular service-oriented design survived because individual services (email, analytics, chat) could be swapped or deprecated without cascading changes. The 880-component frontend survived because of strict data-driven rendering — swap the data, keep the components.",
         },
     ],

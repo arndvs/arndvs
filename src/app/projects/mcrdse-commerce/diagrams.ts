@@ -82,6 +82,13 @@ export const diagrams = {
     DISPATCH --> GHLS
     DISPATCH --> SSS
     DISPATCH --> LOY`,
+    lifecycleSegments: `flowchart LR
+    D1[("Order database<br/>record of truth")] --> N["Nightly segment job<br/>one of six lifecycle stages<br/>per customer"]
+    N --> G["GoHighLevel contact<br/>stage written to the profile"]
+    G --> WF["Workflows keyed<br/>to the stage"]
+    D1 --> S["Reconciliation sweep<br/>orders missing from the CRM"]
+    S --> P["Idempotent push<br/>update, never duplicate"]
+    P --> G`,
 };
 
 export type DiagramKey = keyof typeof diagrams;

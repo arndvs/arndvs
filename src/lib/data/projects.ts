@@ -4,6 +4,7 @@ export interface ProjectEntry {
 }
 
 export const PROJECTS: ProjectEntry[] = [
+    { slug: "inkind-first-reward-journey", lastModified: "2026-11-14" },
     { slug: "align-san-diego-family-chiropractic", lastModified: "2026-04-13" },
     { slug: "ctrlshft", lastModified: "2026-04-22" },
     { slug: "mcrdse-commerce", lastModified: "2026-08-06" },

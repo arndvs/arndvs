@@ -33,8 +33,8 @@ const featuredProjects = [
             { value: "146", label: "Rails Tests" },
             { value: "11/11", label: "SQL Checks Passing" },
         ],
-        href: "/blog/inkind-first-reward-journey",
-        cta: "Read the walkthrough",
+        href: "/projects/inkind-first-reward-journey",
+        cta: "View project",
     },
     {
         id: "ctrlshft",
