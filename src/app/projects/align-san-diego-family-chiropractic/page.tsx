@@ -23,6 +23,14 @@ export const metadata: Metadata = generateSiteMetadata({
     description:
         "Case study: A 277K-line healthcare platform with AI content ops, 76 JSON-LD schemas, programmatic SEO across 203 pages, built on Next.js 16 and Sanity v5.",
     path: "/projects/align-san-diego-family-chiropractic",
+    images: [
+        {
+            url: "/og/align-san-diego-family-chiropractic.jpg",
+            width: 1200,
+            height: 630,
+            alt: "Align San Diego — healthcare platform",
+        },
+    ],
 });
 
 export default function AlignSDPage() {

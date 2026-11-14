@@ -5,9 +5,9 @@ export const personJsonLd = {
     "@id": `${siteConfig.url}/#person`,
     name: "Aaron Davis",
     url: siteConfig.url,
-    jobTitle: "Full-Stack Engineer & Creative Technologist",
+    jobTitle: "Applied AI Full-Stack Engineer",
     description:
-        "Full-stack engineer and creative technologist with 15+ years building for the web — from CMS platforms to AI-powered SaaS products, edge-computing e-commerce ecosystems, and creative technology projects.",
+        "Applied AI full-stack engineer with 15+ years building for the web. Co-founded RipeMetrics, a marketing automation, CRM, and AI customer service platform, and built on it for 8 years. Builds AI systems, agent infrastructure, and lifecycle marketing systems.",
     sameAs: ["https://github.com/arndvs", "https://linkedin.com/in/arndvs"],
     knowsAbout: [
         "React",
@@ -22,6 +22,10 @@ export const personJsonLd = {
         "Model Context Protocol",
         "Agentic Engineering",
         "Full-Stack Development",
+        "Marketing Automation",
+        "Lifecycle Marketing",
+        "Braze",
+        "Snowflake",
     ],
     alumniOf: [
         {

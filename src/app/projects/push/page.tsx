@@ -24,6 +24,14 @@ export const metadata: Metadata = generateSiteMetadata({
     description:
         "A comedy short being produced with AI generative video — currently in pre-production with a 55-shot prompt library, character consistency pipeline, and companion transmedia universe.",
     path: "/projects/push",
+    images: [
+        {
+            url: "/og/push.jpg",
+            width: 1200,
+            height: 630,
+            alt: "PUSH — AI video short film, in progress",
+        },
+    ],
 });
 
 export default function PushPage() {

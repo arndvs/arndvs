@@ -16,7 +16,7 @@ export const pageData: PageData<DiagramKey> = {
             { label: "API Routes", value: "100+" },
         ],
         cta: { text: "Visit Live Site", href: "https://mcrdse.com" },
-        screenshotSrc: "/projects/mcrdse-commerce/mcrdse-home.png",
+        screenshotSrc: "/projects/mcrdse-commerce/mcrdse-home.jpg",
         screenshotAlt: "MCRDSE storefront homepage",
     },
 
@@ -228,24 +228,36 @@ export const pageData: PageData<DiagramKey> = {
 
     gallery: [
         {
-            src: "/projects/mcrdse-commerce/mcrdse-home.png",
+            src: "/projects/mcrdse-commerce/mcrdse-home.jpg",
             alt: "MCRDSE storefront homepage",
             caption: "Homepage — Hormozi-style conversion layout for the Focus + Bliss bundle",
         },
         {
-            src: "/projects/mcrdse-commerce/mcrdse-shop.png",
-            alt: "MCRDSE Super Market storefront",
-            caption: "Super Market — Second storefront on mcrdse.shop with member gate",
+            src: "/projects/mcrdse-commerce/mcrdse-shop.jpg",
+            alt: "MCRDSE shop page with the Focus and Bliss duo featured",
+            caption: "Shop — Product collection on mcrdse.com",
         },
         {
-            src: "/projects/mcrdse-commerce/mcrdse-product.png",
+            src: "/projects/mcrdse-commerce/mcrdse-product.jpg",
             alt: "MCRDSE product detail page",
-            caption: "Product — Detail page with EffectMeter outcome tiles and ritual calendar",
+            caption: "Product — Detail page with the 90-day package and one-time purchase options",
         },
         {
-            src: "/projects/mcrdse-commerce/mcrdse-loyalty.png",
-            alt: "MCRDSE loyalty program",
-            caption: "Loyalty — Points ledger, tier boundaries, and reward ladder",
+            src: "/projects/mcrdse-commerce/mcrdse-loyalty.jpg",
+            alt: "MCRDSE Join the Fam page for the referral and points program",
+            caption: "Loyalty — Join page with a personal referral code and 200 starter points",
+        },
+        {
+            src: "/projects/mcrdse-commerce/mcrdse-super-market-placeholder.jpg",
+            alt: "Wireframe placeholder for the MCRDSE Super Market storefront",
+            caption:
+                "Super Market — Second storefront on mcrdse.shop with member gate (screenshot coming soon)",
+        },
+        {
+            src: "/projects/mcrdse-commerce/mcrdse-points-ledger-placeholder.jpg",
+            alt: "Wireframe placeholder for the MCRDSE loyalty points ledger",
+            caption:
+                "Loyalty account — Points ledger, tier boundaries, and reward ladder (screenshot coming soon)",
         },
     ],
 

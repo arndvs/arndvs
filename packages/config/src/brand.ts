@@ -9,7 +9,7 @@ export const BRAND = {
     slug: "arndvs",
     appUrl: "https://arndvs.com",
     supportEmail: "aaron@arndvs.com",
-    jobTitle: "Full-Stack Engineer & Creative Technologist",
+    jobTitle: "Applied AI Full-Stack Engineer",
     social: {
         github: "https://github.com/arndvs",
         linkedin: "https://linkedin.com/in/arndvs",

@@ -2,6 +2,7 @@
 
 import { ArrowRight, Palette } from "lucide-react";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import {
@@ -11,6 +12,7 @@ import {
     ConclusionSection,
     DecisionLog,
     DeepDiveSection,
+    GallerySection,
     HeaderSection,
     ImpactSection,
     LearningsGrid,
@@ -44,6 +46,17 @@ export default function RipeMetricsContent() {
                 </Link>
             </div>
 
+            <div className="mx-auto max-w-7xl px-6 py-4 lg:px-8">
+                <Image
+                    src={pageData.heroImage.src}
+                    alt={pageData.heroImage.alt}
+                    width={2174}
+                    height={1464}
+                    priority
+                    className="border-border w-full rounded-lg border"
+                />
+            </div>
+
             <OverviewSection data={pageData.overview} />
             <ChallengeSection
                 title={pageData.challenge.title}
@@ -73,6 +86,9 @@ export default function RipeMetricsContent() {
                 title={pageData.achievements.title}
                 items={pageData.achievements.items}
             />
+            <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-8">
+                <GallerySection gallery={pageData.gallery} />
+            </div>
             <ConclusionSection data={pageData.conclusion} />
         </main>
     );
