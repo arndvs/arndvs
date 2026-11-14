@@ -16,6 +16,8 @@ export const metadata: Metadata = generateSiteMetadata({
     feedUrl: "/blog/feed.xml",
 });
 
+export const revalidate = 300;
+
 export default async function BlogPage() {
     const { data: posts } = await sanityFetch({ query: POSTS_QUERY });
 
