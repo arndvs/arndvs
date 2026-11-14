@@ -19,7 +19,7 @@ const projects = [
         year: "2026",
         role: "Solo Developer & Architect",
         description:
-            "The infrastructure behind my engineering workflow. 43 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo. Open source and in production.",
+            "The infrastructure behind my engineering workflow. 50+ skills, 19 guardrail hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo. Open source and in production.",
         tags: [
             "Bash",
             "TypeScript",
@@ -31,7 +31,7 @@ const projects = [
             "GitHub CLI",
         ],
         stats: [
-            { value: "43", label: "Agent Skills" },
+            { value: "50+", label: "Agent Skills" },
             { value: "100%", label: "Open Source" },
             { value: "3", label: "AI Runtimes" },
         ],
@@ -98,7 +98,7 @@ const projects = [
         year: "2026 – Present",
         role: "Lead Engineer",
         description:
-            "A content approval-and-shipping worker with cryptographic approval locking, an educational community site with a branching archetype quiz, and a forward-looking AI-search (GEO) strategy.",
+            "A content approval-and-shipping worker with content-hash approval locking, an educational community site with a branching archetype quiz, and a forward-looking AI-search (GEO) strategy.",
         tags: ["Cloudflare", "D1", "R2", "Astro", "Preact", "Zernio", "Linear"],
         stats: [
             { value: "250", label: "Scripts in D1" },
@@ -204,8 +204,8 @@ export default function ProjectsContent() {
                                 transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
                             }}
                         >
-                            A curated collection of engineering, AI systems, and creative technology
-                            projects spanning 15+ years of building products at scale.
+                            AI systems, agent infrastructure, lifecycle marketing, and full-stack
+                            products. Client and open-source work first, creative projects after.
                         </p>
                     </div>
                 </div>

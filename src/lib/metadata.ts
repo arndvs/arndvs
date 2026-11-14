@@ -19,7 +19,7 @@ const defaultOgImage = {
     url: "/images/og-image.jpg",
     width: 1200,
     height: 630,
-    alt: "Aaron Davis - Full Stack Software Engineer",
+    alt: "Aaron Davis - Applied AI Full-Stack Engineer",
 };
 
 export function generateSiteMetadata({

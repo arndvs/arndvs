@@ -9,7 +9,7 @@ import WorkWithMeContent from "./work-with-me-content";
 export const metadata: Metadata = generateSiteMetadata({
     title: "Work With Me",
     description:
-        "Full-stack engineer available for contract and full-time roles. 15+ years building for the web — from WordPress to React to AI-powered platforms.",
+        "Applied AI full-stack engineer open to full-time and contract roles: applied AI, forward-deployed, and marketing automation engineering. San Diego or remote.",
     path: "/work-with-me",
 });
 
@@ -23,7 +23,7 @@ export default function WorkWithMePage() {
                 url: `${siteConfig.url}/work-with-me`,
                 name: "Work With Me",
                 description:
-                    "Full-stack engineer available for contract and full-time roles. 15+ years building for the web.",
+                    "Applied AI full-stack engineer open to full-time and contract roles. San Diego or remote.",
                 isPartOf: { "@id": `${siteConfig.url}/#website` },
                 breadcrumb: { "@id": `${siteConfig.url}/work-with-me/#breadcrumb` },
             },
@@ -44,16 +44,6 @@ export default function WorkWithMePage() {
                         item: `${siteConfig.url}/work-with-me`,
                     },
                 ],
-            },
-            {
-                "@type": "Service",
-                "@id": `${siteConfig.url}/work-with-me/#service`,
-                name: "Full-Stack Engineering & AI Integration",
-                provider: { "@id": `${siteConfig.url}/#person` },
-                description:
-                    "Production web applications, AI integrations, and full-stack platforms from a senior engineer with 15+ years building for the web.",
-                serviceType: "Software Engineering",
-                url: `${siteConfig.url}/work-with-me`,
             },
         ],
     };

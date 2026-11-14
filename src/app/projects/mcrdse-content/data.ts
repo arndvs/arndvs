@@ -7,7 +7,7 @@ export const pageData: PageData<DiagramKey> = {
         badge: "Content Operations / AI-Search · In Production",
         title: "MCRDSE — Content & Community Platform",
         tagline:
-            "A content approval-and-shipping worker with cryptographic approval locking, an educational community site with a branching archetype quiz, and a forward-looking AI-search (GEO) strategy.",
+            "A content approval-and-shipping worker with content-hash approval locking, an educational community site with a branching archetype quiz, and a forward-looking AI-search (GEO) strategy.",
         stats: [
             { label: "Content Repos", value: "3" },
             { label: "Scripts in D1", value: "250" },
@@ -23,7 +23,7 @@ export const pageData: PageData<DiagramKey> = {
     situation: {
         narrative: [
             "MCRDSE runs three brands — the shop, the Microdose Movement educational community, and a founder's content channel. The founder films short-form content daily, and the bottleneck was never filming — it was deciding what to film, keeping the copy on-brand and legally safe, and getting approved content shipped to scheduling tools. The team needed a briefing dashboard that also enforced a rigorous approval-and-shipping workflow.",
-            "The Movement site needed to be a pure-static educational property with a branching archetype quiz, Zod-typed content collections, and a forward-looking strategy for AI-search visibility — while staying strictly separated from the commerce site behind a brand firewall. The constraint: content must be safe (no medical claims, no shop cross-references), approval must be cryptographically locked, and every external integration must be idempotent.",
+            "The Movement site needed to be a pure-static educational property with a branching archetype quiz, Zod-typed content collections, and a forward-looking strategy for AI-search visibility — while staying strictly separated from the commerce site behind a brand firewall. The constraint: content must be safe (no medical claims, no shop cross-references), approval must be locked to a content hash, and every external integration must be idempotent.",
         ],
         context: {
             role: "Lead Engineer (architecture → production)",
