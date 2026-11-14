@@ -225,12 +225,12 @@ export default function HomeContent() {
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                     priority
                                 />
-                                <div className="bg-background/80 border-border absolute right-6 bottom-6 left-6 rounded-xl border p-4 backdrop-blur-md">
-                                    <p className="text-sm font-medium">Based in San Diego, CA</p>
-                                    <p className="text-muted-foreground mt-1 text-xs">
-                                        Open to remote, hybrid, or on-site roles
-                                    </p>
-                                </div>
+                            </div>
+                            <div className="bg-card border-border mt-4 rounded-xl border p-4">
+                                <p className="text-sm font-medium">Based in San Diego, CA</p>
+                                <p className="text-muted-foreground mt-1 text-xs">
+                                    Open to remote, hybrid, or on-site roles
+                                </p>
                             </div>
                         </div>
                     </div>
