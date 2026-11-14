@@ -1,8 +1,10 @@
 # Aaron Davis
 
-Full-stack engineer in San Diego, 15+ years building for the web. Founded RipeMetrics in 2017 and spent 8 years leading product and AI engineering on a marketing automation, business intelligence, and customer support platform — which is where I learned how to ship AI features in production and what it actually takes to keep a SaaS product alive long term.
+Applied AI full-stack engineer in San Diego, 15+ years building for the web. Founded RipeMetrics in 2017 and spent 8 years building its marketing automation, CRM, and AI customer service platform — which is where I learned how to ship AI features in production and what it actually takes to keep a SaaS product alive long term.
 
-I'm currently going deep on **agentic engineering** — Claude Code, autonomous workflows, human-in-the-loop patterns, and the infrastructure that makes AI systems reliable rather than just impressive in a demo. This profile is the working surface for that: the repos below are the actual systems I use, organized by how they relate.
+My work runs along two lines. **Applied AI and agentic engineering**: Claude Code, autonomous workflows, human-in-the-loop patterns, and the infrastructure that makes AI systems reliable rather than just impressive in a demo. **Lifecycle and marketing automation**: the events, attributes, and code that get the right data onto a customer profile so journeys, segments, and tests work. The repos below are the actual systems I use, organized by how they relate.
+
+Open to full-time and contract roles, San Diego or remote.
 
 ---
 
@@ -12,11 +14,18 @@ I'm currently going deep on **agentic engineering** — Claude Code, autonomous 
 **AI & LLMs:** OpenAI · Anthropic · Azure OpenAI · RAG · embeddings · vector search · tool calling · structured output (Zod) · prompt engineering · LangChain · Pinecone · Chroma · pgvector · fal.ai · Ollama<br>
 **Frontend:** TypeScript · React · Next.js · Astro · Redux · RTK Query · Tailwind · shadcn/ui · Zod<br>
 **Backend:** Node.js · Python · FastAPI · Express · Laravel · PHP · Koa · tRPC<br>
-**Data:** PostgreSQL (+pgvector) · MySQL · Redis · SQLite · Drizzle · Cloudflare D1 · Supabase<br>
+**Data:** PostgreSQL (+pgvector) · Snowflake · MySQL · Redis · SQLite · Drizzle · Cloudflare D1 · Supabase<br>
+**Marketing automation:** Braze · Liquid · GoHighLevel · journey design · segmentation · RFM/lifecycle modeling · deliverability · A2P 10DLC consent and compliance<br>
 **Cloud & DevOps:** Azure (OpenAI · Blob Storage · Functions) · Cloudflare (Workers · D1 · R2 · KV) · AWS (in progress) · Docker · GitHub Actions · CI/CD · Vercel · Railway<br>
 **Integrations:** GoHighLevel · WooCommerce · Stripe · Authorize.net · PayPal · Twilio · ElevenLabs · Shopify · ShipStation · Sanity · Resend · SendGrid · PostHog · Sentry
 
 **Currently studying:** Azure AI Foundry · OpenAI Agents SDK · Google ADK · Vertex AI · AWS Solutions Architect Associate
+
+---
+
+## Certifications
+
+Braze Certified Marketing Specialist · Braze Certified Practitioner · Snowflake Data Engineering Professional Certificate · Snowflake Generative AI Professional Certificate (all 2026) · Claude Code for Real Engineers, AI Hero (2026) · Master the Model Context Protocol, EpicAI (2025) · AI Engineering Bootcamp, Maven (2025) · LLM Engineering: Foundations to SLMs, AI Makerspace (2024)
 
 ---
 
@@ -43,6 +52,17 @@ Learning agentic coding in public, one module at a time.
 
 - [agentic-nlq](https://github.com/arndvs/agentic-nlq) — deterministic code orchestrating non-deterministic agents: an agentic layer (specs, `.claude/commands`, ADWs) around a natural-language-to-SQL app. The Tactical Agentic Coding arc subject.
 - [Tactical-Agentic-Coding](https://github.com/arndvs/Tactical-Agentic-Coding) — the official Agentic Coding course by @IndyDevDan, mirrored for study; progress on [arndvs.com/blog](https://arndvs.com/blog).
+
+---
+
+## Lifecycle & marketing automation
+
+Building the data and messaging side of customer engagement.
+
+- [inkind-first-reward-journey](https://github.com/arndvs/inkind-first-reward-journey) — a Braze first-reward journey built end to end as a work sample: a Snowflake data contract, Liquid that aborts when the data is wrong, a Braze trial, and a Rails outbox, with a decision log and a gap register. Fictional data, not affiliated with inKind. Walkthrough on [arndvs.com/blog](https://arndvs.com/blog/inkind-first-reward-journey).
+- [advanced-data-engineering-snowflake](https://github.com/arndvs/advanced-data-engineering-snowflake) _(fork)_ — course work for the Snowflake Data Engineering certificate.
+
+Braze: certified, with the public work sample above; not yet run in a production role. Production lifecycle work has been on a from-scratch engagement platform at RipeMetrics and on GoHighLevel for clients.
 
 ---
 
@@ -114,8 +134,9 @@ Notable from the RipeMetrics years (2017–2025, now wrapped): tenant-isolated R
 
 ## Background
 
-- Building for the web since 2010 — HTML/CSS → Joomla → WordPress → Laravel → React/Next.js
-- Founded RipeMetrics (2017–2025) — led product, frontend, and AI engineering across a team of up to 12
+- Paying web clients since 2010 — HTML/CSS → Joomla → WordPress → Laravel → React/Next.js
+- Before that and alongside it: a decade in payments and restaurant loyalty programs, including lifecycle segmentation and win-back campaigns
+- Founded RipeMetrics (2017–2025) — CEO, then President of Product & Engineering; built the marketing automation module and the AI engineering across a team of up to 12
 - Based in San Diego, open to remote
 
 ---
