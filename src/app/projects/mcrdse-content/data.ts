@@ -16,7 +16,7 @@ export const pageData: PageData<DiagramKey> = {
             { label: "Migrations", value: "30+" },
         ],
         cta: { text: "Visit Live Site", href: "https://mcrdsemovement.com" },
-        screenshotSrc: "/projects/mcrdse-content/movement-home.png",
+        screenshotSrc: "/projects/mcrdse-content/movement-home.jpg",
         screenshotAlt: "Microdose Movement educational site homepage",
     },
 
@@ -226,17 +226,12 @@ export const pageData: PageData<DiagramKey> = {
 
     gallery: [
         {
-            src: "/projects/mcrdse-content/movement-home.png",
+            src: "/projects/mcrdse-content/movement-home.jpg",
             alt: "Microdose Movement educational site homepage",
             caption: "Movement — Pure-static Astro site with six content pillars",
         },
         {
-            src: "/projects/mcrdse-content/content-ship.png",
-            alt: "Content Ship briefing dashboard",
-            caption: "Content Ship — Briefing dashboard with approval-and-shipping workspace",
-        },
-        {
-            src: "/projects/mcrdse-content/quiz.png",
+            src: "/projects/mcrdse-content/quiz.jpg",
             alt: "Microdose Movement archetype quiz",
             caption: "Quiz — Branching archetype quiz with weighted scoring",
         },

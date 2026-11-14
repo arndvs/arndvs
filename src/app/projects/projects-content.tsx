@@ -89,7 +89,7 @@ const projects = [
         ],
         href: "/projects/mcrdse-commerce",
         link: "https://mcrdse.com",
-        thumbnail: "/projects/mcrdse-commerce/mcrdse-home.png",
+        thumbnail: "/projects/mcrdse-commerce/mcrdse-home.jpg",
     },
     {
         id: "mcrdse-content",
@@ -107,7 +107,7 @@ const projects = [
         ],
         href: "/projects/mcrdse-content",
         link: "https://mcrdsemovement.com",
-        thumbnail: "/projects/mcrdse-content/movement-home.png",
+        thumbnail: "/projects/mcrdse-content/movement-home.jpg",
     },
     {
         id: "push",
