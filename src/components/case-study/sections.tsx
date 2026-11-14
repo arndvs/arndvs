@@ -22,7 +22,7 @@ import type {
     SituationData,
 } from "@/lib/types/case-study";
 
-export type AccentColor = "orange" | "cyan" | "green" | "purple";
+export type AccentColor = "teal" | "orange" | "cyan" | "green" | "purple";
 
 interface AccentClasses {
     dot: string;
@@ -33,6 +33,13 @@ interface AccentClasses {
 }
 
 const accentMap: Record<AccentColor, AccentClasses> = {
+    teal: {
+        dot: "bg-teal-400",
+        text: "text-teal-400",
+        textSubtle: "text-teal-400/80",
+        borderL: "border-l-teal-400",
+        link: "text-teal-500",
+    },
     orange: {
         dot: "bg-orange-500",
         text: "text-orange-500",

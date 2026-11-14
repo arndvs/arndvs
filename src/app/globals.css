@@ -53,14 +53,14 @@
 }
 
 .dark {
-    /* Dark mode — brand-forward, orange accent pops against deep black */
+    /* Dark mode — brand-forward, teal accent (#2DCCAE) against deep black */
     --background: oklch(0.06 0 0);
     --foreground: oklch(0.9 0 0);
     --card: oklch(0.09 0 0);
     --card-foreground: oklch(0.92 0.005 60);
     --popover: oklch(0.08 0 0);
     --popover-foreground: oklch(0.92 0.005 60);
-    --primary: oklch(0.72 0.19 50);
+    --primary: oklch(0.76 0.133 176);
     --primary-foreground: oklch(0.06 0 0);
     --secondary: oklch(0.14 0 0);
     --secondary-foreground: oklch(0.9 0 0);
@@ -72,20 +72,20 @@
     --destructive-foreground: oklch(0.92 0.005 60);
     --border: oklch(0.16 0 0);
     --input: oklch(0.18 0 0);
-    --ring: oklch(0.72 0.19 50);
-    --chart-1: oklch(0.72 0.19 50);
+    --ring: oklch(0.76 0.133 176);
+    --chart-1: oklch(0.76 0.133 176);
     --chart-2: oklch(0.75 0.16 80);
     --chart-3: oklch(0.6 0.2 15);
     --chart-4: oklch(0.65 0.15 160);
     --chart-5: oklch(0.55 0.12 280);
     --sidebar: oklch(0.08 0 0);
     --sidebar-foreground: oklch(0.9 0 0);
-    --sidebar-primary: oklch(0.72 0.19 50);
+    --sidebar-primary: oklch(0.76 0.133 176);
     --sidebar-primary-foreground: oklch(0.06 0 0);
     --sidebar-accent: oklch(0.14 0 0);
     --sidebar-accent-foreground: oklch(0.9 0 0);
     --sidebar-border: oklch(0.16 0 0);
-    --sidebar-ring: oklch(0.72 0.19 50);
+    --sidebar-ring: oklch(0.76 0.133 176);
 }
 
 @theme inline {
@@ -200,7 +200,7 @@
 
 /* Text gradient for headings */
 .text-gradient {
-    background: linear-gradient(135deg, #ff792a 0%, #ffc107 100%);
+    background: linear-gradient(135deg, #2dccae 0%, #b2f5e2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
