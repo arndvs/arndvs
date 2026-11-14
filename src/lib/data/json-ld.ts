@@ -7,7 +7,7 @@ export const personJsonLd = {
     url: siteConfig.url,
     jobTitle: "Applied AI Full-Stack Engineer",
     description:
-        "Applied AI full-stack engineer with 15+ years building for the web. Founded RipeMetrics, a marketing automation, CRM, and AI customer service platform, and built on it for 8 years. Builds AI systems, agent infrastructure, and lifecycle marketing systems.",
+        "Applied AI full-stack engineer with 15+ years building for the web. Co-founded RipeMetrics, a marketing automation, CRM, and AI customer service platform, and built on it for 8 years. Builds AI systems, agent infrastructure, and lifecycle marketing systems.",
     sameAs: ["https://github.com/arndvs", "https://linkedin.com/in/arndvs"],
     knowsAbout: [
         "React",

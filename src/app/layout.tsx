@@ -7,7 +7,7 @@ import { Suspense } from "react";
 
 import type { Metadata } from "next";
 import { VisualEditing } from "next-sanity/visual-editing";
-import { DM_Sans, Outfit } from "next/font/google";
+import localFont from "next/font/local";
 import { draftMode } from "next/headers";
 
 import { DisableDraftMode } from "@/components/disable-draft-mode";
@@ -22,16 +22,23 @@ import { SanityLive } from "@/sanity/lib/live";
 
 import "./globals.css";
 
-const dmSans = DM_Sans({
-    subsets: ["latin"],
-    weight: ["400", "500", "700"],
+// Self-hosted so the build does not depend on fetching Google Fonts.
+const dmSans = localFont({
+    src: [
+        { path: "../assets/fonts/dm-sans-400.woff2", weight: "400", style: "normal" },
+        { path: "../assets/fonts/dm-sans-500.woff2", weight: "500", style: "normal" },
+        { path: "../assets/fonts/dm-sans-700.woff2", weight: "700", style: "normal" },
+    ],
     variable: "--font-satoshi",
     display: "swap",
 });
 
-const outfit = Outfit({
-    subsets: ["latin"],
-    weight: ["700", "800", "900"],
+const outfit = localFont({
+    src: [
+        { path: "../assets/fonts/outfit-700.woff2", weight: "700", style: "normal" },
+        { path: "../assets/fonts/outfit-800.woff2", weight: "800", style: "normal" },
+        { path: "../assets/fonts/outfit-900.woff2", weight: "900", style: "normal" },
+    ],
     variable: "--font-cabinet",
     display: "swap",
 });
@@ -43,7 +50,7 @@ export const metadata: Metadata = {
         template: "%s | Aaron Davis",
     },
     description:
-        "Applied AI full-stack engineer in San Diego. Founded RipeMetrics and spent 8 years building its marketing automation and AI platform. Braze and Snowflake certified. TypeScript, Python, React, Next.js, RAG, agents. Open to full-time and contract roles.",
+        "Applied AI full-stack engineer in San Diego. Co-founded RipeMetrics and spent 8 years building its marketing automation and AI platform. Braze and Snowflake certified. TypeScript, Python, React, Next.js, RAG, agents. Open to full-time and contract roles.",
     keywords: [
         "Applied AI Engineer",
         "Forward Deployed Engineer",
@@ -70,7 +77,7 @@ export const metadata: Metadata = {
         siteName: "Aaron Davis Portfolio",
         title: "Aaron Davis - Applied AI Full-Stack Engineer",
         description:
-            "Applied AI full-stack engineer. Founded RipeMetrics and spent 8 years building its marketing automation and AI platform. Braze and Snowflake certified.",
+            "Applied AI full-stack engineer. Co-founded RipeMetrics and spent 8 years building its marketing automation and AI platform. Braze and Snowflake certified.",
         images: [
             {
                 url: "/images/og-image.jpg",
@@ -84,7 +91,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Aaron Davis - Applied AI Full-Stack Engineer",
         description:
-            "Applied AI full-stack engineer. Founded RipeMetrics and spent 8 years building its marketing automation and AI platform.",
+            "Applied AI full-stack engineer. Co-founded RipeMetrics and spent 8 years building its marketing automation and AI platform.",
         images: ["/images/og-image.jpg"],
     },
     robots: {

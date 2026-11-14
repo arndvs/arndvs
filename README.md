@@ -1,6 +1,6 @@
 # Aaron Davis
 
-Applied AI full-stack engineer in San Diego, 15+ years building for the web. Founded RipeMetrics in 2017 and spent 8 years building its marketing automation, CRM, and AI customer service platform — which is where I learned how to ship AI features in production and what it actually takes to keep a SaaS product alive long term.
+Applied AI full-stack engineer in San Diego, 15+ years building for the web. Co-founded RipeMetrics in 2017 and spent 8 years building its marketing automation, CRM, and AI customer service platform — which is where I learned how to ship AI features in production and what it actually takes to keep a SaaS product alive long term.
 
 My work runs along two lines. **Applied AI and agentic engineering**: Claude Code, autonomous workflows, human-in-the-loop patterns, and the infrastructure that makes AI systems reliable rather than just impressive in a demo. **Lifecycle and marketing automation**: the events, attributes, and code that get the right data onto a customer profile so journeys, segments, and tests work. The repos below are the actual systems I use, organized by how they relate.
 
@@ -136,7 +136,7 @@ Notable from the RipeMetrics years (2017–2025, now wrapped): tenant-isolated R
 
 - Paying web clients since 2010 — HTML/CSS → Joomla → WordPress → Laravel → React/Next.js
 - Before that and alongside it: a decade in payments and restaurant loyalty programs, including lifecycle segmentation and win-back campaigns
-- Founded RipeMetrics (2017–2025) — CEO, then President of Product & Engineering; built the marketing automation module and the AI engineering across a team of up to 12
+- Co-founded RipeMetrics (2017–2025) — CEO, then President of Product & Engineering; built the marketing automation module and the AI engineering across a team of up to 12
 - Based in San Diego, open to remote
 
 ---

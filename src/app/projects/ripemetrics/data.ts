@@ -96,7 +96,7 @@ export const pageData: PageData = {
     overview: {
         role: {
             label: "Role",
-            value: "Founder, Lead Frontend Developer & AI Engineer",
+            value: "Co-Founder, Lead Frontend Developer & AI Engineer",
         },
         timeline: {
             label: "Timeline",

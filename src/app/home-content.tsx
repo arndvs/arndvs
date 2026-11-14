@@ -72,7 +72,7 @@ const featuredProjects = [
         category: "Marketing Automation / AI Platform",
         year: "2017–2025",
         description:
-            "The customer growth platform I founded and built on for 8 years: a journey engine and segment builder for marketing automation, and tenant-isolated RAG that answered customers across chat, SMS, email, and voice.",
+            "The customer growth platform I co-founded and built on for 8 years: a journey engine and segment builder for marketing automation, and tenant-isolated RAG that answered customers across chat, SMS, email, and voice.",
         stats: [
             { value: "8", label: "Years in Production" },
             { value: "21", label: "Journey Triggers" },
@@ -153,7 +153,7 @@ export default function HomeContent() {
                                     transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
                                 }}
                             >
-                                15+ years building for the web. I founded RipeMetrics and spent 8
+                                15+ years building for the web. I co-founded RipeMetrics and spent 8
                                 years building its marketing automation and AI platform. Now I build
                                 AI systems and lifecycle marketing infrastructure, usually directly
                                 with the person who owns the problem: I run the discovery, scope the

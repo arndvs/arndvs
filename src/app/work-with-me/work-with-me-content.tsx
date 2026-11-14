@@ -346,10 +346,10 @@ export default function WorkWithMeContent() {
                             className="text-muted-foreground space-y-6 leading-relaxed"
                         >
                             <p>
-                                I founded a company and built its product for eight years, so I have
-                                been the person who answers when it breaks. That changes how you
-                                build: you plan for the CRM being down, the webhook arriving twice,
-                                and the model being wrong.
+                                I co-founded a company and built its product for eight years, so I
+                                have been the person who answers when it breaks. That changes how
+                                you build: you plan for the CRM being down, the webhook arriving
+                                twice, and the model being wrong.
                             </p>
                             <p>
                                 At a San Diego clinic, insurance verification used to be days of

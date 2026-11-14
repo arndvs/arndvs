@@ -19,13 +19,13 @@ const journey = [
     },
     {
         period: "2017-2020",
-        title: "Founder & CEO — RipeMetrics",
+        title: "Co-Founder & CEO — RipeMetrics",
         description:
-            "Founded RipeMetrics, took it through the CSD16 (Canopy San Diego) accelerator, and recruited a CTO and co-founders to build the MVP. Ran the company through its pivots from review management to customer analytics, CRM, and multi-channel messaging.",
+            "Co-founded RipeMetrics, took it through the CSD16 (Canopy San Diego) accelerator, and recruited a CTO to build the MVP. Ran the company through its pivots from review management to customer analytics, CRM, and multi-channel messaging.",
     },
     {
         period: "2020-2025",
-        title: "President, Product & Engineering — RipeMetrics",
+        title: "Co-Founder, President, Product & Engineering — RipeMetrics",
         description:
             "Hired a CEO and moved to product and engineering across 8 codebases. Co-designed and built the marketing automation module (a journey engine with 21 behavior triggers and 38 segmentation scopes), per-tenant SMS compliance, and tenant-isolated RAG across chat, SMS, email, and voice. Led the Laravel Livewire to React/Next.js migration behind feature flags.",
     },
@@ -221,11 +221,11 @@ export default function AboutContent() {
                             }}
                         >
                             Based in San Diego. I spent a decade in payments and restaurant loyalty
-                            programs, and have had paying web clients since 2010. In 2017 I founded
-                            RipeMetrics, a marketing automation, CRM, and AI customer service
-                            platform, and built on it for 8 years. Now I build AI systems and
-                            lifecycle marketing infrastructure, usually working directly with the
-                            person who owns the problem.
+                            programs, and have had paying web clients since 2010. In 2017 I
+                            co-founded RipeMetrics, a marketing automation, CRM, and AI customer
+                            service platform, and built on it for 8 years. Now I build AI systems
+                            and lifecycle marketing infrastructure, usually working directly with
+                            the person who owns the problem.
                         </p>
                     </div>
                 </div>

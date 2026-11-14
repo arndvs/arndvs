@@ -8,13 +8,13 @@ Last reviewed: 2026-11-14.
 
 ## Identity
 
-| Fact                       | Value                                                               | Status    | Notes                                                                                                                        |
-| -------------------------- | ------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Title                      | Applied AI Full-Stack Engineer                                      | Confirmed | Replaces "Full-Stack Engineer & Creative Technologist", which was written for one application.                               |
-| RipeMetrics role           | Founded. CEO 2017–2020, then President, Product & Engineering       | Confirmed | Founded it, then recruited a CTO and co-founders. Use "founded", not "co-founded". LinkedIn job titles still say Co-Founder. |
-| Years building for the web | 15+, with paying clients since 2010                                 | Confirmed | A first one-off paid site was around 2006. Do not use 17+, 20, or "since 2002".                                              |
-| Location and availability  | San Diego. Remote, hybrid, or on-site. Full-time or contract        | Confirmed |                                                                                                                              |
-| Lanes                      | Applied AI and forward-deployed; lifecycle and marketing automation | Confirmed | Both appear on the first screen of the homepage.                                                                             |
+| Fact                       | Value                                                                                     | Status    | Notes                                                                                                                            |
+| -------------------------- | ----------------------------------------------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Title                      | Applied AI Full-Stack Engineer                                                            | Confirmed | Replaces "Full-Stack Engineer & Creative Technologist", which was written for one application.                                   |
+| RipeMetrics role           | Co-founded. Co-Founder & CEO 2017–2020, then Co-Founder, President, Product & Engineering | Confirmed | Use "co-founded" and "Co-Founder" on every surface, matching the LinkedIn job titles. Do not write "founded" or "Founder" alone. |
+| Years building for the web | 15+, with paying clients since 2010                                                       | Confirmed | A first one-off paid site was around 2006. Do not use 17+, 20, or "since 2002".                                                  |
+| Location and availability  | San Diego. Remote, hybrid, or on-site. Full-time or contract                              | Confirmed |                                                                                                                                  |
+| Lanes                      | Applied AI and forward-deployed; lifecycle and marketing automation                       | Confirmed | Both appear on the first screen of the homepage.                                                                                 |
 
 ## Braze rule
 
