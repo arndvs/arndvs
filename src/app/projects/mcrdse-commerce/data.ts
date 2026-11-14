@@ -247,6 +247,18 @@ export const pageData: PageData<DiagramKey> = {
             alt: "MCRDSE Join the Fam page for the referral and points program",
             caption: "Loyalty — Join page with a personal referral code and 200 starter points",
         },
+        {
+            src: "/projects/mcrdse-commerce/mcrdse-super-market-placeholder.jpg",
+            alt: "Wireframe placeholder for the MCRDSE Super Market storefront",
+            caption:
+                "Super Market — Second storefront on mcrdse.shop with member gate (screenshot coming soon)",
+        },
+        {
+            src: "/projects/mcrdse-commerce/mcrdse-points-ledger-placeholder.jpg",
+            alt: "Wireframe placeholder for the MCRDSE loyalty points ledger",
+            caption:
+                "Loyalty account — Points ledger, tier boundaries, and reward ladder (screenshot coming soon)",
+        },
     ],
 
     cta: {

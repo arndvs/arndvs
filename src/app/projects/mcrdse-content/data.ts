@@ -231,6 +231,12 @@ export const pageData: PageData<DiagramKey> = {
             caption: "Movement — Pure-static Astro site with six content pillars",
         },
         {
+            src: "/projects/mcrdse-content/content-ship-placeholder.jpg",
+            alt: "Wireframe placeholder for the Content Ship briefing dashboard",
+            caption:
+                "Content Ship — Briefing dashboard with approval-and-shipping workspace (screenshot coming soon)",
+        },
+        {
             src: "/projects/mcrdse-content/quiz.jpg",
             alt: "Microdose Movement archetype quiz",
             caption: "Quiz — Branching archetype quiz with weighted scoring",
