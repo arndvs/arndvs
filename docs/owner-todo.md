@@ -51,7 +51,7 @@ I wrote these from limited sources. Correct anything that does not match how the
 
 ## 6. Small decisions
 
-- [ ] **Portrait.** The homepage uses IMG_8954 as a frameless cut-out with a teal glow, mirrored so you lean toward the headline. Mirroring puts the pocket square on the wrong side; say so if that bothers you and I'll flip it back. Enhancement was contrast and sharpening only, no generative model. For LinkedIn use the unmirrored file.
+- [ ] **Portrait.** The homepage uses the enhanced photo you supplied on 2026-11-14, cut out and placed on a teal wash with no frame. Check the light theme once on the preview; I only verified dark. Use the same photo for LinkedIn so the two match.
 - [ ] **inKind animation colours.** It uses the inKind sample palette (gold on plum), like the post's hero. Say so if you want it in site teal.
 - [ ] **More animations.** Three are done. The plan had more candidates (RipeMetrics tenant isolation, AlignSD insurance verification, the first-reward journey timeline). Tell me which to build next.
 

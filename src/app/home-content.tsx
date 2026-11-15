@@ -99,6 +99,24 @@ export default function HomeContent() {
                 className="relative flex min-h-[100vh] items-center overflow-hidden"
                 aria-label="Hero section"
             >
+                {/* Teal wash that brightens behind the portrait: right side on desktop, lower centre on phones */}
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 hidden lg:block"
+                    style={{
+                        background:
+                            "radial-gradient(ellipse 55% 70% at 76% 42%, oklch(0.76 0.133 176 / 0.34), oklch(0.76 0.133 176 / 0.10) 55%, transparent 80%), linear-gradient(180deg, oklch(0.76 0.133 176 / 0.05), transparent 70%)",
+                    }}
+                />
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 lg:hidden"
+                    style={{
+                        background:
+                            "radial-gradient(ellipse 90% 26% at 50% 80%, oklch(0.76 0.133 176 / 0.34), oklch(0.76 0.133 176 / 0.10) 55%, transparent 85%)",
+                    }}
+                />
+
                 {/* Background watermark */}
                 <div
                     aria-hidden="true"
@@ -205,9 +223,9 @@ export default function HomeContent() {
                             </div>
                         </div>
 
-                        {/* Image: a cut-out that stands on the page with a glow behind it, no frame */}
+                        {/* Image: a cut-out that stands on the page, no frame */}
                         <div
-                            className="relative lg:min-h-[38rem] lg:self-stretch"
+                            className="relative lg:min-h-[40rem] lg:self-stretch"
                             style={{
                                 transform: isVisible ? "translateY(0)" : "translateY(60px)",
                                 opacity: isVisible ? 1 : 0,
@@ -215,33 +233,25 @@ export default function HomeContent() {
                             }}
                         >
                             <div
-                                aria-hidden="true"
-                                className="pointer-events-none absolute top-[40%] left-1/2 aspect-square w-[150%] max-w-none -translate-x-1/2 -translate-y-1/2 rounded-full lg:w-[190%]"
-                                style={{
-                                    background:
-                                        "radial-gradient(closest-side, oklch(0.76 0.133 176 / 0.28), oklch(0.76 0.133 176 / 0.08) 55%, transparent 100%)",
-                                }}
-                            />
-                            <div
-                                className="relative mx-auto aspect-2/3 w-64 sm:w-72 lg:absolute lg:-bottom-20 lg:left-1/2 lg:mx-0 lg:h-[calc(100%+5rem)] lg:w-auto lg:-translate-x-1/2"
+                                className="relative mx-auto aspect-2/3 w-72 sm:w-80 lg:absolute lg:-bottom-20 lg:left-[54%] lg:mx-0 lg:h-[calc(100%+8rem)] lg:w-auto lg:-translate-x-1/2"
                                 style={{
                                     maskImage:
-                                        "linear-gradient(to bottom, black 80%, transparent 100%)",
+                                        "linear-gradient(to bottom, black 88%, transparent 100%)",
                                     WebkitMaskImage:
-                                        "linear-gradient(to bottom, black 80%, transparent 100%)",
+                                        "linear-gradient(to bottom, black 88%, transparent 100%)",
                                 }}
                             >
                                 <Image
                                     alt="Aaron Davis"
                                     src={aaronPortrait}
                                     fill
-                                    className="-scale-x-100 object-contain object-bottom"
-                                    sizes="(max-width: 640px) 256px, (max-width: 1024px) 288px, 620px"
+                                    className="object-contain object-bottom"
+                                    sizes="(max-width: 640px) 288px, (max-width: 1024px) 320px, 680px"
                                     quality={90}
                                     priority
                                 />
                             </div>
-                            <div className="bg-card/85 border-border relative z-10 mx-auto -mt-10 max-w-sm rounded-xl border p-4 backdrop-blur lg:absolute lg:right-0 lg:bottom-0 lg:left-0 lg:mt-0 lg:max-w-none">
+                            <div className="bg-card/85 border-border relative z-10 mx-auto -mt-12 max-w-sm rounded-xl border p-4 backdrop-blur lg:absolute lg:bottom-2 lg:-left-6 lg:mt-0 lg:w-96">
                                 <p className="text-sm font-medium">Based in San Diego, CA</p>
                                 <p className="text-muted-foreground mt-1 text-xs">
                                     Open to remote, hybrid, or on-site roles
