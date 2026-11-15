@@ -51,7 +51,7 @@ I wrote these from limited sources. Correct anything that does not match how the
 
 ## 6. Small decisions
 
-- [ ] **Portrait.** The homepage uses the black t-shirt photo, cropped to the upper body, on a teal wash with no frame. The studio blazer versions are kept as files if you want to switch back. Check the light theme once on the preview; I only verified dark.
+- [ ] **Portrait.** The homepage uses the enhanced photo you supplied on 2026-11-14, cut out and placed on a teal wash with no frame. Check the light theme once on the preview; I only verified dark. Use the same photo for LinkedIn so the two match.
 - [ ] **inKind animation colours.** It uses the inKind sample palette (gold on plum), like the post's hero. Say so if you want it in site teal.
 - [ ] **More animations.** Three are done. The plan had more candidates (RipeMetrics tenant isolation, AlignSD insurance verification, the first-reward journey timeline). Tell me which to build next.
 

@@ -105,7 +105,7 @@ export default function HomeContent() {
                     className="pointer-events-none absolute inset-0 hidden lg:block"
                     style={{
                         background:
-                            "radial-gradient(ellipse 55% 70% at 76% 50%, oklch(0.76 0.133 176 / 0.38), oklch(0.76 0.133 176 / 0.10) 55%, transparent 80%), linear-gradient(180deg, oklch(0.76 0.133 176 / 0.05), transparent 70%)",
+                            "radial-gradient(ellipse 55% 70% at 76% 42%, oklch(0.76 0.133 176 / 0.34), oklch(0.76 0.133 176 / 0.10) 55%, transparent 80%), linear-gradient(180deg, oklch(0.76 0.133 176 / 0.05), transparent 70%)",
                     }}
                 />
                 <div
@@ -233,12 +233,12 @@ export default function HomeContent() {
                             }}
                         >
                             <div
-                                className="relative mx-auto aspect-[1086/960] w-80 max-w-full sm:w-96 lg:absolute lg:-bottom-20 lg:left-[50%] lg:mx-0 lg:h-[76%] lg:w-auto lg:max-w-none lg:-translate-x-1/2"
+                                className="relative mx-auto aspect-2/3 w-72 sm:w-80 lg:absolute lg:-bottom-20 lg:left-[54%] lg:mx-0 lg:h-[calc(100%+8rem)] lg:w-auto lg:-translate-x-1/2"
                                 style={{
                                     maskImage:
-                                        "linear-gradient(to bottom, black 78%, transparent 100%)",
+                                        "linear-gradient(to bottom, black 88%, transparent 100%)",
                                     WebkitMaskImage:
-                                        "linear-gradient(to bottom, black 78%, transparent 100%)",
+                                        "linear-gradient(to bottom, black 88%, transparent 100%)",
                                 }}
                             >
                                 <Image
@@ -246,7 +246,7 @@ export default function HomeContent() {
                                     src={aaronPortrait}
                                     fill
                                     className="object-contain object-bottom"
-                                    sizes="(max-width: 640px) 320px, (max-width: 1024px) 384px, 800px"
+                                    sizes="(max-width: 640px) 288px, (max-width: 1024px) 320px, 680px"
                                     quality={90}
                                     priority
                                 />
