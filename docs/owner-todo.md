@@ -51,7 +51,7 @@ I wrote these from limited sources. Correct anything that does not match how the
 
 ## 6. Small decisions
 
-- [ ] **Portrait.** The homepage uses the studio photo IMG_8946 with the room replaced by a deep teal backdrop. Colour and contrast were adjusted; nothing on you was retouched. Use the same file for LinkedIn. IMG_8954 is the closed-smile alternate, and both exist with the original room as well.
+- [ ] **Portrait.** The homepage uses the studio photo IMG_8954 with the room replaced by a deep teal backdrop. Colour and contrast were adjusted; nothing on you was retouched. Use the same file for LinkedIn. IMG_8946 is the open-smile alternate, and both exist with the original room as well.
 - [ ] **inKind animation colours.** It uses the inKind sample palette (gold on plum), like the post's hero. Say so if you want it in site teal.
 - [ ] **More animations.** Three are done. The plan had more candidates (RipeMetrics tenant isolation, AlignSD insurance verification, the first-reward journey timeline). Tell me which to build next.
 
