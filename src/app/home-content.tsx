@@ -117,7 +117,7 @@ export default function HomeContent() {
                 </div>
 
                 <div className="relative z-10 w-full px-6 py-20 lg:px-12 xl:px-20">
-                    <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-16">
+                    <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-16">
                         {/* Content */}
                         <div>
                             <div
@@ -207,7 +207,7 @@ export default function HomeContent() {
 
                         {/* Image */}
                         <div
-                            className="relative mx-auto w-full max-w-[15rem] sm:max-w-xs lg:mx-0 lg:ml-auto lg:max-w-sm"
+                            className="relative mx-auto w-full max-w-[17rem] sm:max-w-xs lg:mx-0 lg:ml-auto lg:max-w-md"
                             style={{
                                 transform: isVisible
                                     ? "translateY(0) scale(1)"
@@ -216,13 +216,13 @@ export default function HomeContent() {
                                 transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s",
                             }}
                         >
-                            <div className="bg-card relative aspect-4/5 overflow-hidden rounded-2xl">
+                            <div className="bg-card relative aspect-2/3 overflow-hidden rounded-2xl">
                                 <Image
                                     alt="Aaron Davis"
                                     src={aaronPortrait}
                                     fill
                                     className="object-cover"
-                                    sizes="(max-width: 640px) 240px, 384px"
+                                    sizes="(max-width: 640px) 272px, 448px"
                                     priority
                                 />
                             </div>
