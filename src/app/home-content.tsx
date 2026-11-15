@@ -223,6 +223,7 @@ export default function HomeContent() {
                                     fill
                                     className="object-cover"
                                     sizes="(max-width: 640px) 272px, 448px"
+                                    quality={90}
                                     priority
                                 />
                             </div>

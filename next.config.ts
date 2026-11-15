@@ -28,6 +28,8 @@ const nextConfig: NextConfig = {
         browserToTerminal: "error",
     },
     images: {
+        // 90 is used for the homepage portrait, where the default 75 softens the face.
+        qualities: [75, 90],
         remotePatterns: [
             {
                 protocol: "https",
