@@ -205,29 +205,43 @@ export default function HomeContent() {
                             </div>
                         </div>
 
-                        {/* Image */}
+                        {/* Image: a cut-out that stands on the page with a glow behind it, no frame */}
                         <div
-                            className="relative mx-auto w-full max-w-[17rem] sm:max-w-xs lg:mx-0 lg:ml-auto lg:max-w-md"
+                            className="relative lg:min-h-[38rem] lg:self-stretch"
                             style={{
-                                transform: isVisible
-                                    ? "translateY(0) scale(1)"
-                                    : "translateY(60px) scale(0.95)",
+                                transform: isVisible ? "translateY(0)" : "translateY(60px)",
                                 opacity: isVisible ? 1 : 0,
                                 transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s",
                             }}
                         >
-                            <div className="bg-card relative aspect-2/3 overflow-hidden rounded-2xl">
+                            <div
+                                aria-hidden="true"
+                                className="pointer-events-none absolute top-[40%] left-1/2 aspect-square w-[150%] max-w-none -translate-x-1/2 -translate-y-1/2 rounded-full lg:w-[190%]"
+                                style={{
+                                    background:
+                                        "radial-gradient(closest-side, oklch(0.76 0.133 176 / 0.28), oklch(0.76 0.133 176 / 0.08) 55%, transparent 100%)",
+                                }}
+                            />
+                            <div
+                                className="relative mx-auto aspect-2/3 w-64 sm:w-72 lg:absolute lg:-bottom-20 lg:left-1/2 lg:mx-0 lg:h-[calc(100%+5rem)] lg:w-auto lg:-translate-x-1/2"
+                                style={{
+                                    maskImage:
+                                        "linear-gradient(to bottom, black 80%, transparent 100%)",
+                                    WebkitMaskImage:
+                                        "linear-gradient(to bottom, black 80%, transparent 100%)",
+                                }}
+                            >
                                 <Image
                                     alt="Aaron Davis"
                                     src={aaronPortrait}
                                     fill
-                                    className="object-cover"
-                                    sizes="(max-width: 640px) 272px, 448px"
+                                    className="-scale-x-100 object-contain object-bottom"
+                                    sizes="(max-width: 640px) 256px, (max-width: 1024px) 288px, 620px"
                                     quality={90}
                                     priority
                                 />
                             </div>
-                            <div className="bg-card border-border mt-4 rounded-xl border p-4">
+                            <div className="bg-card/85 border-border relative z-10 mx-auto -mt-10 max-w-sm rounded-xl border p-4 backdrop-blur lg:absolute lg:right-0 lg:bottom-0 lg:left-0 lg:mt-0 lg:max-w-none">
                                 <p className="text-sm font-medium">Based in San Diego, CA</p>
                                 <p className="text-muted-foreground mt-1 text-xs">
                                     Open to remote, hybrid, or on-site roles
