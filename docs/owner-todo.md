@@ -51,7 +51,7 @@ I wrote these from limited sources. Correct anything that does not match how the
 
 ## 6. Small decisions
 
-- [ ] **Portrait.** The neck retouch on the teal portrait is my edit. If it looks off at full size, send the original and I'll redo it.
+- [ ] **Portrait.** The homepage now uses the studio photo (IMG_8946), cropped and graded with no retouching. Use the same file for LinkedIn in place of the teal one. IMG_8955 is the closed-smile alternate.
 - [ ] **inKind animation colours.** It uses the inKind sample palette (gold on plum), like the post's hero. Say so if you want it in site teal.
 - [ ] **More animations.** Three are done. The plan had more candidates (RipeMetrics tenant isolation, AlignSD insurance verification, the first-reward journey timeline). Tell me which to build next.
 

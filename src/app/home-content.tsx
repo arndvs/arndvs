@@ -117,7 +117,7 @@ export default function HomeContent() {
                 </div>
 
                 <div className="relative z-10 w-full px-6 py-20 lg:px-12 xl:px-20">
-                    <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
+                    <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-16">
                         {/* Content */}
                         <div>
                             <div
@@ -207,7 +207,7 @@ export default function HomeContent() {
 
                         {/* Image */}
                         <div
-                            className="relative"
+                            className="relative mx-auto w-full max-w-[15rem] sm:max-w-xs lg:mx-0 lg:ml-auto lg:max-w-sm"
                             style={{
                                 transform: isVisible
                                     ? "translateY(0) scale(1)"
@@ -222,7 +222,7 @@ export default function HomeContent() {
                                     src={aaronPortrait}
                                     fill
                                     className="object-cover"
-                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    sizes="(max-width: 640px) 240px, 384px"
                                     priority
                                 />
                             </div>
