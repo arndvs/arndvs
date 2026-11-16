@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { logPageRobots } from "@/lib/data/site-sections";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
@@ -13,6 +14,7 @@ export const metadata: Metadata = generateSiteMetadata({
     description:
         "What I shipped this week — weekly development digest tracking commits, projects, and progress.",
     path: "/shipped",
+    robots: logPageRobots,
 });
 
 export default async function ShippedPage() {
