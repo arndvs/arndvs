@@ -151,16 +151,16 @@ export default function HomeContent() {
                             </div>
 
                             <h1
-                                className="font-display mt-6 text-5xl leading-[0.95] font-black tracking-tight sm:text-6xl lg:text-7xl xl:text-8xl"
+                                className="font-display mt-6 text-5xl leading-[0.95] font-black tracking-tight sm:text-6xl lg:text-6xl xl:text-7xl"
                                 style={{
                                     transform: isVisible ? "translateY(0)" : "translateY(50px)",
                                     opacity: isVisible ? 1 : 0,
                                     transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
                                 }}
                             >
-                                <span className="text-foreground">AI systems that</span>
+                                <span className="text-foreground">I build AI features</span>
                                 <br />
-                                <span className="text-gradient">hold up in production</span>
+                                <span className="text-gradient">and the systems around them</span>
                             </h1>
 
                             <p
@@ -172,10 +172,10 @@ export default function HomeContent() {
                                 }}
                             >
                                 15+ years building for the web. I co-founded RipeMetrics and spent 8
-                                years building its marketing automation and AI platform. Now I build
-                                AI systems and lifecycle marketing infrastructure, usually directly
-                                with the person who owns the problem: I run the discovery, scope the
-                                system, build it, and stay on it after launch.
+                                years on its marketing automation and AI platform. Today I work on
+                                applied AI and lifecycle marketing, usually directly with the person
+                                who owns the problem: I run the discovery, scope the system, build
+                                it, and stay on it after launch.
                             </p>
 
                             <div
