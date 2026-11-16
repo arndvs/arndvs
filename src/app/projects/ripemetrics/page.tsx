@@ -11,6 +11,14 @@ export const metadata: Metadata = generateSiteMetadata({
     description:
         "Case study: AI-native customer growth platform spanning 8 repositories — 880+ components, production RAG pipeline with dual-LLM failover across chat, SMS, email, and voice.",
     path: "/projects/ripemetrics",
+    images: [
+        {
+            url: "/og/ripemetrics.jpg",
+            width: 1200,
+            height: 630,
+            alt: "RipeMetrics — marketing automation and AI platform, 2017–2025",
+        },
+    ],
 });
 
 export default function RipeMetricsPage() {

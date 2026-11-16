@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { PROJECTS } from "@/lib/data/projects";
+import { SHOW_LOG_PAGES } from "@/lib/data/site-sections";
 import { siteConfig } from "@/sanity/env";
 import { client } from "@/sanity/lib/client";
 import {
@@ -85,25 +86,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/changelog`,
-            lastModified: changelogLastModified,
-            changeFrequency: "weekly",
-            priority: 0.6,
-        },
-        {
             url: `${baseUrl}/work-with-me`,
             lastModified: new Date(),
             changeFrequency: "monthly",
             priority: 0.9,
         },
-        {
-            url: `${baseUrl}/shipped`,
-            lastModified: new Date(),
-            changeFrequency: "weekly",
-            priority: 0.7,
-        },
         ...projectEntries,
         ...blogEntries,
-        ...digestEntries,
+        // Changelog and Shipped are left out until they have entries (see site-sections.ts).
+        ...(SHOW_LOG_PAGES
+            ? ([
+                  {
+                      url: `${baseUrl}/changelog`,
+                      lastModified: changelogLastModified,
+                      changeFrequency: "weekly",
+                      priority: 0.6,
+                  },
+                  {
+                      url: `${baseUrl}/shipped`,
+                      lastModified: new Date(),
+                      changeFrequency: "weekly",
+                      priority: 0.7,
+                  },
+                  ...digestEntries,
+              ] satisfies MetadataRoute.Sitemap)
+            : []),
     ];
 }

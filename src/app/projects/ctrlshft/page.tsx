@@ -21,8 +21,16 @@ import { pageData } from "./data";
 export const metadata: Metadata = generateSiteMetadata({
     title: "ctrl+shft — AI Agent Infrastructure",
     description:
-        "Autonomous AI agent infrastructure — 43 skills (including a 7-phase UX design process), lifecycle hooks, compliance HUD, and secrets management from a single dotfiles repo. One git pull updates every machine.",
+        "Autonomous AI agent infrastructure — 50+ skills (including a 7-phase UX design process), 19 lifecycle hooks, compliance HUD, and secrets management from a single dotfiles repo. One git pull updates every machine.",
     path: "/projects/ctrlshft",
+    images: [
+        {
+            url: "/og/ctrlshft.jpg",
+            width: 1200,
+            height: 630,
+            alt: "ctrl+shft — AI agent infrastructure, open source",
+        },
+    ],
 });
 
 export default function CtrlShftPage() {
@@ -34,7 +42,7 @@ export default function CtrlShftPage() {
                 "@id": `${siteConfig.url}/projects/ctrlshft/#work`,
                 name: "ctrl+shft — AI Agent Infrastructure",
                 description:
-                    "Autonomous AI agent infrastructure — 43 skills (including a 7-phase UX design process), lifecycle hooks, compliance HUD, and secrets management from a single dotfiles repo.",
+                    "Autonomous AI agent infrastructure — 50+ skills (including a 7-phase UX design process), 19 lifecycle hooks, compliance HUD, and secrets management from a single dotfiles repo.",
                 url: `${siteConfig.url}/projects/ctrlshft`,
                 author: { "@id": `${siteConfig.url}/#person` },
                 datePublished: "2026-01-01",

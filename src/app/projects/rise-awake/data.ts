@@ -19,6 +19,8 @@ export const pageData: PageData<DiagramKey> = {
             text: "Visit riseawake.com",
             href: "https://riseawake.com",
         },
+        screenshotSrc: "/projects/rise-awake/rise-home.jpg",
+        screenshotAlt: "riseawake.com homepage with the headline Rise. Awake.",
     },
 
     situation: {
@@ -100,7 +102,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Recharts renders the output as financial visualizations — bar charts, line graphs, and data tables — styled to match the corporate design system. A convenience facade (rise.revenue(), rise.waitlist(), rise.yoyGrowth()) gives consumer pages single-import access to formatted headline stats. A real investor would see a believable story. A careful reader would notice the growth rate is slightly too perfect.",
             ],
             insight: {
-                title: "The data is a character",
+                title: "Treating the data as a character",
                 body: "The financials tell a story: a company that grew too fast, expanded into markets it shouldn't have, and measures everything except whether people actually wanted to be pushed out of bed. The numbers are the satire. They just look like a dashboard.",
             },
         },
@@ -118,7 +120,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Each document is rendered as a complete, formatted corporate document with headers, dates, classification labels, and internal reference numbers. The design maintains the same teal + DM Sans system as the public site but with a slightly different layout that signals 'internal tool' without breaking the overall design language.",
             ],
             insight: {
-                title: "Arvin is the audience surrogate",
+                title: "Arvin stands in for the reader",
                 body: "Arvin Reyes didn't know what he was publishing. Neither does the audience — at first. The documents reveal themselves gradually. The marketing playbook seems normal until you recognize Dave. The incident log seems routine until you realize it describes a scene from the film. The resignation letter makes you feel something unexpected. Arvin's mistake is the audience's invitation.",
             },
         },
@@ -136,7 +138,7 @@ export const pageData: PageData<DiagramKey> = {
                 "The design tone never breaks character. Product pages present the Push Bed with the same sincerity that Apple presents an iPhone. Pricing tiers use enterprise language ('Custom activation schedules,' 'Dedicated push specialist'). The careers page has real application forms powered by Convex. Every pixel maintains the fiction.",
             ],
             insight: {
-                title: "The Konami code is the tell",
+                title: "What the Konami code reveals",
                 body: "The film grain only appears when you trigger the Konami code easter egg — a momentary rupture in the corporate surface that signals 'this is art, not commerce' before snapping back to professional sobriety. The uncanny valley between corporate website and art installation lives in details like this: things that feel slightly off but that you can't quite place.",
             },
         },
@@ -154,7 +156,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Cross-references between documents create a web of internal consistency. The Privacy Policy references data collected by the Push Mode EULA. The Terms of Service reference the Sleep & Environmental Data Policy. The Autonomous Navigation Disclosure explains what happens when the bed decides to move. Each reference reinforces the fiction's solidity while adding another layer of absurdity.",
             ],
             insight: {
-                title: "Legal language is already satire",
+                title: "Writing the legal pages straight",
                 body: "Corporate legal prose is inherently absurd — dense, self-referential, designed to be comprehensive rather than comprehensible. The RISE legal documents don't need to exaggerate. They just need to apply standard legal language to an absurd product. 'The Service may initiate Push Mode at the scheduled activation time' is simultaneously a real legal clause and a comedy line.",
             },
         },
@@ -172,7 +174,7 @@ export const pageData: PageData<DiagramKey> = {
                 "Arvin's TODO comments are scattered through the site's source code (visible in the browser's developer tools) — references to the junior developer whose deployment mistake exposed the internal documents. A web developer inspecting the site would find comments like '// TODO: Arvin - add auth before launch' — the narrative extending into the code itself.",
             ],
             insight: {
-                title: "The best easter egg is the entire website",
+                title: "The site itself is the easter egg",
                 body: "The deepest rabbit hole isn't any single hidden element. It's the realization that riseawake.com is a portfolio piece — that every legal clause, every internal document, every dynamic financial chart was built by a developer as a creative technology showcase. The website's existence is its own meta-easter-egg.",
             },
         },
@@ -217,7 +219,7 @@ export const pageData: PageData<DiagramKey> = {
             decision: "Clerk for auth rather than NextAuth or custom",
             alternatives: "NextAuth for more control, or custom auth for maximum flexibility",
             reasoning:
-                "Clerk provides production-quality auth with minimal boilerplate — sign-in/up flows, session management, role-based access. For a portfolio project, the value is in demonstrating integration judgment (picking Clerk and integrating it cleanly) rather than building auth from scratch. The /internal route's 'accidental' public access is a narrative choice, not a Clerk limitation.",
+                "Clerk provides production-quality auth with minimal boilerplate — sign-in/up flows, session management, role-based access. For a portfolio project, integrating Clerk cleanly was a better use of time than building auth from scratch. The /internal route is public on purpose: it is part of the fiction, a page the company 'forgot' to lock, and it holds no real data. On a real product that route would sit behind auth.",
         },
         {
             decision: "Real application forms on the careers page",
@@ -236,27 +238,27 @@ export const pageData: PageData<DiagramKey> = {
 
     learnings: [
         {
-            title: "Dual CMS architecture scales cleanly",
+            title: "Two CMSs, one for each kind of content",
             body: "Sanity for editorial content and Convex for application data created clear boundaries. Neither system fought the other. Content editors use Sanity Studio. Application data flows through Convex mutations. The frontend queries both without confusion.",
         },
         {
-            title: "Fictional products are the best portfolio pieces",
+            title: "What a fictional product let me show",
             body: "A real client constrains what you can show. A fictional company lets you demonstrate every capability — CMS integration, real-time backends, auth flows, dynamic data, legal systems, design systems — without NDAs or scope limitations.",
         },
         {
-            title: "Satire requires more rigor than sincerity",
+            title: "Satire needed consistent details",
             body: "Every satirical element must be technically correct to land. The legal documents need real legal structure. The financials need internal consistency. The design system needs corporate-grade polish. Cutting corners makes the satire feel lazy instead of sharp.",
         },
         {
-            title: "Easter eggs should reward depth, not gate content",
+            title: "Easter eggs reward depth and gate nothing",
             body: "The Konami code, PM-1 reference, and push listener add delight for deep explorers without hiding critical content. The internal documents are the discovery — the easter eggs are the bonus for going further.",
         },
         {
-            title: "temporal.ts solved a problem every portfolio has",
+            title: "temporal.ts keeps the dates from going stale",
             body: "Dynamic, internally consistent demo data is hard. Most portfolio projects show static screenshots or fake numbers that don't cross-reference. A canon-plus-projection engine produces data that tells a story, extends into the future, and survives cross-referencing.",
         },
         {
-            title: "The narrative layer elevates the technical work",
+            title: "How the story and the code support each other",
             body: "41 routes of corporate website is a solid technical demo. 41 routes of satirical transmedia universe connected to a short film is memorable. The narrative doesn't replace the engineering — it makes the engineering impossible to forget.",
         },
     ],
@@ -280,7 +282,23 @@ export const pageData: PageData<DiagramKey> = {
         ],
     },
 
-    gallery: [],
+    gallery: [
+        {
+            src: "/projects/rise-awake/rise-home.jpg",
+            alt: "riseawake.com homepage with the headline Rise. Awake.",
+            caption: "Homepage — the bed that gets you up, whether you're ready or not",
+        },
+        {
+            src: "/projects/rise-awake/rise-push.jpg",
+            alt: "The Push product page on riseawake.com, marked out of stock",
+            caption: "The Push — product page, currently out of stock",
+        },
+        {
+            src: "/projects/rise-awake/rise-activate.jpg",
+            alt: "The device activation page on riseawake.com",
+            caption: "Activate — the start of the device activation configurator",
+        },
+    ],
 
     cta: {
         text: "riseawake.com is the companion piece to PUSH — the short film. The website is the company. The film is the marketing video. Together, they demonstrate full-stack engineering, creative technology, and transmedia storytelling as a single integrated portfolio piece.",

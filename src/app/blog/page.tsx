@@ -11,7 +11,7 @@ import { BlogListContent } from "./blog-content";
 export const metadata: Metadata = generateSiteMetadata({
     title: "Blog",
     description:
-        "Technical articles on Sanity CMS, Next.js, AI engineering, and modern web development by Aaron Davis.",
+        "Applied AI, agent infrastructure, lifecycle marketing systems, and lessons from production software, by Aaron Davis.",
     path: "/blog",
     feedUrl: "/blog/feed.xml",
 });
@@ -26,7 +26,7 @@ export default async function BlogPage() {
         "@type": "CollectionPage",
         name: "Blog",
         description:
-            "Technical articles on Sanity CMS, Next.js, AI engineering, and modern web development by Aaron Davis.",
+            "Applied AI, agent infrastructure, lifecycle marketing systems, and lessons from production software, by Aaron Davis.",
         url: `${siteConfig.url}/blog`,
         inLanguage: "en-US",
         isPartOf: {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { logPageRobots } from "@/lib/data/site-sections";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
@@ -38,6 +39,7 @@ export async function generateMetadata(props: { params: Params }): Promise<Metad
         type: "article",
         publishedTime: digest.publishedAt ?? undefined,
         authors: ["Aaron Davis"],
+        robots: logPageRobots,
     });
 }
 

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { SHOW_LOG_PAGES } from "@/lib/data/site-sections";
 import { SOCIAL_LINKS } from "@/lib/data/social";
 import { cn } from "@/lib/utils";
 
@@ -16,15 +17,18 @@ import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 
-const navItems = [
+const allNavItems = [
     { name: "Home", href: "/", ariaLabel: "Go to home page" },
     { name: "About", href: "/about", ariaLabel: "Learn more about Aaron" },
     { name: "Projects", href: "/projects", ariaLabel: "View project portfolio" },
     { name: "Blog", href: "/blog", ariaLabel: "Read blog posts" },
-    { name: "Changelog", href: "/changelog", ariaLabel: "View site changelog" },
-    { name: "Shipped", href: "/shipped", ariaLabel: "Weekly development digest" },
+    { name: "Changelog", href: "/changelog", ariaLabel: "View site changelog", log: true },
+    { name: "Shipped", href: "/shipped", ariaLabel: "Weekly development digest", log: true },
     { name: "Work With Me", href: "/work-with-me", ariaLabel: "Work with Aaron" },
 ];
+
+// Changelog and Shipped are hidden until they have entries (see site-sections.ts).
+const navItems = allNavItems.filter((item) => SHOW_LOG_PAGES || !("log" in item));
 
 const navSocialLinks = SOCIAL_LINKS.filter((link) => !link.href.startsWith("mailto"));
 

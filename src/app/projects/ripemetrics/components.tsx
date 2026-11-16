@@ -31,7 +31,7 @@ const factorySections = createCaseStudySections({
     learningIcons: [Lightbulb, GitBranch, Wrench],
 });
 
-export const { DecisionLog, LearningsGrid } = factorySections;
+export const { DecisionLog, LearningsGrid, GallerySection } = factorySections;
 
 export function BackButton() {
     return (

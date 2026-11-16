@@ -8,60 +8,78 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import aaronWedding from "@/assets/images/aaron-wedding.webp";
+import aaronPortrait from "@/assets/images/aaron-portrait.webp";
 import { AnimatedCounter } from "@/components/animated-counter";
 import { Button } from "@/components/ui/button";
 import { technologiesData } from "@/lib/data/technologies";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
 const heroStats = [
-    { value: 17, suffix: "+", label: "Years Experience" },
-    { value: 8, suffix: "", label: "Years on RipeMetrics" },
-    { value: 277, suffix: "K+", label: "Lines of Code" },
+    { value: 15, suffix: "+", label: "Years building for the web" },
+    { value: 8, suffix: "", label: "Years building RipeMetrics" },
+    { value: 4, suffix: "", label: "Braze & Snowflake certifications, 2026" },
 ];
 
 const featuredProjects = [
     {
-        id: "ctrlshft",
-        title: "ctrl+shft",
-        category: "AI Infrastructure",
+        id: "inkind-first-reward-journey",
+        title: "First-Reward Journey",
+        category: "Lifecycle Marketing / Work Sample",
         year: "2026",
         description:
-            "The infrastructure behind my engineering workflow. 43 skills, lifecycle hooks, a real-time compliance HUD, and hardened secrets — all from a single dotfiles repo.",
+            "A restaurant rewards app was holding $25 for me and I still ended up on Google Maps. I built the message that should have reached me: a Snowflake data contract, Liquid that aborts when the data is wrong, a Braze trial, and a Rails outbox. Fictional data, not affiliated with inKind.",
         stats: [
-            { value: "43", label: "Agent Skills" },
-            { value: "100%", label: "Open Source" },
+            { value: "184", label: "Liquid Tests" },
+            { value: "146", label: "Rails Tests" },
+            { value: "11/11", label: "SQL Checks Passing" },
+        ],
+        href: "/projects/inkind-first-reward-journey",
+        cta: "View project",
+    },
+    {
+        id: "ctrlshft",
+        title: "ctrl+shft",
+        category: "AI Agent Infrastructure / Open Source",
+        year: "2026",
+        description:
+            "Open-source tooling that keeps AI coding agents consistent, observable, and safe across projects and machines: skills that load only when a project calls for them, hooks that stop an agent before it pushes to a protected branch or exposes a secret, and a sandboxed autonomous loop.",
+        stats: [
+            { value: "50+", label: "Agent Skills" },
+            { value: "19", label: "Guardrail Hooks" },
             { value: "3", label: "AI Runtimes" },
         ],
         href: "/projects/ctrlshft",
-    },
-    {
-        id: "ripemetrics",
-        title: "RipeMetrics",
-        category: "AI Platform",
-        year: "2017–2025",
-        description:
-            "AI-native customer growth platform I founded and led AI engineering on. Reduced customer service costs by 40% through AI automation over 8 years.",
-        stats: [
-            { value: "8", label: "Years in Production" },
-            { value: "40%", label: "Cost Reduction" },
-            { value: "128K+", label: "Lines of Code" },
-        ],
-        href: "/projects/ripemetrics",
+        cta: "View project",
     },
     {
         id: "mcrdse-commerce",
         title: "MCRDSE — E-Commerce & Loyalty Platform",
-        category: "E-Commerce / Edge Computing",
+        category: "E-Commerce / Lifecycle / Edge Computing",
         year: "2026 – Present",
         description:
-            "A 6-repo Cloudflare edge ecosystem for a functional-mushroom supplement brand — two storefronts, a loyalty program built for correctness under concurrency, and order reconciliation across four external systems.",
+            "Took over a stalled, half-built system for a functional-mushroom brand. After an incident shipped about $381 of product to people who never paid, I rebuilt the order pipeline so nothing ships until the database confirms payment, and audited the repos for things that looked like they worked but didn't.",
         stats: [
-            { value: "6", label: "Repos" },
-            { value: "1,400+", label: "Commits" },
-            { value: "2", label: "Storefronts" },
+            { value: "284", label: "Audit Items Closed" },
+            { value: "195", label: "Tests, From None" },
+            { value: "580", label: "Missed Orders Recovered" },
         ],
         href: "/projects/mcrdse-commerce",
+        cta: "View project",
+    },
+    {
+        id: "ripemetrics",
+        title: "RipeMetrics",
+        category: "Marketing Automation / AI Platform",
+        year: "2017–2025",
+        description:
+            "The customer growth platform I co-founded and built on for 8 years: a journey engine and segment builder for marketing automation, and tenant-isolated RAG that answered customers across chat, SMS, email, and voice.",
+        stats: [
+            { value: "8", label: "Years in Production" },
+            { value: "21", label: "Journey Triggers" },
+            { value: "38", label: "Segmentation Scopes" },
+        ],
+        href: "/projects/ripemetrics",
+        cta: "View project",
     },
 ];
 
@@ -81,6 +99,24 @@ export default function HomeContent() {
                 className="relative flex min-h-[100vh] items-center overflow-hidden"
                 aria-label="Hero section"
             >
+                {/* Teal wash that brightens behind the portrait: right side on desktop, lower centre on phones */}
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 hidden lg:block"
+                    style={{
+                        background:
+                            "radial-gradient(ellipse 55% 70% at 76% 42%, oklch(0.76 0.133 176 / 0.34), oklch(0.76 0.133 176 / 0.10) 55%, transparent 80%), linear-gradient(180deg, oklch(0.76 0.133 176 / 0.05), transparent 70%)",
+                    }}
+                />
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 lg:hidden"
+                    style={{
+                        background:
+                            "radial-gradient(ellipse 90% 26% at 50% 80%, oklch(0.76 0.133 176 / 0.34), oklch(0.76 0.133 176 / 0.10) 55%, transparent 85%)",
+                    }}
+                />
+
                 {/* Background watermark */}
                 <div
                     aria-hidden="true"
@@ -99,7 +135,7 @@ export default function HomeContent() {
                 </div>
 
                 <div className="relative z-10 w-full px-6 py-20 lg:px-12 xl:px-20">
-                    <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
+                    <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-16">
                         {/* Content */}
                         <div>
                             <div
@@ -110,21 +146,21 @@ export default function HomeContent() {
                                 }}
                             >
                                 <span className="text-primary text-sm font-medium tracking-widest uppercase">
-                                    Full-Stack Engineer & Creative Technologist
+                                    Applied AI Full-Stack Engineer
                                 </span>
                             </div>
 
                             <h1
-                                className="font-display mt-6 text-5xl leading-[0.95] font-black tracking-tight sm:text-6xl lg:text-7xl xl:text-8xl"
+                                className="font-display mt-6 text-5xl leading-[0.95] font-black tracking-tight sm:text-6xl lg:text-6xl xl:text-7xl"
                                 style={{
                                     transform: isVisible ? "translateY(0)" : "translateY(50px)",
                                     opacity: isVisible ? 1 : 0,
                                     transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
                                 }}
                             >
-                                <span className="text-foreground">Building</span>
+                                <span className="text-foreground">I build AI features</span>
                                 <br />
-                                <span className="text-gradient">What&apos;s Next</span>
+                                <span className="text-gradient">and the systems around them</span>
                             </h1>
 
                             <p
@@ -135,10 +171,11 @@ export default function HomeContent() {
                                     transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
                                 }}
                             >
-                                15+ years building for the web. Founded RipeMetrics and led product
-                                and AI engineering on an AI-native customer experience platform for
-                                8 years. Now I build full-stack applications and AI-powered systems
-                                for teams that need production-grade software, not a demo.
+                                15+ years building for the web. I co-founded RipeMetrics and spent 8
+                                years on its marketing automation and AI platform. Today I work on
+                                applied AI and lifecycle marketing, usually directly with the person
+                                who owns the problem: I run the discovery, scope the system, build
+                                it, and stay on it after launch.
                             </p>
 
                             <div
@@ -186,32 +223,39 @@ export default function HomeContent() {
                             </div>
                         </div>
 
-                        {/* Image */}
+                        {/* Image: a cut-out that stands on the page, no frame */}
                         <div
-                            className="relative"
+                            className="relative lg:min-h-[40rem] lg:self-stretch"
                             style={{
-                                transform: isVisible
-                                    ? "translateY(0) scale(1)"
-                                    : "translateY(60px) scale(0.95)",
+                                transform: isVisible ? "translateY(0)" : "translateY(60px)",
                                 opacity: isVisible ? 1 : 0,
                                 transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s",
                             }}
                         >
-                            <div className="bg-card relative aspect-4/5 overflow-hidden rounded-2xl">
+                            <div
+                                className="relative mx-auto aspect-2/3 w-72 sm:w-80 lg:absolute lg:-bottom-20 lg:left-[54%] lg:mx-0 lg:h-[calc(100%+8rem)] lg:w-auto lg:-translate-x-1/2"
+                                style={{
+                                    maskImage:
+                                        "linear-gradient(to bottom, black 88%, transparent 100%)",
+                                    WebkitMaskImage:
+                                        "linear-gradient(to bottom, black 88%, transparent 100%)",
+                                }}
+                            >
                                 <Image
                                     alt="Aaron Davis"
-                                    src={aaronWedding}
+                                    src={aaronPortrait}
                                     fill
-                                    className="object-cover"
-                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    className="object-contain object-bottom"
+                                    sizes="(max-width: 640px) 288px, (max-width: 1024px) 320px, 680px"
+                                    quality={90}
                                     priority
                                 />
-                                <div className="bg-background/80 border-border absolute right-6 bottom-6 left-6 rounded-xl border p-4 backdrop-blur-md">
-                                    <p className="text-sm font-medium">Based in San Diego, CA</p>
-                                    <p className="text-muted-foreground mt-1 text-xs">
-                                        Working with clients worldwide
-                                    </p>
-                                </div>
+                            </div>
+                            <div className="bg-card/85 border-border relative z-10 mx-auto -mt-12 max-w-sm rounded-xl border p-4 backdrop-blur lg:absolute lg:bottom-2 lg:-left-6 lg:mt-0 lg:w-96">
+                                <p className="text-sm font-medium">Based in San Diego, CA</p>
+                                <p className="text-muted-foreground mt-1 text-xs">
+                                    Open to remote, hybrid, or on-site roles
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -287,7 +331,7 @@ export default function HomeContent() {
                                                 </p>
                                             </div>
                                             <div className="text-muted-foreground group-hover:text-primary flex items-center gap-2 text-sm font-medium transition-colors lg:pt-8">
-                                                View project
+                                                {project.cta}
                                                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                             </div>
                                         </div>
@@ -333,9 +377,9 @@ export default function HomeContent() {
                             <span className="text-gradient">together</span>
                         </h2>
                         <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
-                            I build full-stack applications and AI-powered systems — from healthcare
-                            platforms to open-source agent infrastructure. Currently available for
-                            contract and full-time roles.
+                            I&apos;m looking for applied AI, forward-deployed, and marketing
+                            automation engineering roles. Full-time or contract, San Diego or
+                            remote.
                         </p>
                         <div className="mt-10 flex flex-wrap items-center gap-4">
                             <Button asChild size="lg" className="group">

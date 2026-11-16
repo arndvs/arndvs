@@ -73,7 +73,7 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                                 transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
                             }}
                         >
-                            Technical <span className="text-gradient">Deep-Dives</span>
+                            Build <span className="text-gradient">notes</span>
                         </h1>
 
                         <p
@@ -84,8 +84,8 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                                 transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
                             }}
                         >
-                            Sanity CMS, Next.js, AI engineering, and lessons from building
-                            production software.
+                            Applied AI, agents, lifecycle marketing systems, and lessons from
+                            building production software.
                         </p>
                     </div>
                 </div>
@@ -133,8 +133,8 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                             Interested in working <span className="text-gradient">together</span>?
                         </h2>
                         <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
-                            I build full-stack applications and AI-powered systems. Currently
-                            available for contract and full-time roles.
+                            I build AI systems and lifecycle marketing infrastructure. Open to
+                            full-time and contract roles.
                         </p>
                         <div className="mt-10">
                             <Button asChild size="lg" className="group">
