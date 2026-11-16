@@ -12,6 +12,8 @@ A running list of the things only you can do. Updated 2026-11-14. Tick items off
 
 ## 2. Things that need your accounts
 
+- [ ] **Why This (whythis.dev).** In the `system-design-lab` repo: set the custom domain to `whythis.dev` under Settings → Pages and point DNS at GitHub Pages, then merge PR #5, then rename the repo to `whythis`. Do it in that order or the old address breaks.
+
 - [ ] **Blog hero images.** Run `pnpm seed:post-heroes` with your Sanity write token. Add `--force` to replace heroes that already exist. Until you do, the four new heroes are only in `scripts/assets/blog-heroes/`.
 - [ ] **inKind blog post animation.** In Sanity, add an HTML embed to the post pointing at `/visuals/inkind-message-logic/index.html?embed=1` (after #92 is live), near the section on the message logic.
 - [ ] **LinkedIn.** Paste the drafts from `linkedin-drafts.md`: headline, About, the experience edits, the new MCRDSE entry, featured links, skills. Upload `linkedin-banner.jpg` and the teal portrait.
@@ -51,7 +53,7 @@ I wrote these from limited sources. Correct anything that does not match how the
 
 ## 6. Small decisions
 
-- [ ] **Portrait.** The neck retouch on the teal portrait is my edit. If it looks off at full size, send the original and I'll redo it.
+- [ ] **Portrait.** The homepage uses the enhanced blazer photo you supplied on 2026-11-16, cut out and placed on a teal wash with no frame. Use the same photo for LinkedIn so the two match. Check the light theme once on the preview; I only verified dark.
 - [ ] **inKind animation colours.** It uses the inKind sample palette (gold on plum), like the post's hero. Say so if you want it in site teal.
 - [ ] **More animations.** Three are done. The plan had more candidates (RipeMetrics tenant isolation, AlignSD insurance verification, the first-reward journey timeline). Tell me which to build next.
 

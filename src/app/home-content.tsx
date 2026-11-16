@@ -99,6 +99,24 @@ export default function HomeContent() {
                 className="relative flex min-h-[100vh] items-center overflow-hidden"
                 aria-label="Hero section"
             >
+                {/* Teal wash that brightens behind the portrait: right side on desktop, lower centre on phones */}
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 hidden lg:block"
+                    style={{
+                        background:
+                            "radial-gradient(ellipse 55% 70% at 76% 42%, oklch(0.76 0.133 176 / 0.34), oklch(0.76 0.133 176 / 0.10) 55%, transparent 80%), linear-gradient(180deg, oklch(0.76 0.133 176 / 0.05), transparent 70%)",
+                    }}
+                />
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 lg:hidden"
+                    style={{
+                        background:
+                            "radial-gradient(ellipse 90% 26% at 50% 80%, oklch(0.76 0.133 176 / 0.34), oklch(0.76 0.133 176 / 0.10) 55%, transparent 85%)",
+                    }}
+                />
+
                 {/* Background watermark */}
                 <div
                     aria-hidden="true"
@@ -117,7 +135,7 @@ export default function HomeContent() {
                 </div>
 
                 <div className="relative z-10 w-full px-6 py-20 lg:px-12 xl:px-20">
-                    <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
+                    <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-16">
                         {/* Content */}
                         <div>
                             <div
@@ -205,28 +223,35 @@ export default function HomeContent() {
                             </div>
                         </div>
 
-                        {/* Image */}
+                        {/* Image: a cut-out that stands on the page, no frame */}
                         <div
-                            className="relative"
+                            className="relative lg:min-h-[40rem] lg:self-stretch"
                             style={{
-                                transform: isVisible
-                                    ? "translateY(0) scale(1)"
-                                    : "translateY(60px) scale(0.95)",
+                                transform: isVisible ? "translateY(0)" : "translateY(60px)",
                                 opacity: isVisible ? 1 : 0,
                                 transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s",
                             }}
                         >
-                            <div className="bg-card relative aspect-4/5 overflow-hidden rounded-2xl">
+                            <div
+                                className="relative mx-auto aspect-2/3 w-72 sm:w-80 lg:absolute lg:-bottom-20 lg:left-[54%] lg:mx-0 lg:h-[calc(100%+8rem)] lg:w-auto lg:-translate-x-1/2"
+                                style={{
+                                    maskImage:
+                                        "linear-gradient(to bottom, black 88%, transparent 100%)",
+                                    WebkitMaskImage:
+                                        "linear-gradient(to bottom, black 88%, transparent 100%)",
+                                }}
+                            >
                                 <Image
                                     alt="Aaron Davis"
                                     src={aaronPortrait}
                                     fill
-                                    className="object-cover"
-                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    className="object-contain object-bottom"
+                                    sizes="(max-width: 640px) 288px, (max-width: 1024px) 320px, 680px"
+                                    quality={90}
                                     priority
                                 />
                             </div>
-                            <div className="bg-card border-border mt-4 rounded-xl border p-4">
+                            <div className="bg-card/85 border-border relative z-10 mx-auto -mt-12 max-w-sm rounded-xl border p-4 backdrop-blur lg:absolute lg:bottom-2 lg:-left-6 lg:mt-0 lg:w-96">
                                 <p className="text-sm font-medium">Based in San Diego, CA</p>
                                 <p className="text-muted-foreground mt-1 text-xs">
                                     Open to remote, hybrid, or on-site roles
