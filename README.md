@@ -1,152 +1,123 @@
 # Aaron Davis
 
-Applied AI full-stack engineer in San Diego, 15+ years building for the web. Co-founded RipeMetrics in 2017 and spent 8 years building its marketing automation, CRM, and AI customer service platform — which is where I learned how to ship AI features in production and what it actually takes to keep a SaaS product alive long term.
+**I build AI features and the systems around them.**
 
-My work runs along two lines. **Applied AI and agentic engineering**: Claude Code, autonomous workflows, human-in-the-loop patterns, and the infrastructure that makes AI systems reliable rather than just impressive in a demo. **Lifecycle and marketing automation**: the events, attributes, and code that get the right data onto a customer profile so journeys, segments, and tests work. The repos below are the actual systems I use, organized by how they relate.
+Applied AI full-stack engineer in San Diego, 15+ years building for the web. I co-founded RipeMetrics in 2017 and spent 8 years building its marketing automation, CRM, and AI customer service platform. That is where I learned to ship AI features in production and what it takes to keep a SaaS product running long term.
 
-Open to full-time and contract roles, San Diego or remote.
+My work runs along three lines:
+
+- **Applied AI and agentic engineering**: LLM features with guardrails, Claude Code, autonomous workflows, human-in-the-loop review, and the infrastructure that makes AI systems reliable rather than just impressive in a demo.
+- **Full-stack product engineering**: TypeScript, React, Next.js, Node, and Python, from the database to the deploy.
+- **Lifecycle and marketing automation**: the events, attributes, and code that get the right data onto a customer profile so journeys, segments, and tests work.
+
+Open to full-time and contract roles, San Diego or remote · [arndvs.com](https://arndvs.com) · [LinkedIn](https://linkedin.com/in/arndvs)
+
+---
+
+## Selected work
+
+### RipeMetrics · 2017–2025
+
+Co-founded. CEO, then President of Product & Engineering, with a team of up to 12. Marketing automation, CRM, and AI customer service across chat, SMS, email, and voice.
+
+- Tenant-isolated RAG with OpenAI/Anthropic provider fallback, so one vendor going down never took it offline.
+- An AI onboarding pipeline that replaced about 30 minutes of manual client setup with an automated process under 60 seconds.
+- A Laravel → React/Next.js migration (880 components, 85 routes) done behind feature flags, without downtime for paying clients.
+
+[Case study](https://arndvs.com/projects/ripemetrics)
+
+### MCRDSE · functional mushroom brand
+
+Active client engineering: sales site, e-commerce, content operations, and agent infrastructure.
+
+- An AI editorial pipeline where "approved" is a SHA-256 fingerprint of copy and assets, with a fact-check pass that caught 8 fabricated citations before publication.
+- A human-in-the-loop reply assistant: every send is approved by an operator.
+- An order pipeline rebuilt around "the database is the record of truth" after an incident shipped about $381 of product to people who never paid.
+- A quality baseline from scratch (the storefront went from no tests to 195) and a 284-item audit of things that looked like they worked but didn't, each closed with a fix or a written decision.
+
+The backlog runs on a label-driven agent pipeline through my own LiteLLM proxy. Client code is private. Case studies: [commerce](https://arndvs.com/projects/mcrdse-commerce) · [content](https://arndvs.com/projects/mcrdse-content)
+
+### Align San Diego Family Chiropractic
+
+A clinic website with a CMS one non-technical editor runs on her own. Next.js 16 and Sanity, 203 pages, 76 JSON-LD schema files (medical schemas carry ICD-10 and SNOMED-CT codes), and programmatic area pages. Five AI integrations: GPT-4o Vision insurance verification, a content enhancement pipeline, review sentiment analysis, spam detection, and AEO endpoints.
+
+[alignsd.com](https://alignsd.com) · [Case study](https://arndvs.com/projects/align-san-diego-family-chiropractic)
+
+### inKind first-reward journey · work sample
+
+A Braze first-reward journey built end to end: a Snowflake data contract, Liquid that aborts the send when the data is wrong, a Braze trial, and a Rails outbox, with a decision log and a gap register. Fictional data, not affiliated with inKind.
+
+[Repo](https://github.com/arndvs/inkind-first-reward-journey) · [Case study](https://arndvs.com/projects/inkind-first-reward-journey)
+
+Braze: certified, with this public work sample; not yet run in a production role. My production lifecycle work was on the engagement platform I built at RipeMetrics and on GoHighLevel for clients.
+
+---
+
+## ctrl+shft: one system, four repos
+
+The infrastructure I use to make AI coding agents reproducible, context-aware, and safe on every machine. [Case study](https://arndvs.com/projects/ctrlshft)
+
+- [ctrlshft](https://github.com/arndvs/ctrlshft) (**the mechanism**): synced instructions, workflow skills, hardened secrets, and a loop that picks up GitHub issues, implements them, and commits. Includes a planning pipeline (grill-me → write-a-prd → prd-to-issues → do-work) and a compliance HUD.
+- [ctrlshft-hub](https://github.com/arndvs/ctrlshft-hub) (**the engine**): composite actions, reusable workflows, and the TypeScript engine that bootstraps consumer repos. Evolved from [sandcastle](https://github.com/mattpocock/sandcastle).
+- [cmd](https://github.com/arndvs/cmd) (**the context**): a markdown-first business operating system. Strategy, clients, and decisions in plain files an agent can read and act on.
+- [llm-gateway](https://github.com/arndvs/llm-gateway) (**the model routing**): a LiteLLM proxy that serves Claude Code through OpenRouter, with GitHub Copilot as the automatic fallback.
+
+---
+
+## Learning in public
+
+- [Why This](https://github.com/arndvs/system-design-lab) (repo: system-design-lab): system design with the reason for every component. Pick a system's requirements and it builds the architecture and says why each piece is there. I'm building it alongside Educative's system design courses, after an AWS Solutions Architect course taught me the services before I understood the design behind them.
+- [agentic-nlq](https://github.com/arndvs/agentic-nlq): deterministic code orchestrating non-deterministic agents. An agentic layer (specs, `.claude/commands`, AI developer workflows) around a natural-language-to-SQL app.
 
 ---
 
 ## Tech stack
 
-**Agentic engineering:** Claude Code · MCP · GitHub Copilot · autonomous loops · skills & instruction layers · LiteLLM gateway · sandboxed execution<br>
-**AI & LLMs:** OpenAI · Anthropic · Azure OpenAI · RAG · embeddings · vector search · tool calling · structured output (Zod) · prompt engineering · LangChain · Pinecone · Chroma · pgvector · fal.ai · Ollama<br>
-**Frontend:** TypeScript · React · Next.js · Astro · Redux · RTK Query · Tailwind · shadcn/ui · Zod<br>
-**Backend:** Node.js · Python · FastAPI · Express · Laravel · PHP · Koa · tRPC<br>
-**Data:** PostgreSQL (+pgvector) · Snowflake · MySQL · Redis · SQLite · Drizzle · Cloudflare D1 · Supabase<br>
-**Marketing automation:** Braze · Liquid · GoHighLevel · journey design · segmentation · RFM/lifecycle modeling · deliverability · A2P 10DLC consent and compliance<br>
-**Cloud & DevOps:** Azure (OpenAI · Blob Storage · Functions) · Cloudflare (Workers · D1 · R2 · KV) · AWS (in progress) · Docker · GitHub Actions · CI/CD · Vercel · Railway<br>
-**Integrations:** GoHighLevel · WooCommerce · Stripe · Authorize.net · PayPal · Twilio · ElevenLabs · Shopify · ShipStation · Sanity · Resend · SendGrid · PostHog · Sentry
-
-**Currently studying:** Azure AI Foundry · OpenAI Agents SDK · Google ADK · Vertex AI · AWS Solutions Architect Associate
+**Agentic engineering:** Claude Code · MCP · GitHub Copilot · LiteLLM · skills & instruction layers · sandboxed execution<br>
+**AI & LLMs:** OpenAI · Anthropic · Azure OpenAI · RAG · embeddings · pgvector · tool calling · structured output (Zod) · Ollama<br>
+**Frontend:** TypeScript · React · Next.js · Astro · Redux / RTK Query · Tailwind · shadcn/ui<br>
+**Backend:** Node.js · Python · FastAPI · Express · tRPC · Laravel / PHP<br>
+**Data:** PostgreSQL · Snowflake · MySQL · Redis · SQLite · Drizzle · Supabase · Cloudflare D1<br>
+**Marketing automation:** Braze · Liquid · GoHighLevel · journey design · segmentation · RFM/lifecycle modeling · deliverability · A2P 10DLC consent<br>
+**Cloud & DevOps:** Azure · Cloudflare (Workers · D1 · R2 · KV) · Docker · GitHub Actions · Vercel · Railway<br>
+**Integrations:** Stripe · Authorize.net · Twilio · ElevenLabs · Shopify · WooCommerce · ShipStation · Sanity · Resend · PostHog · Sentry
 
 ---
 
 ## Certifications
 
-Braze Certified Marketing Specialist · Braze Certified Practitioner · Snowflake Data Engineering Professional Certificate · Snowflake Generative AI Professional Certificate (all 2026) · Claude Code for Real Engineers, AI Hero (2026) · Master the Model Context Protocol, EpicAI (2025) · AI Engineering Bootcamp, Maven (2025) · LLM Engineering: Foundations to SLMs, AI Makerspace (2024)
-
----
+Braze Certified Marketing Specialist · Braze Certified Practitioner · Snowflake Data Engineering Professional Certificate · Snowflake Generative AI Professional Certificate (all 2026)
 
 ## Course work
 
-IndyDevDan's agentic engineering track — [Tactical Agentic Coding](https://github.com/arndvs/Tactical-Agentic-Coding), Principled AI Coding, Agentic Horizon · [Claude Code for Real Engineers (Matt Pocock)](https://github.com/arndvs/claude-coding-for-real-engineers) · [Model Context Protocol](https://github.com/arndvs/mcp-fundamentals) ([fundamentals](https://github.com/arndvs/mcp-fundamentals) · [advanced](https://github.com/arndvs/Advanced-MCP-Features) · [server UI](https://github.com/arndvs/MCP-UI) · [auth](https://github.com/arndvs/mcp-auth)) · AI Engineering Bootcamp (Maven) · LLM Engineering: Foundations to SLMs (AI Makerspace) · Cursor AI Bootcamp · Frontend Masters (React · Next.js · TypeScript · Redux) · AWS Solutions Architect Associate (in progress)
+Claude Code for Real Engineers, AI Hero (2026) · Master the Model Context Protocol, EpicAI (2025) · AI Engineering Bootcamp, Maven (2025) · LLM Engineering: Foundations to SLMs, AI Makerspace (2024) · IndyDevDan's agentic engineering track · AWS Solutions Architect Associate course · Educative system design (in progress)
 
 ---
 
-## The agentic engineering stack
+## Tools
 
-The core of what I'm working on: infrastructure that makes AI coding agents reproducible, context-aware, and safe across every machine.
+Small things I built because I needed them.
 
-- [ctrl+shft](https://github.com/arndvs/ctrlshft) — the system your AI agents are missing: synced instructions, workflow skills, hardened secrets, and an autonomous loop that picks GitHub issues, implements them, and commits while you're AFK. Planning pipeline (grill-me → write-a-prd → prd-to-issues → do-work) and a compliance HUD included.
-- [llm-gateway](https://github.com/arndvs/llm-gateway) — route Claude Code through a GitHub Copilot subscription via a secure LiteLLM proxy.
-- [cmd](https://github.com/arndvs/cmd) — a markdown-first business operating system for solo operators and AI agents; strategy and clients in plain files an agent can act on.
-- [ctrlshft-hub](https://github.com/arndvs/ctrlshft-hub) — the single source of truth for the ctrl+shft agent layer — composite actions, reusable workflows, and the TypeScript engine that bootstraps consumer repos (evolved from [sandcastle](https://github.com/mattpocock/sandcastle)).
+- [tailwind-indicator](https://github.com/arndvs/tailwind-indicator): a zero-dependency screen-size indicator for Tailwind CSS (breakpoint, dimensions, orientation, pixel ratio).
+- [preact-chatbot](https://github.com/arndvs/preact-chatbot): a multi-tenant AI chatbot widget. Preact island, Shadow DOM isolation, Pusher streaming.
+- [voiceprint](https://github.com/arndvs/voiceprint): turns raw writing into loadable SKILL.md writing-style skills.
+- [reel-decoder](https://github.com/arndvs/reel-decoder): decodes Instagram reels into structured rows locally with Ollama, no cloud APIs.
+- [arndvs-py-api](https://github.com/arndvs/arndvs-py-api): the FastAPI backend on Railway behind arndvs.com services.
 
----
+## Side projects
 
-## Applied AI
-
-Learning agentic coding in public, one module at a time.
-
-- [agentic-nlq](https://github.com/arndvs/agentic-nlq) — deterministic code orchestrating non-deterministic agents: an agentic layer (specs, `.claude/commands`, ADWs) around a natural-language-to-SQL app. The Tactical Agentic Coding arc subject.
-- [Tactical-Agentic-Coding](https://github.com/arndvs/Tactical-Agentic-Coding) — the official Agentic Coding course by @IndyDevDan, mirrored for study; progress on [arndvs.com/blog](https://arndvs.com/blog).
-
----
-
-## Lifecycle & marketing automation
-
-Building the data and messaging side of customer engagement.
-
-- [inkind-first-reward-journey](https://github.com/arndvs/inkind-first-reward-journey) — a Braze first-reward journey built end to end as a work sample: a Snowflake data contract, Liquid that aborts when the data is wrong, a Braze trial, and a Rails outbox, with a decision log and a gap register. Fictional data, not affiliated with inKind. Walkthrough on [arndvs.com/blog](https://arndvs.com/blog/inkind-first-reward-journey).
-- [advanced-data-engineering-snowflake](https://github.com/arndvs/advanced-data-engineering-snowflake) _(fork)_ — course work for the Snowflake Data Engineering certificate.
-
-Braze: certified, with the public work sample above; not yet run in a production role. Production lifecycle work has been on a from-scratch engagement platform at RipeMetrics and on GoHighLevel for clients.
-
----
-
-## The RISE / PUSH universe
-
-A fictional smart-bed company built as a sandbox for AI video generation via agentic workflows — short film, product teaser, and a working website.
-
-- [PUSH](https://github.com/arndvs/PUSH) — _PUSH — a short film. One morning. One button. Push Mode cannot be manually interrupted once initiated. This is a feature, not a limitation._
-- [riseawake.com](https://github.com/arndvs/riseawake.com) — the website for RISE Technologies, Inc. — makers of the RISE Push.
-- [rise-co](https://github.com/arndvs/rise-co) _(private)_ — ongoing RISE company work.
-- [cast](https://github.com/arndvs/cast) — creative automation pipeline for generating localized social ad creatives at scale.
-- [cast-backend](https://github.com/arndvs/cast-backend) — backend pair for cast.
-- [reel-decoder](https://github.com/arndvs/reel-decoder) — decodes Instagram reels into structured Swipe Library rows locally (Ollama, zero cloud APIs).
-
----
-
-## Client & product work
-
-### [Align San Diego Family Chiropractic](https://alignsd.com)
-
-Website for a San Diego chiropractic clinic, built well beyond what the brief required. Next.js 16, Sanity CMS, 2,000+ TypeScript files. Five AI integrations: GPT-4o Vision insurance verification, OpenAI content enhancement pipeline, LLM review sentiment analysis, AI spam detection, and AEO endpoints. Custom JSON-LD composition architecture with 76 Schema.org types including medical schemas with ICD-10/SNOMED-CT codes. Programmatic SEO engine generating 203+ pages. 55 automated tests, 4 CI/CD pipelines.
-
-### MCRDSE (functional mushroom brand)
-
-Active client engineering — sales site, e-commerce, content operations, and agent infrastructure. Systems-with-guardrails: an AI editorial pipeline where "approved" is a SHA-256 fingerprint of copy + assets, a fact-check pass that caught 8 fabricated citations before publication, a human-in-the-loop reply assistant where every send is operator-approved, and an order pipeline rebuilt around "the database is the record of truth" after an incident shipped ~$381 of product to people who never paid. From-scratch quality baseline (storefront went from no tests to 195) and a 284-item audit of things that "looked worked but didn't" — each closed with a fix or a written decision. The backlog runs on a label-driven agent pipeline through my own LiteLLM proxy.
-
-- [mcrdse-site](https://github.com/mcrdseorg/mcrdse-site) — the main sales site
-- [mcrdse-super-market](https://github.com/mcrdseorg/mcrdse-super-market) — e-commerce / storefront
-- [MCRDSE-Content-Ship](https://github.com/mcrdseorg/MCRDSE-Content-Ship) — content production + shipping pipeline
-- [mcrdse-outreach](https://github.com/mcrdseorg/mcrdse-outreach) — outreach automation
-- [mcrdsemovement-site](https://github.com/mcrdseorg/mcrdsemovement-site) — movement/community site
-- [mcrdse-command](https://github.com/mcrdseorg/mcrdse-command) — command-layer ops
-- [mcrdse-ops](https://github.com/mcrdseorg/mcrdse-ops) — operations infrastructure
-- [hermes-ops](https://github.com/mcrdseorg/hermes-ops) — agent ops
-
-### Shared product foundation (private)
-
-- [launch](https://github.com/arndvs/launch) _(private)_ — mobile-first monorepo starter I fork into client products
-- [foreword](https://github.com/arndvs/foreword) _(private)_ — idea to development-ready spec
-- [scorpion](https://github.com/arndvs/scorpion) _(private)_ — Scorpion Percussion app
-- [aligned](https://github.com/arndvs/aligned) _(private)_ — healthcare-aligned products
-
-Private client codebases; the pattern is public in principle.
-
----
-
-## Tools & libraries
-
-Small, focused things I built because I needed them.
-
-- [tailwind-indicator](https://github.com/arndvs/tailwind-indicator) — zero-dep screen-size indicator for Tailwind CSS (breakpoint, dimensions, orientation, pixel ratio).
-- [preact-chatbot](https://github.com/arndvs/preact-chatbot) — multi-tenant AI chatbot widget — Preact island, Shadow DOM isolation, Pusher streaming.
-- [comedian-voices](https://github.com/arndvs/comedian-voices) — agent skills for writing in famous stand-up voices — structural moves, rhetorical patterns.
-- [voiceprint](https://github.com/arndvs/voiceprint) — voice style generator — turns raw material into loadable SKILL.md writing skills.
-- [kitchen-skylight](https://github.com/arndvs/kitchen-skylight) — family kitchen skylight display — calendar, recipes, home automation hub (OpenSkyLight-based).
-- [dynacraft](https://github.com/arndvs/dynacraft) _(private)_ — dynamically craft customized CVs and cover letters for job applications.
-- [kenesis-360-keyboard-layout](https://github.com/arndvs/kenesis-360-keyboard-layout) — alternative layouts for a split ergonomic keyboard.
-- [arndvs-py-api](https://github.com/arndvs/arndvs-py-api) — generic Python API backend — FastAPI on Railway, powering arndvs.com services.
-
----
-
-## Earlier work
-
-Learning projects and older experiments (mostly historical — kept for reference): the AI Engineering Bootcamp repo, LangChain/Chroma RAG experiments, React/Redux learning repos, Laravel courses, and assorted early web work. The current direction is the agentic engineering stack and applied AI above.
-
-Notable from the RipeMetrics years (2017–2025, now wrapped): tenant-isolated RAG with OpenAI/Anthropic provider fallback so one vendor going down never took it offline, an AI onboarding pipeline that cut client setup from ~30 minutes to under 60 seconds, and a Laravel → React/Next.js migration (880 components, 85 routes) done behind feature flags without downtime.
+**RISE / PUSH**: a fictional smart-bed company built as a sandbox for AI video generation with agentic workflows: a short film ([PUSH](https://github.com/arndvs/PUSH)), the company website ([riseawake.com](https://github.com/arndvs/riseawake.com)), and [cast](https://github.com/arndvs/cast), a pipeline for localized social ad creatives.
 
 ---
 
 ## Background
 
-- Paying web clients since 2010 — HTML/CSS → Joomla → WordPress → Laravel → React/Next.js
-- Before that and alongside it: a decade in payments and restaurant loyalty programs, including lifecycle segmentation and win-back campaigns
-- Co-founded RipeMetrics (2017–2025) — CEO, then President of Product & Engineering; built the marketing automation module and the AI engineering across a team of up to 12
-- Based in San Diego, open to remote
+- Paying web clients since 2010: HTML/CSS → Joomla → WordPress → Laravel → React/Next.js.
+- Before and alongside that, a decade in payments and restaurant loyalty programs, including lifecycle segmentation and win-back campaigns.
+- Based in San Diego, open to remote.
 
----
-
-## Links
-
-[arndvs.com](https://arndvs.com) · [linkedin.com/in/arndvs](https://linkedin.com/in/arndvs)
+Older repos are learning projects, kept for reference.
 
 ---
 
 _These are personal projects. The views and work here are my own and unrelated to my past, present, and future employers._
-
-_Private repos are marked _(private)_ — they're client or personal code not shown publicly._
