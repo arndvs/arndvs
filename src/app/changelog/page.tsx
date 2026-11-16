@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { logPageRobots } from "@/lib/data/site-sections";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
@@ -14,6 +15,7 @@ export const metadata: Metadata = generateSiteMetadata({
         "What's new on arndvs.com — features, improvements, fixes, and infrastructure updates.",
     path: "/changelog",
     feedUrl: "/changelog/feed.xml",
+    robots: logPageRobots,
 });
 
 export default async function ChangelogPage() {
