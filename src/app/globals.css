@@ -53,45 +53,47 @@
 }
 
 .dark {
-    /* Dark mode — brand-forward, teal accent (#2DCCAE) against deep black */
-    --background: oklch(0.06 0 0);
-    --foreground: oklch(0.9 0 0);
-    --card: oklch(0.09 0 0);
-    --card-foreground: oklch(0.92 0.005 60);
-    --popover: oklch(0.08 0 0);
-    --popover-foreground: oklch(0.92 0.005 60);
-    --primary: oklch(0.76 0.133 176);
-    --primary-foreground: oklch(0.06 0 0);
-    --secondary: oklch(0.14 0 0);
-    --secondary-foreground: oklch(0.9 0 0);
-    --muted: oklch(0.12 0 0);
-    --muted-foreground: oklch(0.55 0 0);
-    --accent: oklch(0.14 0 0);
-    --accent-foreground: oklch(0.92 0.005 60);
+    /* Dark mode — brand-forward, teal accent (#2DD4BF) against deep blue-teal.
+       Neutrals share a blue-teal hue (~230–246) and match the LinkedIn banner:
+       background = #051117, card = #0A181F. */
+    --background: oklch(0.17 0.022 232);
+    --foreground: oklch(0.93 0.006 230);
+    --card: oklch(0.2 0.024 230);
+    --card-foreground: oklch(0.93 0.006 230);
+    --popover: oklch(0.195 0.023 232);
+    --popover-foreground: oklch(0.93 0.006 230);
+    --primary: oklch(0.785 0.1325 182);
+    --primary-foreground: oklch(0.17 0.022 232);
+    --secondary: oklch(0.24 0.027 232);
+    --secondary-foreground: oklch(0.93 0.006 230);
+    --muted: oklch(0.22 0.025 232);
+    --muted-foreground: oklch(0.7 0.02 230);
+    --accent: oklch(0.24 0.027 232);
+    --accent-foreground: oklch(0.93 0.006 230);
     --destructive: oklch(0.45 0.22 25);
-    --destructive-foreground: oklch(0.92 0.005 60);
-    --border: oklch(0.16 0 0);
-    --input: oklch(0.18 0 0);
-    --ring: oklch(0.76 0.133 176);
-    --chart-1: oklch(0.76 0.133 176);
+    --destructive-foreground: oklch(0.93 0.006 230);
+    --border: oklch(0.29 0.028 225);
+    --input: oklch(0.31 0.028 225);
+    --ring: oklch(0.785 0.1325 182);
+    --chart-1: oklch(0.785 0.1325 182);
     --chart-2: oklch(0.75 0.16 80);
     --chart-3: oklch(0.6 0.2 15);
     --chart-4: oklch(0.65 0.15 160);
     --chart-5: oklch(0.55 0.12 280);
-    --sidebar: oklch(0.08 0 0);
-    --sidebar-foreground: oklch(0.9 0 0);
-    --sidebar-primary: oklch(0.76 0.133 176);
-    --sidebar-primary-foreground: oklch(0.06 0 0);
-    --sidebar-accent: oklch(0.14 0 0);
-    --sidebar-accent-foreground: oklch(0.9 0 0);
-    --sidebar-border: oklch(0.16 0 0);
-    --sidebar-ring: oklch(0.76 0.133 176);
+    --sidebar: oklch(0.195 0.023 232);
+    --sidebar-foreground: oklch(0.93 0.006 230);
+    --sidebar-primary: oklch(0.785 0.1325 182);
+    --sidebar-primary-foreground: oklch(0.17 0.022 232);
+    --sidebar-accent: oklch(0.24 0.027 232);
+    --sidebar-accent-foreground: oklch(0.93 0.006 230);
+    --sidebar-border: oklch(0.29 0.028 225);
+    --sidebar-ring: oklch(0.785 0.1325 182);
 }
 
 @theme inline {
-    --font-sans: var(--font-satoshi), "Satoshi", system-ui, sans-serif;
-    --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
-    --font-display: var(--font-cabinet), "Cabinet Grotesk", system-ui, sans-serif;
+    --font-sans: var(--font-body), "IBM Plex Sans", system-ui, sans-serif;
+    --font-mono: var(--font-code), "IBM Plex Mono", ui-monospace, monospace;
+    --font-display: var(--font-heading), "Bebas Neue", Impact, sans-serif;
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
@@ -137,6 +139,13 @@
     body {
         @apply bg-background text-foreground;
     }
+    /* Faint blueprint grid, matching the LinkedIn banner */
+    .dark body {
+        background-image:
+            linear-gradient(rgb(94 234 212 / 0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgb(94 234 212 / 0.035) 1px, transparent 1px);
+        background-size: 48px 48px;
+    }
 
     /* Custom scrollbar */
     ::-webkit-scrollbar {
@@ -158,6 +167,9 @@
 /* Display font utility */
 .font-display {
     font-family: var(--font-display);
+    /* Bebas Neue ships one weight: never fake-bold it, and open up tight tracking */
+    font-synthesis: none;
+    letter-spacing: 0.01em;
 }
 
 /* Tabular numerals for stat counters */
@@ -200,7 +212,7 @@
 
 /* Text gradient for headings */
 .text-gradient {
-    background: linear-gradient(135deg, #2dccae 0%, #b2f5e2 100%);
+    background: linear-gradient(135deg, #2dd4bf 0%, #5eead4 55%, #99f6e4 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

@@ -1,5 +1,4 @@
 import { Analytics } from "@vercel/analytics/next";
-import { GeistMono } from "geist/font/mono";
 import { Toaster } from "sonner";
 
 import type React from "react";
@@ -23,23 +22,31 @@ import { SanityLive } from "@/sanity/lib/live";
 import "./globals.css";
 
 // Self-hosted so the build does not depend on fetching Google Fonts.
-const dmSans = localFont({
+// Type system shared with the LinkedIn banner: Bebas Neue headings,
+// IBM Plex Sans body, IBM Plex Mono labels and code.
+const plexSans = localFont({
     src: [
-        { path: "../assets/fonts/dm-sans-400.woff2", weight: "400", style: "normal" },
-        { path: "../assets/fonts/dm-sans-500.woff2", weight: "500", style: "normal" },
-        { path: "../assets/fonts/dm-sans-700.woff2", weight: "700", style: "normal" },
+        { path: "../assets/fonts/ibm-plex-sans-400.woff2", weight: "400", style: "normal" },
+        { path: "../assets/fonts/ibm-plex-sans-500.woff2", weight: "500", style: "normal" },
+        { path: "../assets/fonts/ibm-plex-sans-700.woff2", weight: "700", style: "normal" },
     ],
-    variable: "--font-satoshi",
+    variable: "--font-body",
     display: "swap",
 });
 
-const outfit = localFont({
+const bebasNeue = localFont({
+    src: [{ path: "../assets/fonts/bebas-neue-400.woff2", weight: "400", style: "normal" }],
+    variable: "--font-heading",
+    display: "swap",
+});
+
+const plexMono = localFont({
     src: [
-        { path: "../assets/fonts/outfit-700.woff2", weight: "700", style: "normal" },
-        { path: "../assets/fonts/outfit-800.woff2", weight: "800", style: "normal" },
-        { path: "../assets/fonts/outfit-900.woff2", weight: "900", style: "normal" },
+        { path: "../assets/fonts/ibm-plex-mono-400.woff2", weight: "400", style: "normal" },
+        { path: "../assets/fonts/ibm-plex-mono-500.woff2", weight: "500", style: "normal" },
+        { path: "../assets/fonts/ibm-plex-mono-600.woff2", weight: "600", style: "normal" },
     ],
-    variable: "--font-cabinet",
+    variable: "--font-code",
     display: "swap",
 });
 
@@ -118,7 +125,7 @@ export default async function RootLayout({
             lang="en"
             suppressHydrationWarning
             data-scroll-behavior="smooth"
-            className={`${dmSans.variable} ${outfit.variable} ${GeistMono.variable}`}
+            className={`${plexSans.variable} ${bebasNeue.variable} ${plexMono.variable}`}
         >
             <body className="font-sans antialiased">
                 <ThemeProvider

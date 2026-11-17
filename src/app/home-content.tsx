@@ -151,7 +151,7 @@ export default function HomeContent() {
                             </div>
 
                             <h1
-                                className="font-display mt-6 text-5xl leading-[0.95] font-black tracking-tight sm:text-6xl lg:text-6xl xl:text-7xl"
+                                className="font-display mt-6 text-6xl leading-[0.92] font-black tracking-tight sm:text-7xl lg:text-7xl xl:text-[5.5rem]"
                                 style={{
                                     transform: isVisible ? "translateY(0)" : "translateY(50px)",
                                     opacity: isVisible ? 1 : 0,
@@ -160,7 +160,11 @@ export default function HomeContent() {
                             >
                                 <span className="text-foreground">I build AI features</span>
                                 <br />
-                                <span className="text-gradient">and the systems around them</span>
+                                <span className="text-gradient">
+                                    and the systems
+                                    <br />
+                                    around them
+                                </span>
                             </h1>
 
                             <p
