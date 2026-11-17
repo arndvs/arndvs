@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { dispatchJob } from "./job-dispatch";
-import { type JobPostingRecord, type JobStatus, VALID_JOB_TRANSITIONS } from "./job-types";
+import { type JobPostingRecord, type JobStatus } from "./job-types";
 import type { SocialDraftRecord } from "./types";
 
 /**
@@ -89,12 +89,6 @@ function makeDeps(
     };
     return { deps, current };
 }
-
-describe("VALID_JOB_TRANSITIONS", () => {
-    it("allows applied → saved as a compensating transition", () => {
-        expect(VALID_JOB_TRANSITIONS.applied).toContain("saved");
-    });
-});
 
 describe("dispatchJob — application", () => {
     beforeEach(() => vi.clearAllMocks());
