@@ -1,18 +1,17 @@
 import { formatNumber } from "@/lib/review-capacity/format-review-capacity";
 
-type Props = {
+interface ReviewCapacityBarProps {
     label: string;
     value: number;
     /** The value that fills the whole track, shared by the bars being compared. */
     maximum: number;
-};
+}
 
-/** One bar of lines a day, drawn against the largest bar in the comparison. */
-export function ReviewCapacityBar({ label, value, maximum }: Props) {
+export function ReviewCapacityBar({ label, value, maximum }: ReviewCapacityBarProps) {
     const fill = maximum > 0 ? (value / maximum) * 100 : 0;
 
     return (
-        <div className="space-y-2">
+        <div className="space-y-2" data-slot="review-capacity-bar">
             <div className="flex items-baseline justify-between gap-3 text-sm">
                 <span>{label}</span>
                 <span className="font-mono tabular-nums">{formatNumber(value)} lines</span>

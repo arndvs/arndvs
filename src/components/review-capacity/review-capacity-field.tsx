@@ -1,21 +1,25 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-type Props = {
+interface ReviewCapacityFieldProps {
     id: string;
     label: string;
     value: string;
-    /** Why the value cannot be used, when it cannot. */
     problem?: string;
     onChange: (value: string) => void;
-};
+}
 
-/** One numeric input with its label and any problem beneath it. */
-export function ReviewCapacityField({ id, label, value, problem, onChange }: Props) {
+export function ReviewCapacityField({
+    id,
+    label,
+    value,
+    problem,
+    onChange,
+}: ReviewCapacityFieldProps) {
     const problemId = `${id}-problem`;
 
     return (
-        <div className="space-y-2">
+        <div className="space-y-2" data-slot="review-capacity-field">
             <Label htmlFor={id}>{label}</Label>
             <Input
                 id={id}

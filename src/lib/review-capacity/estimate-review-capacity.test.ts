@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { estimateReviewCapacity, fieldProblems, parseScenario } from "./estimate-review-capacity";
+import {
+    estimateReviewCapacity,
+    getFieldProblems,
+    parseScenario,
+} from "./estimate-review-capacity";
 import type { Scenario } from "./estimate-review-capacity";
 
 const defaults: Scenario = {
@@ -49,16 +53,18 @@ describe("estimateReviewCapacity", () => {
     });
 });
 
-describe("fieldProblems", () => {
+describe("getFieldProblems", () => {
     it("accepts zero agents and zero sittings", () => {
-        expect(fieldProblems({ ...defaults, agents: 0, sittings: 0 })).toEqual({});
+        expect(getFieldProblems({ ...defaults, agents: 0, sittings: 0 })).toEqual({});
     });
 
     it("explains what to change in each field it cannot use", () => {
-        expect(fieldProblems({ ...defaults, prsPerAgent: 0 })).toEqual({
+        expect(getFieldProblems({ ...defaults, prsPerAgent: 0 })).toEqual({
             prsPerAgent: "Enter a number above 0.",
         });
-        expect(fieldProblems({ ...defaults, agents: -1 })).toEqual({ agents: "Enter 0 or more." });
+        expect(getFieldProblems({ ...defaults, agents: -1 })).toEqual({
+            agents: "Enter 0 or more.",
+        });
     });
 
     it("treats a blank input as missing rather than as zero", () => {
@@ -70,6 +76,6 @@ describe("fieldProblems", () => {
             linesPerSitting: "300",
         });
 
-        expect(fieldProblems(scenario)).toEqual({ sittings: "Enter a number." });
+        expect(getFieldProblems(scenario)).toEqual({ sittings: "Enter a number." });
     });
 });

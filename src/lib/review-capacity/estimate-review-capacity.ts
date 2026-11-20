@@ -44,7 +44,7 @@ export const parseScenario = (text: ScenarioText): Scenario => ({
 });
 
 /** Names each field the estimate cannot use, with a message for its input. */
-export function fieldProblems(scenario: Scenario): FieldProblems {
+export function getFieldProblems(scenario: Scenario): FieldProblems {
     const problems: FieldProblems = {};
 
     for (const field of SCENARIO_FIELDS) {
@@ -71,7 +71,7 @@ export interface ReviewCapacity {
 }
 
 export function estimateReviewCapacity(scenario: Scenario): ReviewCapacity {
-    const problems = Object.entries(fieldProblems(scenario));
+    const problems = Object.entries(getFieldProblems(scenario));
 
     if (problems.length > 0) {
         throw new Error(problems.map(([field, message]) => `${field}: ${message}`).join(" "));

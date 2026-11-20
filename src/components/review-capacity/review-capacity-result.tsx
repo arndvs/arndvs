@@ -1,23 +1,22 @@
 import type { ReviewCapacity, Scenario } from "@/lib/review-capacity/estimate-review-capacity";
 import {
-    countOf,
     describeBalance,
+    formatCount,
     formatNumber,
 } from "@/lib/review-capacity/format-review-capacity";
 
 import { ReviewCapacityBar } from "./review-capacity-bar";
 
-type Props = {
+interface ReviewCapacityResultProps {
     scenario: Scenario;
     estimate: ReviewCapacity;
-};
+}
 
-/** The headline count, the two bars, and the arithmetic behind them. */
-export function ReviewCapacityResult({ scenario, estimate }: Props) {
+export function ReviewCapacityResult({ scenario, estimate }: ReviewCapacityResultProps) {
     const maximum = Math.max(estimate.linesOpened, estimate.linesReviewable);
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8" data-slot="review-capacity-result">
             <div>
                 <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                     Agents kept fully reviewed
@@ -42,19 +41,21 @@ export function ReviewCapacityResult({ scenario, estimate }: Props) {
 
             <ul className="text-muted-foreground space-y-2 font-mono text-sm leading-relaxed">
                 <li>
-                    {countOf(scenario.agents, "agent")} × {countOf(scenario.prsPerAgent, "PR")} ×{" "}
-                    {countOf(scenario.linesPerPr, "line")} = {countOf(estimate.linesOpened, "line")}{" "}
-                    opened a day
+                    {formatCount(scenario.agents, "agent")} ×{" "}
+                    {formatCount(scenario.prsPerAgent, "PR")} ×{" "}
+                    {formatCount(scenario.linesPerPr, "line")} ={" "}
+                    {formatCount(estimate.linesOpened, "line")} opened a day
                 </li>
                 <li>
-                    {countOf(scenario.sittings, "sitting")} ×{" "}
-                    {countOf(scenario.linesPerSitting, "line")} ={" "}
-                    {countOf(estimate.linesReviewable, "line")} reviewable a day
+                    {formatCount(scenario.sittings, "sitting")} ×{" "}
+                    {formatCount(scenario.linesPerSitting, "line")} ={" "}
+                    {formatCount(estimate.linesReviewable, "line")} reviewable a day
                 </li>
                 <li>
-                    {countOf(estimate.linesReviewable, "line")} ÷ (
-                    {countOf(scenario.prsPerAgent, "PR")} × {countOf(scenario.linesPerPr, "line")})
-                    = {countOf(estimate.sustainableAgents, "agent")} of output
+                    {formatCount(estimate.linesReviewable, "line")} ÷ (
+                    {formatCount(scenario.prsPerAgent, "PR")} ×{" "}
+                    {formatCount(scenario.linesPerPr, "line")}) ={" "}
+                    {formatCount(estimate.sustainableAgents, "agent")} of output
                 </li>
             </ul>
 
