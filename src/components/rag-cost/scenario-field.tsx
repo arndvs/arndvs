@@ -1,6 +1,7 @@
 "use client";
 
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { rangeMax } from "@/lib/rag-cost/inputs";
 import type { InputDef } from "@/lib/rag-cost/inputs";
 import type { RagScenario } from "@/lib/rag-cost/rag-scenario";
@@ -43,19 +44,7 @@ export function ScenarioField({ input, scenario, onChange, disabled = false }: P
 
     if (input.kind === "toggle") {
         return (
-            <div className="flex items-start gap-3">
-                <input
-                    id={id}
-                    type="checkbox"
-                    checked={input.get(scenario)}
-                    onChange={(event) => {
-                        const { checked } = event.target;
-                        onChange((draft) => input.set(draft, checked));
-                    }}
-                    disabled={disabled}
-                    aria-describedby={descriptionId}
-                    className="accent-primary mt-0.5 size-4 flex-none cursor-pointer disabled:cursor-not-allowed"
-                />
+            <div className="flex items-start justify-between gap-4">
                 <div className="space-y-1">
                     <Label
                         htmlFor={id}
@@ -65,6 +54,14 @@ export function ScenarioField({ input, scenario, onChange, disabled = false }: P
                     </Label>
                     {description}
                 </div>
+                <Switch
+                    id={id}
+                    checked={input.get(scenario)}
+                    onCheckedChange={(checked) => onChange((draft) => input.set(draft, checked))}
+                    disabled={disabled}
+                    aria-describedby={descriptionId}
+                    className="mt-0.5"
+                />
             </div>
         );
     }
