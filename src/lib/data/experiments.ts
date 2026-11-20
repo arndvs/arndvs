@@ -23,6 +23,13 @@ export const EXPERIMENTS: ExperimentEntry[] = [
         },
         shareImage: "/og/experiments-rag-cost.jpg",
     },
+    {
+        slug: "review-capacity",
+        title: "How Many Agents Can You Actually Review?",
+        description:
+            "Compare how much code your parallel agents open each day with how much one person can review well, and see how many agents that keeps fully reviewed.",
+        lastModified: "2026-11-20",
+    },
 ];
 
 export const findExperiment = (slug: string): ExperimentEntry => {
