@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { estimateScenario } from "@/lib/rag-cost/estimate";
 import { explainEstimate } from "@/lib/rag-cost/explain";
 import { formatCost, formatPrice, formatTokenCount } from "@/lib/rag-cost/format";
@@ -323,16 +324,7 @@ export function RagCostEstimator({
                 </Panel>
 
                 <Panel step="03" title={`Hand decisions to ${decisionName}`} tag="Optional">
-                    <div className="flex items-start gap-3">
-                        <input
-                            id="jev-enabled"
-                            type="checkbox"
-                            checked={decisionModel !== null && jevOpen}
-                            onChange={(event) => toggleJev(event.target.checked)}
-                            disabled={!decisionModel}
-                            aria-describedby="jev-enabled-description"
-                            className="accent-primary mt-0.5 size-4 flex-none cursor-pointer disabled:cursor-not-allowed"
-                        />
+                    <div className="flex items-start justify-between gap-4">
                         <div className="space-y-1">
                             <Label htmlFor="jev-enabled" className="cursor-pointer">
                                 Add {decisionName}
@@ -346,6 +338,14 @@ export function RagCostEstimator({
                                     : 'Add a model with kind: "decision" to the price table to price these.'}
                             </p>
                         </div>
+                        <Switch
+                            id="jev-enabled"
+                            checked={decisionModel !== null && jevOpen}
+                            onCheckedChange={toggleJev}
+                            disabled={!decisionModel}
+                            aria-describedby="jev-enabled-description"
+                            className="mt-0.5"
+                        />
                     </div>
                     {decisionModel && jevOpen ? (
                         <div className="border-border space-y-4 border-t pt-4">
