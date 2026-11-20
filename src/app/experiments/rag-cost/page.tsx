@@ -20,6 +20,14 @@ export const metadata: Metadata = generateSiteMetadata({
     title: experiment.title,
     description: experiment.description,
     path: `/experiments/${experiment.slug}`,
+    images: [
+        {
+            url: experiment.shareImage,
+            width: 1200,
+            height: 630,
+            alt: `${experiment.title}: pull a lever, watch the bill shrink.`,
+        },
+    ],
 });
 
 /** The course's example pairing. If either is removed, the first and last models stand in. */
