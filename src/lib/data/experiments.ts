@@ -14,6 +14,13 @@ export const EXPERIMENTS: ExperimentEntry[] = [
             "What a retrieval-augmented chatbot costs at enterprise scale, which levers move the bill, and what handing decisions to a decision model like Jev saves. Every number shows its math.",
         lastModified: "2026-11-20",
     },
+    {
+        slug: "review-capacity",
+        title: "How Many Agents Can You Actually Review?",
+        description:
+            "Compare how much code your parallel agents open each day with how much one person can review well, and see how many agents that keeps fully reviewed.",
+        lastModified: "2026-11-20",
+    },
 ];
 
 export const findExperiment = (slug: string): ExperimentEntry => {
