@@ -21,6 +21,7 @@ const allNavItems = [
     { name: "Home", href: "/", ariaLabel: "Go to home page" },
     { name: "About", href: "/about", ariaLabel: "Learn more about Aaron" },
     { name: "Projects", href: "/projects", ariaLabel: "View project portfolio" },
+    { name: "Experiments", href: "/experiments", ariaLabel: "Try interactive experiments" },
     { name: "Blog", href: "/blog", ariaLabel: "Read blog posts" },
     { name: "Changelog", href: "/changelog", ariaLabel: "View site changelog", log: true },
     { name: "Shipped", href: "/shipped", ariaLabel: "Weekly development digest", log: true },
