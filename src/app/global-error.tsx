@@ -19,7 +19,7 @@ export default function GlobalError({
                 style={{
                     margin: 0,
                     fontFamily: "system-ui, sans-serif",
-                    background: "#0a0a0a",
+                    background: "#051117",
                     color: "#fafafa",
                 }}
             >
@@ -44,7 +44,7 @@ export default function GlobalError({
                             marginTop: "2rem",
                             padding: "0.75rem 1.5rem",
                             background: "#fafafa",
-                            color: "#0a0a0a",
+                            color: "#051117",
                             border: "none",
                             borderRadius: "0.375rem",
                             cursor: "pointer",
