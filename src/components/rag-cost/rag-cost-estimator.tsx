@@ -261,152 +261,148 @@ export function RagCostEstimator({
     const decisionName = decisionModel?.name ?? "Decision model";
 
     return (
-        <div className="space-y-6">
-            <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,24rem)]">
-                <div className="min-w-0 space-y-6">
-                    <Panel step="01" title="Workload" tag="Change the assumptions">
-                        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                            {fields("workload")}
-                        </div>
-                        <div className="border-border space-y-4 border-t pt-4">
-                            <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                                Caching
-                            </p>
-                            <div className="grid gap-4 sm:grid-cols-2">{fields("levers")}</div>
-                        </div>
-                    </Panel>
-
-                    <Panel step="02" title="Models and routing" tag="USD / 1M tokens">
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            <div className="space-y-1.5">
-                                <div className="flex items-baseline justify-between gap-2">
-                                    <Label htmlFor="main-model">Main model</Label>
-                                    <span className="text-muted-foreground text-xs">
-                                        hard questions
-                                    </span>
-                                </div>
-                                <select
-                                    id="main-model"
-                                    value={mainModel.id}
-                                    onChange={(event) => setMainModelId(event.target.value)}
-                                    className={selectClass}
-                                >
-                                    {models.map((model) => (
-                                        <option key={model.id} value={model.id}>
-                                            {modelLabel(model)}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="space-y-1.5">
-                                <div className="flex items-baseline justify-between gap-2">
-                                    <Label htmlFor="routed-model">Routed model</Label>
-                                    <span className="text-muted-foreground text-xs">
-                                        simple ones
-                                    </span>
-                                </div>
-                                <select
-                                    id="routed-model"
-                                    value={routedModel.id}
-                                    onChange={(event) => setRoutedModelId(event.target.value)}
-                                    className={selectClass}
-                                >
-                                    {models.map((model) => (
-                                        <option key={model.id} value={model.id}>
-                                            {modelLabel(model)}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                        {fields("routing")}
-                        <p className="bg-primary/10 text-foreground rounded-lg px-3 py-2.5 text-sm">
-                            {routingSentence}
-                            {routing && priced.decisions.route
-                                ? ` ${decisionName} decides which is which.`
-                                : ""}
+        <div className="space-y-10">
+            <section aria-labelledby="results-heading" className="border-border border-y py-6">
+                <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <h2 id="results-heading" className="text-base font-semibold tracking-tight">
+                            Live estimate
+                        </h2>
+                        <p className="text-muted-foreground mt-1 text-xs">
+                            {formatTokenCount(priced.queriesPerDay * DAYS_PER_MONTH)} questions ·{" "}
+                            {DAYS_PER_MONTH}-day month
                         </p>
-                    </Panel>
-
-                    <Panel step="03" title={`Hand decisions to ${decisionName}`} tag="Optional">
-                        <div className="flex items-start justify-between gap-4">
-                            <div className="space-y-1">
-                                <Label htmlFor="jev-enabled" className="cursor-pointer">
-                                    Add {decisionName}
-                                </Label>
-                                <p
-                                    id="jev-enabled-description"
-                                    className="text-muted-foreground text-xs leading-relaxed"
-                                >
-                                    {decisionModel
-                                        ? `${decisionModel.name} doesn’t write text. It picks from options you define and bills input only, at ${formatPrice(decisionModel.input)} per million tokens.`
-                                        : 'Add a model with kind: "decision" to the price table to price these.'}
-                                </p>
-                            </div>
-                            <Switch
-                                id="jev-enabled"
-                                checked={decisionModel !== null && jevOpen}
-                                onCheckedChange={toggleJev}
-                                disabled={!decisionModel}
-                                aria-describedby="jev-enabled-description"
-                                className="mt-0.5"
-                            />
-                        </div>
-                        {decisionModel && jevOpen ? (
-                            <div className="border-border space-y-4 border-t pt-4">
-                                {fields("decisions")}
-                            </div>
-                        ) : null}
-                    </Panel>
+                    </div>
+                    <span className="text-muted-foreground flex items-center gap-2 font-mono text-xs tracking-wide uppercase">
+                        <span aria-hidden="true" className="bg-primary size-1.5 rounded-full" />
+                        Updates as you edit
+                    </span>
                 </div>
 
-                <aside aria-label="Live cost results" className="min-w-0">
-                    <div className="space-y-6 lg:sticky lg:top-6">
-                        <section
-                            aria-labelledby="results-heading"
-                            className="bg-card border-border overflow-hidden rounded-xl border"
-                        >
-                            <div className="border-border flex flex-wrap items-center justify-between gap-3 border-b px-5 py-4 sm:px-6">
-                                <div>
-                                    <h2
-                                        id="results-heading"
-                                        className="text-base font-semibold tracking-tight"
-                                    >
-                                        Live estimate
-                                    </h2>
-                                    <p className="text-muted-foreground text-xs">
-                                        {formatTokenCount(priced.queriesPerDay * DAYS_PER_MONTH)}{" "}
-                                        questions · {DAYS_PER_MONTH}-day month
-                                    </p>
-                                </div>
-                                <span className="text-muted-foreground flex items-center gap-2 font-mono text-xs tracking-wide uppercase">
-                                    <span
-                                        aria-hidden="true"
-                                        className="bg-primary size-1.5 rounded-full"
-                                    />
-                                    Live
+                <SummaryStrip
+                    perMonth={estimate.perMonth}
+                    perDay={estimate.perDay}
+                    withoutLevers={steps[0].perMonth}
+                    perThousandQueries={estimate.perQuery * 1_000}
+                />
+
+                <div className="border-border mt-5 border-t pt-5">
+                    <LeverSteps
+                        steps={steps}
+                        decisionName={decisionModel?.name}
+                        answeredPerDay={estimate.volumes.answered}
+                        misroutedPerDay={routing ? estimate.volumes.misrouted : null}
+                    />
+                </div>
+            </section>
+
+            <div className="space-y-2">
+                <p className="text-primary font-mono text-xs tracking-widest uppercase">
+                    Scenario controls
+                </p>
+                <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+                    Shape the workload
+                </h2>
+                <p className="text-muted-foreground max-w-2xl text-sm leading-relaxed">
+                    Adjust traffic and model behavior. The estimate above updates with every change.
+                </p>
+            </div>
+
+            <div className="space-y-2">
+                <Panel step="01" title="Workload" tag="Change the assumptions">
+                    <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                        {fields("workload")}
+                    </div>
+                    <div className="border-border space-y-4 border-t pt-5">
+                        <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                            Caching
+                        </p>
+                        <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                            {fields("levers")}
+                        </div>
+                    </div>
+                </Panel>
+
+                <Panel step="02" title="Models and routing" tag="USD / 1M tokens">
+                    <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                        <div className="space-y-1.5">
+                            <div className="flex items-baseline justify-between gap-2">
+                                <Label htmlFor="main-model">Main model</Label>
+                                <span className="text-muted-foreground text-xs">
+                                    hard questions
                                 </span>
                             </div>
-
-                            <SummaryStrip
-                                compact
-                                perMonth={estimate.perMonth}
-                                perDay={estimate.perDay}
-                                withoutLevers={steps[0].perMonth}
-                                perThousandQueries={estimate.perQuery * 1_000}
-                            />
-                        </section>
-
-                        <section className="bg-card border-border rounded-xl border p-5 sm:p-6">
-                            <LeverSteps
-                                steps={steps}
-                                decisionName={decisionModel?.name}
-                                answeredPerDay={estimate.volumes.answered}
-                                misroutedPerDay={routing ? estimate.volumes.misrouted : null}
-                            />
-                        </section>
+                            <select
+                                id="main-model"
+                                value={mainModel.id}
+                                onChange={(event) => setMainModelId(event.target.value)}
+                                className={selectClass}
+                            >
+                                {models.map((model) => (
+                                    <option key={model.id} value={model.id}>
+                                        {modelLabel(model)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="space-y-1.5">
+                            <div className="flex items-baseline justify-between gap-2">
+                                <Label htmlFor="routed-model">Routed model</Label>
+                                <span className="text-muted-foreground text-xs">simple ones</span>
+                            </div>
+                            <select
+                                id="routed-model"
+                                value={routedModel.id}
+                                onChange={(event) => setRoutedModelId(event.target.value)}
+                                className={selectClass}
+                            >
+                                {models.map((model) => (
+                                    <option key={model.id} value={model.id}>
+                                        {modelLabel(model)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        {fields("routing")}
                     </div>
-                </aside>
+                    <p className="border-border text-muted-foreground border-l-2 py-1 pl-4 text-sm leading-relaxed">
+                        {routingSentence}
+                        {routing && priced.decisions.route
+                            ? ` ${decisionName} decides which is which.`
+                            : ""}
+                    </p>
+                </Panel>
+
+                <Panel step="03" title={`Hand decisions to ${decisionName}`} tag="Optional">
+                    <div className="flex max-w-3xl items-start justify-between gap-6">
+                        <div className="space-y-1">
+                            <Label htmlFor="jev-enabled" className="cursor-pointer">
+                                Add {decisionName}
+                            </Label>
+                            <p
+                                id="jev-enabled-description"
+                                className="text-muted-foreground text-xs leading-relaxed"
+                            >
+                                {decisionModel
+                                    ? `${decisionModel.name} doesn’t write text. It picks from options you define and bills input only, at ${formatPrice(decisionModel.input)} per million tokens.`
+                                    : 'Add a model with kind: "decision" to the price table to price these.'}
+                            </p>
+                        </div>
+                        <Switch
+                            id="jev-enabled"
+                            checked={decisionModel !== null && jevOpen}
+                            onCheckedChange={toggleJev}
+                            disabled={!decisionModel}
+                            aria-describedby="jev-enabled-description"
+                            className="mt-0.5"
+                        />
+                    </div>
+                    {decisionModel && jevOpen ? (
+                        <div className="border-border grid gap-x-8 gap-y-6 border-t pt-5 sm:grid-cols-2 lg:grid-cols-3">
+                            {fields("decisions")}
+                        </div>
+                    ) : null}
+                </Panel>
             </div>
 
             <section
