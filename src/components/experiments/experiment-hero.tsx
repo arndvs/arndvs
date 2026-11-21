@@ -10,12 +10,21 @@ type Props = {
     title: ReactNode;
     children: ReactNode;
     compact?: boolean;
+    /** Keeps the heading in the same column as the content below it. */
+    narrow?: boolean;
 };
 
 const ease = "cubic-bezier(0.16, 1, 0.3, 1)";
 
 /** The page-opening hero shared by the experiments, matching About and Projects. */
-export function ExperimentHero({ backdrop, eyebrow, title, children, compact = false }: Props) {
+export function ExperimentHero({
+    backdrop,
+    eyebrow,
+    title,
+    children,
+    compact = false,
+    narrow = false,
+}: Props) {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -48,7 +57,7 @@ export function ExperimentHero({ backdrop, eyebrow, title, children, compact = f
             </div>
 
             <div className="relative z-10 w-full px-6 lg:px-12 xl:px-20">
-                <div className="mx-auto max-w-7xl">
+                <div className={narrow ? "mx-auto max-w-[46rem]" : "mx-auto max-w-7xl"}>
                     <div style={reveal(30, 0.8, 0.1)}>
                         <span className="text-primary text-sm font-medium tracking-widest uppercase">
                             {eyebrow}

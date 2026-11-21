@@ -328,14 +328,12 @@ export function RagCostEstimator({
                         tag="Change the assumptions"
                         className="lg:grid-cols-1 lg:gap-4"
                     >
-                        <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                            {fields("workload")}
-                        </div>
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-6">{fields("workload")}</div>
                         <div className="border-border space-y-4 border-t pt-5">
                             <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                                 Caching
                             </p>
-                            <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                            <div className="grid grid-cols-2 gap-x-4 gap-y-6">
                                 {fields("levers")}
                             </div>
                         </div>

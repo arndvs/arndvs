@@ -57,7 +57,7 @@ export function ModelComparison({
                 role="region"
                 aria-label="Monthly cost on every model"
             >
-                <table className="w-full min-w-[36rem] border-collapse text-sm">
+                <table className="w-full min-w-[36rem] border-collapse text-sm lg:min-w-0">
                     <caption className="sr-only">
                         Monthly cost without savings and with your current settings for each model
                     </caption>
@@ -66,10 +66,10 @@ export function ModelComparison({
                             <th scope="col" className="py-2 pr-3 text-left font-medium">
                                 Model
                             </th>
-                            <th scope="col" className="px-3 py-2 text-right font-medium">
+                            <th scope="col" className="px-2 py-2 text-right font-medium">
                                 Without savings
                             </th>
-                            <th scope="col" className="px-3 py-2 text-right font-medium">
+                            <th scope="col" className="px-2 py-2 text-right font-medium">
                                 With yours
                             </th>
                             <th scope="col" className="py-2 pl-3 text-right font-medium">
@@ -124,25 +124,21 @@ export function ModelComparison({
                                             </span>
                                         ) : null}
                                     </th>
-                                    <td className="px-3 py-2.5 text-right font-mono whitespace-nowrap tabular-nums">
+                                    <td className="px-2 py-2.5 text-right font-mono whitespace-nowrap tabular-nums">
                                         {formatCost(baseline)}
                                     </td>
-                                    <td className="px-3 py-2.5 text-right font-mono font-medium whitespace-nowrap tabular-nums">
+                                    <td className="px-2 py-2.5 text-right font-mono font-medium whitespace-nowrap tabular-nums">
                                         {formatCost(current)}
                                     </td>
                                     <td className="py-2.5 pl-3 text-right align-top font-mono whitespace-nowrap tabular-nums">
                                         {savingsLabel}
                                         <span
                                             aria-hidden="true"
-                                            className="bg-muted mt-1.5 block h-1 overflow-hidden rounded-full"
-                                        >
-                                            <span
-                                                className="bg-primary block h-full rounded-full"
-                                                style={{
-                                                    width: `${largest > 0 ? (current / largest) * 100 : 0}%`,
-                                                }}
-                                            />
-                                        </span>
+                                            className="bg-primary mt-1.5 ml-auto block h-1.5 rounded-sm"
+                                            style={{
+                                                width: `${largest > 0 ? (current / largest) * 100 : 0}%`,
+                                            }}
+                                        />
                                     </td>
                                 </tr>
                             );
