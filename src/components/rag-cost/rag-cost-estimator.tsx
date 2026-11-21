@@ -3,6 +3,7 @@
 import { RotateCcw } from "lucide-react";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -23,7 +24,7 @@ import {
     estimateCapacity,
     estimateLatency,
 } from "@/lib/rag-cost/latency";
-import { leverSteps } from "@/lib/rag-cost/levers";
+import { leverSteps, withoutLevers } from "@/lib/rag-cost/levers";
 import { modelLabel } from "@/lib/rag-cost/model-pricing";
 import type { ModelPricing, NonEmpty, PricingRates } from "@/lib/rag-cost/model-pricing";
 import {
@@ -69,6 +70,16 @@ const anyDecision = (scenario: RagScenario): boolean =>
     scenario.decisions.gate.enabled ||
     scenario.decisions.cacheMatch;
 
+const resultTabs = [
+    { id: "models", label: "Models" },
+    { id: "spend", label: "Where money goes" },
+    { id: "savings", label: "Savings order" },
+    { id: "math", label: "The math" },
+    { id: "speed", label: "Speed & limits" },
+] as const;
+
+type ResultTab = (typeof resultTabs)[number]["id"];
+
 /**
  * The RAG Cost Estimator. All math lives in `src/lib/rag-cost`; this component
  * owns the state, keeps the URL in step with it, and lays the page out.
@@ -94,6 +105,7 @@ export function RagCostEstimator({
     const [routedModelId, setRoutedModelId] = useState(defaultRoutedModelId);
     // Whether Jev's options are showing. It opens on its own when a shared link uses them.
     const [jevOpen, setJevOpen] = useState(false);
+    const [activeResultTab, setActiveResultTab] = useState<ResultTab>("models");
     // A shared link is read after hydration, and the URL isn't written until it has been.
     const [restored, setRestored] = useState(false);
     const [announcement, setAnnouncement] = useState("");
@@ -153,6 +165,37 @@ export function RagCostEstimator({
             output: usage.output * DAYS_PER_MONTH,
         };
     }, [priced, estimate]);
+
+    const baselineMonthOnOneModel = useMemo(() => {
+        const baseline = withoutLevers(priced);
+        const baselineEstimate = estimateScenario(baseline, rates);
+        const usage = generationUsage(baseline, baselineEstimate.volumes.answered);
+
+        return {
+            uncachedInput: usage.uncachedInput * DAYS_PER_MONTH,
+            cacheRead: usage.cacheRead * DAYS_PER_MONTH,
+            cacheWrite5m: usage.cacheWrite5m * DAYS_PER_MONTH,
+            cacheWrite1h: usage.cacheWrite1h * DAYS_PER_MONTH,
+            output: usage.output * DAYS_PER_MONTH,
+        };
+    }, [priced, rates]);
+
+    const handleResultTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+        let nextIndex = index;
+        if (event.key === "ArrowRight") nextIndex = (index + 1) % resultTabs.length;
+        else if (event.key === "ArrowLeft")
+            nextIndex = (index - 1 + resultTabs.length) % resultTabs.length;
+        else if (event.key === "Home") nextIndex = 0;
+        else if (event.key === "End") nextIndex = resultTabs.length - 1;
+        else return;
+
+        event.preventDefault();
+        const nextTab = resultTabs[nextIndex];
+        if (!nextTab) return;
+
+        setActiveResultTab(nextTab.id);
+        document.getElementById(`result-tab-${nextTab.id}`)?.focus();
+    };
 
     const selectedIds = useMemo(
         () => new Set(routing ? [mainModel.id, routedModel.id] : [mainModel.id]),
@@ -261,301 +304,313 @@ export function RagCostEstimator({
     const decisionName = decisionModel?.name ?? "Decision model";
 
     return (
-        <div className="space-y-10">
-            <section aria-labelledby="results-heading" className="border-border border-y py-6">
-                <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                        <h2 id="results-heading" className="text-base font-semibold tracking-tight">
-                            Live estimate
-                        </h2>
-                        <p className="text-muted-foreground mt-1 text-xs">
-                            {formatTokenCount(priced.queriesPerDay * DAYS_PER_MONTH)} questions ·{" "}
-                            {DAYS_PER_MONTH}-day month
-                        </p>
-                    </div>
-                    <span className="text-muted-foreground flex items-center gap-2 font-mono text-xs tracking-wide uppercase">
-                        <span aria-hidden="true" className="bg-primary size-1.5 rounded-full" />
-                        Updates as you edit
-                    </span>
-                </div>
-
-                <SummaryStrip
-                    perMonth={estimate.perMonth}
-                    perDay={estimate.perDay}
-                    withoutLevers={steps[0].perMonth}
-                    perThousandQueries={estimate.perQuery * 1_000}
-                />
-
-                <div className="border-border mt-5 border-t pt-5">
-                    <LeverSteps
-                        steps={steps}
-                        decisionName={decisionModel?.name}
-                        answeredPerDay={estimate.volumes.answered}
-                        misroutedPerDay={routing ? estimate.volumes.misrouted : null}
-                    />
-                </div>
-            </section>
-
-            <div className="space-y-2">
-                <p className="text-primary font-mono text-xs tracking-widest uppercase">
-                    Scenario controls
-                </p>
-                <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
-                    Shape the workload
-                </h2>
-                <p className="text-muted-foreground max-w-2xl text-sm leading-relaxed">
-                    Adjust traffic and model behavior. The estimate above updates with every change.
-                </p>
-            </div>
-
-            <div className="space-y-2">
-                <Panel step="01" title="Workload" tag="Change the assumptions">
-                    <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {fields("workload")}
-                    </div>
-                    <div className="border-border space-y-4 border-t pt-5">
-                        <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                            Caching
-                        </p>
-                        <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {fields("levers")}
-                        </div>
-                    </div>
-                </Panel>
-
-                <Panel step="02" title="Models and routing" tag="USD / 1M tokens">
-                    <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
-                        <div className="space-y-1.5">
-                            <div className="flex items-baseline justify-between gap-2">
-                                <Label htmlFor="main-model">Main model</Label>
-                                <span className="text-muted-foreground text-xs">
-                                    hard questions
-                                </span>
-                            </div>
-                            <select
-                                id="main-model"
-                                value={mainModel.id}
-                                onChange={(event) => setMainModelId(event.target.value)}
-                                className={selectClass}
-                            >
-                                {models.map((model) => (
-                                    <option key={model.id} value={model.id}>
-                                        {modelLabel(model)}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="space-y-1.5">
-                            <div className="flex items-baseline justify-between gap-2">
-                                <Label htmlFor="routed-model">Routed model</Label>
-                                <span className="text-muted-foreground text-xs">simple ones</span>
-                            </div>
-                            <select
-                                id="routed-model"
-                                value={routedModel.id}
-                                onChange={(event) => setRoutedModelId(event.target.value)}
-                                className={selectClass}
-                            >
-                                {models.map((model) => (
-                                    <option key={model.id} value={model.id}>
-                                        {modelLabel(model)}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        {fields("routing")}
-                    </div>
-                    <p className="border-border text-muted-foreground border-l-2 py-1 pl-4 text-sm leading-relaxed">
-                        {routingSentence}
-                        {routing && priced.decisions.route
-                            ? ` ${decisionName} decides which is which.`
-                            : ""}
-                    </p>
-                </Panel>
-
-                <Panel step="03" title={`Hand decisions to ${decisionName}`} tag="Optional">
-                    <div className="flex max-w-3xl items-start justify-between gap-6">
-                        <div className="space-y-1">
-                            <Label htmlFor="jev-enabled" className="cursor-pointer">
-                                Add {decisionName}
-                            </Label>
-                            <p
-                                id="jev-enabled-description"
-                                className="text-muted-foreground text-xs leading-relaxed"
-                            >
-                                {decisionModel
-                                    ? `${decisionModel.name} doesn’t write text. It picks from options you define and bills input only, at ${formatPrice(decisionModel.input)} per million tokens.`
-                                    : 'Add a model with kind: "decision" to the price table to price these.'}
+        <div className="space-y-6">
+            <div className="grid items-start gap-6 lg:grid-cols-[minmax(18rem,0.82fr)_minmax(0,1.18fr)] lg:gap-8">
+                <aside aria-label="Scenario inputs" className="order-2 space-y-4 lg:order-1">
+                    <div className="flex items-center justify-between gap-3">
+                        <div>
+                            <p className="text-primary font-mono text-xs tracking-widest uppercase">
+                                Your app
+                            </p>
+                            <p className="text-muted-foreground mt-1 text-sm">
+                                Set the workload and savings assumptions.
                             </p>
                         </div>
-                        <Switch
-                            id="jev-enabled"
-                            checked={decisionModel !== null && jevOpen}
-                            onCheckedChange={toggleJev}
-                            disabled={!decisionModel}
-                            aria-describedby="jev-enabled-description"
-                            className="mt-0.5"
-                        />
-                    </div>
-                    {decisionModel && jevOpen ? (
-                        <div className="border-border grid gap-x-8 gap-y-6 border-t pt-5 sm:grid-cols-2 lg:grid-cols-3">
-                            {fields("decisions")}
-                        </div>
-                    ) : null}
-                </Panel>
-            </div>
-
-            <section
-                aria-labelledby="detailed-results-heading"
-                className="bg-card border-border overflow-hidden rounded-xl border"
-            >
-                <div className="border-border border-b px-5 py-4 sm:px-6">
-                    <h2
-                        id="detailed-results-heading"
-                        className="text-base font-semibold tracking-tight"
-                    >
-                        Detailed results
-                    </h2>
-                    <p className="text-muted-foreground mt-1 text-xs">
-                        See what drives the estimate, from token usage to response time.
-                    </p>
-                </div>
-
-                <div className="border-border border-b p-5 sm:p-6">
-                    <CostBreakdown
-                        estimate={estimate}
-                        formulas={formulas}
-                        mainName={modelLabel(mainModel)}
-                        routedName={modelLabel(routedModel)}
-                        decisionName={decisionName}
-                    />
-                </div>
-
-                <div className="border-border border-b p-5 sm:p-6">
-                    <LatencyCapacity
-                        latency={latency}
-                        capacity={capacity}
-                        names={{
-                            main: modelLabel(mainModel),
-                            routed: modelLabel(routedModel),
-                            decision: decisionName,
-                        }}
-                    />
-                </div>
-
-                <div className="p-5 sm:p-6">
-                    <ModelComparison
-                        models={models}
-                        usage={monthOnOneModel}
-                        selectedIds={selectedIds}
-                        promptTokens={promptTokens(priced)}
-                        updated={updated}
-                    />
-                </div>
-            </section>
-
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-                <div className="space-y-4">
-                    <p className="bg-muted text-muted-foreground rounded-lg p-4 text-sm leading-relaxed">
-                        <span className="text-foreground font-medium">Important: </span>
-                        this is a directional estimate of what generation costs for a RAG workload,
-                        not a quote. Embeddings, the vector database, retries, tool calls, and
-                        network costs aren’t included. Check each provider’s current pricing before
-                        you budget.
-                    </p>
-
-                    <details className="group border-border rounded-lg border p-4">
-                        <summary className="cursor-pointer text-sm font-medium">
-                            How the estimate is calculated
-                        </summary>
-                        <div className="text-muted-foreground mt-3 space-y-3 text-sm leading-relaxed">
-                            <p>
-                                Each day starts with the questions you entered. The response cache
-                                answers its share without calling any model. If {decisionName}{" "}
-                                checks the chunks, it turns away the questions they can’t answer.
-                                The rest split between the main and routed models by the routing
-                                share.
-                            </p>
-                            <p>
-                                Every call sends the system prompt, the question, and the chunks,
-                                and gets an answer back. Each kind of token is multiplied by the
-                                model’s price per million, and every line is added up before
-                                dividing by a million, so rounding never drifts. A day’s total times{" "}
-                                {DAYS_PER_MONTH} gives the month.
-                            </p>
-                            <p>
-                                “What moves the bill” starts from the same workload with every lever
-                                off, then applies the levers one at a time in a fixed order. Each
-                                lever’s saving depends on the ones before it.
-                            </p>
-                        </div>
-                    </details>
-
-                    <details className="group border-border rounded-lg border p-4">
-                        <summary className="cursor-pointer text-sm font-medium">
-                            Fixed assumptions
-                        </summary>
-                        <ul className="text-muted-foreground mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
-                            <li>Months are {DAYS_PER_MONTH} days, so scenarios compare evenly.</li>
-                            <li>
-                                A cached system prompt is written at most {MAX_CACHE_WRITES_PER_DAY}{" "}
-                                times a day per model, once per five-minute window. Providers only
-                                cache prompts above a minimum length, often around 1,024 tokens,
-                                which this page doesn’t check yet.
-                            </li>
-                            <li>
-                                Each {decisionName} call adds {DECISION_INSTRUCTION_TOKENS} tokens
-                                for its question definitions and takes {DECISION_MS} ms. Routing
-                                runs alongside retrieval; the chunk checks wait for it.
-                            </li>
-                            {decisionModel?.source ? (
-                                <li>
-                                    {decisionModel.name}’s price comes from {decisionModel.source}
-                                </li>
-                            ) : null}
-                            <li>
-                                Embedding takes {EMBEDDING_MS} ms, search {RETRIEVAL_MS} ms, and the
-                                first token {FIRST_TOKEN_MS} ms. Answers stream at{" "}
-                                {OUTPUT_TOKENS_PER_SECOND} tokens a second.
-                            </li>
-                            <li>
-                                The busiest minute is {PEAK_FACTOR}× the day’s average. Each model
-                                is held to {formatTokenCount(TOKENS_PER_MINUTE_LIMIT)} tokens a
-                                minute, a planning figure; your real limits depend on your account.
-                            </li>
-                            <li>
-                                Misrouted questions are counted but not priced: a hard question sent
-                                to a cheap model costs quality, not money.
-                            </li>
-                            <li>
-                                The token-pricing approach follows Steve Kinney’s{" "}
-                                <a
-                                    href="https://stevekinney.com/experiments/model-calculator"
-                                    className="text-foreground underline underline-offset-4"
-                                >
-                                    Model Pricing Calculator
-                                </a>
-                                .
-                            </li>
-                        </ul>
-                    </details>
-                </div>
-
-                <div className="space-y-3 lg:pt-1">
-                    <p className="text-muted-foreground text-sm">
-                        Every input is an assumption you can change. The address bar always holds a
-                        link to exactly what’s on screen.
-                    </p>
-                    <div className="flex flex-wrap gap-3">
                         <Button variant="outline" size="sm" onClick={reset}>
                             <RotateCcw aria-hidden="true" />
-                            Reset every input
-                        </Button>
-                        <Button variant="ghost" size="sm" asChild>
-                            <a href="#panel-01">Back to the inputs ↑</a>
+                            Reset
                         </Button>
                     </div>
-                </div>
+
+                    <Panel
+                        step="01"
+                        title="Workload"
+                        tag="Change the assumptions"
+                        className="lg:grid-cols-1 lg:gap-4"
+                    >
+                        <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                            {fields("workload")}
+                        </div>
+                        <div className="border-border space-y-4 border-t pt-5">
+                            <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                                Caching
+                            </p>
+                            <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                                {fields("levers")}
+                            </div>
+                        </div>
+                    </Panel>
+
+                    <Panel
+                        step="02"
+                        title="Models and routing"
+                        tag="USD / 1M tokens"
+                        className="lg:grid-cols-1 lg:gap-4"
+                    >
+                        <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                            <div className="space-y-1.5">
+                                <div className="flex items-baseline justify-between gap-2">
+                                    <Label htmlFor="main-model">Main model</Label>
+                                    <span className="text-muted-foreground text-xs">
+                                        hard questions
+                                    </span>
+                                </div>
+                                <select
+                                    id="main-model"
+                                    value={mainModel.id}
+                                    onChange={(event) => setMainModelId(event.target.value)}
+                                    className={selectClass}
+                                >
+                                    {models.map((model) => (
+                                        <option key={model.id} value={model.id}>
+                                            {modelLabel(model)}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="space-y-1.5">
+                                <div className="flex items-baseline justify-between gap-2">
+                                    <Label htmlFor="routed-model">Routed model</Label>
+                                    <span className="text-muted-foreground text-xs">
+                                        simple ones
+                                    </span>
+                                </div>
+                                <select
+                                    id="routed-model"
+                                    value={routedModel.id}
+                                    onChange={(event) => setRoutedModelId(event.target.value)}
+                                    className={selectClass}
+                                >
+                                    {models.map((model) => (
+                                        <option key={model.id} value={model.id}>
+                                            {modelLabel(model)}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            {fields("routing")}
+                        </div>
+                        <p className="border-border text-muted-foreground border-l-2 py-1 pl-4 text-sm leading-relaxed">
+                            {routingSentence}
+                            {routing && priced.decisions.route
+                                ? ` ${decisionName} decides which is which.`
+                                : ""}
+                        </p>
+                    </Panel>
+
+                    <Panel
+                        step="03"
+                        title={`Hand decisions to ${decisionName}`}
+                        tag="Optional"
+                        className="lg:grid-cols-1 lg:gap-4"
+                    >
+                        <div className="flex items-start justify-between gap-6">
+                            <div className="space-y-1">
+                                <Label htmlFor="jev-enabled" className="cursor-pointer">
+                                    Add {decisionName}
+                                </Label>
+                                <p
+                                    id="jev-enabled-description"
+                                    className="text-muted-foreground text-xs leading-relaxed"
+                                >
+                                    {decisionModel
+                                        ? `${decisionModel.name} doesn’t write text. It picks from options you define and bills input only, at ${formatPrice(decisionModel.input)} per million tokens.`
+                                        : 'Add a model with kind: "decision" to the price table to price these.'}
+                                </p>
+                            </div>
+                            <Switch
+                                id="jev-enabled"
+                                checked={decisionModel !== null && jevOpen}
+                                onCheckedChange={toggleJev}
+                                disabled={!decisionModel}
+                                aria-describedby="jev-enabled-description"
+                                className="mt-0.5"
+                            />
+                        </div>
+                        {decisionModel && jevOpen ? (
+                            <div className="border-border grid gap-x-8 gap-y-6 border-t pt-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                                {fields("decisions")}
+                            </div>
+                        ) : null}
+                    </Panel>
+                </aside>
+
+                <section
+                    aria-labelledby="results-heading"
+                    className="order-1 min-w-0 space-y-4 lg:order-2"
+                >
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                            <h2
+                                id="results-heading"
+                                className="text-base font-semibold tracking-tight"
+                            >
+                                Live estimate
+                            </h2>
+                            <p className="text-muted-foreground mt-1 text-xs">
+                                {formatTokenCount(priced.queriesPerDay * DAYS_PER_MONTH)} questions
+                                · {DAYS_PER_MONTH}-day month
+                            </p>
+                        </div>
+                        <span className="text-muted-foreground flex items-center gap-2 pt-1 font-mono text-xs tracking-wide uppercase">
+                            <span aria-hidden="true" className="bg-primary size-1.5 rounded-full" />
+                            Updates as you edit
+                        </span>
+                    </div>
+
+                    <SummaryStrip
+                        perMonth={estimate.perMonth}
+                        perDay={estimate.perDay}
+                        withoutLevers={steps[0].perMonth}
+                        perThousandQueries={estimate.perQuery * 1_000}
+                    />
+
+                    <div
+                        role="tablist"
+                        aria-label="Estimate details"
+                        className="border-border flex gap-1 overflow-x-auto border-b"
+                    >
+                        {resultTabs.map((tab, index) => (
+                            <button
+                                key={tab.id}
+                                id={`result-tab-${tab.id}`}
+                                type="button"
+                                role="tab"
+                                aria-selected={activeResultTab === tab.id}
+                                aria-controls="result-panel"
+                                tabIndex={activeResultTab === tab.id ? 0 : -1}
+                                onClick={() => setActiveResultTab(tab.id)}
+                                onKeyDown={(event) => handleResultTabKeyDown(event, index)}
+                                className={`focus-visible:ring-ring border-b-2 px-3 py-3 text-sm whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:outline-none ${
+                                    activeResultTab === tab.id
+                                        ? "border-primary text-foreground font-medium"
+                                        : "text-muted-foreground hover:text-foreground border-transparent"
+                                }`}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    <section
+                        id="result-panel"
+                        role="tabpanel"
+                        aria-labelledby={`result-tab-${activeResultTab}`}
+                        tabIndex={0}
+                        className="border-border focus-visible:ring-ring min-h-72 border-t py-5 outline-none focus-visible:ring-2 sm:py-6"
+                    >
+                        {activeResultTab === "models" ? (
+                            <ModelComparison
+                                models={models}
+                                baselineUsage={baselineMonthOnOneModel}
+                                usage={monthOnOneModel}
+                                selectedIds={selectedIds}
+                                promptTokens={promptTokens(priced)}
+                                updated={updated}
+                            />
+                        ) : null}
+                        {activeResultTab === "spend" ? (
+                            <CostBreakdown
+                                estimate={estimate}
+                                formulas={formulas}
+                                mainName={modelLabel(mainModel)}
+                                routedName={modelLabel(routedModel)}
+                                decisionName={decisionName}
+                            />
+                        ) : null}
+                        {activeResultTab === "savings" ? (
+                            <LeverSteps
+                                steps={steps}
+                                decisionName={decisionModel?.name}
+                                answeredPerDay={estimate.volumes.answered}
+                                misroutedPerDay={routing ? estimate.volumes.misrouted : null}
+                            />
+                        ) : null}
+                        {activeResultTab === "math" ? (
+                            <div className="space-y-5">
+                                <div className="space-y-2">
+                                    <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                                        How the estimate is calculated
+                                    </h3>
+                                    <p className="text-muted-foreground text-sm leading-relaxed">
+                                        Each day starts with the questions you entered. The response
+                                        cache answers its share without calling a model. If{" "}
+                                        {decisionName} checks the chunks, it turns away questions it
+                                        can’t answer. The rest split between the main and routed
+                                        models by the routing share.
+                                    </p>
+                                    <p className="text-muted-foreground text-sm leading-relaxed">
+                                        Every call sends the system prompt, question, and retrieved
+                                        chunks, then gets an answer. Token volumes are multiplied by
+                                        each model’s price per million. The daily total is
+                                        multiplied by {DAYS_PER_MONTH} for the monthly estimate.
+                                    </p>
+                                    <p className="text-muted-foreground text-sm leading-relaxed">
+                                        Savings are applied one at a time from the no-savings
+                                        baseline, so each step reflects the strategies already
+                                        applied above it.
+                                    </p>
+                                </div>
+                                <details className="border-border rounded-lg border p-4">
+                                    <summary className="cursor-pointer text-sm font-medium">
+                                        Fixed assumptions
+                                    </summary>
+                                    <ul className="text-muted-foreground mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed">
+                                        <li>Months contain {DAYS_PER_MONTH} days.</li>
+                                        <li>
+                                            System prompt cache writes are limited to{" "}
+                                            {MAX_CACHE_WRITES_PER_DAY} a day per model.
+                                        </li>
+                                        <li>
+                                            {decisionName} calls add {DECISION_INSTRUCTION_TOKENS}{" "}
+                                            tokens and take {DECISION_MS} ms.
+                                        </li>
+                                        <li>
+                                            Retrieval takes {EMBEDDING_MS + RETRIEVAL_MS} ms;
+                                            first-token time is {FIRST_TOKEN_MS} ms; streaming speed
+                                            is {OUTPUT_TOKENS_PER_SECOND} tokens per second.
+                                        </li>
+                                        <li>
+                                            Peak traffic is {PEAK_FACTOR}× average. Planning limit
+                                            is {formatTokenCount(TOKENS_PER_MINUTE_LIMIT)} tokens
+                                            per minute per model.
+                                        </li>
+                                        <li>
+                                            Embeddings, vector database, retries, tools, and network
+                                            costs are not included.
+                                        </li>
+                                    </ul>
+                                </details>
+                                {decisionModel?.source ? (
+                                    <p className="text-muted-foreground text-xs">
+                                        {decisionModel.name} pricing source: {decisionModel.source}
+                                    </p>
+                                ) : null}
+                            </div>
+                        ) : null}
+                        {activeResultTab === "speed" ? (
+                            <LatencyCapacity
+                                latency={latency}
+                                capacity={capacity}
+                                names={{
+                                    main: modelLabel(mainModel),
+                                    routed: modelLabel(routedModel),
+                                    decision: decisionName,
+                                }}
+                            />
+                        ) : null}
+                    </section>
+
+                    <p className="text-muted-foreground border-border border-l-2 py-1 pl-4 text-sm leading-relaxed">
+                        <span className="text-foreground font-medium">Directional estimate: </span>
+                        generation costs only, not a quote. Check each provider’s current pricing
+                        before budgeting.
+                    </p>
+                    <p className="text-muted-foreground text-xs leading-relaxed">
+                        Every input is an assumption you can change. The address bar keeps a
+                        shareable link to this scenario.
+                    </p>
+                </section>
             </div>
 
             <p className="sr-only" aria-live="polite">
