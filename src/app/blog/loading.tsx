@@ -1,14 +1,14 @@
 export default function BlogLoading() {
     return (
         <main className="min-h-screen pt-24 pb-16">
-            <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <section className="site-container">
                 <div className="space-y-4">
                     <div className="bg-muted h-12 w-48 animate-pulse rounded-lg" />
                     <div className="bg-muted h-6 w-96 max-w-full animate-pulse rounded-lg" />
                 </div>
             </section>
 
-            <section className="mx-auto max-w-7xl px-6 pt-12 lg:px-8">
+            <section className="site-container pt-12">
                 <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {Array.from({ length: 6 }, (_, i) => (
                         <div key={i} className="border-border space-y-4 rounded-lg border p-4">

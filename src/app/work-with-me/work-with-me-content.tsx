@@ -138,8 +138,8 @@ export default function WorkWithMeContent() {
                     </span>
                 </div>
 
-                <div className="relative z-10 w-full px-6 lg:px-12 xl:px-20">
-                    <div className="mx-auto max-w-7xl">
+                <div className="relative z-10 w-full">
+                    <div className="site-container">
                         <div
                             style={{
                                 transform: isVisible ? "translateY(0)" : "translateY(30px)",
@@ -205,7 +205,7 @@ export default function WorkWithMeContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
                         <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             What I&apos;m looking for
@@ -271,7 +271,7 @@ export default function WorkWithMeContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
                         <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             How I work
@@ -331,7 +331,7 @@ export default function WorkWithMeContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="grid gap-16 lg:grid-cols-2">
                         <motion.div variants={itemVariants}>
                             <span className="text-signal text-sm font-medium tracking-widest uppercase">
@@ -376,7 +376,7 @@ export default function WorkWithMeContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
                         <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Proof of work
@@ -431,7 +431,7 @@ export default function WorkWithMeContent() {
 
             {/* CTA */}
             <section className="border-border border-t py-24 lg:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="mx-auto max-w-3xl text-center">
                         <h2 className="font-display text-4xl font-bold tracking-tight lg:text-5xl">
                             Tell me what you&apos;re trying to{" "}

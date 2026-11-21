@@ -27,7 +27,7 @@ export default function RipeMetricsContent() {
         <main className="min-h-screen pt-16">
             <HeaderSection data={pageData.header} />
 
-            <div className="mx-auto max-w-7xl px-6 py-4 lg:px-8">
+            <div className="site-container py-4">
                 <Link
                     href="/projects/ripemetrics/design"
                     className="group flex items-center gap-4 rounded-lg border border-orange-500/20 bg-orange-500/5 p-4 transition-colors hover:border-orange-500/40 hover:bg-orange-500/10"
@@ -46,7 +46,7 @@ export default function RipeMetricsContent() {
                 </Link>
             </div>
 
-            <div className="mx-auto max-w-7xl px-6 py-4 lg:px-8">
+            <div className="site-container py-4">
                 <Image
                     src={pageData.heroImage.src}
                     alt={pageData.heroImage.alt}
@@ -72,10 +72,10 @@ export default function RipeMetricsContent() {
             {pageData.deepDives.map((dive) => (
                 <DeepDiveSection key={dive.id} data={dive} />
             ))}
-            <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-8">
+            <div className="site-container pt-16">
                 <DecisionLog decisions={pageData.decisions} />
             </div>
-            <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-8">
+            <div className="site-container pt-16">
                 <LearningsGrid learnings={pageData.learnings} />
             </div>
             <TechImplementationSection
@@ -86,7 +86,7 @@ export default function RipeMetricsContent() {
                 title={pageData.achievements.title}
                 items={pageData.achievements.items}
             />
-            <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-8">
+            <div className="site-container pt-16">
                 <GallerySection gallery={pageData.gallery} />
             </div>
             <ConclusionSection data={pageData.conclusion} />

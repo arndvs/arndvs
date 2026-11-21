@@ -51,8 +51,8 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                     </span>
                 </div>
 
-                <div className="relative z-10 w-full px-6 lg:px-12 xl:px-20">
-                    <div className="mx-auto max-w-7xl">
+                <div className="relative z-10 w-full">
+                    <div className="site-container">
                         <div
                             style={{
                                 transform: isVisible ? "translateY(0)" : "translateY(30px)",
@@ -93,7 +93,7 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
 
             {/* Posts Grid */}
             <section className="border-border border-t py-24 lg:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     {posts.length > 0 ? (
                         <motion.div
                             variants={containerVariants}
@@ -127,7 +127,7 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
 
             {/* CTA */}
             <section className="border-border border-t py-24 lg:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="max-w-3xl">
                         <h2 className="font-display text-4xl font-bold tracking-tight lg:text-5xl">
                             Interested in working <span className="text-gradient">together</span>?

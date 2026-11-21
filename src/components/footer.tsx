@@ -33,7 +33,7 @@ export function Footer() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mx-auto max-w-7xl px-6 py-16 lg:px-12 xl:px-20"
+                className="site-container py-16"
             >
                 <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
                     {/* Brand */}

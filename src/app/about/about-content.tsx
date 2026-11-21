@@ -186,8 +186,8 @@ export default function AboutContent() {
                     </span>
                 </div>
 
-                <div className="relative z-10 w-full px-6 lg:px-12 xl:px-20">
-                    <div className="mx-auto max-w-7xl">
+                <div className="relative z-10 w-full">
+                    <div className="site-container">
                         <div
                             style={{
                                 transform: isVisible ? "translateY(0)" : "translateY(30px)",
@@ -239,7 +239,7 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
                         <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             The Journey
@@ -288,7 +288,7 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="grid gap-16 lg:grid-cols-2">
                         <motion.div variants={itemVariants}>
                             <span className="text-signal text-sm font-medium tracking-widest uppercase">
@@ -335,7 +335,7 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
                         <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Technologies
@@ -372,7 +372,7 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
                         <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Continuous Learning
@@ -407,7 +407,7 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
                         <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Education
@@ -447,7 +447,7 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
                         <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Sharing Knowledge
@@ -483,7 +483,7 @@ export default function AboutContent() {
 
             {/* Personal */}
             <section className="border-border border-t py-24 lg:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="max-w-2xl">
                         <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Beyond Code
@@ -501,7 +501,7 @@ export default function AboutContent() {
 
             {/* CTA */}
             <section className="border-border border-t py-24 lg:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="max-w-3xl">
                         <h2 className="font-display text-4xl font-bold tracking-tight lg:text-5xl">
                             Let&apos;s work <span className="text-gradient">together</span>

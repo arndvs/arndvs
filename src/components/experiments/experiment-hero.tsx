@@ -48,7 +48,7 @@ export function ExperimentHero({ backdrop, eyebrow, title, children, compact = f
             </div>
 
             <div className="relative z-10 w-full">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                <div className="site-container">
                     <div style={reveal(30, 0.8, 0.1)}>
                         <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             {eyebrow}

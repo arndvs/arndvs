@@ -77,7 +77,7 @@ export default function RagCostPage() {
             </ExperimentHero>
 
             <section className="pb-24 lg:pb-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                <div className="site-container">
                     <RagCostEstimator
                         models={models}
                         decisionModel={decisionModel(MODEL_CATALOG)}
