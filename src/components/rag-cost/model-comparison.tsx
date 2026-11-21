@@ -1,17 +1,14 @@
 import { Badge } from "@/components/ui/badge";
 import { calculateCost } from "@/lib/rag-cost/calculate-cost";
-import {
-    formatCalendarDate,
-    formatCost,
-    formatPrice,
-    formatTokenCount,
-} from "@/lib/rag-cost/format";
+import { formatCalendarDate, formatCost, formatTokenCount } from "@/lib/rag-cost/format";
 import type { ModelPricing } from "@/lib/rag-cost/model-pricing";
 import type { TokenUsage } from "@/lib/rag-cost/token-usage";
 
 type Props = {
     models: ModelPricing[];
-    /** One month of generation, as if a single model answered every question. */
+    /** One month of generation before any savings are applied, on one model. */
+    baselineUsage: TokenUsage;
+    /** One month of generation with the current savings assumptions, on one model. */
     usage: TokenUsage;
     selectedIds: ReadonlySet<string>;
     /** Input tokens in one prompt, to flag models whose listed price stops below it. */
@@ -19,12 +16,24 @@ type Props = {
     updated: string;
 };
 
-/** The same workload priced on every generation model, cheapest first. */
-export function ModelComparison({ models, usage, selectedIds, promptTokens, updated }: Props) {
+/** Compare the same workload across models, before and after the current savings. */
+export function ModelComparison({
+    models,
+    baselineUsage,
+    usage,
+    selectedIds,
+    promptTokens,
+    updated,
+}: Props) {
     const rows = models
-        .map((model, index) => ({ model, index, cost: calculateCost(usage, model) }))
-        .sort((first, second) => first.cost - second.cost || first.index - second.index);
-    const largest = rows.reduce((most, row) => Math.max(most, row.cost), 0);
+        .map((model, index) => ({
+            model,
+            index,
+            baseline: calculateCost(baselineUsage, model),
+            current: calculateCost(usage, model),
+        }))
+        .sort((first, second) => first.current - second.current || first.index - second.index);
+    const largest = rows.reduce((most, row) => Math.max(most, row.current), 0);
 
     return (
         <section aria-labelledby="every-model-heading" className="space-y-4">
@@ -36,8 +45,8 @@ export function ModelComparison({ models, usage, selectedIds, promptTokens, upda
                     The same workload on every model
                 </h3>
                 <p className="text-muted-foreground text-xs">
-                    One month of answers as if a single model wrote them all, with caching and Jev’s
-                    filters applied. Prices are US dollars per million tokens, last checked{" "}
+                    One model handles the full workload in each row. Compare the no-savings baseline
+                    with the same model under your current settings. Pricing last checked{" "}
                     {formatCalendarDate(updated)}.
                 </p>
             </div>
@@ -50,8 +59,7 @@ export function ModelComparison({ models, usage, selectedIds, promptTokens, upda
             >
                 <table className="w-full min-w-[36rem] border-collapse text-sm">
                     <caption className="sr-only">
-                        Prices per million tokens and the monthly cost of this workload on each
-                        model, cheapest first
+                        Monthly cost without savings and with your current settings for each model
                     </caption>
                     <thead>
                         <tr className="border-border text-muted-foreground border-b text-xs">
@@ -59,25 +67,29 @@ export function ModelComparison({ models, usage, selectedIds, promptTokens, upda
                                 Model
                             </th>
                             <th scope="col" className="px-3 py-2 text-right font-medium">
-                                Input
+                                Without savings
                             </th>
                             <th scope="col" className="px-3 py-2 text-right font-medium">
-                                Cached
-                            </th>
-                            <th scope="col" className="px-3 py-2 text-right font-medium">
-                                Output
+                                With yours
                             </th>
                             <th scope="col" className="py-2 pl-3 text-right font-medium">
-                                Per month
+                                Saved
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {rows.map(({ model, cost }, index) => {
+                        {rows.map(({ model, baseline, current }, index) => {
                             const selected = selectedIds.has(model.id);
                             const overLimit =
                                 model.maximumPromptTokens !== undefined &&
                                 promptTokens > model.maximumPromptTokens;
+                            const savings = baseline - current;
+                            const savingsLabel =
+                                savings > 0.005
+                                    ? `−${formatCost(savings)}`
+                                    : savings < -0.005
+                                      ? `+${formatCost(Math.abs(savings))}`
+                                      : formatCost(0);
 
                             return (
                                 <tr
@@ -96,7 +108,7 @@ export function ModelComparison({ models, usage, selectedIds, promptTokens, upda
                                             ) : null}
                                             {index === 0 ? (
                                                 <Badge variant="outline" className="font-mono">
-                                                    Lowest cost
+                                                    Lowest with yours
                                                 </Badge>
                                             ) : null}
                                             {selected ? <Badge>Selected</Badge> : null}
@@ -113,16 +125,13 @@ export function ModelComparison({ models, usage, selectedIds, promptTokens, upda
                                         ) : null}
                                     </th>
                                     <td className="px-3 py-2.5 text-right font-mono whitespace-nowrap tabular-nums">
-                                        {formatPrice(model.input)}
+                                        {formatCost(baseline)}
                                     </td>
-                                    <td className="px-3 py-2.5 text-right font-mono whitespace-nowrap tabular-nums">
-                                        {formatPrice(model.cachedInput)}
+                                    <td className="px-3 py-2.5 text-right font-mono font-medium whitespace-nowrap tabular-nums">
+                                        {formatCost(current)}
                                     </td>
-                                    <td className="px-3 py-2.5 text-right font-mono whitespace-nowrap tabular-nums">
-                                        {formatPrice(model.output)}
-                                    </td>
-                                    <td className="w-36 py-2.5 pl-3 text-right align-top font-mono whitespace-nowrap tabular-nums">
-                                        {formatCost(cost)}
+                                    <td className="py-2.5 pl-3 text-right align-top font-mono whitespace-nowrap tabular-nums">
+                                        {savingsLabel}
                                         <span
                                             aria-hidden="true"
                                             className="bg-muted mt-1.5 block h-1 overflow-hidden rounded-full"
@@ -130,7 +139,7 @@ export function ModelComparison({ models, usage, selectedIds, promptTokens, upda
                                             <span
                                                 className="bg-primary block h-full rounded-full"
                                                 style={{
-                                                    width: `${largest > 0 ? (cost / largest) * 100 : 0}%`,
+                                                    width: `${largest > 0 ? (current / largest) * 100 : 0}%`,
                                                 }}
                                             />
                                         </span>
