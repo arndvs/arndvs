@@ -61,6 +61,7 @@ export default function RagCostPage() {
             />
             <ExperimentHero
                 backdrop="COST"
+                compact
                 eyebrow="Experiment · Cost, latency, and scale"
                 title={
                     <>
