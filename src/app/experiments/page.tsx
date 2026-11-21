@@ -32,8 +32,8 @@ export default function ExperimentsPage() {
                 <p>{INTRO}</p>
             </ExperimentHero>
 
-            <section className="px-6 pb-24 lg:px-12 lg:pb-32 xl:px-20">
-                <ul className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2">
+            <section className="pb-24 lg:pb-32">
+                <ul className="mx-auto grid max-w-7xl gap-6 px-6 md:grid-cols-2 lg:px-8">
                     {EXPERIMENTS.map((experiment) => (
                         <li key={experiment.slug}>
                             <Link
