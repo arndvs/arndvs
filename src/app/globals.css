@@ -139,14 +139,6 @@
     body {
         @apply bg-background text-foreground;
     }
-    /* Faint blueprint grid, matching the LinkedIn banner */
-    .dark body {
-        background-image:
-            linear-gradient(rgb(94 234 212 / 0.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgb(94 234 212 / 0.035) 1px, transparent 1px);
-        background-size: 48px 48px;
-    }
-
     /* Custom scrollbar */
     ::-webkit-scrollbar {
         width: 8px;
