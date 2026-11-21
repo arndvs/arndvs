@@ -232,7 +232,7 @@ export function ImpactSection({ title, metrics }: { title: string; metrics: Impa
             >
                 {metrics.map((metric, index) => (
                     <motion.div key={index} variants={cardVariants} className="bg-card p-6">
-                        <div className="font-display text-primary text-4xl font-bold">
+                        <div className="stat-number font-sans text-4xl font-semibold">
                             {metric.value}
                         </div>
                         <div className="text-muted-foreground mt-2 text-sm font-medium">

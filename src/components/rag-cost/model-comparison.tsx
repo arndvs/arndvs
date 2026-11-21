@@ -1,3 +1,5 @@
+import { TriangleAlert } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { calculateCost } from "@/lib/rag-cost/calculate-cost";
 import { formatCalendarDate, formatCost, formatTokenCount } from "@/lib/rag-cost/format";
@@ -117,10 +119,18 @@ export function ModelComparison({
                                             {model.provider}
                                         </span>
                                         {overLimit ? (
-                                            <span className="block text-xs text-amber-700 dark:text-amber-400">
-                                                This price covers prompts up to{" "}
-                                                {formatTokenCount(model.maximumPromptTokens ?? 0)}{" "}
-                                                tokens. Larger ones cost more.
+                                            <span className="text-foreground mt-1 flex items-start gap-1.5 text-xs">
+                                                <TriangleAlert
+                                                    aria-hidden="true"
+                                                    className="mt-px size-3.5 flex-none"
+                                                />
+                                                <span>
+                                                    This price covers prompts up to{" "}
+                                                    {formatTokenCount(
+                                                        model.maximumPromptTokens ?? 0,
+                                                    )}{" "}
+                                                    tokens. Larger ones cost more.
+                                                </span>
                                             </span>
                                         ) : null}
                                     </th>

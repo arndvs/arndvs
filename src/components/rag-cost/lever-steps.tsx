@@ -51,9 +51,7 @@ export function LeverSteps({ steps, decisionName, answeredPerDay, misroutedPerDa
                                 {index > 0 ? (
                                     <span
                                         className={
-                                            step.change <= 0
-                                                ? "text-emerald-700 dark:text-emerald-400"
-                                                : "text-amber-700 dark:text-amber-400"
+                                            step.change <= 0 ? "text-signal" : "text-foreground"
                                         }
                                     >
                                         {signed(step.change)}

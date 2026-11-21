@@ -84,7 +84,7 @@ export function Navigation() {
                                 className={cn(
                                     "rounded-md px-3 py-2 text-sm font-medium transition-colors",
                                     isActive(item.href)
-                                        ? "text-primary"
+                                        ? "text-signal"
                                         : "text-muted-foreground hover:text-foreground",
                                 )}
                                 aria-label={item.ariaLabel}
@@ -146,7 +146,7 @@ export function Navigation() {
                                             className={cn(
                                                 "rounded-lg px-4 py-3 text-base font-medium transition-colors",
                                                 isActive(item.href)
-                                                    ? "text-primary bg-primary/10"
+                                                    ? "text-signal bg-primary/10"
                                                     : "text-muted-foreground hover:text-foreground hover:bg-muted",
                                             )}
                                             aria-label={item.ariaLabel}

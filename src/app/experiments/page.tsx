@@ -51,13 +51,13 @@ export default function ExperimentsPage() {
                                     />
                                 </div>
                                 <div className="p-6 lg:p-8">
-                                    <h2 className="font-display group-hover:text-primary text-3xl font-bold tracking-tight transition-colors lg:text-4xl">
+                                    <h2 className="font-display group-hover:text-signal text-3xl font-bold tracking-tight transition-colors lg:text-4xl">
                                         {experiment.title}
                                     </h2>
                                     <p className="text-muted-foreground mt-4 leading-relaxed">
                                         {experiment.description}
                                     </p>
-                                    <span className="text-muted-foreground group-hover:text-primary mt-6 inline-flex items-center gap-2 text-sm font-medium transition-colors">
+                                    <span className="text-muted-foreground group-hover:text-signal mt-6 inline-flex items-center gap-2 text-sm font-medium transition-colors">
                                         Open the experiment
                                         <ArrowRight
                                             aria-hidden="true"

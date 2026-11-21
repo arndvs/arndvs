@@ -195,7 +195,7 @@ export default function AboutContent() {
                                 transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
                             }}
                         >
-                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            <span className="text-signal text-sm font-medium tracking-widest uppercase">
                                 About Me
                             </span>
                         </div>
@@ -241,7 +241,7 @@ export default function AboutContent() {
             >
                 <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             The Journey
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -261,7 +261,7 @@ export default function AboutContent() {
                                         <span className="text-muted-foreground font-mono text-sm">
                                             {String(index + 1).padStart(2, "0")}
                                         </span>
-                                        <div className="font-display text-primary mt-2 text-2xl font-bold">
+                                        <div className="font-display text-signal mt-2 text-2xl font-bold">
                                             {phase.period}
                                         </div>
                                     </div>
@@ -291,7 +291,7 @@ export default function AboutContent() {
                 <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
                     <div className="grid gap-16 lg:grid-cols-2">
                         <motion.div variants={itemVariants}>
-                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            <span className="text-signal text-sm font-medium tracking-widest uppercase">
                                 How I Work
                             </span>
                             <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -337,7 +337,7 @@ export default function AboutContent() {
             >
                 <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Technologies
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -374,7 +374,7 @@ export default function AboutContent() {
             >
                 <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Continuous Learning
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -409,7 +409,7 @@ export default function AboutContent() {
             >
                 <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Education
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -449,7 +449,7 @@ export default function AboutContent() {
             >
                 <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Sharing Knowledge
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -485,7 +485,7 @@ export default function AboutContent() {
             <section className="border-border border-t py-24 lg:py-32">
                 <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
                     <div className="max-w-2xl">
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Beyond Code
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">

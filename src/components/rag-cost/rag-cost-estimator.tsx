@@ -309,7 +309,7 @@ export function RagCostEstimator({
                 <aside aria-label="Scenario inputs" className="order-2 space-y-4 lg:order-1">
                     <div className="flex items-center justify-between gap-3">
                         <div>
-                            <p className="text-primary font-mono text-xs tracking-widest uppercase">
+                            <p className="text-signal font-mono text-xs tracking-widest uppercase">
                                 Your app
                             </p>
                             <p className="text-muted-foreground mt-1 text-sm">

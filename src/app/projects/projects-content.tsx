@@ -200,7 +200,7 @@ export default function ProjectsContent() {
                                 transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
                             }}
                         >
-                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            <span className="text-signal text-sm font-medium tracking-widest uppercase">
                                 Portfolio
                             </span>
                         </div>
@@ -270,7 +270,7 @@ export default function ProjectsContent() {
                                                         <span className="text-border">|</span>
                                                         <span>{project.role}</span>
                                                     </div>
-                                                    <h2 className="font-display group-hover:text-primary mt-4 text-3xl font-bold tracking-tight transition-colors lg:text-4xl">
+                                                    <h2 className="font-display group-hover:text-signal mt-4 text-3xl font-bold tracking-tight transition-colors lg:text-4xl">
                                                         {project.title}
                                                     </h2>
                                                     <p className="text-muted-foreground mt-4 max-w-2xl leading-relaxed">
@@ -291,10 +291,10 @@ export default function ProjectsContent() {
                                                 </div>
 
                                                 <div className="flex items-center gap-3 lg:pt-8">
-                                                    <span className="text-muted-foreground group-hover:text-primary text-sm font-medium transition-colors">
+                                                    <span className="text-muted-foreground group-hover:text-signal text-sm font-medium transition-colors">
                                                         View project
                                                     </span>
-                                                    <ArrowRight className="text-muted-foreground group-hover:text-primary h-4 w-4 transition-all group-hover:translate-x-1" />
+                                                    <ArrowRight className="text-muted-foreground group-hover:text-signal h-4 w-4 transition-all group-hover:translate-x-1" />
                                                 </div>
                                             </div>
 
@@ -302,7 +302,7 @@ export default function ProjectsContent() {
                                             <div className="border-border mt-8 grid grid-cols-3 gap-8 border-t pt-8">
                                                 {project.stats.map((stat) => (
                                                     <div key={stat.label}>
-                                                        <div className="font-display text-primary text-2xl font-bold lg:text-3xl">
+                                                        <div className="stat-number font-sans text-2xl font-semibold lg:text-3xl">
                                                             {stat.value}
                                                         </div>
                                                         <div className="text-muted-foreground mt-1 text-xs font-medium tracking-wide uppercase">
@@ -319,7 +319,7 @@ export default function ProjectsContent() {
                                                     <span
                                                         role="link"
                                                         tabIndex={0}
-                                                        className="text-muted-foreground hover:text-primary inline-flex cursor-pointer items-center gap-2 text-sm transition-colors"
+                                                        className="text-muted-foreground hover:text-signal inline-flex cursor-pointer items-center gap-2 text-sm transition-colors"
                                                         onClick={(e) => {
                                                             e.preventDefault();
                                                             e.stopPropagation();

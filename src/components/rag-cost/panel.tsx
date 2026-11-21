@@ -25,7 +25,7 @@ export function Panel({ step, title, tag, className, children }: Props) {
             )}
         >
             <div className="space-y-2">
-                <p className="text-primary font-mono text-xs tracking-widest uppercase">
+                <p className="text-signal font-mono text-xs tracking-widest uppercase">
                     Step {step}
                 </p>
                 <h2 id={id} className="text-lg font-semibold tracking-tight text-balance">
