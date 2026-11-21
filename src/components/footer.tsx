@@ -40,7 +40,7 @@ export function Footer() {
                     <motion.div variants={itemVariants} className="max-w-xs">
                         <Link
                             href="/"
-                            className="font-display hover:text-primary text-lg font-bold tracking-tight transition-colors"
+                            className="font-display hover:text-signal text-lg font-bold tracking-tight transition-colors"
                         >
                             {footerData.brand.name}
                         </Link>

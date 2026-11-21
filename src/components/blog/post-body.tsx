@@ -190,7 +190,7 @@ function createComponents(
                 return (
                     <a
                         href={href}
-                        className="text-primary hover:text-primary/80 underline underline-offset-4 transition-colors"
+                        className="text-signal hover:text-signal/80 underline underline-offset-4 transition-colors"
                         {...(openInNewTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     >
                         {children}

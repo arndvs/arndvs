@@ -327,7 +327,7 @@ export default function TranscribeContent() {
                                 or drag here
                             </p>
                             {file && (
-                                <p className="text-primary mt-2 font-mono text-xs break-all">
+                                <p className="text-signal mt-2 font-mono text-xs break-all">
                                     {file.name} ({formatSize(file.size)})
                                 </p>
                             )}

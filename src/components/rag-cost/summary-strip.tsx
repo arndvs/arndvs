@@ -20,7 +20,7 @@ export function SummaryStrip({ perMonth, perDay, withoutLevers, perThousandQueri
                     <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                         Estimated monthly cost
                     </p>
-                    <p className="font-display text-primary stat-number mt-1 text-4xl sm:text-5xl">
+                    <p className="stat-number text-signal mt-1 font-sans text-4xl font-semibold sm:text-5xl">
                         {formatCost(perMonth)}
                     </p>
                     <p className="text-muted-foreground mt-1 text-sm">
@@ -32,7 +32,7 @@ export function SummaryStrip({ perMonth, perDay, withoutLevers, perThousandQueri
                     <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                         Your savings
                     </p>
-                    <p className="font-display stat-number mt-1 text-2xl">
+                    <p className="stat-number mt-1 font-sans text-2xl font-semibold">
                         {saved > 0 ? `−${formatCost(saved)}` : formatCost(0)}
                     </p>
                     <p className="text-muted-foreground mt-1 text-xs">

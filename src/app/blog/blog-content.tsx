@@ -60,7 +60,7 @@ export function BlogListContent({ posts }: { posts: Post[] }) {
                                 transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
                             }}
                         >
-                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            <span className="text-signal text-sm font-medium tracking-widest uppercase">
                                 Writing
                             </span>
                         </div>

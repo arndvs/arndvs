@@ -63,7 +63,7 @@ function DigestCard({ digest }: { digest: WeeklyDigest }) {
                     </div>
                 </div>
 
-                <h2 className="group-hover:text-primary text-lg font-semibold transition-colors">
+                <h2 className="group-hover:text-signal text-lg font-semibold transition-colors">
                     {digest.title}
                 </h2>
 

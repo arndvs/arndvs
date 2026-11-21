@@ -145,7 +145,7 @@ export default function HomeContent() {
                                     transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
                                 }}
                             >
-                                <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                                <span className="text-signal text-sm font-medium tracking-widest uppercase">
                                     Applied AI Full-Stack Engineer
                                 </span>
                             </div>
@@ -212,7 +212,7 @@ export default function HomeContent() {
                             >
                                 {heroStats.map((stat) => (
                                     <div key={stat.label}>
-                                        <div className="font-display text-primary text-3xl font-black lg:text-4xl">
+                                        <div className="font-sans text-3xl font-semibold lg:text-4xl">
                                             <AnimatedCounter
                                                 value={stat.value}
                                                 suffix={stat.suffix}
@@ -273,7 +273,7 @@ export default function HomeContent() {
                         {technologiesData.map((tech) => (
                             <span
                                 key={tech}
-                                className="border-border hover:border-primary/50 hover:text-primary rounded-full border px-4 py-2 text-sm font-medium transition-colors"
+                                className="border-border hover:border-primary/50 hover:text-signal rounded-full border px-4 py-2 text-sm font-medium transition-colors"
                             >
                                 {tech}
                             </span>
@@ -297,7 +297,7 @@ export default function HomeContent() {
                         className="mb-16 flex items-end justify-between"
                     >
                         <div>
-                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            <span className="text-signal text-sm font-medium tracking-widest uppercase">
                                 Selected Work
                             </span>
                             <h2 className="font-display mt-4 text-4xl font-bold tracking-tight lg:text-5xl">
@@ -327,14 +327,14 @@ export default function HomeContent() {
                                                     <span className="text-border">|</span>
                                                     <span>{project.year}</span>
                                                 </div>
-                                                <h3 className="font-display group-hover:text-primary mt-4 text-3xl font-bold tracking-tight transition-colors lg:text-4xl">
+                                                <h3 className="font-display group-hover:text-signal mt-4 text-3xl font-bold tracking-tight transition-colors lg:text-4xl">
                                                     {project.title}
                                                 </h3>
                                                 <p className="text-muted-foreground mt-4 max-w-2xl leading-relaxed">
                                                     {project.description}
                                                 </p>
                                             </div>
-                                            <div className="text-muted-foreground group-hover:text-primary flex items-center gap-2 text-sm font-medium transition-colors lg:pt-8">
+                                            <div className="text-muted-foreground group-hover:text-signal flex items-center gap-2 text-sm font-medium transition-colors lg:pt-8">
                                                 {project.cta}
                                                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                             </div>
@@ -343,7 +343,7 @@ export default function HomeContent() {
                                         <div className="border-border mt-8 grid grid-cols-3 gap-8 border-t pt-8">
                                             {project.stats.map((stat) => (
                                                 <div key={stat.label}>
-                                                    <div className="font-display text-primary text-2xl font-bold lg:text-3xl">
+                                                    <div className="stat-number font-sans text-2xl font-semibold lg:text-3xl">
                                                         {stat.value}
                                                     </div>
                                                     <div className="text-muted-foreground mt-1 text-xs font-medium tracking-wide uppercase">
