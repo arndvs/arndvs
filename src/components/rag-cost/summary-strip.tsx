@@ -3,52 +3,55 @@ import { formatCost } from "@/lib/rag-cost/format";
 type Props = {
     perMonth: number;
     perDay: number;
-    /** The monthly cost with every lever off. */
+    /** Monthly cost for the same workload with every saving strategy off. */
     withoutLevers: number;
     perThousandQueries: number;
 };
 
-/** The three headline numbers. */
+/** The live estimate, its no-savings baseline, and the difference between them. */
 export function SummaryStrip({ perMonth, perDay, withoutLevers, perThousandQueries }: Props) {
-    const change = perMonth - withoutLevers;
-    const changeText =
-        Math.abs(change) < 0.005
-            ? formatCost(0)
-            : `${change < 0 ? "−" : "+"}${formatCost(Math.abs(change))}`;
-    const changeNote =
-        Math.abs(change) < 0.005
-            ? "Turn on a lever to see what it saves"
-            : `${change < 0 ? "Lower" : "Higher"} than ${formatCost(withoutLevers)} with no levers`;
-
-    const metrics = [
-        { label: "Per month", value: formatCost(perMonth), note: `${formatCost(perDay)} a day` },
-        { label: "Change from levers", value: changeText, note: changeNote },
-        {
-            label: "Per 1,000 questions",
-            value: formatCost(perThousandQueries),
-            note: "After caching and routing",
-        },
-    ];
+    const saved = Math.max(0, withoutLevers - perMonth);
+    const percentSaved = withoutLevers > 0 ? Math.round((saved / withoutLevers) * 100) : 0;
 
     return (
-        <dl className="divide-border border-border grid divide-y border-b sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-            {metrics.map((metric, index) => (
-                <div key={metric.label} className="px-5 py-4 sm:px-6">
-                    <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                        {metric.label}
-                    </dt>
-                    <dd
-                        className={
-                            index === 0
-                                ? "font-display text-primary stat-number mt-1 text-4xl lg:text-5xl"
-                                : "font-display stat-number mt-1 text-4xl lg:text-5xl"
-                        }
-                    >
-                        {metric.value}
-                    </dd>
-                    <dd className="text-muted-foreground mt-1 text-xs">{metric.note}</dd>
+        <div className="border-border border-y py-5 sm:py-6">
+            <div className="flex flex-wrap items-start justify-between gap-5">
+                <div>
+                    <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                        Estimated monthly cost
+                    </p>
+                    <p className="font-display text-primary stat-number mt-1 text-4xl sm:text-5xl">
+                        {formatCost(perMonth)}
+                    </p>
+                    <p className="text-muted-foreground mt-1 text-sm">
+                        {formatCost(perDay)} per day · {formatCost(perThousandQueries)} per 1,000
+                        questions
+                    </p>
                 </div>
-            ))}
-        </dl>
+                <div className="border-border min-w-40 border-l py-1 pl-4">
+                    <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                        Your savings
+                    </p>
+                    <p className="font-display stat-number mt-1 text-2xl">
+                        {saved > 0 ? `−${formatCost(saved)}` : formatCost(0)}
+                    </p>
+                    <p className="text-muted-foreground mt-1 text-xs">
+                        {percentSaved}% less than no savings
+                    </p>
+                </div>
+            </div>
+            <dl className="border-border mt-5 grid grid-cols-2 gap-4 border-t pt-4 text-sm">
+                <div>
+                    <dt className="text-muted-foreground">Without savings</dt>
+                    <dd className="mt-1 font-mono tabular-nums">{formatCost(withoutLevers)} /mo</dd>
+                </div>
+                <div>
+                    <dt className="text-muted-foreground">With your setup</dt>
+                    <dd className="mt-1 font-mono font-medium tabular-nums">
+                        {formatCost(perMonth)} /mo
+                    </dd>
+                </div>
+            </dl>
+        </div>
     );
 }

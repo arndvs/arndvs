@@ -1,14 +1,19 @@
 import { describe, expect, it } from "vitest";
 
+import { costComposition } from "./composition";
 import { estimateScenario } from "./estimate";
 import type { ScenarioRates } from "./estimate";
 import { explainEstimate } from "./explain";
+import { settingImpacts } from "./impact";
 import { INPUTS } from "./inputs";
 import { leverSteps, withoutLevers } from "./levers";
+import { MODEL_CATALOG } from "./model-pricing";
+import { RAG_PRESETS, scenarioFromPreset } from "./presets";
 import { defaultRagScenario, normalizeScenario } from "./rag-scenario";
 import type { RagScenario } from "./rag-scenario";
 import { decodeState, encodeState } from "./url-state";
 import type { PageState } from "./url-state";
+import { buildEstimatorView } from "./view-model";
 
 const rates: ScenarioRates = {
     main: { input: 2, cachedInput: 0.2, output: 10, cacheWrite5m: 2.5, cacheWrite1h: 4 },
@@ -160,6 +165,80 @@ describe("url state", () => {
         decodeState(new URLSearchParams("q=5&jf=1"), base, modelIds);
 
         expect(base).toEqual(defaults());
+    });
+});
+
+describe("worksheet engine data", () => {
+    it("makes the lever waterfall add from baseline to the selected total", () => {
+        const scenario = everythingOn();
+        const impacts = settingImpacts(scenario, rates);
+        const baseline = leverSteps(scenario, rates)[0].perMonth;
+        const changes = Object.values(impacts.levers).reduce(
+            (sum, impact) => sum + (impact?.change ?? 0),
+            0,
+        );
+        const policyChanges = Object.values(impacts.policies).reduce(
+            (sum, impact) => sum + (impact?.net ?? 0),
+            0,
+        );
+
+        expect(baseline + changes + policyChanges).toBeCloseTo(
+            estimateScenario(scenario, rates).perMonth,
+            8,
+        );
+    });
+
+    it("splits each decision policy into added cost, avoided cost, and net", () => {
+        const impacts = settingImpacts(everythingOn(), rates);
+
+        Object.values(impacts.policies).forEach((impact) => {
+            expect(impact).not.toBeNull();
+            if (!impact) return;
+
+            expect(impact.adds - impact.avoided).toBe(impact.net);
+        });
+    });
+
+    it("makes composition parts total exactly the estimator cost", () => {
+        const estimate = estimateScenario(everythingOn(), rates);
+        const total = costComposition(estimate, rates).reduce(
+            (sum, part) => sum + part.perMonth,
+            0,
+        );
+
+        expect(total).toBeCloseTo(estimate.perMonth, 10);
+    });
+
+    it("keeps presets normalized and returns an independent scenario", () => {
+        RAG_PRESETS.forEach((preset) => {
+            expect(normalizeScenario(preset.scenario)).toEqual(preset.scenario);
+        });
+        expect(estimateScenario(scenarioFromPreset("course"), rates).perMonth).toBe(2_700);
+
+        const first = scenarioFromPreset("support");
+        first.queriesPerDay = 1;
+        expect(scenarioFromPreset("support").queriesPerDay).toBe(20_000);
+    });
+
+    it("builds a complete model-driven view from page state and catalog", () => {
+        const view = buildEstimatorView(
+            {
+                scenario: everythingOn(),
+                mainModelId: "claude-sonnet-5-5",
+                routedModelId: "claude-haiku-4-5",
+            },
+            MODEL_CATALOG,
+        );
+
+        expect(view.monthlyTotal).toBe(view.estimate.perMonth);
+        expect(view.baselineMonthly).toBeGreaterThan(view.monthlyTotal);
+        expect(view.modelComparison[0]?.monthlyCost).toBeLessThanOrEqual(
+            view.modelComparison.at(-1)?.monthlyCost ?? 0,
+        );
+        expect(view.composition.reduce((sum, part) => sum + part.perMonth, 0)).toBeCloseTo(
+            view.monthlyTotal,
+            10,
+        );
     });
 });
 
