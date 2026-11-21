@@ -51,7 +51,7 @@ export function PhaseNav({
             className="bg-background/95 sticky top-16 z-40 border-b backdrop-blur-sm"
             aria-label="Design phases"
         >
-            <div ref={navRef} className="scrollbar-none mx-auto max-w-7xl overflow-x-auto px-6">
+            <div ref={navRef} className="scrollbar-none site-container overflow-x-auto">
                 <div className="flex gap-1 py-2">
                     {phases.map((phase) => (
                         <a
@@ -129,7 +129,7 @@ export function HeroSection({ data }: { data: DesignHeroData }) {
             variants={containerVariants}
             className="border-border border-b"
         >
-            <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+            <div className="site-container py-12">
                 <motion.div variants={itemVariants}>
                     <Button asChild variant="ghost" size="sm" className="mb-8">
                         <Link href="/projects">
@@ -293,7 +293,7 @@ export function PhaseSection({ phase }: { phase: DesignPhase }) {
             variants={containerVariants}
             className="border-border scroll-mt-32 border-b py-16"
         >
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="site-container">
                 <motion.div variants={itemVariants} className="mb-4 flex items-center gap-3">
                     <span className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-500 text-sm font-bold text-white">
                         {phase.number}

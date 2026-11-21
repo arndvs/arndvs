@@ -71,7 +71,7 @@ export function Navigation() {
             )}
             aria-label="Main navigation"
         >
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="site-container">
                 <div className="flex h-16 items-center justify-between">
                     <GlitchName />
 

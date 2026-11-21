@@ -1,7 +1,7 @@
 export default function ShippedLoading() {
     return (
         <main className="min-h-screen pt-24 pb-16">
-            <section className="mx-auto max-w-3xl px-6 lg:px-8">
+            <section className="site-container">
                 <div className="space-y-4">
                     <div className="bg-muted h-12 w-48 animate-pulse rounded-lg" />
                     <div className="bg-muted h-6 w-96 max-w-full animate-pulse rounded-lg" />

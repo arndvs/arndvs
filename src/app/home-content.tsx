@@ -134,8 +134,8 @@ export default function HomeContent() {
                     </span>
                 </div>
 
-                <div className="relative z-10 w-full px-6 py-20 lg:px-12 xl:px-20">
-                    <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-16">
+                <div className="relative z-10 w-full py-20">
+                    <div className="site-container grid items-center gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-16">
                         {/* Content */}
                         <div>
                             <div
@@ -268,7 +268,7 @@ export default function HomeContent() {
 
             {/* Technologies — border-style pills */}
             <section className="border-border border-t py-20" aria-label="Technologies">
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="flex flex-wrap gap-3">
                         {technologiesData.map((tech) => (
                             <span
@@ -291,7 +291,7 @@ export default function HomeContent() {
                 className="py-24 lg:py-32"
                 aria-label="Featured projects"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div
                         variants={itemVariants}
                         className="mb-16 flex items-end justify-between"
@@ -374,7 +374,7 @@ export default function HomeContent() {
                 className="border-border border-t py-24 lg:py-32"
                 aria-label="Contact information"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="max-w-3xl">
                         <h2 className="font-display text-4xl font-bold tracking-tight lg:text-5xl">
                             Let&apos;s build something{" "}

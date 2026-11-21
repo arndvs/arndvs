@@ -32,7 +32,7 @@ export default function DesignContent() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mx-auto max-w-7xl px-6 py-24 lg:px-8"
+                className="site-container py-24"
             >
                 <motion.div
                     variants={itemVariants}

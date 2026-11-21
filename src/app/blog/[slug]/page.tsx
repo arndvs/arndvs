@@ -158,7 +158,7 @@ export default async function BlogPostPage(props: { params: Params }) {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(breadcrumbJsonLd) }}
             />
-            <article className="mx-auto max-w-7xl px-6 lg:px-8">
+            <article className="site-container">
                 <PostHeader
                     title={post.title}
                     publishedAt={post.publishedAt ?? undefined}

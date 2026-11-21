@@ -96,12 +96,12 @@ export function ShippedDetailContent({ digest }: { digest: Digest }) {
 
     return (
         <main className="min-h-screen pt-24 pb-16">
-            <article className="mx-auto max-w-3xl px-6 lg:px-8">
+            <article className="site-container">
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="space-y-6"
+                    className="mx-auto max-w-3xl space-y-6"
                 >
                     <motion.div variants={itemVariants}>
                         <Link

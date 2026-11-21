@@ -60,7 +60,7 @@ export function HeaderSection({ data }: { data: HeaderData }) {
             variants={containerVariants}
             className="border-border border-b"
         >
-            <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+            <div className="site-container py-12">
                 <motion.div variants={itemVariants}>
                     <BackButton />
                 </motion.div>
@@ -98,7 +98,7 @@ export function OverviewSection({ data }: { data: OverviewData }) {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
+            className="site-container py-16"
         >
             <div className="grid gap-12 lg:grid-cols-3">
                 <motion.div variants={itemVariants}>
@@ -144,7 +144,7 @@ export function ChallengeSection({ title, description }: { title: string; descri
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
+            className="site-container py-16"
         >
             <motion.h2 variants={itemVariants} className="text-3xl font-bold tracking-tight">
                 {title}
@@ -177,7 +177,7 @@ export function SolutionSection({
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
+            className="site-container py-16"
         >
             <motion.h2
                 variants={itemVariants}
@@ -218,7 +218,7 @@ export function ImpactSection({ title, metrics }: { title: string; metrics: Impa
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
+            className="site-container py-16"
         >
             <motion.h2
                 variants={itemVariants}
@@ -260,7 +260,7 @@ export function TechImplementationSection({
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
+            className="site-container py-16"
         >
             <motion.h2
                 variants={itemVariants}
@@ -292,7 +292,7 @@ export function AchievementsSection({ title, items }: { title: string; items: Ac
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
+            className="site-container py-16"
         >
             <motion.h2
                 variants={itemVariants}
@@ -326,7 +326,7 @@ export function ConclusionSection({ data }: { data: ConclusionData }) {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
+            className="site-container py-16"
         >
             <motion.div
                 variants={itemVariants}
@@ -355,7 +355,7 @@ export function ArchitectureDiagram({ diagramKey }: { diagramKey: DiagramKey }) 
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
+            className="site-container py-16"
         >
             <motion.h2
                 variants={itemVariants}
@@ -379,7 +379,7 @@ export function DeepDiveSection({ data }: { data: DeepDive }) {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="mx-auto max-w-7xl px-6 py-16 lg:px-8"
+            className="site-container py-16"
         >
             <motion.div variants={itemVariants} className="mb-2">
                 <span className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
