@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { derive, splitStory } from "@/lib/story-to-screens/engine";
 import type { Finding, Product } from "@/lib/story-to-screens/engine";
 import { DEFAULT_PRESET_ID, PRESETS, findPreset, fromPreset } from "@/lib/story-to-screens/presets";
+import type { InvalidReason } from "@/lib/story-to-screens/url-state";
 import {
     MAX_STORIES,
     decodeState,
@@ -42,6 +43,14 @@ const resultTabs = [
 
 type ResultTab = (typeof resultTabs)[number]["id"];
 
+/** Why a shared link failed, in plain words. */
+const LINK_PROBLEMS: Record<InvalidReason, string> = {
+    "unknown-example": "there's no example with that name",
+    unreadable: "it looks damaged",
+    "too-large": "it carries more than this page can open",
+    empty: "it has no stories in it",
+};
+
 /** Scrolls to an element and outlines it briefly, so "Show where" lands somewhere visible. */
 const flash = (id: string): void => {
     const element = document.getElementById(id);
@@ -70,6 +79,7 @@ export function StoryToScreens() {
     const [yoursOpen, setYoursOpen] = useState(false);
     const [shareOpen, setShareOpen] = useState(false);
     const [announcement, setAnnouncement] = useState("");
+    const [linkProblem, setLinkProblem] = useState<InvalidReason | null>(null);
     const announcedOpen = useRef<number | null>(null);
 
     const derived = useMemo(() => derive(product), [product]);
@@ -98,9 +108,11 @@ export function StoryToScreens() {
         let cancelled = false;
         void decodeState(params).then((shared) => {
             if (cancelled) return;
-            if (shared) {
-                setProduct(shared);
+            if (shared.status === "ok") {
+                setProduct(shared.product);
                 setSharedView(true);
+            } else if (shared.status === "invalid") {
+                setLinkProblem(shared.reason);
             }
             setRestored(true);
         });
@@ -210,6 +222,28 @@ export function StoryToScreens() {
 
     return (
         <div className="space-y-6">
+            {linkProblem ? (
+                <div
+                    role="alert"
+                    className="border-destructive/40 bg-destructive/5 flex flex-wrap items-center gap-3 rounded-lg border px-4 py-3 text-sm"
+                >
+                    <p className="min-w-0 basis-full sm:flex-1 sm:basis-auto">
+                        This link couldn&apos;t be opened ({LINK_PROBLEMS[linkProblem]}).
+                        You&apos;re looking at the default example.
+                    </p>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                            setLinkProblem(null);
+                            history.replaceState(null, "", window.location.pathname);
+                        }}
+                    >
+                        Dismiss
+                    </Button>
+                </div>
+            ) : null}
+
             {sharedView ? (
                 <div
                     role="status"

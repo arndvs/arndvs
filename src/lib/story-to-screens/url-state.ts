@@ -33,21 +33,42 @@ const fromBase64Url = (text: string): Uint8Array<ArrayBuffer> => {
     return bytes;
 };
 
-const pipe = async (
-    bytes: Uint8Array<ArrayBuffer>,
-    stream: CompressionStream | DecompressionStream,
-): Promise<Uint8Array<ArrayBuffer>> =>
-    new Uint8Array(
-        await new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer(),
-    );
+export const compress = async (text: string): Promise<string> => {
+    const stream = new Blob([new TextEncoder().encode(text)])
+        .stream()
+        .pipeThrough(new CompressionStream("deflate-raw"));
 
-export const compress = async (text: string): Promise<string> =>
-    toBase64Url(await pipe(new TextEncoder().encode(text), new CompressionStream("deflate-raw")));
+    return toBase64Url(new Uint8Array(await new Response(stream).arrayBuffer()));
+};
 
-export const decompress = async (encoded: string): Promise<string> =>
-    new TextDecoder().decode(
-        await pipe(fromBase64Url(encoded), new DecompressionStream("deflate-raw")),
-    );
+/** A short link can expand a long way, so reading stops once the plain text gets this big. */
+export const MAX_DECOMPRESSED_BYTES = 65_536;
+
+export type Decompressed = { status: "ok"; text: string } | { status: "too-large" };
+
+export const decompress = async (encoded: string): Promise<Decompressed> => {
+    const reader = new Blob([fromBase64Url(encoded)])
+        .stream()
+        .pipeThrough(new DecompressionStream("deflate-raw"))
+        .getReader();
+    const decoder = new TextDecoder();
+    let text = "";
+    let bytes = 0;
+
+    for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        bytes += value.byteLength;
+        if (bytes > MAX_DECOMPRESSED_BYTES) {
+            await reader.cancel();
+
+            return { status: "too-large" };
+        }
+        text += decoder.decode(value, { stream: true });
+    }
+
+    return { status: "ok", text: text + decoder.decode() };
+};
 
 // ---------------------------------------------------------------------------
 // Validation: a shared link is untrusted input, so only known shapes survive.
@@ -201,45 +222,76 @@ export const encodeState = async (product: Product): Promise<URLSearchParams> =>
     return params;
 };
 
-/** Reads a shared link. Anything that doesn't parse gives null, and the page keeps its default. */
-export const decodeState = async (params: URLSearchParams): Promise<Product | null> => {
-    try {
-        const exampleId = params.get(EXAMPLE_PARAM);
-        if (exampleId !== null) {
-            if (!findPreset(exampleId)) return null;
-            const product = fromPreset(exampleId);
-            const raw = params.get(CHOICES_PARAM);
-            if (raw) {
-                const changed = readChoices(JSON.parse(raw));
-                const c = product.choices;
-                Object.assign(c.corrections, changed.corrections);
-                Object.assign(c.cardinality, changed.cardinality);
-                Object.assign(c.releases, changed.releases);
-                c.manualScreens.push(...changed.manualScreens);
-                c.dismissed.push(...changed.dismissed);
-            }
+export type InvalidReason = "unknown-example" | "unreadable" | "too-large" | "empty";
 
-            return product;
+export type DecodedState =
+    | { status: "none" }
+    | { status: "ok"; product: Product }
+    | { status: "invalid"; reason: InvalidReason };
+
+/** Keeps the reason a shared link failed, so the page can say what went wrong. */
+const invalid = (reason: InvalidReason): DecodedState => ({ status: "invalid", reason });
+
+/** Reads a shared link. A link that doesn't parse says why, and the page keeps its default. */
+export const decodeState = async (params: URLSearchParams): Promise<DecodedState> => {
+    const exampleId = params.get(EXAMPLE_PARAM);
+    if (exampleId !== null) {
+        if (!findPreset(exampleId)) return invalid("unknown-example");
+        const product = fromPreset(exampleId);
+        const raw = params.get(CHOICES_PARAM);
+        if (raw) {
+            let changed: Choices;
+            try {
+                changed = readChoices(JSON.parse(raw));
+            } catch {
+                return invalid("unreadable");
+            }
+            const c = product.choices;
+            Object.assign(c.corrections, changed.corrections);
+            Object.assign(c.cardinality, changed.cardinality);
+            Object.assign(c.releases, changed.releases);
+            c.manualScreens.push(...changed.manualScreens);
+            c.dismissed.push(...changed.dismissed);
         }
 
-        const packed = params.get(PRODUCT_PARAM);
-        if (!packed || packed.length > 20_000) return null;
-        const raw: unknown = JSON.parse(await decompress(packed));
-        if (!isRecord(raw)) return null;
-        const stories = readStories(raw.s);
-        if (!stories.length) return null;
+        return { status: "ok", product };
+    }
 
-        return {
+    const packed = params.get(PRODUCT_PARAM);
+    if (!packed) return { status: "none" };
+    if (packed.length > 20_000) return invalid("too-large");
+
+    let text: string;
+    try {
+        const unpacked = await decompress(packed);
+        if (unpacked.status === "too-large") return invalid("too-large");
+        text = unpacked.text;
+    } catch {
+        return invalid("unreadable");
+    }
+
+    let raw: unknown;
+    try {
+        raw = JSON.parse(text);
+    } catch {
+        return invalid("unreadable");
+    }
+    if (!isRecord(raw)) return invalid("unreadable");
+
+    const stories = readStories(raw.s);
+    if (!stories.length) return invalid("empty");
+
+    return {
+        status: "ok",
+        product: {
             id: "yours",
             name: str(raw.n, 60) || "Your product",
             origin: raw.o === "blank" ? "blank" : "copy",
             stories,
             aliases: readAliases(raw.a),
             choices: readChoices(raw.c),
-        };
-    } catch {
-        return null;
-    }
+        },
+    };
 };
 
 export const hasSharedState = (params: URLSearchParams): boolean =>
