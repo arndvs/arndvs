@@ -9,7 +9,14 @@ const yours = (text: string): Product => ({
     origin: "blank",
     aliases: {},
     stories: [{ id: "st1", roleName: "Person", actor: "", text }],
-    choices: { corrections: {}, cardinality: {}, releases: {}, manualScreens: [], dismissed: [] },
+    choices: {
+        corrections: {},
+        cardinality: {},
+        releases: {},
+        manualScreens: [],
+        dismissed: [],
+        rulesOff: [],
+    },
 });
 
 /** A Map standing in for localStorage, so the tests don't need a browser. */

@@ -1,6 +1,7 @@
 import { RELEASES } from "./engine";
-import type { Cardinality, Choices, Correction, Product, Release, Story } from "./engine";
+import type { Cardinality, Choices, Correction, Product, Release, RuleId, Story } from "./engine";
 import { findPreset, fromPreset } from "./presets";
+import { REQUIRED_RULES, RULE_MODULES } from "./rules";
 
 export const MAX_STORIES = 6;
 export const MAX_STORY_LENGTH = 1_000;
@@ -14,6 +15,7 @@ const PRODUCT_PARAM = "p";
 const RELEASE_IDS = new Set<Release>(RELEASES.map((release) => release.id));
 const CORRECTIONS = new Set<Correction>(["noun", "verb", "none"]);
 const CARDINALITIES = new Set<Cardinality>(["one", "many"]);
+const RULE_IDS = new Set<RuleId>(RULE_MODULES.map((rule) => rule.id));
 
 // ---------------------------------------------------------------------------
 // Compression: deflate-raw and base64url, so a link with stories stays short.
@@ -108,6 +110,14 @@ export const readChoices = (value: unknown): Choices => {
             return id && name ? [{ id, name }] : [];
         }),
         dismissed: dismissed.flatMap((id) => (typeof id === "string" ? [id.slice(0, 120)] : [])),
+        // A rule that can't be turned off is dropped here, so a hand-edited link
+        // can't leave the URL claiming a rule is off when the engine ignores it.
+        rulesOff: Array.isArray(raw.rulesOff)
+            ? raw.rulesOff
+                  .filter((id): id is RuleId => RULE_IDS.has(id as RuleId))
+                  .filter((id) => !REQUIRED_RULES.has(id))
+                  .slice(0, RULE_IDS.size)
+            : [],
     };
 };
 
@@ -213,7 +223,8 @@ const emptyChoices = (choices: Choices): boolean =>
     !Object.keys(choices.cardinality).length &&
     !Object.keys(choices.releases).length &&
     !choices.manualScreens.length &&
-    !choices.dismissed.length;
+    !choices.dismissed.length &&
+    !choices.rulesOff.length;
 
 /** Only what differs from the example, so an untouched example has a short link. */
 const choicesDiff = (choices: Choices, base: Choices): Choices => {
@@ -228,6 +239,7 @@ const choicesDiff = (choices: Choices, base: Choices): Choices => {
         releases: diff(choices.releases, base.releases),
         manualScreens: choices.manualScreens.filter((screen) => !baseManual.has(screen.id)),
         dismissed: choices.dismissed.filter((id) => !baseDismissed.has(id)),
+        rulesOff: choices.rulesOff.filter((id) => !base.rulesOff.includes(id)),
     };
 };
 
@@ -291,6 +303,7 @@ export const decodeState = async (params: URLSearchParams): Promise<DecodedState
             Object.assign(c.releases, changed.releases);
             c.manualScreens.push(...changed.manualScreens);
             c.dismissed.push(...changed.dismissed);
+            c.rulesOff.push(...changed.rulesOff);
         }
 
         return { status: "ok", product };

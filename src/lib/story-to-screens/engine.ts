@@ -1,5 +1,8 @@
+import { REQUIRED_RULES, RULE_MODULES } from "./rules";
+import type { OtherRole, RuleContext } from "./rules";
 import { singular, suggestMarks, tokenize, verbBase } from "./suggest";
 import type { MarkKind } from "./suggest";
+import { CREATE_VERBS, capitalize, titleCase } from "./wording";
 
 // ---------------------------------------------------------------------------
 // Types: the attributes from Steps 4–5 of the process. Saved choices live on
@@ -38,6 +41,8 @@ export type Choices = {
     releases: Record<string, Release>;
     manualScreens: { id: string; name: string }[];
     dismissed: string[];
+    /** Rules the visitor turned off. `stories` is always on and is ignored here. */
+    rulesOff: RuleId[];
 };
 
 export type Product = {
@@ -114,69 +119,12 @@ export type Derived = {
 };
 
 // ---------------------------------------------------------------------------
-// The rules, in the order the waterfall applies them.
+// The rules, in the order the waterfall applies them. Defined in `rules/` so a
+// rule can be read, tested and turned off on its own.
 // ---------------------------------------------------------------------------
 
-export const RULES: readonly { id: RuleId; name: string; step: string; explain: string }[] = [
-    {
-        id: "stories",
-        name: "From the stories",
-        step: "Step 3 · list the screens",
-        explain:
-            "A profile for every role, a detail screen for everything a role acts on, and a create screen wherever a story creates something. One story per role.",
-    },
-    {
-        id: "defaults",
-        name: "Default screens",
-        step: "Step 3 · default screens",
-        explain:
-            "Every product has a landing page. Products with accounts also need sign-up and log-in.",
-    },
-    {
-        id: "crud",
-        name: "Create, edit, delete",
-        step: "Step 2 · the create, edit, delete rule",
-        explain:
-            "Anything a person can create, they'll want to edit and delete. Stories rarely say so.",
-    },
-    {
-        id: "walk",
-        name: "Walk the story",
-        step: "Step 3 · validate with stories",
-        explain:
-            "When a story acts on many of something (reviews applicants, browses studies), there must be a list to do it from.",
-    },
-    {
-        id: "cardinality",
-        name: "One or many?",
-        step: "Step 4 · one or many",
-        explain:
-            "If a story uses the plural but the relationship is set to one, the data model breaks the first time reality disagrees.",
-    },
-];
-
-export const CREATE_VERBS = new Set(
-    "create post write add enter type submit upload schedule record publish".split(" "),
-);
-export const MANY_VERBS = new Set(
-    "browse search find review compare contact filter select accept reject check rank sort".split(
-        " ",
-    ),
-);
-
-// ---------------------------------------------------------------------------
-// Wording helpers
-// ---------------------------------------------------------------------------
-
-export const titleCase = (s: string): string => s.replace(/\b\w/g, (c) => c.toUpperCase());
-export const capitalize = (s: string): string => (s ? s[0]!.toUpperCase() + s.slice(1) : s);
-const withArticle = (s: string): string => `${/^[aeiou]/i.test(s) ? "an" : "a"} ${s}`;
-export const pluralize = (s: string): string =>
-    s.endsWith("y") && !/[aeiou]y$/.test(s)
-        ? `${s.slice(0, -1)}ies`
-        : s.endsWith("s")
-          ? s
-          : `${s}s`;
+export { RULE_MODULES as RULES } from "./rules";
+export { CREATE_VERBS, MANY_VERBS, capitalize, pluralize, titleCase } from "./wording";
 
 // ---------------------------------------------------------------------------
 // Lookups
@@ -278,13 +226,7 @@ type RelationshipDraft = Omit<
     storyIds: Set<string>;
 };
 
-type OtherRole = {
-    storyId: string;
-    subject: string;
-    roleOfStory: string;
-    sentenceStart: number;
-    sentence: string;
-};
+export type { OtherRole } from "./rules";
 
 export const derive = (product: Product): Derived => {
     const { choices } = product;
@@ -500,126 +442,23 @@ export const derive = (product: Product): Derived => {
         steps.push({ ruleId, added, total: screens.size });
     };
 
-    // 1 · From the stories
-    {
-        const added: string[] = [];
-        for (const role of roles) {
-            if (
-                addScreen(`profile-${role}`, `${titleCase(role)} profile`, "view", role, "stories")
-            ) {
-                added.push(`profile-${role}`);
-            }
-        }
-        for (const rel of rels) {
-            if (roles.has(rel.to)) continue;
-            if (
-                addScreen(
-                    `view-${rel.to}`,
-                    `${titleCase(rel.to)} detail`,
-                    "view",
-                    rel.to,
-                    "stories",
-                )
-            ) {
-                added.push(`view-${rel.to}`);
-            }
-            if (
-                rel.createVerbs.length &&
-                addScreen(`new-${rel.to}`, `New ${rel.to}`, "create", rel.to, "stories")
-            ) {
-                added.push(`new-${rel.to}`);
-            }
-        }
-        for (const other of otherRoles.values()) {
-            findings.push({
-                id: `split:${other.storyId}:${other.subject}`,
-                ruleId: "stories",
-                split: {
-                    storyId: other.storyId,
-                    subject: other.subject,
-                    sentenceStart: other.sentenceStart,
-                },
-                message: `“${other.sentence}” This part is about ${pluralize(other.subject)}, not the ${other.roleOfStory}. One story per role: split it into its own ${titleCase(other.subject)} story so it can say what ${pluralize(other.subject)} do today.`,
-                sources: [{ kind: "story", id: other.storyId }],
-            });
-        }
-        record("stories", added);
-    }
+    const context: RuleContext = {
+        roles,
+        rels,
+        otherRoles,
+        screens,
+        addScreen,
+        addFinding: (finding) => findings.push(finding),
+        record,
+    };
 
-    // 2 · Default screens
-    {
-        const added: string[] = [];
-        if (addScreen("landing", "Landing page", "landing", null, "defaults"))
-            added.push("landing");
-        if (addScreen("signup", "Sign up", "auth", null, "defaults")) added.push("signup");
-        if (addScreen("login", "Log in", "auth", null, "defaults")) added.push("login");
-        if (added.length) {
-            findings.push({
-                id: "defaults",
-                ruleId: "defaults",
-                message: `Added ${added.length} screens every product needs: ${added.map((id) => screens.get(id)?.name).join(", ")}.`,
-                sources: [],
-            });
-        }
-        record("defaults", added);
+    // Rules run in order. A rule the visitor turned off is skipped, except the
+    // ones that cannot be: without `stories` there is nothing to derive from.
+    const off = new Set(choices.rulesOff);
+    for (const rule of RULE_MODULES) {
+        if (off.has(rule.id) && !REQUIRED_RULES.has(rule.id)) continue;
+        rule.apply(context);
     }
-
-    // 3 · Create, edit, delete
-    {
-        const added: string[] = [];
-        for (const rel of rels) {
-            if (!screens.has(`new-${rel.to}`)) continue;
-            if (
-                addScreen(`edit-${rel.to}`, `Edit ${rel.to} (with delete)`, "edit", rel.to, "crud")
-            ) {
-                added.push(`edit-${rel.to}`);
-                findings.push({
-                    id: `crud:${rel.to}`,
-                    ruleId: "crud",
-                    message: `${capitalize(rel.from)} can create ${withArticle(rel.to)}, but no story says how to edit or delete one. Added “Edit ${rel.to}”, with delete on it.`,
-                    sources: [{ kind: "relationship", id: rel.id }],
-                });
-            }
-        }
-        record("crud", added);
-    }
-
-    // 4 · Walk the story
-    {
-        const added: string[] = [];
-        for (const rel of rels) {
-            if (roles.has(rel.to) || rel.cardinality !== "many") continue;
-            const manyVerb = rel.verbs.find((verb) => MANY_VERBS.has(verb));
-            if (!manyVerb) continue;
-            const listName = `${titleCase(pluralize(rel.to))} list`;
-            if (addScreen(`list-${rel.to}`, listName, "list", rel.to, "walk")) {
-                added.push(`list-${rel.to}`);
-                findings.push({
-                    id: `walk:${rel.to}`,
-                    ruleId: "walk",
-                    message: `“${rel.sentences[0]}” ${capitalize(withArticle(rel.from))} ${manyVerb}s many ${pluralize(rel.to)}, but there was no list to do it from. Added “${listName}”.`,
-                    sources: [
-                        { kind: "relationship", id: rel.id },
-                        ...rel.storyIds.map((id): FindingSource => ({ kind: "story", id })),
-                    ],
-                });
-            }
-        }
-        record("walk", added);
-    }
-
-    // 5 · One or many
-    for (const rel of rels) {
-        if (rel.cardinality === "one" && rel.plural) {
-            findings.push({
-                id: `card:${rel.id}`,
-                ruleId: "cardinality",
-                message: `“${rel.sentences[0]}” The story says ${withArticle(rel.from)} relates to more than one ${rel.to}, but this is set to one. Set it to many, or the first customer with that setup can't use the product.`,
-                sources: [{ kind: "relationship", id: rel.id }],
-            });
-        }
-    }
-    record("cardinality", []);
 
     for (const screen of choices.manualScreens)
         addScreen(screen.id, screen.name, "manual", null, "manual");

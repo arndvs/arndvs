@@ -28,7 +28,14 @@ const yours = (stories: number, length: number): Product => ({
             .join(" ")
             .slice(0, length),
     })),
-    choices: { corrections: {}, cardinality: {}, releases: {}, manualScreens: [], dismissed: [] },
+    choices: {
+        corrections: {},
+        cardinality: {},
+        releases: {},
+        manualScreens: [],
+        dismissed: [],
+        rulesOff: [],
+    },
 });
 
 /** Just the product, for the tests that only care whether a link reads back. */
@@ -53,6 +60,22 @@ describe("encodeState and decodeState", () => {
         product.choices.manualScreens.push({ id: "manual-1", name: "Billing" });
 
         expect(await read(await encodeState(product))).toEqual(product);
+    });
+
+    it("round-trips rules turned off, and drops the ones that can't be", async () => {
+        const product = fromPreset("tester");
+        product.choices.rulesOff = ["walk", "crud"];
+
+        expect((await read(await encodeState(product)))?.choices.rulesOff).toEqual([
+            "walk",
+            "crud",
+        ]);
+
+        // A hand-edited link can't turn off the rule the screens come from.
+        const forged = await decodeState(
+            new URLSearchParams('ex=tester&k={"rulesOff":["stories","walk"]}'),
+        );
+        expect(forged.status === "ok" && forged.product.choices.rulesOff).toEqual(["walk"]);
     });
 
     it("round-trips a product someone wrote, stories included", async () => {

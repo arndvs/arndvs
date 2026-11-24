@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { derive, splitStory } from "./engine";
-import type { Product } from "./engine";
+import type { Product, RuleId } from "./engine";
 import { PRESETS, fromPreset } from "./presets";
 
 const blank = (text: string, roleName = "Owner"): Product => ({
@@ -10,7 +10,14 @@ const blank = (text: string, roleName = "Owner"): Product => ({
     origin: "blank",
     aliases: {},
     stories: [{ id: "st1", roleName, actor: "", text }],
-    choices: { corrections: {}, cardinality: {}, releases: {}, manualScreens: [], dismissed: [] },
+    choices: {
+        corrections: {},
+        cardinality: {},
+        releases: {},
+        manualScreens: [],
+        dismissed: [],
+        rulesOff: [],
+    },
 });
 
 const BAKERY =
@@ -217,6 +224,74 @@ describe("derive", () => {
         );
         expect(derived.screens.find((screen) => screen.id === "list-applicant")?.release).toBe(
             "r3",
+        );
+    });
+});
+
+describe("rule toggles", () => {
+    const withRulesOff = (id: string, ...rulesOff: RuleId[]): Product => {
+        const product = fromPreset(id);
+        product.choices.rulesOff = rulesOff;
+
+        return product;
+    };
+
+    it("leaves the golden output alone when every rule is on", () => {
+        for (const preset of PRESETS) {
+            const on = derive(fromPreset(preset.id));
+            const explicit = derive(withRulesOff(preset.id));
+
+            expect(explicit.screens.map((screen) => screen.id).sort()).toEqual(
+                on.screens.map((screen) => screen.id).sort(),
+            );
+            expect(explicit.findings.map((finding) => finding.id).sort()).toEqual(
+                on.findings.map((finding) => finding.id).sort(),
+            );
+        }
+    });
+
+    it("drops the list screens and their findings when walk is off", () => {
+        const derived = derive(withRulesOff("tester", "walk"));
+
+        expect(derived.screens.some((screen) => screen.id.startsWith("list-"))).toBe(false);
+        expect(derived.findings.some((finding) => finding.ruleId === "walk")).toBe(false);
+        expect(derived.steps.some((step) => step.ruleId === "walk")).toBe(false);
+    });
+
+    it("drops the edit screens and their findings when crud is off", () => {
+        const derived = derive(withRulesOff("tester", "crud"));
+
+        expect(derived.screens.some((screen) => screen.id.startsWith("edit-"))).toBe(false);
+        expect(derived.findings.some((finding) => finding.ruleId === "crud")).toBe(false);
+        // The create screens come from the stories, so they stay.
+        expect(derived.screens.some((screen) => screen.id === "new-study")).toBe(true);
+    });
+
+    it("drops the default screens when defaults is off", () => {
+        const derived = derive(withRulesOff("tester", "defaults"));
+
+        expect(derived.screens.map((screen) => screen.id)).not.toContain("landing");
+        expect(derived.screens.map((screen) => screen.id)).not.toContain("signup");
+        expect(derived.findings.some((finding) => finding.id === "defaults")).toBe(false);
+    });
+
+    it("keeps the story screens when stories is listed as off", () => {
+        const on = derive(fromPreset("tester"));
+        const off = derive(withRulesOff("tester", "stories"));
+
+        expect(off.screens.map((screen) => screen.id).sort()).toEqual(
+            on.screens.map((screen) => screen.id).sort(),
+        );
+        expect(off.findings.map((finding) => finding.id).sort()).toEqual(
+            on.findings.map((finding) => finding.id).sort(),
+        );
+    });
+
+    it("keeps the cardinality finding when only the screen rules are off", () => {
+        const derived = derive(withRulesOff("clinic", "walk", "crud", "defaults"));
+
+        expect(derived.findings.some((finding) => finding.id === "card:therapist>clinic")).toBe(
+            true,
         );
     });
 });

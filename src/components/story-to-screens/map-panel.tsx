@@ -1,7 +1,7 @@
 "use client";
 
-import { capitalize } from "@/lib/story-to-screens/engine";
 import type { Cardinality, Derived, Product } from "@/lib/story-to-screens/engine";
+import { capitalize } from "@/lib/story-to-screens/wording";
 import { cn } from "@/lib/utils";
 
 type Props = {

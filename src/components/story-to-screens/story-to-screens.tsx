@@ -42,7 +42,14 @@ const blankProduct = (): Product => ({
     origin: "blank",
     aliases: {},
     stories: [{ id: "st1", roleName: "Person", actor: "", text: "" }],
-    choices: { corrections: {}, cardinality: {}, releases: {}, manualScreens: [], dismissed: [] },
+    choices: {
+        corrections: {},
+        cardinality: {},
+        releases: {},
+        manualScreens: [],
+        dismissed: [],
+        rulesOff: [],
+    },
 });
 
 const resultTabs = [
@@ -530,6 +537,7 @@ export function StoryToScreens() {
                             <Findings
                                 derived={derived}
                                 canSplit={yours}
+                                rulesOff={product.choices.rulesOff}
                                 onShowSource={showSource}
                                 onSplit={split}
                                 onToggleDismissed={(id) =>
@@ -538,6 +546,14 @@ export function StoryToScreens() {
                                         if (dismissed.has(id)) dismissed.delete(id);
                                         else dismissed.add(id);
                                         draft.choices.dismissed = [...dismissed];
+                                    })
+                                }
+                                onToggleRule={(id) =>
+                                    change((draft) => {
+                                        const off = new Set(draft.choices.rulesOff);
+                                        if (off.has(id)) off.delete(id);
+                                        else off.add(id);
+                                        draft.choices.rulesOff = [...off];
                                     })
                                 }
                             />
