@@ -1,5 +1,5 @@
-import { MANY_VERBS } from "./engine";
 import type { Derived, Release } from "./engine";
+import { MANY_VERBS } from "./wording";
 
 export type FlowPalette = Record<Exclude<Release, "none">, string>;
 

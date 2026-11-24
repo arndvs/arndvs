@@ -1,4 +1,5 @@
 import type { Derived } from "@/lib/story-to-screens/engine";
+import { RULES } from "@/lib/story-to-screens/engine";
 
 type Props = {
     derived: Derived;
@@ -11,22 +12,38 @@ export function SummaryStrip({ derived, manualCount }: Props) {
     const kept = derived.screens.filter((screen) => screen.release !== "none").length;
     const mvp = derived.screens.filter((screen) => screen.release === "mvp").length;
     const fromStories = derived.steps[0]?.total ?? 0;
-    const added = derived.screens.length - fromStories - manualCount;
     const open = derived.findings.filter((finding) => finding.status === "open").length;
+    // "Standard" screens are the ones every product needs; "missed" are the ones
+    // the stories implied but never said. Counting them together overstates the catch.
+    const addedBy = (standard: boolean): number =>
+        RULES.filter((rule) => rule.standard === standard).reduce(
+            (total, rule) =>
+                total + (derived.steps.find((step) => step.ruleId === rule.id)?.added.length ?? 0),
+            0,
+        );
+    const missed = addedBy(false);
+    const standard = addedBy(true);
 
     return (
         <div className="border-border border-y py-5 sm:py-6">
             <div className="flex flex-wrap items-start justify-between gap-5">
                 <div>
                     <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                        Screens the rules added
+                        Missed screens
                     </p>
                     <p className="stat-number text-signal mt-1 font-sans text-4xl font-semibold sm:text-5xl">
-                        +{added}
+                        +{missed}
                     </p>
                     <p className="text-muted-foreground mt-1 text-sm">
-                        on top of the {fromStories} a first pass at the stories finds
+                        the stories never mentioned, on top of the {fromStories} a first pass finds
                     </p>
+                </div>
+                <div className="border-border min-w-40 border-l py-1 pl-4">
+                    <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                        Standard screens
+                    </p>
+                    <p className="stat-number mt-1 font-sans text-2xl font-semibold">{standard}</p>
+                    <p className="text-muted-foreground mt-1 text-xs">every product needs</p>
                 </div>
                 <div className="border-border min-w-40 border-l py-1 pl-4">
                     <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">

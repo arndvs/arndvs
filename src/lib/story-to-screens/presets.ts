@@ -90,6 +90,7 @@ export const PRESETS: readonly Preset[] = [
             },
             manualScreens: [],
             dismissed: [],
+            rulesOff: [],
         },
     },
     {
@@ -155,6 +156,7 @@ export const PRESETS: readonly Preset[] = [
             },
             manualScreens: [],
             dismissed: [],
+            rulesOff: [],
         },
     },
     {
@@ -235,6 +237,7 @@ export const PRESETS: readonly Preset[] = [
             },
             manualScreens: [],
             dismissed: [],
+            rulesOff: [],
         },
     },
 ];
