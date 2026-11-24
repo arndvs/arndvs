@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { Mark, Product } from "@/lib/story-to-screens/engine";
+import { clearStoryCorrections } from "@/lib/story-to-screens/engine";
 import { tokenize } from "@/lib/story-to-screens/suggest";
 import { MAX_STORIES, MAX_STORY_LENGTH } from "@/lib/story-to-screens/url-state";
 import { cn } from "@/lib/utils";
@@ -32,12 +33,6 @@ const wordClass = (mark: Mark | undefined): string =>
             "bg-amber-500/15 text-amber-950 dark:text-amber-100 border-b-2 border-amber-600",
         mark?.status === "suggested" && "border-dashed",
     );
-
-const clearStory = (draft: Product, id: string): void => {
-    for (const key of Object.keys(draft.choices.corrections)) {
-        if (key.startsWith(`${id}:`)) delete draft.choices.corrections[key];
-    }
-};
 
 /** Panel 01: the stories, with every word clickable to mark it. */
 export function StoriesPanel({
@@ -144,7 +139,7 @@ export function StoriesPanel({
                                                     draft.stories = draft.stories.filter(
                                                         (s) => s.id !== story.id,
                                                     );
-                                                    clearStory(draft, story.id);
+                                                    clearStoryCorrections(draft.choices, story.id);
                                                 })
                                             }
                                         >
@@ -175,7 +170,7 @@ export function StoriesPanel({
                                                 MAX_STORY_LENGTH,
                                             );
                                             delete target.hand;
-                                            clearStory(draft, story.id);
+                                            clearStoryCorrections(draft.choices, story.id);
                                         })
                                     }
                                 />

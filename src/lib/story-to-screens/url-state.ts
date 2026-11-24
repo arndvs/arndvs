@@ -1,3 +1,4 @@
+import { RELEASES } from "./engine";
 import type { Cardinality, Choices, Correction, Product, Release, Story } from "./engine";
 import { findPreset, fromPreset } from "./presets";
 
@@ -10,7 +11,7 @@ const EXAMPLE_PARAM = "ex";
 const CHOICES_PARAM = "k";
 const PRODUCT_PARAM = "p";
 
-const RELEASES = new Set<Release>(["mvp", "r2", "r3", "later", "none"]);
+const RELEASE_IDS = new Set<Release>(RELEASES.map((release) => release.id));
 const CORRECTIONS = new Set<Correction>(["noun", "verb", "none"]);
 const CARDINALITIES = new Set<Cardinality>(["one", "many"]);
 
@@ -98,7 +99,7 @@ export const readChoices = (value: unknown): Choices => {
     return {
         corrections: pickRecord(raw.corrections, CORRECTIONS),
         cardinality: pickRecord(raw.cardinality, CARDINALITIES),
-        releases: pickRecord(raw.releases, RELEASES),
+        releases: pickRecord(raw.releases, RELEASE_IDS),
         manualScreens: manual.flatMap((entry) => {
             if (!isRecord(entry)) return [];
             const id = str(entry.id, 60);

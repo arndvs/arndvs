@@ -5,6 +5,7 @@ import { RotateCcw } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 
+import { Panel } from "@/components/experiments/panel";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -44,7 +45,6 @@ import { CostBreakdown } from "./cost-breakdown";
 import { LatencyCapacity } from "./latency-capacity";
 import { LeverSteps } from "./lever-steps";
 import { ModelComparison } from "./model-comparison";
-import { Panel } from "./panel";
 import { ScenarioField } from "./scenario-field";
 import { SummaryStrip } from "./summary-strip";
 

@@ -4,6 +4,7 @@ import { RotateCcw, Share2 } from "lucide-react";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { Panel } from "@/components/experiments/panel";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -26,7 +27,6 @@ import {
 } from "@/lib/story-to-screens/url-state";
 import { cn } from "@/lib/utils";
 
-import { Panel } from "../rag-cost/panel";
 import { Findings } from "./findings";
 import { MakeItYoursDialog } from "./make-it-yours-dialog";
 import { MapPanel } from "./map-panel";
@@ -498,7 +498,11 @@ export function StoryToScreens() {
                                     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft")
                                         return;
                                     event.preventDefault();
-                                    const next = resultTabs[(index + 1) % resultTabs.length];
+                                    const step = event.key === "ArrowRight" ? 1 : -1;
+                                    const next =
+                                        resultTabs[
+                                            (index + step + resultTabs.length) % resultTabs.length
+                                        ];
                                     if (!next) return;
                                     setActiveTab(next.id);
                                     document.getElementById(`result-tab-${next.id}`)?.focus();

@@ -9,7 +9,7 @@ import { EXPERIMENTS } from "@/lib/data/experiments";
 import { generateSiteMetadata } from "@/lib/metadata";
 
 const INTRO =
-    "Small interactive tools I've built to answer specific questions, mostly about what AI models cost and how coding agents spend their context.";
+    "Small interactive tools I've built to answer specific questions about what AI costs, how coding agents work, and how products get designed.";
 
 export const metadata: Metadata = generateSiteMetadata({
     title: "Experiments",

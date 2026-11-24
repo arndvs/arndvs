@@ -639,6 +639,16 @@ export const derive = (product: Product): Derived => {
     };
 };
 
+/**
+ * A story's corrections, dropped when its text changes or the story goes: the
+ * offsets they were keyed by no longer mean anything.
+ */
+export const clearStoryCorrections = (choices: Choices, storyId: string): void => {
+    for (const key of Object.keys(choices.corrections)) {
+        if (key.startsWith(`${storyId}:`)) delete choices.corrections[key];
+    }
+};
+
 /** Moves the sentence a split finding points at, and any that follow starting with "They", into a new story. */
 export const splitStory = (product: Product, finding: Finding, newId: string): Product => {
     if (!finding.split) return product;
@@ -659,9 +669,7 @@ export const splitStory = (product: Product, finding: Finding, newId: string): P
     const moved = text.slice(sentenceStart, end).trim();
     story.text = `${text.slice(0, sentenceStart)}${text.slice(end)}`.replace(/\s{2,}/g, " ").trim();
     delete story.hand;
-    for (const key of Object.keys(next.choices.corrections)) {
-        if (key.startsWith(`${storyId}:`)) delete next.choices.corrections[key];
-    }
+    clearStoryCorrections(next.choices, storyId);
     next.stories.push({ id: newId, roleName: capitalize(subject), actor: "", text: moved });
 
     return next;
