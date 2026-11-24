@@ -5,9 +5,18 @@ import { RotateCcw, Share2 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 import { derive, splitStory } from "@/lib/story-to-screens/engine";
 import type { Finding, Product } from "@/lib/story-to-screens/engine";
 import { DEFAULT_PRESET_ID, PRESETS, findPreset, fromPreset } from "@/lib/story-to-screens/presets";
+import { clearProduct, loadProduct, saveProduct } from "@/lib/story-to-screens/storage";
 import type { InvalidReason } from "@/lib/story-to-screens/url-state";
 import {
     MAX_STORIES,
@@ -51,6 +60,10 @@ const LINK_PROBLEMS: Record<InvalidReason, string> = {
     empty: "it has no stories in it",
 };
 
+/** Whether a product holds words the visitor wrote, as opposed to an example's. */
+const hasOwnWork = (product: Product): boolean =>
+    product.origin !== "example" && product.stories.some((story) => story.text.trim().length > 0);
+
 /** Scrolls to an element and outlines it briefly, so "Show where" lands somewhere visible. */
 const flash = (id: string): void => {
     const element = document.getElementById(id);
@@ -80,6 +93,9 @@ export function StoryToScreens() {
     const [shareOpen, setShareOpen] = useState(false);
     const [announcement, setAnnouncement] = useState("");
     const [linkProblem, setLinkProblem] = useState<InvalidReason | null>(null);
+    const [saveProblem, setSaveProblem] = useState<string | null>(null);
+    const [restoredSaved, setRestoredSaved] = useState(false);
+    const [confirming, setConfirming] = useState<null | (() => void)>(null);
     const announcedOpen = useRef<number | null>(null);
 
     const derived = useMemo(() => derive(product), [product]);
@@ -96,11 +112,19 @@ export function StoryToScreens() {
     }, []);
 
     // Restores a shared link once, after hydration, for the same reason as the
-    // RAG Cost Estimator: the page is prerendered with the default example.
+    // RAG Cost Estimator: the page is prerendered with the default example. With no
+    // link, it restores whatever this browser saved.
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         if (!hasSharedState(params)) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect -- see the comment above
+            const saved = loadProduct();
+            if (saved.status === "ok") {
+                // eslint-disable-next-line react-hooks/set-state-in-effect -- see the comment above
+                setProduct(saved.product);
+                setRestoredSaved(true);
+            } else if (saved.status === "invalid") {
+                clearProduct();
+            }
             setRestored(true);
             return;
         }
@@ -121,6 +145,29 @@ export function StoryToScreens() {
             cancelled = true;
         };
     }, []);
+
+    // Autosaves the visitor's own product, debounced so typing a sentence is one write.
+    // An empty product clears the entry instead, so returning to a blank page says nothing.
+    useEffect(() => {
+        if (!restored || product.origin === "example") return;
+
+        let cancelled = false;
+        const timer = window.setTimeout(() => {
+            if (cancelled) return;
+            if (!hasOwnWork(product)) {
+                clearProduct();
+                setSaveProblem(null);
+                return;
+            }
+            const result = saveProduct(product);
+            setSaveProblem(result.ok ? null : result.reason);
+        }, 500);
+
+        return () => {
+            cancelled = true;
+            window.clearTimeout(timer);
+        };
+    }, [restored, product]);
 
     // Keeps the address bar a link to the example on screen. Products people write
     // themselves stay out of the address bar until they choose to share them.
@@ -171,11 +218,38 @@ export function StoryToScreens() {
         return () => window.clearTimeout(timer);
     }, [restored, openFindings]);
 
+    /** Asks first when replacing something the visitor wrote, then does the thing. */
+    const confirmIfYours = (action: () => void): void => {
+        if (hasOwnWork(product)) {
+            setConfirming(() => action);
+            return;
+        }
+        action();
+    };
+
+    /** Opens the copy-or-blank chooser, asking first when the visitor's own work is at stake. */
+    const openYours = (): void => confirmIfYours(() => setYoursOpen(true));
+
     const pickExample = (id: string): void => {
         if (!findPreset(id)) return;
-        setProduct(fromPreset(id));
-        setEditing(null);
+        confirmIfYours(() => {
+            setProduct(fromPreset(id));
+            setEditing(null);
+            setSharedView(false);
+            setRestoredSaved(false);
+            setSaveProblem(null);
+            announcedOpen.current = null;
+        });
+    };
+
+    /** Wipes this browser's saved copy and the page's state. */
+    const startFresh = (): void => {
+        clearProduct();
+        setProduct(blankProduct());
+        setEditing("st1");
         setSharedView(false);
+        setRestoredSaved(false);
+        setSaveProblem(null);
         announcedOpen.current = null;
     };
 
@@ -187,8 +261,7 @@ export function StoryToScreens() {
         setSharedView(false);
         announcedOpen.current = null;
         if (mode === "blank") {
-            setProduct(blankProduct());
-            setEditing("st1");
+            startFresh();
             return;
         }
         change((draft) => {
@@ -244,6 +317,27 @@ export function StoryToScreens() {
                 </div>
             ) : null}
 
+            {restoredSaved ? (
+                <div
+                    role="status"
+                    className="border-border bg-muted/40 flex flex-wrap items-center gap-3 rounded-lg border px-4 py-3 text-sm"
+                >
+                    <p className="min-w-0 basis-full sm:flex-1 sm:basis-auto">
+                        Restored your stories from this browser.
+                    </p>
+                    <Button variant="outline" size="sm" onClick={() => confirmIfYours(startFresh)}>
+                        Start fresh
+                    </Button>
+                </div>
+            ) : null}
+
+            {saveProblem ? (
+                <p role="alert" className="text-destructive text-sm">
+                    Couldn&apos;t save in this browser ({saveProblem}). Copy a share link to keep
+                    your work.
+                </p>
+            ) : null}
+
             {sharedView ? (
                 <div
                     role="status"
@@ -255,10 +349,10 @@ export function StoryToScreens() {
                         {product.stories.length === 1 ? "story" : "stories"} · {openFindings} open
                         findings · MVP of {mvpCount} screens.
                     </p>
-                    <Button variant="outline" size="sm" onClick={reset}>
+                    <Button variant="outline" size="sm" onClick={() => confirmIfYours(startFresh)}>
                         Start over
                     </Button>
-                    <Button size="sm" onClick={() => setYoursOpen(true)}>
+                    <Button size="sm" onClick={openYours}>
                         Make it yours
                     </Button>
                 </div>
@@ -292,11 +386,7 @@ export function StoryToScreens() {
                         </span>
                     ) : null}
                 </div>
-                <Button
-                    variant={yours ? "outline" : "default"}
-                    size="sm"
-                    onClick={() => setYoursOpen(true)}
-                >
+                <Button variant={yours ? "outline" : "default"} size="sm" onClick={openYours}>
                     {yours ? "Start again" : "Make it yours"}
                 </Button>
                 <p className="text-muted-foreground w-full text-sm">
@@ -462,6 +552,34 @@ export function StoryToScreens() {
 
             <MakeItYoursDialog open={yoursOpen} onOpenChange={setYoursOpen} onChoose={makeYours} />
             <ShareDialog open={shareOpen} onOpenChange={setShareOpen} product={product} />
+
+            <Dialog
+                open={confirming !== null}
+                onOpenChange={(open) => !open && setConfirming(null)}
+            >
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Replace your stories?</DialogTitle>
+                        <DialogDescription>
+                            What you wrote in this browser will be replaced. You can&apos;t undo it.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setConfirming(null)}>
+                            Keep my work
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                const action = confirming;
+                                setConfirming(null);
+                                action?.();
+                            }}
+                        >
+                            Replace
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
 
             <p className="sr-only" aria-live="polite">
                 {announcement}

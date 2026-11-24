@@ -24,7 +24,9 @@ export function MakeItYoursDialog({ open, onOpenChange, onChoose }: Props) {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Make it yours</DialogTitle>
-                    <DialogDescription>Your stories stay in this browser.</DialogDescription>
+                    <DialogDescription>
+                        Saved in this browser only. Nothing leaves it until you share a link.
+                    </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-3">
                     <button type="button" className={choiceClass} onClick={() => onChoose("copy")}>

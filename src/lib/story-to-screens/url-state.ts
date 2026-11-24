@@ -157,6 +157,56 @@ const readStories = (value: unknown): Story[] =>
 // Encoding and decoding the page's state
 // ---------------------------------------------------------------------------
 
+/** The product someone wrote, as it travels: short keys, because the link is the budget. */
+export type PackedProduct = {
+    n?: unknown;
+    o?: unknown;
+    s?: unknown;
+    a?: unknown;
+    c?: unknown;
+};
+
+export const packProduct = (product: Product): PackedProduct => ({
+    n: product.name,
+    o: product.origin,
+    s: product.stories.map(({ id, roleName, actor, text, hand }) => ({
+        id,
+        roleName,
+        actor,
+        text,
+        hand,
+    })),
+    a: product.aliases,
+    c: product.choices,
+});
+
+export type ReadProduct =
+    | { status: "ok"; product: Product }
+    | { status: "empty" }
+    | { status: "unreadable" };
+
+/**
+ * Reads a product written by a person, from a share link or from storage.
+ * `empty` means it parsed but carries no stories; `unreadable` means the shape is wrong.
+ */
+export const readProduct = (raw: unknown): ReadProduct => {
+    if (!isRecord(raw)) return { status: "unreadable" };
+    const stories = readStories(raw.s);
+    if (!stories.length) return { status: "empty" };
+
+    return {
+        status: "ok",
+        product: {
+            id: "yours",
+            name: str(raw.n, 60) || "Your product",
+            origin: raw.o === "blank" ? "blank" : "copy",
+            stories,
+            aliases: readAliases(raw.a),
+            choices: readChoices(raw.c),
+        },
+    };
+};
+
 const emptyChoices = (choices: Choices): boolean =>
     !Object.keys(choices.corrections).length &&
     !Object.keys(choices.cardinality).length &&
@@ -204,19 +254,7 @@ export const encodeState = async (product: Product): Promise<URLSearchParams> =>
         return params;
     }
 
-    const saved = {
-        n: product.name,
-        o: product.origin,
-        s: product.stories.map(({ id, roleName, actor, text, hand }) => ({
-            id,
-            roleName,
-            actor,
-            text,
-            hand,
-        })),
-        a: product.aliases,
-        c: product.choices,
-    };
+    const saved = packProduct(product);
     params.set(PRODUCT_PARAM, await compress(JSON.stringify(saved)));
 
     return params;
@@ -276,22 +314,10 @@ export const decodeState = async (params: URLSearchParams): Promise<DecodedState
     } catch {
         return invalid("unreadable");
     }
-    if (!isRecord(raw)) return invalid("unreadable");
 
-    const stories = readStories(raw.s);
-    if (!stories.length) return invalid("empty");
+    const read = readProduct(raw);
 
-    return {
-        status: "ok",
-        product: {
-            id: "yours",
-            name: str(raw.n, 60) || "Your product",
-            origin: raw.o === "blank" ? "blank" : "copy",
-            stories,
-            aliases: readAliases(raw.a),
-            choices: readChoices(raw.c),
-        },
-    };
+    return read.status === "ok" ? { status: "ok", product: read.product } : invalid(read.status);
 };
 
 export const hasSharedState = (params: URLSearchParams): boolean =>
