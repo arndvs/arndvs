@@ -5,13 +5,32 @@ import { LIGHT_FILLS, flowChart } from "./flow";
 import { fromPreset } from "./presets";
 
 describe("flowChart", () => {
-    it("draws every kept screen and leaves out the ones not needed", () => {
+    it("draws every screen in the product and leaves out the judged ones", () => {
         const derived = derive(fromPreset("tester"));
         const { chart, nodeIds } = flowChart(derived, LIGHT_FILLS);
 
         expect(nodeIds.has("list-applicant")).toBe(true);
         expect(nodeIds.has("view-survey")).toBe(false);
         expect(chart).toContain("classDef mvp");
+    });
+
+    it("re-points a folded screen's edges to its parent", () => {
+        const product = fromPreset("tester");
+        // view-survey is folded into view-study by the preset, so its edges land there.
+        const { chart, nodeIds } = flowChart(derive(product), LIGHT_FILLS);
+
+        expect(chart).not.toContain("Survey detail");
+        expect(chart).toContain("Study detail");
+        expect(nodeIds.has("view-survey")).toBe(false);
+        expect(nodeIds.has("view-study")).toBe(true);
+    });
+
+    it("draws a screen the visitor un-judged", () => {
+        const product = fromPreset("tester");
+        delete product.choices.judgments["view-survey"];
+        const { nodeIds } = flowChart(derive(product), LIGHT_FILLS);
+
+        expect(nodeIds.has("view-survey")).toBe(true);
     });
 
     it("strips characters Mermaid or HTML would read from screen names typed by visitors", () => {

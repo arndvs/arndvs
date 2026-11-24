@@ -19,18 +19,23 @@ export type Story = {
     hand?: { nouns: string[]; verbs: string[] };
 };
 
-export type Release = "mvp" | "r2" | "r3" | "later" | "none";
+export type Release = "mvp" | "r2" | "r3" | "later";
 
 export const RELEASES: readonly { id: Release; label: string }[] = [
     { id: "mvp", label: "MVP" },
     { id: "r2", label: "Release 2" },
     { id: "r3", label: "Release 3" },
     { id: "later", label: "Later" },
-    { id: "none", label: "Not needed" },
 ];
 export type Cardinality = "one" | "many";
 /** A visitor's correction to one word: mark it as a thing or an action, or unmark it. */
 export type Correction = MarkKind | "none";
+
+/**
+ * What a visitor decided about a screen the rules added. A misfire is a screen
+ * the rule invented; a feature is a screen that belongs inside another one.
+ */
+export type Judgment = { kind: "misfire" } | { kind: "feature"; of: string };
 
 export type Choices = {
     /** Keyed by `${storyId}:${characterOffset}`. */
@@ -39,6 +44,8 @@ export type Choices = {
     cardinality: Record<string, Cardinality>;
     /** Keyed by screen id. Screens missing here are in the MVP. */
     releases: Record<string, Release>;
+    /** Keyed by screen id. A judged screen stays in the list but leaves the product. */
+    judgments: Record<string, Judgment>;
     manualScreens: { id: string; name: string }[];
     dismissed: string[];
     /** Rules the visitor turned off. `stories` is always on and is ignored here. */
@@ -97,6 +104,8 @@ export type Screen = {
     needsEmptyState: boolean;
     /** The story sentences this screen came from. Empty for the screens every product needs. */
     sources: ScreenSource[];
+    /** Set when the visitor judged this screen a misfire or a feature of another screen. */
+    judgment?: Judgment;
 };
 
 export type RuleId = "stories" | "defaults" | "crud" | "walk" | "cardinality" | "trace";
@@ -114,6 +123,17 @@ export type Finding = {
 };
 
 export type RuleStep = { ruleId: RuleId; added: string[]; total: number };
+
+/**
+ * A screen the visitor judged a misfire or a feature of another screen stays in
+ * the list so they can undo it, but it isn't part of the product: it doesn't
+ * count, and it doesn't appear in the flow.
+ */
+export const inProduct = (screen: Screen): boolean => !screen.judgment;
+
+/** Where a judged screen's edges should go instead: its parent, or nowhere. */
+export const edgeTarget = (screen: Screen): string | null =>
+    screen.judgment?.kind === "feature" ? screen.judgment.of : null;
 
 export type Derived = {
     marksByStory: Record<string, Mark[]>;
@@ -502,6 +522,24 @@ export const derive = (product: Product): Derived => {
         addScreen(screen.id, screen.name, "manual", null, "manual");
 
     for (const rule of deferred) rule.apply(context);
+
+    // Judgments are applied last, once every screen exists, so a "feature of"
+    // target can be checked against the real list. A judgment pointing at a
+    // screen that isn't there is dropped and reported rather than silently kept.
+    for (const [screenId, judgment] of Object.entries(choices.judgments)) {
+        const screen = screens.get(screenId);
+        if (!screen) continue;
+        if (judgment.kind === "feature" && !screens.has(judgment.of)) {
+            findings.push({
+                id: `judgment:${screenId}`,
+                ruleId: "trace",
+                message: `“${screen.name}” was folded into a screen that no longer exists. It's back in the product.`,
+                sources: [],
+            });
+            continue;
+        }
+        screen.judgment = judgment;
+    }
 
     const dismissed = new Set(choices.dismissed);
 

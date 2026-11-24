@@ -13,6 +13,7 @@ const yours = (text: string): Product => ({
         corrections: {},
         cardinality: {},
         releases: {},
+        judgments: {},
         manualScreens: [],
         dismissed: [],
         rulesOff: [],
