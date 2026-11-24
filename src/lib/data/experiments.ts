@@ -29,7 +29,6 @@ export const EXPERIMENTS: ExperimentEntry[] = [
         description:
             "Turn user stories into a screen list with the rules from a UX process, then see what a first pass would have missed: lists, edit screens, and one-or-many mistakes. Try an example or write your own.",
         lastModified: "2026-11-24",
-        // TODO: add the card and share images. Until then these paths don't exist.
         image: {
             src: "/images/experiments/story-to-screens-card.jpg",
             alt: "A user story with its nouns and verbs marked, feeding a flow of screens colored by release.",
