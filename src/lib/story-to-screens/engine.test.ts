@@ -296,6 +296,82 @@ describe("rule toggles", () => {
     });
 });
 
+describe("sources", () => {
+    const storyText = (product: Product, storyId: string): string =>
+        product.stories.find((story) => story.id === storyId)?.text ?? "";
+
+    it.each(PRESETS.map((preset) => preset.id))(
+        "gives every screen the rules added a sentence from its story (%s)",
+        (id) => {
+            const product = fromPreset(id);
+            const { screens } = derive(product);
+            const derived = screens.filter(
+                (screen) => screen.ruleId !== "defaults" && screen.ruleId !== "manual",
+            );
+
+            expect(derived.length).toBeGreaterThan(0);
+            for (const screen of derived) {
+                expect(screen.sources.length).toBeGreaterThan(0);
+                for (const source of screen.sources) {
+                    expect(storyText(product, source.storyId)).toContain(source.sentence);
+                }
+            }
+        },
+    );
+
+    it("leaves the standard screens without a source", () => {
+        const { screens } = derive(fromPreset("tester"));
+
+        for (const screen of screens.filter((candidate) => candidate.ruleId === "defaults")) {
+            expect(screen.sources).toEqual([]);
+        }
+    });
+
+    it("points a profile screen at the sentence its role opens with", () => {
+        const product = fromPreset("tester");
+        const profile = derive(product).screens.find((screen) => screen.id === "profile-tester");
+
+        expect(profile?.sources).toHaveLength(1);
+        expect(profile?.sources[0]?.sentence).toMatch(/^Suzan likes testing new products/);
+    });
+});
+
+describe("trace finding", () => {
+    const withManual = (id: string, name: string): Product => {
+        const product = fromPreset(id);
+        product.choices.manualScreens.push({ id: "manual-1", name });
+
+        return product;
+    };
+
+    it("reports a manual screen no story mentions", () => {
+        const derived = derive(withManual("tester", "Billing"));
+        const trace = derived.findings.find((finding) => finding.id === "trace:manual-1");
+
+        expect(trace?.ruleId).toBe("trace");
+        expect(trace?.message).toBe(
+            "No story mentions “Billing”. Keep it, but know it isn't backed by a story.",
+        );
+        expect(trace?.status).toBe("open");
+    });
+
+    it("keeps the manual screen it reports", () => {
+        const derived = derive(withManual("tester", "Billing"));
+
+        expect(derived.screens.some((screen) => screen.id === "manual-1")).toBe(true);
+    });
+
+    it("says nothing about a manual screen the stories already mention", () => {
+        const derived = derive(withManual("tester", "Study archive"));
+
+        expect(derived.findings.some((finding) => finding.ruleId === "trace")).toBe(false);
+    });
+
+    it("says nothing when there are no manual screens", () => {
+        expect(derive(fromPreset("tester")).findings.some((f) => f.ruleId === "trace")).toBe(false);
+    });
+});
+
 describe("splitStory", () => {
     it("moves the other role's sentence into a new story and clears the finding", () => {
         const product = blank(BAKERY);

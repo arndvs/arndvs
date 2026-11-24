@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { flash } from "@/lib/story-to-screens/dom";
 import { RELEASES } from "@/lib/story-to-screens/engine";
 import type { Product, Release, Screen } from "@/lib/story-to-screens/engine";
 
@@ -20,8 +21,13 @@ const RULE_LABEL: Record<Screen["ruleId"], string> = {
     crud: "edit rule",
     walk: "walkthrough",
     cardinality: "one or many",
+    trace: "trace",
     manual: "by hand",
 };
+
+/** Long enough to recognise the sentence, short enough to sit under a screen name. */
+const excerpt = (sentence: string): string =>
+    sentence.length > 80 ? `${sentence.slice(0, 80).trimEnd()}…` : sentence;
 
 const selectClass =
     "border-input dark:bg-input/30 focus-visible:border-ring focus-visible:ring-ring/50 h-8 cursor-pointer rounded-md border bg-transparent px-2 text-sm shadow-xs outline-none focus-visible:ring-[3px]";
@@ -55,6 +61,19 @@ export function ScreensPanel({ screens, change }: Props) {
                             {screen.needsEmptyState ? (
                                 <span className="text-muted-foreground block text-xs">
                                     Needs an empty state
+                                </span>
+                            ) : null}
+                            {screen.sources[0] ? (
+                                <span className="text-muted-foreground mt-0.5 block text-xs">
+                                    From: “{excerpt(screen.sources[0].sentence)}”{" "}
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="h-auto px-1 py-0 text-xs"
+                                        onClick={() => flash(`story-${screen.sources[0]!.storyId}`)}
+                                    >
+                                        Show where
+                                    </Button>
                                 </span>
                             ) : null}
                         </span>

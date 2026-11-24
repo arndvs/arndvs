@@ -14,6 +14,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import { flash } from "@/lib/story-to-screens/dom";
 import { derive, splitStory } from "@/lib/story-to-screens/engine";
 import type { Finding, Product } from "@/lib/story-to-screens/engine";
 import { DEFAULT_PRESET_ID, PRESETS, findPreset, fromPreset } from "@/lib/story-to-screens/presets";
@@ -70,21 +71,6 @@ const LINK_PROBLEMS: Record<InvalidReason, string> = {
 /** Whether a product holds words the visitor wrote, as opposed to an example's. */
 const hasOwnWork = (product: Product): boolean =>
     product.origin !== "example" && product.stories.some((story) => story.text.trim().length > 0);
-
-/** Scrolls to an element and outlines it briefly, so "Show where" lands somewhere visible. */
-const flash = (id: string): void => {
-    const element = document.getElementById(id);
-    if (!element) return;
-
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    element.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
-    element.dataset.flash = "false";
-    void element.offsetWidth;
-    element.dataset.flash = "true";
-    window.setTimeout(() => {
-        element.dataset.flash = "false";
-    }, 1600);
-};
 
 /**
  * Story to Screens. The rules live in `src/lib/story-to-screens`; this component
