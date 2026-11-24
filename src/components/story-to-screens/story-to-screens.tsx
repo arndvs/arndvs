@@ -17,6 +17,7 @@ import {
 import { flash } from "@/lib/story-to-screens/dom";
 import { derive, splitStory } from "@/lib/story-to-screens/engine";
 import type { Finding, Product } from "@/lib/story-to-screens/engine";
+import { matchGuess } from "@/lib/story-to-screens/guess";
 import { DEFAULT_PRESET_ID, PRESETS, findPreset, fromPreset } from "@/lib/story-to-screens/presets";
 import { clearProduct, loadProduct, saveProduct } from "@/lib/story-to-screens/storage";
 import type { InvalidReason } from "@/lib/story-to-screens/url-state";
@@ -29,6 +30,8 @@ import {
 import { cn } from "@/lib/utils";
 
 import { Findings } from "./findings";
+import { GuessCard } from "./guess-card";
+import { GuessCompare } from "./guess-compare";
 import { MakeItYoursDialog } from "./make-it-yours-dialog";
 import { MapPanel } from "./map-panel";
 import { ScreenFlow } from "./screen-flow";
@@ -48,6 +51,8 @@ const blankProduct = (): Product => ({
         cardinality: {},
         releases: {},
         judgments: {},
+        guess: [],
+        guessLinks: {},
         manualScreens: [],
         dismissed: [],
         rulesOff: [],
@@ -95,6 +100,13 @@ export function StoryToScreens() {
     const derived = useMemo(() => derive(product), [product]);
     const yours = product.origin !== "example";
     const openFindings = derived.findings.filter((finding) => finding.status === "open").length;
+    const guessMatch = useMemo(
+        () =>
+            product.choices.guess.length
+                ? matchGuess(product.choices.guess, derived.screens, product.choices.guessLinks)
+                : null,
+        [product.choices.guess, product.choices.guessLinks, derived.screens],
+    );
 
     const change = useCallback((apply: (draft: Product) => void) => {
         setProduct((previous) => {
@@ -467,6 +479,17 @@ export function StoryToScreens() {
                             Updates as you click
                         </span>
                     </div>
+
+                    <GuessCard guess={product.choices.guess} change={change} />
+
+                    {guessMatch ? (
+                        <GuessCompare
+                            match={guessMatch}
+                            screens={derived.screens}
+                            links={product.choices.guessLinks}
+                            change={change}
+                        />
+                    ) : null}
 
                     <SummaryStrip
                         derived={derived}

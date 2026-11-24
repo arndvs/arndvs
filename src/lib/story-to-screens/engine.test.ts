@@ -15,6 +15,8 @@ const blank = (text: string, roleName = "Owner"): Product => ({
         cardinality: {},
         releases: {},
         judgments: {},
+        guess: [],
+        guessLinks: {},
         manualScreens: [],
         dismissed: [],
         rulesOff: [],

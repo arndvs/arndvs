@@ -46,6 +46,10 @@ export type Choices = {
     releases: Record<string, Release>;
     /** Keyed by screen id. A judged screen stays in the list but leaves the product. */
     judgments: Record<string, Judgment>;
+    /** What the visitor would have built, before looking. Empty when they skipped. */
+    guess: string[];
+    /** A guess the visitor linked to a screen by hand, keyed by the guess text. */
+    guessLinks: Record<string, string>;
     manualScreens: { id: string; name: string }[];
     dismissed: string[];
     /** Rules the visitor turned off. `stories` is always on and is ignored here. */
