@@ -10,11 +10,19 @@ export const stories: RuleModule = {
     explain:
         "A profile for every role, a detail screen for everything a role acts on, and a create screen wherever a story creates something. One story per role.",
     standard: false,
-    apply: ({ roles, rels, otherRoles, addScreen, addFinding, record }) => {
+    apply: ({ roles, rels, otherRoles, roleSources, addScreen, addFinding, record }) => {
         const added: string[] = [];
         for (const role of roles) {
+            const source = roleSources.get(role);
             if (
-                addScreen(`profile-${role}`, `${titleCase(role)} profile`, "view", role, "stories")
+                addScreen(
+                    `profile-${role}`,
+                    `${titleCase(role)} profile`,
+                    "view",
+                    role,
+                    "stories",
+                    source ? [source] : [],
+                )
             ) {
                 added.push(`profile-${role}`);
             }
@@ -28,13 +36,21 @@ export const stories: RuleModule = {
                     "view",
                     rel.to,
                     "stories",
+                    rel.sources,
                 )
             ) {
                 added.push(`view-${rel.to}`);
             }
             if (
                 rel.createVerbs.length &&
-                addScreen(`new-${rel.to}`, `New ${rel.to}`, "create", rel.to, "stories")
+                addScreen(
+                    `new-${rel.to}`,
+                    `New ${rel.to}`,
+                    "create",
+                    rel.to,
+                    "stories",
+                    rel.sources,
+                )
             ) {
                 added.push(`new-${rel.to}`);
             }

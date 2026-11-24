@@ -1,5 +1,5 @@
 import { REQUIRED_RULES, RULE_MODULES } from "./rules";
-import type { OtherRole, RuleContext } from "./rules";
+import type { OtherRole, RuleContext, RuleModule } from "./rules";
 import { singular, suggestMarks, tokenize, verbBase } from "./suggest";
 import type { MarkKind } from "./suggest";
 import { CREATE_VERBS, capitalize, titleCase } from "./wording";
@@ -66,6 +66,9 @@ export type Mark = {
 
 export type Entity = { id: string; name: string; isRole: boolean };
 
+/** A sentence in a story that a screen or finding came from. */
+export type ScreenSource = { storyId: string; start: number; sentence: string };
+
 export type Relationship = {
     id: string;
     from: string;
@@ -79,6 +82,7 @@ export type Relationship = {
     cardinality: Cardinality;
     sentences: string[];
     storyIds: string[];
+    sources: ScreenSource[];
 };
 
 export type ScreenType = "landing" | "auth" | "view" | "create" | "edit" | "list" | "manual";
@@ -91,9 +95,11 @@ export type Screen = {
     ruleId: RuleId | "manual";
     release: Release;
     needsEmptyState: boolean;
+    /** The story sentences this screen came from. Empty for the screens every product needs. */
+    sources: ScreenSource[];
 };
 
-export type RuleId = "stories" | "defaults" | "crud" | "walk" | "cardinality";
+export type RuleId = "stories" | "defaults" | "crud" | "walk" | "cardinality" | "trace";
 
 export type FindingSource = { kind: "story" | "relationship"; id: string };
 
@@ -219,11 +225,12 @@ export const storyMarks = (story: Story, corrections: Record<string, Correction>
 
 type RelationshipDraft = Omit<
     Relationship,
-    "verbs" | "createVerbs" | "storyIds" | "guess" | "cardinality"
+    "verbs" | "createVerbs" | "storyIds" | "sources" | "guess" | "cardinality"
 > & {
     verbs: Set<string>;
     createVerbs: Set<string>;
     storyIds: Set<string>;
+    sources: ScreenSource[];
 };
 
 export type { OtherRole } from "./rules";
@@ -260,6 +267,8 @@ export const derive = (product: Product): Derived => {
     const entityIds = new Set<string>();
     const relationships = new Map<string, RelationshipDraft>();
     const otherRoles = new Map<string, OtherRole>();
+    /** The first sentence each role speaks in, so a profile screen can point at its story. */
+    const roleSources = new Map<string, ScreenSource>();
 
     for (const story of product.stories) {
         const marks = storyMarks(story, choices.corrections);
@@ -276,6 +285,13 @@ export const derive = (product: Product): Derived => {
             text
                 .slice(sentenceStarts[index] ?? 0, (sentenceEnds[index] ?? text.length - 1) + 1)
                 .trim();
+
+        if (!roleSources.has(actor) && text.trim())
+            roleSources.set(actor, {
+                storyId: story.id,
+                start: sentenceStarts[0] ?? 0,
+                sentence: sentenceText(0),
+            });
 
         // Who is acting. A sentence that opens with another noun followed by a verb
         // ("Customers browse the cakes") is about that noun, not the story's role.
@@ -387,12 +403,24 @@ export const derive = (product: Product): Derived => {
                 plural: false,
                 sentences: [],
                 storyIds: new Set(),
+                sources: [],
             };
             draft.verbs.add(mark.lemma);
             if (CREATE_VERBS.has(mark.lemma) && !located) draft.createVerbs.add(mark.lemma);
             draft.plural ||= isPlural(object);
             draft.sentences.push(sentenceText(sentence));
             draft.storyIds.add(story.id);
+            const source: ScreenSource = {
+                storyId: story.id,
+                start: sentenceStarts[sentence] ?? 0,
+                sentence: sentenceText(sentence),
+            };
+            if (
+                !draft.sources.some(
+                    (seen) => seen.storyId === source.storyId && seen.start === source.start,
+                )
+            )
+                draft.sources.push(source);
             relationships.set(id, draft);
         });
     }
@@ -404,6 +432,7 @@ export const derive = (product: Product): Derived => {
             verbs: [...draft.verbs],
             createVerbs: [...draft.createVerbs],
             storyIds: [...draft.storyIds],
+            sources: draft.sources,
             guess,
             cardinality: own(choices.cardinality, draft.id) ?? guess,
         };
@@ -424,6 +453,7 @@ export const derive = (product: Product): Derived => {
         type: ScreenType,
         entity: string | null,
         ruleId: Screen["ruleId"],
+        sources: ScreenSource[] = [],
     ): boolean => {
         if (screens.has(id)) return false;
         screens.set(id, {
@@ -434,6 +464,7 @@ export const derive = (product: Product): Derived => {
             ruleId,
             release: own(choices.releases, id) ?? "mvp",
             needsEmptyState: type === "list",
+            sources,
         });
 
         return true;
@@ -446,6 +477,8 @@ export const derive = (product: Product): Derived => {
         roles,
         rels,
         otherRoles,
+        roleSources,
+        manualScreens: choices.manualScreens,
         screens,
         addScreen,
         addFinding: (finding) => findings.push(finding),
@@ -455,13 +488,20 @@ export const derive = (product: Product): Derived => {
     // Rules run in order. A rule the visitor turned off is skipped, except the
     // ones that cannot be: without `stories` there is nothing to derive from.
     const off = new Set(choices.rulesOff);
+    const deferred: RuleModule[] = [];
     for (const rule of RULE_MODULES) {
         if (off.has(rule.id) && !REQUIRED_RULES.has(rule.id)) continue;
+        if (rule.afterManualScreens) {
+            deferred.push(rule);
+            continue;
+        }
         rule.apply(context);
     }
 
     for (const screen of choices.manualScreens)
         addScreen(screen.id, screen.name, "manual", null, "manual");
+
+    for (const rule of deferred) rule.apply(context);
 
     const dismissed = new Set(choices.dismissed);
 

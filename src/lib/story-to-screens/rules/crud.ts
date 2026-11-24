@@ -15,7 +15,14 @@ export const crud: RuleModule = {
         for (const rel of rels) {
             if (!screens.has(`new-${rel.to}`)) continue;
             if (
-                addScreen(`edit-${rel.to}`, `Edit ${rel.to} (with delete)`, "edit", rel.to, "crud")
+                addScreen(
+                    `edit-${rel.to}`,
+                    `Edit ${rel.to} (with delete)`,
+                    "edit",
+                    rel.to,
+                    "crud",
+                    rel.sources,
+                )
             ) {
                 added.push(`edit-${rel.to}`);
                 addFinding({

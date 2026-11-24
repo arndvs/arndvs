@@ -18,7 +18,7 @@ export const walk: RuleModule = {
             const manyVerb = rel.verbs.find((verb) => MANY_VERBS.has(verb));
             if (!manyVerb) continue;
             const listName = `${titleCase(pluralize(rel.to))} list`;
-            if (addScreen(`list-${rel.to}`, listName, "list", rel.to, "walk")) {
+            if (addScreen(`list-${rel.to}`, listName, "list", rel.to, "walk", rel.sources)) {
                 added.push(`list-${rel.to}`);
                 addFinding({
                     id: `walk:${rel.to}`,
