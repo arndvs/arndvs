@@ -16,7 +16,124 @@ const blank = (text: string, roleName = "Owner"): Product => ({
 const BAKERY =
     "Priya runs a small bakery. Every morning she checks the orders from her website and prints each order. Customers browse the cakes, choose a size and pay online.";
 
+/**
+ * What each example produces today. Every later slice is expected to change this
+ * on purpose, so a diff here is a prompt to check the change, not a failure.
+ */
+const GOLDEN: Record<string, { screens: string[]; findings: string[] }> = {
+    tester: {
+        screens: [
+            "edit-profile",
+            "edit-study",
+            "landing",
+            "list-answer",
+            "list-applicant",
+            "list-study",
+            "login",
+            "new-profile",
+            "new-study",
+            "profile-company",
+            "profile-tester",
+            "signup",
+            "view-answer",
+            "view-applicant",
+            "view-card",
+            "view-message",
+            "view-profile",
+            "view-requirement",
+            "view-study",
+            "view-survey",
+            "view-test",
+            "view-time",
+        ],
+        findings: [
+            "crud:profile",
+            "crud:study",
+            "defaults",
+            "walk:answer",
+            "walk:applicant",
+            "walk:study",
+        ],
+    },
+    community: {
+        screens: [
+            "edit-call",
+            "edit-post",
+            "edit-question",
+            "landing",
+            "login",
+            "new-call",
+            "new-post",
+            "new-question",
+            "profile-member",
+            "signup",
+            "view-call",
+            "view-group",
+            "view-link",
+            "view-post",
+            "view-question",
+        ],
+        findings: ["crud:call", "crud:post", "crud:question", "defaults"],
+    },
+    clinic: {
+        screens: [
+            "edit-count",
+            "edit-number",
+            "landing",
+            "list-visit",
+            "login",
+            "new-count",
+            "new-number",
+            "profile-front desk",
+            "profile-manager",
+            "profile-owner",
+            "profile-therapist",
+            "signup",
+            "view-clinic",
+            "view-count",
+            "view-number",
+            "view-spreadsheet",
+            "view-staff",
+            "view-visit",
+        ],
+        findings: ["card:therapist>clinic", "crud:count", "crud:number", "defaults", "walk:visit"],
+    },
+};
+
 describe("derive", () => {
+    it.each(PRESETS.map((preset) => preset.id))("matches the golden output (%s)", (id) => {
+        const derived = derive(fromPreset(id));
+        const golden = GOLDEN[id];
+
+        expect(derived.screens.map((screen) => screen.id).sort()).toEqual(golden?.screens);
+        expect(derived.findings.map((finding) => finding.id).sort()).toEqual(golden?.findings);
+    });
+
+    it("derives a screen from a story that says 'constructor'", () => {
+        const derived = derive(
+            blank("Sam checks the constructor before every release.", "Developer"),
+        );
+
+        expect(derived.screens.map((screen) => screen.id)).toContain("view-constructor");
+    });
+
+    it("names a multi-word role in full and does not split it off as a second role", () => {
+        const derived = derive({
+            ...blank("Alex searches for walkers. The owner books a walk.", "Dog owner"),
+            stories: [
+                {
+                    id: "st1",
+                    roleName: "Dog owner",
+                    actor: "Alex",
+                    text: "Alex searches for walkers. The owner books a walk.",
+                },
+            ],
+        });
+
+        expect(derived.screens.map((screen) => screen.id)).toContain("profile-dog owner");
+        expect(derived.findings.filter((finding) => finding.id.startsWith("split:"))).toEqual([]);
+    });
+
     it("catches the missing applicants list in the tester example", () => {
         const derived = derive(fromPreset("tester"));
 

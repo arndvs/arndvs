@@ -72,4 +72,20 @@ describe("encodeState and decodeState", () => {
         expect(decoded?.stories).toHaveLength(MAX_STORIES);
         expect(decoded?.stories[0]?.text).toHaveLength(MAX_STORY_LENGTH);
     });
+
+    it("caps aliases from a link at 50 entries and 60 characters each way", async () => {
+        const product = yours(1, 120);
+        product.aliases = Object.fromEntries(
+            Array.from({ length: 60 }, (_, i) => [`k${i}`.repeat(20), `v${i}`.repeat(20)]),
+        );
+
+        const decoded = await decodeState(await encodeState(product));
+        const entries = Object.entries(decoded?.aliases ?? {});
+
+        expect(entries).toHaveLength(50);
+        for (const [key, value] of entries) {
+            expect(key.length).toBeLessThanOrEqual(60);
+            expect(value.length).toBeLessThanOrEqual(60);
+        }
+    });
 });

@@ -179,6 +179,17 @@ export const pluralize = (s: string): string =>
           : `${s}s`;
 
 // ---------------------------------------------------------------------------
+// Lookups
+// ---------------------------------------------------------------------------
+
+/**
+ * A record read by visitor text. `Object.hasOwn` stops inherited keys such as
+ * "constructor" from standing in for a real entry.
+ */
+const own = <T>(record: Record<string, T>, key: string): T | undefined =>
+    Object.hasOwn(record, key) ? record[key] : undefined;
+
+// ---------------------------------------------------------------------------
 // Marks
 // ---------------------------------------------------------------------------
 
@@ -232,7 +243,7 @@ export const storyMarks = (story: Story, corrections: Record<string, Correction>
     }
 
     for (const token of tokenize(story.text)) {
-        const fix = corrections[`${story.id}:${token.start}`];
+        const fix = own(corrections, `${story.id}:${token.start}`);
         if (!fix) continue;
         if (fix === "none") {
             byStart.delete(token.start);
@@ -276,11 +287,32 @@ type OtherRole = {
 };
 
 export const derive = (product: Product): Derived => {
-    const { choices, aliases } = product;
-    const entityOf = (lemma: string): string => aliases[lemma] ?? lemma;
+    const { choices } = product;
+
+    /** The whole role name, singular: "Dog owner", not just "dog". */
+    const roleNameOf = (story: Story): string =>
+        singular(
+            story.roleName
+                .replace(/\([^)]*\)/g, " ")
+                .replace(/\s+/g, " ")
+                .trim()
+                .toLowerCase(),
+        ) || "person";
+
+    // Each role's last word joins this derive's aliases, so "the owner" in a story
+    // is the "Dog owner" role, not a second one. `product.aliases` is left alone.
+    const aliases: Record<string, string> = { ...product.aliases };
+    for (const story of product.stories) {
+        const role = own(product.aliases, story.actor.toLowerCase()) ?? roleNameOf(story);
+        const last = role.split(" ").at(-1) ?? "";
+        if (last && last !== role && !last.endsWith("ing") && !Object.hasOwn(aliases, last)) {
+            aliases[last] = role;
+        }
+    }
+
+    const entityOf = (lemma: string): string => own(aliases, lemma) ?? lemma;
     const roleOf = (story: Story): string =>
-        aliases[story.actor.toLowerCase()] ??
-        singular(story.roleName.toLowerCase().split(/[\s(]/)[0] || "person");
+        own(aliases, story.actor.toLowerCase()) ?? roleNameOf(story);
 
     const marksByStory: Record<string, Mark[]> = {};
     const entityIds = new Set<string>();
@@ -431,7 +463,7 @@ export const derive = (product: Product): Derived => {
             createVerbs: [...draft.createVerbs],
             storyIds: [...draft.storyIds],
             guess,
-            cardinality: choices.cardinality[draft.id] ?? guess,
+            cardinality: own(choices.cardinality, draft.id) ?? guess,
         };
     });
 
@@ -458,7 +490,7 @@ export const derive = (product: Product): Derived => {
             type,
             entity,
             ruleId,
-            release: choices.releases[id] ?? "mvp",
+            release: own(choices.releases, id) ?? "mvp",
             needsEmptyState: type === "list",
         });
 

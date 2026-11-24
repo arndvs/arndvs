@@ -89,6 +89,23 @@ export const readChoices = (value: unknown): Choices => {
     };
 };
 
+/** Visitor text keyed aliases: capped, so a pasted link can't smuggle in a huge map. */
+const MAX_ALIAS_ENTRIES = 50;
+const MAX_ALIAS_LENGTH = 60;
+
+const readAliases = (value: unknown): Record<string, string> =>
+    isRecord(value)
+        ? Object.fromEntries(
+              Object.entries(value)
+                  .filter((entry): entry is [string, string] => typeof entry[1] === "string")
+                  .slice(0, MAX_ALIAS_ENTRIES)
+                  .map(([key, entry]) => [
+                      key.slice(0, MAX_ALIAS_LENGTH),
+                      entry.slice(0, MAX_ALIAS_LENGTH),
+                  ]),
+          )
+        : {};
+
 const readStories = (value: unknown): Story[] =>
     (Array.isArray(value) ? value.slice(0, MAX_STORIES) : []).flatMap((entry, index) => {
         if (!isRecord(entry)) return [];
@@ -217,15 +234,7 @@ export const decodeState = async (params: URLSearchParams): Promise<Product | nu
             name: str(raw.n, 60) || "Your product",
             origin: raw.o === "blank" ? "blank" : "copy",
             stories,
-            aliases: isRecord(raw.a)
-                ? Object.fromEntries(
-                      Object.entries(raw.a)
-                          .filter(
-                              (entry): entry is [string, string] => typeof entry[1] === "string",
-                          )
-                          .slice(0, 50),
-                  )
-                : {},
+            aliases: readAliases(raw.a),
             choices: readChoices(raw.c),
         };
     } catch {
