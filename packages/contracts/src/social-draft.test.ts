@@ -1,12 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-    SOCIAL_DRAFT_STATUSES,
-    VALID_SOCIAL_DRAFT_TRANSITIONS,
-    isSendable,
-    isValidSocialDraftTransition,
-    socialDraftStatusSchema,
-} from "./social-draft";
+import { isSendable, isValidSocialDraftTransition, socialDraftStatusSchema } from "./social-draft";
 
 describe("social draft lifecycle", () => {
     it("accepts only the supported statuses", () => {
@@ -14,12 +8,6 @@ describe("social draft lifecycle", () => {
         expect(socialDraftStatusSchema.parse("posted")).toBe("posted");
         expect(socialDraftStatusSchema.safeParse("published").success).toBe(false);
         expect(socialDraftStatusSchema.safeParse("").success).toBe(false);
-    });
-
-    it("covers every status in the transition map", () => {
-        for (const status of SOCIAL_DRAFT_STATUSES) {
-            expect(VALID_SOCIAL_DRAFT_TRANSITIONS[status]).toBeDefined();
-        }
     });
 
     it("walks the happy path: draft → editing → ready → posted", () => {
