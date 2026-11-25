@@ -497,7 +497,7 @@ export default function AboutContent() {
                         id="about-speaking"
                         className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl"
                     >
-                        I teach this to small business owners, too
+                        I teach what I build
                     </h2>
                     <div className="bg-border mt-12 grid gap-px overflow-hidden rounded-2xl">
                         {TALKS.map((talk) => (

@@ -9,7 +9,7 @@ import { TalkDetail } from "./components";
 import { TALKS } from "./data";
 
 const description =
-    "Talks and hands-on AI workshops by Aaron Davis for small business owners and local groups in San Diego: practical, no jargon, built around something attendees can use that week.";
+    "Talks and hands-on AI workshops by Aaron Davis for small business owners, local groups, and engineering teams: practical, no jargon, built around something attendees can use that week.";
 
 export const metadata: Metadata = generateSiteMetadata({
     title: "Speaking",
@@ -38,7 +38,9 @@ export default function SpeakingPage() {
                 startDate: talk.date,
                 eventStatus: "https://schema.org/EventScheduled",
                 eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-                location: { "@type": "Place", name: talk.venue, address: talk.city },
+                ...(talk.venue && {
+                    location: { "@type": "Place", name: talk.venue, address: talk.city },
+                }),
                 organizer: { "@type": "Organization", name: talk.host },
                 performer: { "@id": `${siteConfig.url}/#person` },
                 url: `${siteConfig.url}/speaking#${talk.id}`,
@@ -59,12 +61,12 @@ export default function SpeakingPage() {
                             Speaking
                         </span>
                         <h1 className="font-display mt-6 max-w-4xl text-5xl leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
-                            AI workshops for people who run the business.
+                            Talks and workshops on putting AI to work.
                         </h1>
                         <p className="text-muted-foreground mt-8 max-w-2xl text-lg leading-relaxed lg:text-xl">
-                            I teach small business owners and local groups to use AI on the work in
-                            front of them. No jargon and no tool tour: everyone leaves with
-                            something set up that they can use that week.
+                            I teach small business owners, local groups, and engineering teams to
+                            use AI on the work in front of them. No jargon and no tool tour:
+                            everyone leaves with something they can use that week.
                         </p>
                         <div className="mt-10">
                             <ContactForm triggerText="Invite me to speak" showIcon />

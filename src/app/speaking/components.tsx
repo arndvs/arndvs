@@ -40,10 +40,10 @@ export function TalkLink({ talk }: { talk: Talk }) {
                 <Image
                     src={talk.slides[0].src}
                     alt={talk.slides[0].alt}
-                    width={1280}
-                    height={720}
+                    width={talk.slides[0].width ?? 1280}
+                    height={talk.slides[0].height ?? 720}
                     sizes="(min-width: 768px) 40vw, 100vw"
-                    className="border-border h-auto w-full rounded-xl border bg-white"
+                    className="border-border aspect-video h-auto w-full rounded-xl border bg-white object-contain"
                 />
             )}
         </Link>
@@ -51,14 +51,18 @@ export function TalkLink({ talk }: { talk: Talk }) {
 }
 
 export function TalkDetail({ talk }: { talk: Talk }) {
+    const venue = [talk.venue, talk.city].filter(Boolean).join(", ");
     const facts = [
         { label: "Date", value: formatTalkDate(talk.date) },
         { label: "Host", value: talk.host },
         { label: "Event", value: talk.event },
-        { label: "Venue", value: `${talk.venue}, ${talk.city}` },
-        { label: "Format", value: `${talk.format}, ${talk.duration}` },
+        { label: "Venue", value: venue },
+        {
+            label: "Format",
+            value: talk.duration ? `${talk.format}, ${talk.duration}` : talk.format,
+        },
         { label: "Audience", value: talk.audience },
-    ];
+    ].filter((fact) => fact.value);
 
     return (
         <article
@@ -108,10 +112,10 @@ export function TalkDetail({ talk }: { talk: Talk }) {
                                         <Image
                                             src={slide.src}
                                             alt={slide.alt}
-                                            width={1280}
-                                            height={720}
+                                            width={slide.width ?? 1280}
+                                            height={slide.height ?? 720}
                                             sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
-                                            className="h-auto w-full"
+                                            className="aspect-video h-auto w-full object-contain"
                                         />
                                     </li>
                                 ))}

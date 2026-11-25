@@ -8,6 +8,9 @@
 export interface TalkSlide {
     src: string;
     alt: string;
+    /** Intrinsic size. Defaults to 1280×720 (16:9). */
+    width?: number;
+    height?: number;
 }
 
 export interface Talk {
@@ -19,11 +22,12 @@ export interface Talk {
     format: string;
     host: string;
     event: string;
-    venue: string;
-    city: string;
+    /** Left out when the deck doesn't say where it was given. */
+    venue?: string;
+    city?: string;
     /** ISO date. */
     date: string;
-    duration: string;
+    duration?: string;
     audience: string;
     summary: string;
     outline: { title: string; detail: string }[];
@@ -32,6 +36,7 @@ export interface Talk {
 }
 
 const FIND_YOUR_VOICE_SLIDES = "/speaking/find-your-voice";
+const DEVELOPER_VELOCITY_SLIDES = "/speaking/developer-velocity";
 
 export const TALKS: Talk[] = [
     {
@@ -99,6 +104,69 @@ export const TALKS: Talk[] = [
             {
                 src: `${FIND_YOUR_VOICE_SLIDES}/advanced-prompting.webp`,
                 alt: "Slide: advanced strategies, including meta prompting, chain-of-thought, and tree-of-thought, each with an example.",
+            },
+        ],
+    },
+    {
+        id: "developer-velocity",
+        title: "Building an AI Assistant to Supercharge Developer Velocity",
+        format: "Internal tech talk",
+        host: "RipeMetrics",
+        event: "RipeMetrics engineering team session",
+        date: "2023-08-31",
+        audience: "The RipeMetrics engineering team.",
+        summary:
+            "ChatGPT can't answer questions about your own codebase, docs, or company data. In 2023, this talk walked our engineers through building an assistant that can: how retrieval works, from loading and embedding documents to vector search, and how to stand up the stack to try it themselves.",
+        outline: [
+            {
+                title: "How ChatGPT works under the hood",
+                detail: "A prompt goes to a large language model, which returns a response. The model only knows what it was trained on.",
+            },
+            {
+                title: "Why not just ChatGPT?",
+                detail: "It doesn't know your Confluence, your repos, or your stack. An internal knowledge base can answer questions about all three, and agents can draft documentation from it.",
+            },
+            {
+                title: "The embedding path",
+                detail: "Document loaders pull text from many formats, text splitters cut it into chunks, an embedding model turns each chunk into numbers by meaning, and a vector store keeps them.",
+            },
+            {
+                title: "The retrieval path",
+                detail: "A question is embedded the same way, its nearest neighbors are found in the vector store, and those text pieces go to the model as context with the question.",
+            },
+            {
+                title: "The stack, set up step by step",
+                detail: "LangChain, LangSmith, OpenAI embeddings and chat, Pinecone, Vector Admin, Flowise, and Bubble, with account setup for each.",
+            },
+            {
+                title: "Next step: beyond engineering",
+                detail: "Pointing the same approach at sales, marketing, and product data to ask questions like where growth is coming from, or which features to build next.",
+            },
+        ],
+        takeaways: [
+            "A plain-language model of how retrieval-augmented generation works",
+            "A reference stack for an internal knowledge assistant",
+            "Setup steps for every tool in the stack",
+            "Ideas for taking it past engineering to sales, marketing, and product",
+        ],
+        slides: [
+            {
+                src: `${DEVELOPER_VELOCITY_SLIDES}/title.webp`,
+                alt: "Title slide: RipeMetrics, Building an AI Assistant to Supercharge Developer Velocity, August 31, 2023.",
+                width: 1280,
+                height: 961,
+            },
+            {
+                src: `${DEVELOPER_VELOCITY_SLIDES}/embedding-path.webp`,
+                alt: "Slide: the embedding path. A document loader feeds a text splitter, then an embedding model that turns chunks into vectors stored in a vector store.",
+            },
+            {
+                src: `${DEVELOPER_VELOCITY_SLIDES}/retrieval-path.webp`,
+                alt: "Slide: the retrieval path. A user question is embedded, compared against stored vectors, and the nearest text pieces go to the language model as context.",
+            },
+            {
+                src: `${DEVELOPER_VELOCITY_SLIDES}/tech-stack.webp`,
+                alt: "Slide: the solution tech stack. LangChain, LangSmith, OpenAI, Pinecone, Vector Admin, Flowise, and Bubble.",
             },
         ],
     },

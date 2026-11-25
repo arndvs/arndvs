@@ -94,7 +94,7 @@ export default function ResultsContent() {
                             id="speaking-heading"
                             className="font-display mt-4 text-4xl tracking-tight lg:text-5xl"
                         >
-                            Workshops for local business owners
+                            Talks and workshops
                         </h2>
                         <div className="bg-border mt-12 grid gap-px overflow-hidden rounded-2xl">
                             {TALKS.map((talk) => (
