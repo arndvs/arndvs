@@ -20,6 +20,7 @@ const product = (texts: string[]): Product => ({
         cardinality: {},
         releases: {},
         judgments: {},
+        merges: {},
         guess: [],
         guessLinks: {},
         manualScreens: [],

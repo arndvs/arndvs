@@ -15,6 +15,7 @@ const product = (text: string, roleName = "Owner"): Product => ({
         cardinality: {},
         releases: {},
         judgments: {},
+        merges: {},
         guess: [],
         guessLinks: {},
         manualScreens: [],

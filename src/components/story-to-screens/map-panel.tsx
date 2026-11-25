@@ -25,6 +25,14 @@ export function MapPanel({ derived, change }: Props) {
         (a, b) => (storyCount.get(b.id) ?? 0) - (storyCount.get(a.id) ?? 0),
     );
 
+    // A merge says "this word means that thing". The merged word leaves the list,
+    // and the thing it joined says what it includes.
+    const mergedInto = new Map<string, string[]>();
+    for (const [word, target] of Object.entries(derived.merges)) {
+        mergedInto.set(target, [...(mergedInto.get(target) ?? []), word]);
+    }
+    const targets = entities.filter((entity) => !entity.isRole);
+
     return (
         <>
             {entities.length ? (
@@ -32,6 +40,7 @@ export function MapPanel({ derived, change }: Props) {
                     {entities.map((entity) => {
                         const count = storyCount.get(entity.id) ?? 0;
                         const core = count >= 2;
+                        const includes = mergedInto.get(entity.id) ?? [];
 
                         return (
                             <li
@@ -53,6 +62,51 @@ export function MapPanel({ derived, change }: Props) {
                                 ) : null}
                                 {core ? (
                                     <span className="text-muted-foreground"> · core</span>
+                                ) : null}
+                                {includes.length ? (
+                                    <span className="text-muted-foreground">
+                                        {" "}
+                                        · includes {includes.join(", ")}
+                                    </span>
+                                ) : null}
+                                {includes.length ? (
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            change((draft) => {
+                                                for (const word of includes) {
+                                                    delete draft.choices.merges[word];
+                                                }
+                                            })
+                                        }
+                                        className="text-muted-foreground hover:text-foreground focus-visible:ring-ring ml-1 underline underline-offset-2 focus-visible:ring-2 focus-visible:outline-none"
+                                        aria-label={`Unmerge ${includes.join(", ")} from ${entity.name}`}
+                                    >
+                                        Unmerge
+                                    </button>
+                                ) : null}
+                                {!entity.isRole && targets.length > 1 ? (
+                                    <select
+                                        aria-label={`Merge ${entity.name} into another thing`}
+                                        value=""
+                                        onChange={(event) => {
+                                            const target = event.target.value;
+                                            if (!target) return;
+                                            change((draft) => {
+                                                draft.choices.merges[entity.id] = target;
+                                            });
+                                        }}
+                                        className="text-muted-foreground hover:text-foreground focus-visible:ring-ring ml-1 cursor-pointer bg-transparent text-xs focus-visible:ring-2 focus-visible:outline-none"
+                                    >
+                                        <option value="">Same as…</option>
+                                        {targets
+                                            .filter((candidate) => candidate.id !== entity.id)
+                                            .map((candidate) => (
+                                                <option key={candidate.id} value={candidate.id}>
+                                                    {candidate.name}
+                                                </option>
+                                            ))}
+                                    </select>
                                 ) : null}
                             </li>
                         );

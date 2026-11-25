@@ -134,6 +134,38 @@ const readGuess = (value: unknown): string[] =>
               .slice(0, MAX_GUESSES)
         : [];
 
+/** A merge is visitor text on both sides, so both are capped like any other. */
+const MAX_MERGES = 50;
+const MAX_MERGE_LENGTH = 60;
+
+/**
+ * Reads merges, dropping any that would form a cycle. A cycle would make
+ * `entityOf` loop forever, so the later entry is dropped rather than the earlier.
+ */
+const readMerges = (value: unknown): Record<string, string> => {
+    const out: Record<string, string> = {};
+    if (!isRecord(value)) return out;
+
+    for (const [key, entry] of Object.entries(value).slice(0, MAX_MERGES)) {
+        const target = str(entry, MAX_MERGE_LENGTH);
+        if (!target || key.length > MAX_MERGE_LENGTH || key === target) continue;
+        // Walk the chain the new entry would join. Reaching the key means a cycle.
+        let cursor: string | undefined = target;
+        let loops = false;
+        for (let step = 0; cursor && step <= MAX_MERGES; step++) {
+            if (cursor === key) {
+                loops = true;
+                break;
+            }
+            cursor = out[cursor];
+        }
+        if (loops) continue;
+        out[key] = target;
+    }
+
+    return out;
+};
+
 /** A guess linked to a screen: both sides are visitor text, so both are capped. */
 const readGuessLinks = (value: unknown): Record<string, string> => {
     const out: Record<string, string> = {};
@@ -156,6 +188,7 @@ export const readChoices = (value: unknown): Choices => {
         cardinality: pickRecord(raw.cardinality, CARDINALITIES),
         releases: pickRecord(raw.releases, RELEASE_IDS),
         judgments: readJudgments(raw.judgments),
+        merges: readMerges(raw.merges),
         guess: readGuess(raw.guess),
         guessLinks: readGuessLinks(raw.guessLinks),
         manualScreens: manual.flatMap((entry) => {
@@ -279,6 +312,7 @@ const emptyChoices = (choices: Choices): boolean =>
     !Object.keys(choices.cardinality).length &&
     !Object.keys(choices.releases).length &&
     !Object.keys(choices.judgments).length &&
+    !Object.keys(choices.merges).length &&
     !choices.guess.length &&
     !Object.keys(choices.guessLinks).length &&
     !choices.manualScreens.length &&
@@ -309,6 +343,7 @@ const choicesDiff = (choices: Choices, base: Choices): Choices => {
                 ([key, judgment]) => !sameJudgment(judgment, base.judgments[key]),
             ),
         ),
+        merges: diff(choices.merges, base.merges),
         guess: choices.guess.filter((entry) => !base.guess.includes(entry)),
         guessLinks: diff(choices.guessLinks, base.guessLinks),
         manualScreens: choices.manualScreens.filter((screen) => !baseManual.has(screen.id)),
@@ -376,6 +411,7 @@ export const decodeState = async (params: URLSearchParams): Promise<DecodedState
             Object.assign(c.cardinality, changed.cardinality);
             Object.assign(c.releases, changed.releases);
             Object.assign(c.judgments, changed.judgments);
+            Object.assign(c.merges, changed.merges);
             c.guess.push(...changed.guess);
             Object.assign(c.guessLinks, changed.guessLinks);
             c.manualScreens.push(...changed.manualScreens);
