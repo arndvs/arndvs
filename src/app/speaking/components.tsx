@@ -1,9 +1,9 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
 
-import type { Talk } from "./data";
+import type { Talk, Topic } from "./data";
 
 const longDate = new Intl.DateTimeFormat("en-US", {
     month: "long",
@@ -50,7 +50,7 @@ export function TalkLink({ talk }: { talk: Talk }) {
     );
 }
 
-export function TalkDetail({ talk }: { talk: Talk }) {
+export function TalkDetail({ talk, divider = true }: { talk: Talk; divider?: boolean }) {
     const venue = [talk.venue, talk.city].filter(Boolean).join(", ");
     const facts = [
         { label: "Date", value: formatTalkDate(talk.date) },
@@ -68,20 +68,35 @@ export function TalkDetail({ talk }: { talk: Talk }) {
         <article
             id={talk.id}
             aria-labelledby={`${talk.id}-title`}
-            className="border-border scroll-mt-20 border-t py-16 lg:py-24"
+            className={`scroll-mt-20 py-16 lg:py-24 ${divider ? "border-border border-t" : ""}`}
         >
             <div className="site-container">
                 <div className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
-                    <dl className="space-y-5 text-sm lg:sticky lg:top-24 lg:self-start">
-                        {facts.map((fact) => (
-                            <div key={fact.label}>
-                                <dt className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
-                                    {fact.label}
-                                </dt>
-                                <dd className="mt-1 leading-relaxed">{fact.value}</dd>
-                            </div>
+                    <div className="lg:sticky lg:top-24 lg:self-start">
+                        <dl className="space-y-5 text-sm">
+                            {facts.map((fact) => (
+                                <div key={fact.label}>
+                                    <dt className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+                                        {fact.label}
+                                    </dt>
+                                    <dd className="mt-1 leading-relaxed">{fact.value}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                        {talk.links?.map((link) => (
+                            <a
+                                key={link.href}
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-signal mt-6 flex w-fit items-center gap-1 text-sm font-medium hover:underline"
+                            >
+                                {link.label}
+                                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                                <span className="sr-only">(opens in a new tab)</span>
+                            </a>
                         ))}
-                    </dl>
+                    </div>
 
                     <div>
                         <span className="text-signal text-sm font-medium tracking-widest uppercase">
@@ -151,6 +166,41 @@ export function TalkDetail({ talk }: { talk: Talk }) {
                     </div>
                 </div>
             </div>
+        </article>
+    );
+}
+
+export function TopicCard({ topic, givenAs }: { topic: Topic; givenAs?: Talk }) {
+    return (
+        <article className="bg-card flex flex-col p-8 lg:p-10">
+            <span className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+                {topic.formats}
+            </span>
+            <h3 className="font-display mt-4 text-2xl lg:text-3xl">{topic.title}</h3>
+            <p className="text-muted-foreground mt-3 leading-relaxed">{topic.summary}</p>
+            <ul className="mt-6 space-y-3">
+                {topic.takeaways.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm">
+                        <ArrowRight className="text-signal mt-0.5 h-4 w-4 shrink-0" />
+                        <span className="leading-relaxed">{item}</span>
+                    </li>
+                ))}
+            </ul>
+            <p className="text-muted-foreground mt-auto pt-8 text-sm">
+                {givenAs ? (
+                    <>
+                        Given for {givenAs.host},{" "}
+                        <Link
+                            href={`#${givenAs.id}`}
+                            className="text-foreground hover:text-signal underline-offset-4 hover:underline"
+                        >
+                            {formatTalkDate(givenAs.date)}
+                        </Link>
+                    </>
+                ) : (
+                    "New topic, drawn from client work"
+                )}
+            </p>
         </article>
     );
 }

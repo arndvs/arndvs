@@ -8,7 +8,7 @@ vi.mock("@/sanity/env", () => ({
 }));
 
 const { default: SpeakingPage } = await import("./page");
-const { TALKS } = await import("./data");
+const { TALKS, TOPICS } = await import("./data");
 
 describe("/speaking page", () => {
     const html = renderToStaticMarkup(createElement(SpeakingPage)).replace(/&#x27;|&#39;/g, "'");
@@ -22,5 +22,11 @@ describe("/speaking page", () => {
 
     it("emits an EducationEvent for every talk", () => {
         expect(html.match(/"@type":"EducationEvent"/g)?.length).toBe(TALKS.length);
+    });
+
+    it("renders every topic and the event links", () => {
+        for (const topic of TOPICS) expect(html).toContain(topic.title);
+        expect(html).toContain("linkedin.com/events/");
+        expect(html).not.toContain("Andrew");
     });
 });

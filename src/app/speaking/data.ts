@@ -33,6 +33,27 @@ export interface Talk {
     outline: { title: string; detail: string }[];
     takeaways: string[];
     slides: TalkSlide[];
+    /** Public evidence the session happened: event pages, recordings. */
+    links?: { label: string; href: string }[];
+}
+
+/** Something Aaron can bring to a group. `givenAs` points at a past talk when it has been given. */
+export interface Topic {
+    id: string;
+    title: string;
+    summary: string;
+    formats: string;
+    takeaways: string[];
+    givenAs?: string;
+}
+
+/** A quote from someone who booked or attended a session. Only approved quotes render. */
+export interface OrganizerQuote {
+    quote: string;
+    author: string;
+    role: string;
+    talkId: string;
+    approved: boolean;
 }
 
 const FIND_YOUR_VOICE_SLIDES = "/speaking/find-your-voice";
@@ -110,13 +131,21 @@ export const TALKS: Talk[] = [
     {
         id: "developer-velocity",
         title: "Building an AI Assistant to Supercharge Developer Velocity",
-        format: "Internal tech talk",
-        host: "RipeMetrics",
-        event: "RipeMetrics engineering team session",
+        format: "Talk and live demo",
+        host: "Rēlentless Software Solutions",
+        event: "CTO Coffee",
+        city: "San Diego, CA",
         date: "2023-08-31",
-        audience: "The RipeMetrics engineering team.",
+        duration: "2-hour morning session",
+        audience: "CTOs and engineering leaders in San Diego.",
         summary:
-            "ChatGPT can't answer questions about your own codebase, docs, or company data. In 2023, this talk walked our engineers through building an assistant that can: how retrieval works, from loading and embedding documents to vector search, and how to stand up the stack to try it themselves.",
+            "ChatGPT can't answer questions about your own codebase, docs, or company data. I showed how we built an internal assistant at RipeMetrics that lets our developers ask those questions in plain language: how retrieval works, from loading and embedding documents to vector search, and how to stand up the stack so attendees could build their own.",
+        links: [
+            {
+                label: "LinkedIn event",
+                href: "https://www.linkedin.com/events/7092638461374967809/",
+            },
+        ],
         outline: [
             {
                 title: "How ChatGPT works under the hood",
@@ -144,9 +173,9 @@ export const TALKS: Talk[] = [
             },
         ],
         takeaways: [
+            "A blueprint for building their own AI assistant",
             "A plain-language model of how retrieval-augmented generation works",
             "A reference stack for an internal knowledge assistant",
-            "Setup steps for every tool in the stack",
             "Ideas for taking it past engineering to sales, marketing, and product",
         ],
         slides: [
@@ -171,3 +200,77 @@ export const TALKS: Talk[] = [
         ],
     },
 ];
+
+export const SPEAKING_INTRO = {
+    eyebrow: "Speaking",
+    title: "Practical AI sessions for your group.",
+    description:
+        "Groups ask me to speak when their members want to use AI and don't know where to start. I bring a working demo, plain language, and something everyone can use that week. My past sessions are below, and I'm open to new topics.",
+};
+
+/** How a session runs. Each point is true of every talk listed in TALKS. */
+export const SESSION_PRINCIPLES: { title: string; detail: string }[] = [
+    {
+        title: "Built around your group",
+        detail: "Examples come from the kind of work your members do, not a generic tool tour.",
+    },
+    {
+        title: "A live demo",
+        detail: "I build something in front of the room, using a topic or example the audience picks.",
+    },
+    {
+        title: "Something to keep",
+        detail: "Attendees leave with prompts, setup steps, or a blueprint they can use the same week.",
+    },
+    {
+        title: "Plain language",
+        detail: "Technical ideas explained so a business owner and an engineer both follow along.",
+    },
+];
+
+export const IDEAL_AUDIENCES =
+    "Business associations and chambers, professional and practitioner groups, small business owners, and engineering teams and their leaders.";
+
+export const TOPICS: Topic[] = [
+    {
+        id: "ai-writing-in-your-voice",
+        title: "AI writing that sounds like you",
+        summary:
+            "Teach AI your voice from writing you already have, then set up a system that drafts posts, emails, and newsletters you only need to tweak.",
+        formats: "45-minute talk or hands-on workshop",
+        takeaways: [
+            "A writing profile built from their own samples",
+            "A reusable AI project that remembers their business",
+            "Prompt templates for social, email, and blog content",
+        ],
+        givenAs: "find-your-voice",
+    },
+    {
+        id: "ai-assistant-on-your-data",
+        title: "Build an AI assistant on your own data",
+        summary:
+            "How retrieval-augmented generation works and how to stand up an assistant that answers questions from your docs, code, or company data.",
+        formats: "60-minute talk or 2-hour working session",
+        takeaways: [
+            "A plain-language model of embeddings and vector search",
+            "A reference stack and the steps to set it up",
+            "Where these assistants go wrong, and how to check them",
+        ],
+        givenAs: "developer-velocity",
+    },
+    {
+        id: "ai-at-the-front-desk",
+        title: "Put AI to work at the front desk",
+        summary:
+            "Automate the intake, document checks, and follow-ups that eat a small practice's week, with a person reviewing anything the system isn't sure about.",
+        formats: "45-minute talk",
+        takeaways: [
+            "A map of which front-desk tasks are safe to automate",
+            "How to route unclear cases to a person",
+            "A real example from a San Diego clinic",
+        ],
+    },
+];
+
+/** Empty until an organizer or attendee approves a quote. */
+export const ORGANIZER_QUOTES: OrganizerQuote[] = [];
