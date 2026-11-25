@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { trackEvent } from "@/lib/analytics/track";
 import { SpamProtectionFields, useHoneypot } from "@/lib/honeypot";
 import { cn } from "@/lib/utils";
 
@@ -102,6 +103,8 @@ export function ContactForm({
                 throw new Error(responseData.error || "Failed to send message");
             }
 
+            // Only real submissions count: the honeypot path above returns before this.
+            trackEvent("contact_submit", { from: window.location.pathname });
             setOpen(false);
             setFormData({ name: "", email: "", message: "" });
             toast.success("Message sent!", {
