@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { EXPERIMENTS } from "@/lib/data/experiments";
+import { PAGE_LAST_MODIFIED, latestDate } from "@/lib/data/page-dates";
 import { PROJECTS } from "@/lib/data/projects";
 import { SHOW_LOG_PAGES } from "@/lib/data/site-sections";
 import { siteConfig } from "@/sanity/env";
@@ -44,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         console.error("Failed to fetch digest slugs for sitemap:", error);
     }
 
-    let changelogLastModified: Date = new Date();
+    let changelogLastModified: Date = new Date(PAGE_LAST_MODIFIED.home);
     try {
         const latestDate = await client
             .withConfig({ useCdn: false })
@@ -71,49 +72,58 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return [
         {
             url: baseUrl,
-            lastModified: new Date(),
+            lastModified: new Date(PAGE_LAST_MODIFIED.home),
             changeFrequency: "monthly",
             priority: 1,
         },
         {
             url: `${baseUrl}/about`,
-            lastModified: new Date(),
+            lastModified: new Date(PAGE_LAST_MODIFIED.about),
             changeFrequency: "monthly",
             priority: 0.8,
         },
         {
             url: `${baseUrl}/projects`,
-            lastModified: new Date(),
+            lastModified: latestDate(
+                PROJECTS.map((p) => p.lastModified),
+                PAGE_LAST_MODIFIED.home,
+            ),
             changeFrequency: "monthly",
             priority: 0.8,
         },
         {
             url: `${baseUrl}/blog`,
-            lastModified: new Date(),
+            lastModified: latestDate(
+                blogPosts.map((p) => p._updatedAt),
+                PAGE_LAST_MODIFIED.home,
+            ),
             changeFrequency: "weekly",
             priority: 0.8,
         },
         {
             url: `${baseUrl}/results`,
-            lastModified: new Date(),
+            lastModified: new Date(PAGE_LAST_MODIFIED.results),
             changeFrequency: "monthly",
             priority: 0.9,
         },
         {
             url: `${baseUrl}/speaking`,
-            lastModified: new Date(),
+            lastModified: new Date(PAGE_LAST_MODIFIED.speaking),
             changeFrequency: "monthly",
             priority: 0.8,
         },
         {
             url: `${baseUrl}/work-with-me`,
-            lastModified: new Date(),
+            lastModified: new Date(PAGE_LAST_MODIFIED.workWithMe),
             changeFrequency: "monthly",
             priority: 0.9,
         },
         {
             url: `${baseUrl}/experiments`,
-            lastModified: new Date(),
+            lastModified: latestDate(
+                EXPERIMENTS.map((e) => e.lastModified),
+                PAGE_LAST_MODIFIED.home,
+            ),
             changeFrequency: "monthly",
             priority: 0.7,
         },
@@ -131,7 +141,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                   },
                   {
                       url: `${baseUrl}/shipped`,
-                      lastModified: new Date(),
+                      lastModified: latestDate(
+                          digestEntries.map((d) => d.lastModified ?? PAGE_LAST_MODIFIED.home),
+                          PAGE_LAST_MODIFIED.home,
+                      ),
                       changeFrequency: "weekly",
                       priority: 0.7,
                   },
