@@ -77,6 +77,12 @@ export type Mark = {
 
 export type Entity = { id: string; name: string; isRole: boolean };
 
+/**
+ * A thing or action and the stories it appears in. A lemma in two or more
+ * stories is a signal: the stories keep coming back to it.
+ */
+export type Signal = { lemma: string; kind: MarkKind; stories: string[] };
+
 /** A sentence in a story that a screen or finding came from. */
 export type ScreenSource = { storyId: string; start: number; sentence: string };
 
@@ -114,6 +120,7 @@ export type Screen = {
 
 export type RuleId =
     | "story-check"
+    | "signals"
     | "stories"
     | "defaults"
     | "crud"
@@ -149,6 +156,8 @@ export const edgeTarget = (screen: Screen): string | null =>
 export type Derived = {
     marksByStory: Record<string, Mark[]>;
     entities: Entity[];
+    /** Every marked lemma and the stories it appears in, most stories first. */
+    signals: Signal[];
     relationships: Relationship[];
     screens: Screen[];
     findings: Finding[];
@@ -504,8 +513,24 @@ export const derive = (product: Product): Derived => {
         steps.push({ ruleId, added, total: screens.size });
     };
 
+    // A lemma's story count is what makes it a signal. Nouns are counted by the
+    // entity they resolve to, so "requirement" and "requirements" count once.
+    const signalMap = new Map<string, Signal>();
+    for (const [storyId, marks] of Object.entries(marksByStory)) {
+        for (const mark of marks) {
+            const lemma = mark.kind === "noun" ? entityOf(mark.lemma) : mark.lemma;
+            const signal = signalMap.get(lemma) ?? { lemma, kind: mark.kind, stories: [] };
+            if (!signal.stories.includes(storyId)) signal.stories.push(storyId);
+            signalMap.set(lemma, signal);
+        }
+    }
+    const signals = [...signalMap.values()].sort(
+        (a, b) => b.stories.length - a.stories.length || a.lemma.localeCompare(b.lemma),
+    );
+
     const context: RuleContext = {
         stories: product.stories,
+        signals,
         roles,
         rels,
         otherRoles,
@@ -558,6 +583,7 @@ export const derive = (product: Product): Derived => {
     return {
         marksByStory,
         entities: [...entityIds].map((id) => ({ id, name: titleCase(id), isRole: roles.has(id) })),
+        signals,
         relationships: rels,
         screens: [...screens.values()],
         findings: findings.map((finding) => ({
