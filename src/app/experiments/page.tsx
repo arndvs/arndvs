@@ -5,7 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ExperimentHero } from "@/components/experiments/experiment-hero";
+import { JsonLd } from "@/components/json-ld";
 import { EXPERIMENTS } from "@/lib/data/experiments";
+import { breadcrumbList, graph, itemList, webPage } from "@/lib/json-ld";
 import { generateSiteMetadata } from "@/lib/metadata";
 
 const INTRO =
@@ -20,6 +22,26 @@ export const metadata: Metadata = generateSiteMetadata({
 export default function ExperimentsPage() {
     return (
         <main className="min-h-screen">
+            <JsonLd
+                data={graph(
+                    webPage({
+                        type: "CollectionPage",
+                        path: "/experiments",
+                        name: "Experiments",
+                        description: INTRO,
+                        extra: {
+                            mainEntity: itemList(
+                                EXPERIMENTS.map((e) => ({
+                                    name: e.title,
+                                    path: `/experiments/${e.slug}`,
+                                    description: e.description,
+                                })),
+                            ),
+                        },
+                    }),
+                    breadcrumbList("/experiments", [{ name: "Experiments", path: "/experiments" }]),
+                )}
+            />
             <ExperimentHero
                 backdrop="LAB"
                 eyebrow="Experiments"
