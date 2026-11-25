@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 import { useEffect, useState } from "react";
 
@@ -10,7 +10,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
-import { TalkLink } from "../speaking/components";
+import { formatTalkDate } from "../speaking/components";
 import { TALKS } from "../speaking/data";
 
 const journey = [
@@ -24,7 +24,7 @@ const journey = [
         period: "2017-2020",
         title: "Co-Founder & CEO — RipeMetrics",
         description:
-            "Co-founded RipeMetrics, took it through the CSD16 (Canopy San Diego) accelerator, and recruited a CTO to build the MVP. Ran the company through its pivots from review management to customer analytics, CRM, and multi-channel messaging.",
+            "Co-founded RipeMetrics, took it through the CSD16 (Canopy San Diego) accelerator, and recruited a CTO to build the MVP. Ran the company through its pivots from review management to customer analytics, CRM, and multi-channel messaging, and mentored the development interns working on the product.",
     },
     {
         period: "2020-2025",
@@ -48,7 +48,15 @@ const techStack = {
     emerging: ["Model Context Protocol", "MCP UI", "Claude Code", "AI Agents"],
 };
 
-const certifications = [
+interface Certification {
+    title: string;
+    issuer: string;
+    date: string;
+    /** Public repos with the work done for the course. */
+    work?: { label: string; href: string }[];
+}
+
+const certifications: Certification[] = [
     {
         title: "Braze Certified Marketing Specialist",
         issuer: "Braze",
@@ -73,11 +81,23 @@ const certifications = [
         title: "Claude Code for Real Engineers",
         issuer: "AI Hero",
         date: "May 2026",
+        work: [
+            {
+                label: "Course repo",
+                href: "https://github.com/arndvs/claude-coding-for-real-engineers",
+            },
+        ],
     },
     {
         title: "Master the Model Context Protocol (MCP)",
         issuer: "EpicAI",
         date: "Oct 2025",
+        work: [
+            { label: "Fundamentals", href: "https://github.com/arndvs/mcp-fundamentals" },
+            { label: "Advanced features", href: "https://github.com/arndvs/Advanced-MCP-Features" },
+            { label: "Auth", href: "https://github.com/arndvs/mcp-auth" },
+            { label: "MCP UI", href: "https://github.com/arndvs/MCP-UI" },
+        ],
     },
     {
         title: "AI Engineering Bootcamp",
@@ -139,24 +159,40 @@ const education = [
     },
 ];
 
+// Talks come from /speaking so the two pages never disagree.
 const speakingItems = [
-    {
+    ...TALKS.map((talk) => ({
         type: "speaking" as const,
-        title: "Building an AI Content System That Captures Your Voice",
-        venue: "Inspired Birth Workers Alliance",
-        date: "Q4 2025",
-    },
-    {
-        type: "speaking" as const,
-        title: "Building an AI Assistant to Supercharge Developer Velocity",
-        venue: "Relentless Software Solutions CTO Coffee",
-        date: "Aug 2023",
-    },
+        title: talk.title,
+        venue: `${talk.host} · ${talk.event}`,
+        date: formatTalkDate(talk.date),
+        href: `/speaking#${talk.id}`,
+    })),
     {
         type: "publication" as const,
         title: "How To Use Cause Marketing To Grow Your Business",
         venue: "Going Up: Business Excellence Press",
         date: "Apr 2014",
+        href: undefined,
+    },
+];
+
+const beyondCode = [
+    {
+        title: "Family",
+        detail: "Playing with my son. He's two, and he's the best reason to close the laptop on time.",
+    },
+    {
+        title: "Cooking",
+        detail: "From weeknight experiments to from-scratch meals. Good food is a system worth iterating on.",
+    },
+    {
+        title: "Music",
+        detail: "Playing guitar, and digging through record bins for rare vinyl.",
+    },
+    {
+        title: "Climbing",
+        detail: "Rock climbing around San Diego whenever I can get outside.",
     },
 ];
 
@@ -396,6 +432,29 @@ export default function AboutContent() {
                                     {cert.issuer} &middot; {cert.date}
                                 </div>
                                 <h3 className="text-lg font-semibold">{cert.title}</h3>
+                                {cert.work && (
+                                    <p className="text-muted-foreground mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+                                        <span>Coursework:</span>
+                                        {cert.work.map((repo) => (
+                                            <a
+                                                key={repo.href}
+                                                href={repo.href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-signal inline-flex items-center gap-0.5 hover:underline"
+                                            >
+                                                {repo.label}
+                                                <ArrowUpRight
+                                                    className="h-3 w-3"
+                                                    aria-hidden="true"
+                                                />
+                                                <span className="sr-only">
+                                                    (GitHub, opens in a new tab)
+                                                </span>
+                                            </a>
+                                        ))}
+                                    </p>
+                                )}
                             </motion.div>
                         ))}
                     </div>
@@ -473,7 +532,18 @@ export default function AboutContent() {
                                     </span>
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="text-lg font-semibold">{item.title}</h3>
+                                    <h3 className="text-lg font-semibold">
+                                        {item.href ? (
+                                            <Link
+                                                href={item.href}
+                                                className="hover:text-signal transition-colors"
+                                            >
+                                                {item.title}
+                                            </Link>
+                                        ) : (
+                                            item.title
+                                        )}
+                                    </h3>
                                     <p className="text-muted-foreground mt-1 text-sm">
                                         {item.venue} &middot; {item.date}
                                     </p>
@@ -481,38 +551,15 @@ export default function AboutContent() {
                             </motion.div>
                         ))}
                     </div>
-                </div>
-            </motion.section>
-
-            {/* Speaking */}
-            <section
-                className="border-border border-t py-24 lg:py-32"
-                aria-labelledby="about-speaking"
-            >
-                <div className="site-container">
-                    <span className="text-signal text-sm font-medium tracking-widest uppercase">
-                        Speaking
-                    </span>
-                    <h2
-                        id="about-speaking"
-                        className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl"
-                    >
-                        I teach what I build
-                    </h2>
-                    <div className="bg-border mt-12 grid gap-px overflow-hidden rounded-2xl">
-                        {TALKS.map((talk) => (
-                            <TalkLink key={talk.id} talk={talk} />
-                        ))}
-                    </div>
                     <Link
                         href="/speaking"
                         className="text-muted-foreground hover:text-signal group mt-8 inline-flex items-center gap-2 text-sm font-medium transition-colors"
                     >
-                        All talks and workshops
+                        Talks, slides, and topics I can bring to your group
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Link>
                 </div>
-            </section>
+            </motion.section>
 
             {/* Personal */}
             <section className="border-border border-t py-24 lg:py-32">
@@ -524,11 +571,17 @@ export default function AboutContent() {
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
                             When I&apos;m not building
                         </h2>
-                        <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
-                            You&apos;ll find me rock climbing around San Diego or hunting for rare
-                            vinyl records.
-                        </p>
                     </div>
+                    <ul className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+                        {beyondCode.map((item) => (
+                            <li key={item.title}>
+                                <h3 className="text-lg font-semibold">{item.title}</h3>
+                                <p className="text-muted-foreground mt-2 leading-relaxed">
+                                    {item.detail}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </section>
 
@@ -543,12 +596,15 @@ export default function AboutContent() {
                             If you&apos;re looking for someone to build production-grade software or
                             implement AI systems that actually work, I&apos;d love to hear from you.
                         </p>
-                        <div className="mt-10">
+                        <div className="mt-10 flex flex-wrap gap-4">
                             <Button asChild size="lg" className="group">
                                 <Link href="/work-with-me">
                                     Work with me
                                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </Link>
+                            </Button>
+                            <Button asChild variant="outline" size="lg">
+                                <Link href="/results">See results and testimonials</Link>
                             </Button>
                         </div>
                     </div>
