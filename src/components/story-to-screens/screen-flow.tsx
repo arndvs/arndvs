@@ -5,10 +5,9 @@ import { useMemo } from "react";
 import { useTheme } from "next-themes";
 
 import { useMermaidSvg } from "@/lib/hooks/use-mermaid-svg";
-import { RELEASES } from "@/lib/story-to-screens/engine";
+import { RELEASES, inProduct } from "@/lib/story-to-screens/engine";
 import type { Derived } from "@/lib/story-to-screens/engine";
 import { DARK_FILLS, LIGHT_FILLS, flowChart } from "@/lib/story-to-screens/flow";
-import type { FlowPalette } from "@/lib/story-to-screens/flow";
 
 type Props = {
     derived: Derived;
@@ -16,10 +15,8 @@ type Props = {
     onPick: (screenId: string) => void;
 };
 
-/** The key, minus "Not needed": a screen with nowhere to go is left out of the flow. */
-const KEYS = RELEASES.filter(
-    (release): release is { id: keyof FlowPalette; label: string } => release.id !== "none",
-);
+/** The key: every release. A judged screen is the only thing left out of the flow. */
+const KEYS = RELEASES;
 
 /** The screens as a flow, colored by release. */
 export function ScreenFlow({ derived, onPick }: Props) {
@@ -28,7 +25,7 @@ export function ScreenFlow({ derived, onPick }: Props) {
     const fills = dark ? DARK_FILLS : LIGHT_FILLS;
     const { chart, nodeIds } = useMemo(() => flowChart(derived, fills), [derived, fills]);
     const result = useMermaidSvg(chart, { theme: dark ? "dark" : "neutral" });
-    const shown = derived.screens.filter((screen) => screen.release !== "none");
+    const shown = derived.screens.filter(inProduct);
 
     return (
         <div className="space-y-3">

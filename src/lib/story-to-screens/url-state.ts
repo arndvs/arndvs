@@ -1,5 +1,14 @@
 import { RELEASES } from "./engine";
-import type { Cardinality, Choices, Correction, Product, Release, RuleId, Story } from "./engine";
+import type {
+    Cardinality,
+    Choices,
+    Correction,
+    Judgment,
+    Product,
+    Release,
+    RuleId,
+    Story,
+} from "./engine";
 import { findPreset, fromPreset } from "./presets";
 import { REQUIRED_RULES, RULE_MODULES } from "./rules";
 
@@ -93,6 +102,23 @@ const pickRecord = <T extends string>(value: unknown, allowed: Set<T>): Record<s
     return out;
 };
 
+/** A judgment is only kept when its shape is one the engine knows how to read. */
+const readJudgments = (value: unknown): Record<string, Judgment> => {
+    const out: Record<string, Judgment> = {};
+    if (!isRecord(value)) return out;
+    for (const [key, entry] of Object.entries(value).slice(0, 500)) {
+        if (key.length > 120 || !isRecord(entry)) continue;
+        if (entry.kind === "misfire") {
+            out[key] = { kind: "misfire" };
+            continue;
+        }
+        const of = str(entry.of, 120);
+        if (entry.kind === "feature" && of) out[key] = { kind: "feature", of };
+    }
+
+    return out;
+};
+
 export const readChoices = (value: unknown): Choices => {
     const raw = isRecord(value) ? value : {};
     const manual = Array.isArray(raw.manualScreens) ? raw.manualScreens.slice(0, 30) : [];
@@ -102,6 +128,7 @@ export const readChoices = (value: unknown): Choices => {
         corrections: pickRecord(raw.corrections, CORRECTIONS),
         cardinality: pickRecord(raw.cardinality, CARDINALITIES),
         releases: pickRecord(raw.releases, RELEASE_IDS),
+        judgments: readJudgments(raw.judgments),
         manualScreens: manual.flatMap((entry) => {
             if (!isRecord(entry)) return [];
             const id = str(entry.id, 60);
@@ -222,9 +249,18 @@ const emptyChoices = (choices: Choices): boolean =>
     !Object.keys(choices.corrections).length &&
     !Object.keys(choices.cardinality).length &&
     !Object.keys(choices.releases).length &&
+    !Object.keys(choices.judgments).length &&
     !choices.manualScreens.length &&
     !choices.dismissed.length &&
     !choices.rulesOff.length;
+
+/** Two judgments are the same when they say the same thing, not when they're the same object. */
+const sameJudgment = (a: Judgment | undefined, b: Judgment | undefined): boolean => {
+    if (!a || !b) return a === b;
+    if (a.kind !== b.kind) return false;
+
+    return a.kind === "misfire" || a.of === (b as { kind: "feature"; of: string }).of;
+};
 
 /** Only what differs from the example, so an untouched example has a short link. */
 const choicesDiff = (choices: Choices, base: Choices): Choices => {
@@ -237,6 +273,11 @@ const choicesDiff = (choices: Choices, base: Choices): Choices => {
         corrections: diff(choices.corrections, base.corrections),
         cardinality: diff(choices.cardinality, base.cardinality),
         releases: diff(choices.releases, base.releases),
+        judgments: Object.fromEntries(
+            Object.entries(choices.judgments).filter(
+                ([key, judgment]) => !sameJudgment(judgment, base.judgments[key]),
+            ),
+        ),
         manualScreens: choices.manualScreens.filter((screen) => !baseManual.has(screen.id)),
         dismissed: choices.dismissed.filter((id) => !baseDismissed.has(id)),
         rulesOff: choices.rulesOff.filter((id) => !base.rulesOff.includes(id)),
@@ -301,6 +342,7 @@ export const decodeState = async (params: URLSearchParams): Promise<DecodedState
             Object.assign(c.corrections, changed.corrections);
             Object.assign(c.cardinality, changed.cardinality);
             Object.assign(c.releases, changed.releases);
+            Object.assign(c.judgments, changed.judgments);
             c.manualScreens.push(...changed.manualScreens);
             c.dismissed.push(...changed.dismissed);
             c.rulesOff.push(...changed.rulesOff);

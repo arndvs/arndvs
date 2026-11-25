@@ -1,5 +1,5 @@
 import type { Derived } from "@/lib/story-to-screens/engine";
-import { RULES } from "@/lib/story-to-screens/engine";
+import { RULES, inProduct } from "@/lib/story-to-screens/engine";
 
 type Props = {
     derived: Derived;
@@ -9,8 +9,13 @@ type Props = {
 
 /** The headline: how many screens there are, and how many a first pass would have missed. */
 export function SummaryStrip({ derived, manualCount }: Props) {
-    const kept = derived.screens.filter((screen) => screen.release !== "none").length;
-    const mvp = derived.screens.filter((screen) => screen.release === "mvp").length;
+    const kept = derived.screens.filter(inProduct).length;
+    const mvp = derived.screens.filter(
+        (screen) => inProduct(screen) && screen.release === "mvp",
+    ).length;
+    const judged = derived.screens.filter((screen) => screen.judgment);
+    const misfires = judged.filter((screen) => screen.judgment?.kind === "misfire").length;
+    const folded = judged.length - misfires;
     const fromStories = derived.steps[0]?.total ?? 0;
     const open = derived.findings.filter((finding) => finding.status === "open").length;
     // "Standard" screens are the ones every product needs; "missed" are the ones
@@ -62,6 +67,12 @@ export function SummaryStrip({ derived, manualCount }: Props) {
                     <dd className="mt-1 font-mono font-medium tabular-nums">{mvp}</dd>
                 </div>
             </dl>
+            {judged.length ? (
+                <p className="text-muted-foreground mt-3 text-sm">
+                    You judged {judged.length}: {misfires} {misfires === 1 ? "misfire" : "misfires"}
+                    , {folded} folded into other screens.
+                </p>
+            ) : null}
         </div>
     );
 }

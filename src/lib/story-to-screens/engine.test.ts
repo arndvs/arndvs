@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { derive, splitStory } from "./engine";
-import type { Product, RuleId } from "./engine";
+import { derive, inProduct, splitStory } from "./engine";
+import type { Judgment, Product, RuleId } from "./engine";
 import { PRESETS, fromPreset } from "./presets";
 
 const blank = (text: string, roleName = "Owner"): Product => ({
@@ -14,6 +14,7 @@ const blank = (text: string, roleName = "Owner"): Product => ({
         corrections: {},
         cardinality: {},
         releases: {},
+        judgments: {},
         manualScreens: [],
         dismissed: [],
         rulesOff: [],
@@ -369,6 +370,75 @@ describe("trace finding", () => {
 
     it("says nothing when there are no manual screens", () => {
         expect(derive(fromPreset("tester")).findings.some((f) => f.ruleId === "trace")).toBe(false);
+    });
+});
+
+describe("judgments", () => {
+    const judged = (id: string, screenId: string, judgment: Judgment): Product => {
+        const product = fromPreset(id);
+        product.choices.judgments[screenId] = judgment;
+
+        return product;
+    };
+
+    it("keeps a judged screen in the list but out of the product", () => {
+        const derived = derive(judged("tester", "view-survey", { kind: "misfire" }));
+        const screen = derived.screens.find((candidate) => candidate.id === "view-survey");
+
+        expect(screen).toBeDefined();
+        expect(screen?.judgment).toEqual({ kind: "misfire" });
+        expect(inProduct(screen!)).toBe(false);
+    });
+
+    it("leaves an unjudged screen in the product", () => {
+        const derived = derive(fromPreset("tester"));
+        const screen = derived.screens.find((candidate) => candidate.id === "view-study");
+
+        expect(screen?.judgment).toBeUndefined();
+        expect(inProduct(screen!)).toBe(true);
+    });
+
+    it("drops a judgment whose screen no longer exists", () => {
+        const derived = derive(judged("tester", "no-such-screen", { kind: "misfire" }));
+
+        expect(derived.screens.some((screen) => screen.id === "no-such-screen")).toBe(false);
+        expect(derived.findings.some((finding) => finding.id.startsWith("judgment:"))).toBe(false);
+    });
+
+    it("reports a feature judgment whose parent screen is gone, and keeps the screen", () => {
+        const derived = derive(
+            judged("tester", "view-survey", { kind: "feature", of: "no-such-screen" }),
+        );
+        const screen = derived.screens.find((candidate) => candidate.id === "view-survey");
+        const finding = derived.findings.find(
+            (candidate) => candidate.id === "judgment:view-survey",
+        );
+
+        expect(screen?.judgment).toBeUndefined();
+        expect(finding?.message).toBe(
+            "“Survey detail” was folded into a screen that no longer exists. It's back in the product.",
+        );
+    });
+
+    it("folds a feature judgment into its parent without removing the screen", () => {
+        const derived = derive(
+            judged("tester", "view-survey", { kind: "feature", of: "view-study" }),
+        );
+
+        expect(derived.screens.find((screen) => screen.id === "view-survey")?.judgment).toEqual({
+            kind: "feature",
+            of: "view-study",
+        });
+    });
+
+    it("ships no preset with a hidden release", () => {
+        for (const preset of PRESETS) {
+            const derived = derive(fromPreset(preset.id));
+            const hidden = derived.screens.filter((screen) => !inProduct(screen));
+
+            expect(hidden.length).toBeGreaterThan(0);
+            for (const screen of hidden) expect(screen.judgment).toBeDefined();
+        }
     });
 });
 

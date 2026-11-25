@@ -77,16 +77,19 @@ export const PRESETS: readonly Preset[] = [
             corrections: {},
             cardinality: {},
             releases: {
-                "view-profile": "none",
-                "new-profile": "none",
-                "view-requirement": "none",
-                "view-survey": "none",
                 "view-answer": "r2",
                 "list-answer": "r2",
                 "view-message": "r2",
                 "view-time": "r2",
                 "view-test": "later",
                 "view-card": "later",
+            },
+            // The rules invented these; the stories don't need them as screens.
+            judgments: {
+                "view-profile": { kind: "feature", of: "profile-company" },
+                "new-profile": { kind: "feature", of: "profile-company" },
+                "view-requirement": { kind: "feature", of: "view-study" },
+                "view-survey": { kind: "feature", of: "view-study" },
             },
             manualScreens: [],
             dismissed: [],
@@ -145,14 +148,17 @@ export const PRESETS: readonly Preset[] = [
             corrections: {},
             cardinality: {},
             releases: {
-                "view-group": "none",
-                "view-link": "none",
                 "view-call": "later",
                 "new-call": "later",
                 "edit-call": "later",
                 "view-question": "r2",
                 "new-question": "r2",
                 "edit-question": "r2",
+            },
+            // A group and a link are things the feed shows, not screens of their own.
+            judgments: {
+                "view-group": { kind: "feature", of: "view-post" },
+                "view-link": { kind: "feature", of: "view-post" },
             },
             manualScreens: [],
             dismissed: [],
@@ -228,12 +234,16 @@ export const PRESETS: readonly Preset[] = [
             // Ships with the real-world mistake: a therapist set to one clinic.
             cardinality: { "therapist>clinic": "one" },
             releases: {
-                "view-spreadsheet": "none",
                 "view-staff": "later",
-                "view-count": "none",
-                "new-count": "none",
-                "edit-count": "none",
                 "list-visit": "r2",
+            },
+            // The spreadsheet is what the product replaces, and the counts are a
+            // field on the visit, not a screen of their own.
+            judgments: {
+                "view-spreadsheet": { kind: "misfire" },
+                "view-count": { kind: "feature", of: "view-visit" },
+                "new-count": { kind: "feature", of: "view-visit" },
+                "edit-count": { kind: "feature", of: "view-visit" },
             },
             manualScreens: [],
             dismissed: [],

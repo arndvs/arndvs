@@ -47,6 +47,7 @@ const blankProduct = (): Product => ({
         corrections: {},
         cardinality: {},
         releases: {},
+        judgments: {},
         manualScreens: [],
         dismissed: [],
         rulesOff: [],

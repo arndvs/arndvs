@@ -1,7 +1,8 @@
 import type { Derived, Release } from "./engine";
+import { edgeTarget, inProduct } from "./engine";
 import { MANY_VERBS } from "./wording";
 
-export type FlowPalette = Record<Exclude<Release, "none">, string>;
+export type FlowPalette = Record<Release, string>;
 
 export const LIGHT_FILLS: FlowPalette = {
     mvp: "#e5f4e4",
@@ -31,7 +32,7 @@ export const flowChart = (
     derived: Derived,
     fills: FlowPalette,
 ): { chart: string; nodeIds: Map<string, string> } => {
-    const shown = derived.screens.filter((screen) => screen.release !== "none");
+    const shown = derived.screens.filter(inProduct);
     const nodeIds = new Map(shown.map((screen, index) => [screen.id, `s${index}`]));
     const lines = ["flowchart LR"];
 
@@ -39,11 +40,28 @@ export const flowChart = (
         lines.push(`  ${nodeIds.get(screen.id)}["${label(screen.name)}"]:::${screen.release}`);
     }
 
+    // A screen folded into another one isn't drawn; its edges land on the parent.
+    const redirect = new Map<string, string>();
+    for (const screen of derived.screens) {
+        const parent = edgeTarget(screen);
+        if (parent) redirect.set(screen.id, parent);
+    }
+    const resolve = (id: string): string => {
+        let current = id;
+        for (let hop = 0; hop < 8; hop += 1) {
+            const next = redirect.get(current);
+            if (!next) return current;
+            current = next;
+        }
+
+        return current;
+    };
+
     const edges = new Set<string>();
     const edge = (from: string, to: string, verb?: string): void => {
-        const a = nodeIds.get(from);
-        const b = nodeIds.get(to);
-        if (!a || !b || edges.has(`${a}>${b}`)) return;
+        const a = nodeIds.get(resolve(from));
+        const b = nodeIds.get(resolve(to));
+        if (!a || !b || a === b || edges.has(`${a}>${b}`)) return;
         edges.add(`${a}>${b}`);
         lines.push(`  ${a} -->${verb ? `|${label(verb)}|` : ""} ${b}`);
     };
@@ -54,10 +72,11 @@ export const flowChart = (
         edge("signup", `profile-${role.id}`);
         edge("login", `profile-${role.id}`);
     }
+    const drawn = (id: string): boolean => nodeIds.has(resolve(id));
     for (const rel of derived.relationships) {
         const from = `profile-${rel.from}`;
-        if (nodeIds.has(`new-${rel.to}`)) edge(from, `new-${rel.to}`, rel.createVerbs[0]);
-        if (nodeIds.has(`list-${rel.to}`)) {
+        if (drawn(`new-${rel.to}`)) edge(from, `new-${rel.to}`, rel.createVerbs[0]);
+        if (drawn(`list-${rel.to}`)) {
             edge(
                 from,
                 `list-${rel.to}`,

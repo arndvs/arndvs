@@ -32,6 +32,7 @@ const yours = (stories: number, length: number): Product => ({
         corrections: {},
         cardinality: {},
         releases: {},
+        judgments: {},
         manualScreens: [],
         dismissed: [],
         rulesOff: [],
@@ -60,6 +61,27 @@ describe("encodeState and decodeState", () => {
         product.choices.manualScreens.push({ id: "manual-1", name: "Billing" });
 
         expect(await read(await encodeState(product))).toEqual(product);
+    });
+
+    it("round-trips judgments and drops malformed ones", async () => {
+        const product = fromPreset("tester");
+        product.choices.judgments["view-message"] = { kind: "misfire" };
+        product.choices.judgments["view-card"] = { kind: "feature", of: "view-study" };
+
+        const read = await decodeState(await encodeState(product));
+        expect(read.status === "ok" && read.product.choices.judgments).toEqual(
+            product.choices.judgments,
+        );
+
+        const forged = await decodeState(
+            new URLSearchParams(
+                'ex=tester&k={"judgments":{"view-message":{"kind":"nope"},"view-card":{"kind":"feature"}}}',
+            ),
+        );
+        // The malformed entries are dropped; the example's own judgments remain.
+        expect(forged.status === "ok" && forged.product.choices.judgments).toEqual(
+            fromPreset("tester").choices.judgments,
+        );
     });
 
     it("round-trips rules turned off, and drops the ones that can't be", async () => {
