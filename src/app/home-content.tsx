@@ -255,7 +255,7 @@ export default function HomeContent() {
                                     priority
                                 />
                             </div>
-                            <div className="bg-card/85 border-border relative z-10 mx-auto -mt-12 max-w-sm rounded-xl border p-4 backdrop-blur lg:absolute lg:bottom-2 lg:-left-6 lg:mt-0 lg:w-96">
+                            <div className="bg-card/85 border-border relative z-10 mx-auto -mt-12 w-fit max-w-sm rounded-xl border px-5 py-4 text-center backdrop-blur lg:absolute lg:bottom-2 lg:left-[54%] lg:mt-0 lg:-translate-x-1/2 lg:whitespace-nowrap">
                                 <p className="text-sm font-medium">Based in San Diego, CA</p>
                                 <p className="text-muted-foreground mt-1 text-xs">
                                     Open to remote, hybrid, or on-site roles
