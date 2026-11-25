@@ -117,6 +117,7 @@ describe("derive", () => {
 
         expect(derived.screens.map((screen) => screen.id).sort()).toEqual(golden?.screens);
         expect(derived.findings.map((finding) => finding.id).sort()).toEqual(golden?.findings);
+        expect(derived.findings.some((finding) => finding.ruleId === "story-check")).toBe(false);
     });
 
     it("derives a screen from a story that says 'constructor'", () => {
