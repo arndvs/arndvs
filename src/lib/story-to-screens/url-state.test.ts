@@ -33,6 +33,8 @@ const yours = (stories: number, length: number): Product => ({
         cardinality: {},
         releases: {},
         judgments: {},
+        guess: [],
+        guessLinks: {},
         manualScreens: [],
         dismissed: [],
         rulesOff: [],
@@ -82,6 +84,36 @@ describe("encodeState and decodeState", () => {
         expect(forged.status === "ok" && forged.product.choices.judgments).toEqual(
             fromPreset("tester").choices.judgments,
         );
+    });
+
+    it("round-trips a guess and its links, and drops malformed ones", async () => {
+        const product = fromPreset("tester");
+        product.choices.guess = ["Applicants", "Dashboard"];
+        product.choices.guessLinks = { Dashboard: "view-study" };
+
+        const read = await decodeState(await encodeState(product));
+        expect(read.status === "ok" && read.product.choices.guess).toEqual([
+            "Applicants",
+            "Dashboard",
+        ]);
+        expect(read.status === "ok" && read.product.choices.guessLinks).toEqual({
+            Dashboard: "view-study",
+        });
+
+        const forged = await decodeState(
+            new URLSearchParams(
+                `ex=tester&k=${encodeURIComponent(
+                    JSON.stringify({
+                        guess: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"],
+                        guessLinks: { a: "view-study", b: 42 },
+                    }),
+                )}`,
+            ),
+        );
+        expect(forged.status === "ok" && forged.product.choices.guess).toHaveLength(12);
+        expect(forged.status === "ok" && forged.product.choices.guessLinks).toEqual({
+            a: "view-study",
+        });
     });
 
     it("round-trips rules turned off, and drops the ones that can't be", async () => {

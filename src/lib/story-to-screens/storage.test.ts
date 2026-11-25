@@ -14,6 +14,8 @@ const yours = (text: string): Product => ({
         cardinality: {},
         releases: {},
         judgments: {},
+        guess: [],
+        guessLinks: {},
         manualScreens: [],
         dismissed: [],
         rulesOff: [],

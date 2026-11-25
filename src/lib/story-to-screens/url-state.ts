@@ -119,6 +119,33 @@ const readJudgments = (value: unknown): Record<string, Judgment> => {
     return out;
 };
 
+/** A guess is a short phrase the visitor typed, so it's capped like any other visitor text. */
+const MAX_GUESSES = 40;
+const MAX_GUESS_LENGTH = 60;
+
+const readGuess = (value: unknown): string[] =>
+    Array.isArray(value)
+        ? value
+              .flatMap((entry) => {
+                  const text = str(entry, MAX_GUESS_LENGTH)?.trim();
+
+                  return text ? [text] : [];
+              })
+              .slice(0, MAX_GUESSES)
+        : [];
+
+/** A guess linked to a screen: both sides are visitor text, so both are capped. */
+const readGuessLinks = (value: unknown): Record<string, string> => {
+    const out: Record<string, string> = {};
+    if (!isRecord(value)) return out;
+    for (const [key, entry] of Object.entries(value).slice(0, MAX_GUESSES)) {
+        const screen = str(entry, 120);
+        if (key.length <= MAX_GUESS_LENGTH && screen) out[key] = screen;
+    }
+
+    return out;
+};
+
 export const readChoices = (value: unknown): Choices => {
     const raw = isRecord(value) ? value : {};
     const manual = Array.isArray(raw.manualScreens) ? raw.manualScreens.slice(0, 30) : [];
@@ -129,6 +156,8 @@ export const readChoices = (value: unknown): Choices => {
         cardinality: pickRecord(raw.cardinality, CARDINALITIES),
         releases: pickRecord(raw.releases, RELEASE_IDS),
         judgments: readJudgments(raw.judgments),
+        guess: readGuess(raw.guess),
+        guessLinks: readGuessLinks(raw.guessLinks),
         manualScreens: manual.flatMap((entry) => {
             if (!isRecord(entry)) return [];
             const id = str(entry.id, 60);
@@ -138,10 +167,10 @@ export const readChoices = (value: unknown): Choices => {
         }),
         dismissed: dismissed.flatMap((id) => (typeof id === "string" ? [id.slice(0, 120)] : [])),
         // A rule that can't be turned off is dropped here, so a hand-edited link
-        // can't leave the URL claiming a rule is off when the engine ignores it.
+        // can't make the URL claim a rule is off when the engine ignores it.
         rulesOff: Array.isArray(raw.rulesOff)
             ? raw.rulesOff
-                  .filter((id): id is RuleId => RULE_IDS.has(id as RuleId))
+                  .filter((id): id is RuleId => RULE_IDS.has(id))
                   .filter((id) => !REQUIRED_RULES.has(id))
                   .slice(0, RULE_IDS.size)
             : [],
@@ -250,6 +279,8 @@ const emptyChoices = (choices: Choices): boolean =>
     !Object.keys(choices.cardinality).length &&
     !Object.keys(choices.releases).length &&
     !Object.keys(choices.judgments).length &&
+    !choices.guess.length &&
+    !Object.keys(choices.guessLinks).length &&
     !choices.manualScreens.length &&
     !choices.dismissed.length &&
     !choices.rulesOff.length;
@@ -278,6 +309,8 @@ const choicesDiff = (choices: Choices, base: Choices): Choices => {
                 ([key, judgment]) => !sameJudgment(judgment, base.judgments[key]),
             ),
         ),
+        guess: choices.guess.filter((entry) => !base.guess.includes(entry)),
+        guessLinks: diff(choices.guessLinks, base.guessLinks),
         manualScreens: choices.manualScreens.filter((screen) => !baseManual.has(screen.id)),
         dismissed: choices.dismissed.filter((id) => !baseDismissed.has(id)),
         rulesOff: choices.rulesOff.filter((id) => !base.rulesOff.includes(id)),
@@ -343,6 +376,8 @@ export const decodeState = async (params: URLSearchParams): Promise<DecodedState
             Object.assign(c.cardinality, changed.cardinality);
             Object.assign(c.releases, changed.releases);
             Object.assign(c.judgments, changed.judgments);
+            c.guess.push(...changed.guess);
+            Object.assign(c.guessLinks, changed.guessLinks);
             c.manualScreens.push(...changed.manualScreens);
             c.dismissed.push(...changed.dismissed);
             c.rulesOff.push(...changed.rulesOff);
