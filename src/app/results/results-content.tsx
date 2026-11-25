@@ -4,6 +4,8 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
+import { TalkLink } from "../speaking/components";
+import { TALKS } from "../speaking/data";
 import { ClientHeader, ResultCard, TestimonialQuote } from "./components";
 import { PUBLISHED_TESTIMONIALS, RESULTS_PAGE, resultsForClient } from "./data";
 
@@ -34,6 +36,14 @@ export default function ResultsContent() {
                                 {client.name}
                             </a>
                         ))}
+                        {TALKS.length > 0 && (
+                            <a
+                                href="#speaking"
+                                className="border-border text-muted-foreground hover:text-foreground rounded-full border px-4 py-2 transition-colors"
+                            >
+                                Speaking
+                            </a>
+                        )}
                         {PUBLISHED_TESTIMONIALS.length > 0 && (
                             <a
                                 href="#testimonials"
@@ -68,6 +78,32 @@ export default function ResultsContent() {
                     </div>
                 </section>
             ))}
+
+            {/* Teaching */}
+            {TALKS.length > 0 && (
+                <section
+                    id="speaking"
+                    aria-labelledby="speaking-heading"
+                    className="border-border scroll-mt-20 border-t py-24 lg:py-32"
+                >
+                    <div className="site-container">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
+                            Speaking
+                        </span>
+                        <h2
+                            id="speaking-heading"
+                            className="font-display mt-4 text-4xl tracking-tight lg:text-5xl"
+                        >
+                            Workshops for local business owners
+                        </h2>
+                        <div className="bg-border mt-12 grid gap-px overflow-hidden rounded-2xl">
+                            {TALKS.map((talk) => (
+                                <TalkLink key={talk.id} talk={talk} />
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Testimonials */}
             {PUBLISHED_TESTIMONIALS.length > 0 && (

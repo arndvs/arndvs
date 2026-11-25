@@ -11,8 +11,9 @@ vi.mock("@/sanity/lib/client", () => ({
 const { default: sitemap } = await import("./sitemap");
 
 describe("sitemap", () => {
-    it("includes /results", async () => {
+    it("includes /results and /speaking", async () => {
         const urls = (await sitemap()).map((entry) => entry.url);
         expect(urls).toContain("https://arndvs.com/results");
+        expect(urls).toContain("https://arndvs.com/speaking");
     });
 });
