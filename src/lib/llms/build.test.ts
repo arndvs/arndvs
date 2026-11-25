@@ -8,6 +8,7 @@ const { buildLlmsFullTxt, buildLlmsTxt } = await import("./build");
 const { CASE_STUDIES, listedCaseStudies } = await import("./sources");
 const { PROJECTS } = await import("@/lib/data/projects");
 const { EXPERIMENTS } = await import("@/lib/data/experiments");
+const { SERVICES } = await import("@/lib/data/services");
 const { RESULTS_PAGE, PUBLISHED_TESTIMONIALS } = await import("@/app/results/data");
 const { TALKS } = await import("@/app/speaking/data");
 
@@ -15,6 +16,7 @@ const input = {
     siteUrl: "https://arndvs.com",
     caseStudies: listedCaseStudies(),
     experiments: EXPERIMENTS,
+    services: SERVICES,
     posts: [
         {
             title: "Readable vs explainable",
@@ -69,6 +71,15 @@ describe("llms.txt", () => {
         for (const r of RESULTS_PAGE.results) {
             if (r.verification === "open") expect(full).not.toContain(r.title);
             else expect(full).toContain(r.title);
+        }
+    });
+
+    it("lists every service in the index and its FAQs in the full file", () => {
+        const txt = buildLlmsTxt(input);
+        const full = buildLlmsFullTxt(input);
+        for (const s of SERVICES) {
+            expect(txt).toContain(`(https://arndvs.com/services/${s.slug})`);
+            for (const f of s.faqs) expect(full).toContain(f.question);
         }
     });
 });

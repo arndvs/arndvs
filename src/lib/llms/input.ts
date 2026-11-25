@@ -1,6 +1,7 @@
 import { PUBLISHED_TESTIMONIALS, RESULTS_PAGE } from "@/app/results/data";
 import { TALKS } from "@/app/speaking/data";
 import { EXPERIMENTS } from "@/lib/data/experiments";
+import { SERVICES } from "@/lib/data/services";
 import { siteConfig } from "@/sanity/env";
 import { client } from "@/sanity/lib/client";
 import { LLMS_POSTS_QUERY } from "@/sanity/lib/queries";
@@ -21,6 +22,7 @@ export async function loadLlmsInput(): Promise<LlmsInput> {
         siteUrl: siteConfig.url,
         caseStudies: listedCaseStudies(),
         experiments: EXPERIMENTS,
+        services: SERVICES,
         posts,
         clients: RESULTS_PAGE.clients,
         results: RESULTS_PAGE.results,
