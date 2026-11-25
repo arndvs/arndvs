@@ -17,24 +17,46 @@ export function MapPanel({ derived, change }: Props) {
             .flatMap((finding) => finding.sources.map((source) => source.id)),
     );
 
+    // A thing in two or more stories is a signal: the stories keep coming back to it.
+    const storyCount = new Map(
+        derived.signals.map((signal) => [signal.lemma, signal.stories.length]),
+    );
+    const entities = [...derived.entities].sort(
+        (a, b) => (storyCount.get(b.id) ?? 0) - (storyCount.get(a.id) ?? 0),
+    );
+
     return (
         <>
-            {derived.entities.length ? (
+            {entities.length ? (
                 <ul aria-label="Players and things" className="flex flex-wrap gap-2">
-                    {derived.entities.map((entity) => (
-                        <li
-                            key={entity.id}
-                            className={cn(
-                                "rounded-full border px-3 py-1 text-xs",
-                                entity.isRole ? "border-primary/50 font-medium" : "border-border",
-                            )}
-                        >
-                            {entity.name}
-                            {entity.isRole ? (
-                                <span className="text-muted-foreground"> · role</span>
-                            ) : null}
-                        </li>
-                    ))}
+                    {entities.map((entity) => {
+                        const count = storyCount.get(entity.id) ?? 0;
+                        const core = count >= 2;
+
+                        return (
+                            <li
+                                key={entity.id}
+                                className={cn(
+                                    "rounded-full border px-3 py-1 text-xs",
+                                    entity.isRole
+                                        ? "border-primary/50 font-medium"
+                                        : "border-border",
+                                    core && "border-signal",
+                                )}
+                            >
+                                {entity.name}
+                                {entity.isRole ? (
+                                    <span className="text-muted-foreground"> · role</span>
+                                ) : null}
+                                {core ? (
+                                    <span className="text-signal font-mono"> ×{count}</span>
+                                ) : null}
+                                {core ? (
+                                    <span className="text-muted-foreground"> · core</span>
+                                ) : null}
+                            </li>
+                        );
+                    })}
                 </ul>
             ) : (
                 <p className="text-muted-foreground text-sm">Mark some things in your stories.</p>

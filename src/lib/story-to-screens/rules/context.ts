@@ -5,6 +5,7 @@ import type {
     Screen,
     ScreenSource,
     ScreenType,
+    Signal,
     Story,
 } from "../engine";
 
@@ -27,6 +28,8 @@ export type OtherRole = {
 export type RuleContext = {
     /** The stories as written, for rules that read them rather than derive from them. */
     stories: Story[];
+    /** Every marked lemma and the stories it appears in. */
+    signals: Signal[];
     roles: Set<string>;
     rels: Relationship[];
     otherRoles: Map<string, OtherRole>;
