@@ -117,13 +117,13 @@ export function GlitchName() {
                 aria-label="Aaron Davis - Home"
             >
                 <CodeXml
-                    className={`transition-all duration-300 ${isHovering ? "text-primary rotate-180" : ""}`}
+                    className={`transition-all duration-300 ${isHovering ? "text-signal rotate-180" : ""}`}
                     aria-hidden="true"
                 />
                 <span
                     aria-hidden="true"
                     className={`inline-block w-[11ch] text-lg font-semibold tracking-tight transition-all duration-200 ${
-                        isHovering ? "text-primary" : ""
+                        isHovering ? "text-signal" : ""
                     }`}
                     style={{
                         fontFamily: "monospace",

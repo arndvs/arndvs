@@ -21,6 +21,8 @@ const allNavItems = [
     { name: "Home", href: "/", ariaLabel: "Go to home page" },
     { name: "About", href: "/about", ariaLabel: "Learn more about Aaron" },
     { name: "Projects", href: "/projects", ariaLabel: "View project portfolio" },
+    { name: "Results", href: "/results", ariaLabel: "See measured results and testimonials" },
+    { name: "Speaking", href: "/speaking", ariaLabel: "Talks and workshops" },
     { name: "Experiments", href: "/experiments", ariaLabel: "Try interactive experiments" },
     { name: "Blog", href: "/blog", ariaLabel: "Read blog posts" },
     { name: "Changelog", href: "/changelog", ariaLabel: "View site changelog", log: true },
@@ -71,7 +73,7 @@ export function Navigation() {
             )}
             aria-label="Main navigation"
         >
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="site-container">
                 <div className="flex h-16 items-center justify-between">
                     <GlitchName />
 
@@ -84,7 +86,7 @@ export function Navigation() {
                                 className={cn(
                                     "rounded-md px-3 py-2 text-sm font-medium transition-colors",
                                     isActive(item.href)
-                                        ? "text-primary"
+                                        ? "text-signal"
                                         : "text-muted-foreground hover:text-foreground",
                                 )}
                                 aria-label={item.ariaLabel}
@@ -146,7 +148,7 @@ export function Navigation() {
                                             className={cn(
                                                 "rounded-lg px-4 py-3 text-base font-medium transition-colors",
                                                 isActive(item.href)
-                                                    ? "text-primary bg-primary/10"
+                                                    ? "text-signal bg-primary/10"
                                                     : "text-muted-foreground hover:text-foreground hover:bg-muted",
                                             )}
                                             aria-label={item.ariaLabel}

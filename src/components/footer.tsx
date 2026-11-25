@@ -16,6 +16,8 @@ const footerData = {
         { name: "Home", href: "/" },
         { name: "About", href: "/about" },
         { name: "Projects", href: "/projects" },
+        { name: "Results", href: "/results" },
+        { name: "Speaking", href: "/speaking" },
         { name: "Blog", href: "/blog" },
         { name: "Work with me", href: "/work-with-me" },
     ],
@@ -33,14 +35,14 @@ export function Footer() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="mx-auto max-w-7xl px-6 py-16 lg:px-12 xl:px-20"
+                className="site-container py-16"
             >
                 <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
                     {/* Brand */}
                     <motion.div variants={itemVariants} className="max-w-xs">
                         <Link
                             href="/"
-                            className="font-display hover:text-primary text-lg font-bold tracking-tight transition-colors"
+                            className="font-display hover:text-signal text-lg font-bold tracking-tight transition-colors"
                         >
                             {footerData.brand.name}
                         </Link>

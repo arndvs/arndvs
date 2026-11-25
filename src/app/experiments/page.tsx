@@ -9,7 +9,7 @@ import { EXPERIMENTS } from "@/lib/data/experiments";
 import { generateSiteMetadata } from "@/lib/metadata";
 
 const INTRO =
-    "Small interactive tools I've built to answer specific questions, mostly about what AI models cost and how coding agents spend their context.";
+    "Small interactive tools I've built to answer specific questions about what AI costs, how coding agents work, and how products get designed.";
 
 export const metadata: Metadata = generateSiteMetadata({
     title: "Experiments",
@@ -32,8 +32,8 @@ export default function ExperimentsPage() {
                 <p>{INTRO}</p>
             </ExperimentHero>
 
-            <section className="px-6 pb-24 lg:px-12 lg:pb-32 xl:px-20">
-                <ul className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2">
+            <section className="pb-24 lg:pb-32">
+                <ul className="site-container grid gap-6 md:grid-cols-2">
                     {EXPERIMENTS.map((experiment) => (
                         <li key={experiment.slug}>
                             <Link
@@ -51,13 +51,13 @@ export default function ExperimentsPage() {
                                     />
                                 </div>
                                 <div className="p-6 lg:p-8">
-                                    <h2 className="font-display group-hover:text-primary text-3xl font-bold tracking-tight transition-colors lg:text-4xl">
+                                    <h2 className="font-display group-hover:text-signal text-3xl font-bold tracking-tight transition-colors lg:text-4xl">
                                         {experiment.title}
                                     </h2>
                                     <p className="text-muted-foreground mt-4 leading-relaxed">
                                         {experiment.description}
                                     </p>
-                                    <span className="text-muted-foreground group-hover:text-primary mt-6 inline-flex items-center gap-2 text-sm font-medium transition-colors">
+                                    <span className="text-muted-foreground group-hover:text-signal mt-6 inline-flex items-center gap-2 text-sm font-medium transition-colors">
                                         Open the experiment
                                         <ArrowRight
                                             aria-hidden="true"

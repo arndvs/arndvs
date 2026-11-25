@@ -19,20 +19,23 @@ export function Panel({ step, title, tag, className, children }: Props) {
     return (
         <section
             aria-labelledby={id}
-            className={cn("bg-card border-border space-y-5 rounded-xl border p-5", className)}
+            className={cn(
+                "border-border grid gap-5 border-t py-7 first:border-t-0 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-10",
+                className,
+            )}
         >
-            <div className="flex flex-wrap items-center justify-between gap-2">
-                <h2 id={id} className="text-base font-semibold tracking-tight">
-                    <span className="text-muted-foreground mr-2 font-mono text-sm">{step}</span>
+            <div className="space-y-2">
+                <p className="text-signal font-mono text-xs tracking-widest uppercase">
+                    Step {step}
+                </p>
+                <h2 id={id} className="text-lg font-semibold tracking-tight text-balance">
                     {title}
                 </h2>
                 {tag ? (
-                    <span className="bg-muted text-muted-foreground rounded-md px-2 py-1 font-mono text-xs tracking-wide uppercase">
-                        {tag}
-                    </span>
+                    <p className="text-muted-foreground text-xs leading-relaxed">{tag}</p>
                 ) : null}
             </div>
-            {children}
+            <div className="flex min-w-0 flex-col gap-6">{children}</div>
         </section>
     );
 }

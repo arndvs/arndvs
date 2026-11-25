@@ -9,12 +9,13 @@ type Props = {
     eyebrow: string;
     title: ReactNode;
     children: ReactNode;
+    compact?: boolean;
 };
 
 const ease = "cubic-bezier(0.16, 1, 0.3, 1)";
 
 /** The page-opening hero shared by the experiments, matching About and Projects. */
-export function ExperimentHero({ backdrop, eyebrow, title, children }: Props) {
+export function ExperimentHero({ backdrop, eyebrow, title, children, compact = false }: Props) {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -29,7 +30,13 @@ export function ExperimentHero({ backdrop, eyebrow, title, children }: Props) {
     });
 
     return (
-        <section className="relative flex min-h-[50vh] items-end overflow-hidden pt-32 pb-16">
+        <section
+            className={
+                compact
+                    ? "relative flex items-start overflow-hidden pt-28 pb-10"
+                    : "relative flex min-h-[50vh] items-end overflow-hidden pt-32 pb-16"
+            }
+        >
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden select-none">
                 <span
                     className="font-display text-foreground/[0.02] text-[20vw] font-black tracking-tighter"
@@ -40,10 +47,10 @@ export function ExperimentHero({ backdrop, eyebrow, title, children }: Props) {
                 </span>
             </div>
 
-            <div className="relative z-10 w-full px-6 lg:px-12 xl:px-20">
-                <div className="mx-auto max-w-7xl">
+            <div className="relative z-10 w-full">
+                <div className="site-container">
                     <div style={reveal(30, 0.8, 0.1)}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             {eyebrow}
                         </span>
                     </div>

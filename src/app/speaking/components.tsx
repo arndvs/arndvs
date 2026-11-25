@@ -1,0 +1,206 @@
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+
+import Image from "next/image";
+import Link from "next/link";
+
+import type { Talk, Topic } from "./data";
+
+const longDate = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+});
+
+export function formatTalkDate(isoDate: string): string {
+    return longDate.format(new Date(`${isoDate}T00:00:00Z`));
+}
+
+/** A compact link to a talk, for other pages (Results, About). */
+export function TalkLink({ talk }: { talk: Talk }) {
+    return (
+        <Link
+            href={`/speaking#${talk.id}`}
+            className="bg-card hover:bg-card/80 group grid items-center gap-8 p-8 transition-colors md:grid-cols-[3fr_2fr] lg:gap-12 lg:p-10"
+        >
+            <div>
+                <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                    {talk.format} · {talk.host} · {formatTalkDate(talk.date)}
+                </span>
+                <h3 className="font-display group-hover:text-signal mt-4 text-2xl transition-colors">
+                    {talk.title}
+                </h3>
+                <p className="text-muted-foreground mt-3 leading-relaxed">{talk.summary}</p>
+                <span className="text-muted-foreground group-hover:text-signal mt-6 inline-flex items-center gap-2 text-sm font-medium transition-colors">
+                    See the talk
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+            </div>
+            {talk.slides[0] && (
+                <Image
+                    src={talk.slides[0].src}
+                    alt={talk.slides[0].alt}
+                    width={talk.slides[0].width ?? 1280}
+                    height={talk.slides[0].height ?? 720}
+                    sizes="(min-width: 768px) 40vw, 100vw"
+                    className="border-border aspect-video h-auto w-full rounded-xl border bg-white object-contain"
+                />
+            )}
+        </Link>
+    );
+}
+
+export function TalkDetail({ talk, divider = true }: { talk: Talk; divider?: boolean }) {
+    const venue = [talk.venue, talk.city].filter(Boolean).join(", ");
+    const facts = [
+        { label: "Date", value: formatTalkDate(talk.date) },
+        { label: "Host", value: talk.host },
+        { label: "Event", value: talk.event },
+        { label: "Venue", value: venue },
+        {
+            label: "Format",
+            value: talk.duration ? `${talk.format}, ${talk.duration}` : talk.format,
+        },
+        { label: "Audience", value: talk.audience },
+    ].filter((fact) => fact.value);
+
+    return (
+        <article
+            id={talk.id}
+            aria-labelledby={`${talk.id}-title`}
+            className={`scroll-mt-20 py-16 lg:py-24 ${divider ? "border-border border-t" : ""}`}
+        >
+            <div className="site-container">
+                <div className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
+                    <div className="lg:sticky lg:top-24 lg:self-start">
+                        <dl className="space-y-5 text-sm">
+                            {facts.map((fact) => (
+                                <div key={fact.label}>
+                                    <dt className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+                                        {fact.label}
+                                    </dt>
+                                    <dd className="mt-1 leading-relaxed">{fact.value}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                        {talk.links?.map((link) => (
+                            <a
+                                key={link.href}
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-signal mt-6 flex w-fit items-center gap-1 text-sm font-medium hover:underline"
+                            >
+                                {link.label}
+                                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                                <span className="sr-only">(opens in a new tab)</span>
+                            </a>
+                        ))}
+                    </div>
+
+                    <div>
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
+                            {talk.format}
+                        </span>
+                        <h2
+                            id={`${talk.id}-title`}
+                            className="font-display mt-4 text-4xl leading-none lg:text-5xl"
+                        >
+                            {talk.title}
+                        </h2>
+                        {talk.billedAs && (
+                            <p className="text-muted-foreground mt-4 text-sm">
+                                Billed by the host as &ldquo;{talk.billedAs}&rdquo;
+                            </p>
+                        )}
+                        <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
+                            {talk.summary}
+                        </p>
+
+                        {talk.slides.length > 0 && (
+                            <ul className="mt-10 grid gap-4 sm:grid-cols-2" aria-label="Slides">
+                                {talk.slides.map((slide) => (
+                                    <li
+                                        key={slide.src}
+                                        className="border-border overflow-hidden rounded-xl border bg-white"
+                                    >
+                                        <Image
+                                            src={slide.src}
+                                            alt={slide.alt}
+                                            width={slide.width ?? 1280}
+                                            height={slide.height ?? 720}
+                                            sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
+                                            className="aspect-video h-auto w-full object-contain"
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+                        <h3 className="mt-14 text-lg font-semibold">How the session ran</h3>
+                        <ol className="mt-6 space-y-6">
+                            {talk.outline.map((part, index) => (
+                                <li key={part.title} className="flex gap-5">
+                                    <span className="text-muted-foreground w-6 shrink-0 font-mono text-sm leading-7">
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
+                                    <div>
+                                        <p className="font-medium">{part.title}</p>
+                                        <p className="text-muted-foreground mt-1 leading-relaxed">
+                                            {part.detail}
+                                        </p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ol>
+
+                        <h3 className="mt-14 text-lg font-semibold">Attendees left with</h3>
+                        <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                            {talk.takeaways.map((item) => (
+                                <li key={item} className="flex items-start gap-3">
+                                    <ArrowRight className="text-signal mt-1 h-4 w-4 shrink-0" />
+                                    <span className="leading-relaxed">{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </article>
+    );
+}
+
+export function TopicCard({ topic, givenAs }: { topic: Topic; givenAs?: Talk }) {
+    return (
+        <article className="bg-card flex flex-col p-8 lg:p-10">
+            <span className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+                {topic.formats}
+            </span>
+            <h3 className="font-display mt-4 text-2xl lg:text-3xl">{topic.title}</h3>
+            <p className="text-muted-foreground mt-3 leading-relaxed">{topic.summary}</p>
+            <ul className="mt-6 space-y-3">
+                {topic.takeaways.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm">
+                        <ArrowRight className="text-signal mt-0.5 h-4 w-4 shrink-0" />
+                        <span className="leading-relaxed">{item}</span>
+                    </li>
+                ))}
+            </ul>
+            <p className="text-muted-foreground mt-auto pt-8 text-sm">
+                {givenAs ? (
+                    <>
+                        Given for {givenAs.host},{" "}
+                        <Link
+                            href={`#${givenAs.id}`}
+                            className="text-foreground hover:text-signal underline-offset-4 hover:underline"
+                        >
+                            {formatTalkDate(givenAs.date)}
+                        </Link>
+                    </>
+                ) : (
+                    "New topic, drawn from client work"
+                )}
+            </p>
+        </article>
+    );
+}

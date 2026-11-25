@@ -63,7 +63,7 @@ function DigestCard({ digest }: { digest: WeeklyDigest }) {
                     </div>
                 </div>
 
-                <h2 className="group-hover:text-primary text-lg font-semibold transition-colors">
+                <h2 className="group-hover:text-signal text-lg font-semibold transition-colors">
                     {digest.title}
                 </h2>
 
@@ -95,7 +95,7 @@ export function ShippedContent({ digests }: { digests: WEEKLY_DIGESTS_QUERY_RESU
 
     return (
         <main className="min-h-screen pt-24 pb-16">
-            <section className="mx-auto max-w-3xl px-6 lg:px-8">
+            <section className="site-container">
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"

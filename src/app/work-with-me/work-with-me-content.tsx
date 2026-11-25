@@ -138,8 +138,8 @@ export default function WorkWithMeContent() {
                     </span>
                 </div>
 
-                <div className="relative z-10 w-full px-6 lg:px-12 xl:px-20">
-                    <div className="mx-auto max-w-7xl">
+                <div className="relative z-10 w-full">
+                    <div className="site-container">
                         <div
                             style={{
                                 transform: isVisible ? "translateY(0)" : "translateY(30px)",
@@ -147,7 +147,7 @@ export default function WorkWithMeContent() {
                                 transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
                             }}
                         >
-                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            <span className="text-signal text-sm font-medium tracking-widest uppercase">
                                 Open to full-time and contract roles
                             </span>
                         </div>
@@ -205,9 +205,9 @@ export default function WorkWithMeContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             What I&apos;m looking for
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -224,7 +224,7 @@ export default function WorkWithMeContent() {
                         <motion.div variants={itemVariants}>
                             <h3 className="flex items-center gap-2 text-lg font-semibold">
                                 <span className="bg-primary/10 flex h-6 w-6 items-center justify-center rounded-full">
-                                    <Check className="text-primary h-3 w-3" />
+                                    <Check className="text-signal h-3 w-3" />
                                 </span>
                                 Applied AI and forward-deployed
                             </h3>
@@ -234,7 +234,7 @@ export default function WorkWithMeContent() {
                                         key={item}
                                         className="text-muted-foreground flex items-start gap-3"
                                     >
-                                        <Check className="text-primary mt-1 h-4 w-4 shrink-0" />
+                                        <Check className="text-signal mt-1 h-4 w-4 shrink-0" />
                                         {item}
                                     </li>
                                 ))}
@@ -243,7 +243,7 @@ export default function WorkWithMeContent() {
                         <motion.div variants={itemVariants}>
                             <h3 className="flex items-center gap-2 text-lg font-semibold">
                                 <span className="bg-primary/10 flex h-6 w-6 items-center justify-center rounded-full">
-                                    <Check className="text-primary h-3 w-3" />
+                                    <Check className="text-signal h-3 w-3" />
                                 </span>
                                 Lifecycle and marketing automation
                             </h3>
@@ -253,7 +253,7 @@ export default function WorkWithMeContent() {
                                         key={item}
                                         className="text-muted-foreground flex items-start gap-3"
                                     >
-                                        <Check className="text-primary mt-1 h-4 w-4 shrink-0" />
+                                        <Check className="text-signal mt-1 h-4 w-4 shrink-0" />
                                         {item}
                                     </li>
                                 ))}
@@ -271,9 +271,9 @@ export default function WorkWithMeContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             How I work
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -310,7 +310,7 @@ export default function WorkWithMeContent() {
                                                     key={detail}
                                                     className="flex items-start gap-2 text-sm"
                                                 >
-                                                    <ArrowRight className="text-primary mt-0.5 h-4 w-4 shrink-0" />
+                                                    <ArrowRight className="text-signal mt-0.5 h-4 w-4 shrink-0" />
                                                     {detail}
                                                 </li>
                                             ))}
@@ -331,10 +331,10 @@ export default function WorkWithMeContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="grid gap-16 lg:grid-cols-2">
                         <motion.div variants={itemVariants}>
-                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            <span className="text-signal text-sm font-medium tracking-widest uppercase">
                                 What you get
                             </span>
                             <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -376,14 +376,28 @@ export default function WorkWithMeContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Proof of work
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
                             Built, shipped, running in production
                         </h2>
+                        <Link
+                            href="/results"
+                            className="text-muted-foreground hover:text-signal group mt-4 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+                        >
+                            See every result, before and after, with testimonials
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                        <Link
+                            href="/speaking"
+                            className="text-muted-foreground hover:text-signal group mt-2 flex w-fit items-center gap-2 text-sm font-medium transition-colors"
+                        >
+                            See the AI workshops I teach for small business owners
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
                     </motion.div>
 
                     <motion.div
@@ -392,7 +406,7 @@ export default function WorkWithMeContent() {
                     >
                         {proofStats.map((stat) => (
                             <div key={stat.label}>
-                                <div className="font-display text-primary text-4xl font-black lg:text-5xl">
+                                <div className="stat-number font-sans text-4xl font-semibold lg:text-5xl">
                                     <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                                 </div>
                                 <div className="text-muted-foreground mt-2 text-sm">
@@ -412,13 +426,13 @@ export default function WorkWithMeContent() {
                                     <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                                         {project.tag}
                                     </span>
-                                    <h3 className="font-display group-hover:text-primary mt-4 text-2xl font-bold transition-colors">
+                                    <h3 className="font-display group-hover:text-signal mt-4 text-2xl font-bold transition-colors">
                                         {project.title}
                                     </h3>
                                     <p className="text-muted-foreground mt-3 leading-relaxed">
                                         {project.description}
                                     </p>
-                                    <div className="text-muted-foreground group-hover:text-primary mt-6 flex items-center gap-2 text-sm font-medium transition-colors">
+                                    <div className="text-muted-foreground group-hover:text-signal mt-6 flex items-center gap-2 text-sm font-medium transition-colors">
                                         View the work
                                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                     </div>
@@ -431,7 +445,7 @@ export default function WorkWithMeContent() {
 
             {/* CTA */}
             <section className="border-border border-t py-24 lg:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="mx-auto max-w-3xl text-center">
                         <h2 className="font-display text-4xl font-bold tracking-tight lg:text-5xl">
                             Tell me what you&apos;re trying to{" "}

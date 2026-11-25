@@ -4,40 +4,46 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-    /* Light mode — monochromatic editorial, brand reserved for highlights */
-    --background: oklch(0.985 0 0);
-    --foreground: oklch(0.13 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.13 0 0);
-    --popover: oklch(0.99 0 0);
-    --popover-foreground: oklch(0.13 0 0);
-    --primary: oklch(0.13 0 0);
-    --primary-foreground: oklch(1 0 0);
-    --secondary: oklch(0.955 0 0);
-    --secondary-foreground: oklch(0.13 0 0);
-    --muted: oklch(0.96 0 0);
-    --muted-foreground: oklch(0.5 0 0);
-    --accent: oklch(0.94 0 0);
-    --accent-foreground: oklch(0.13 0 0);
+    /* Light mode: cool blue-teal neutrals from the brand guide. Aqua fills controls; --signal carries accent text, darker so it reads on light surfaces. */
+    --background: oklch(0.956 0.003 197.1);
+    --foreground: oklch(0.168 0.023 195.2);
+    --card: oklch(0.995 0.003 197.1);
+    --card-foreground: oklch(0.168 0.023 195.2);
+    --popover: oklch(0.995 0.003 197.1);
+    --popover-foreground: oklch(0.168 0.023 195.2);
+    --primary: oklch(0.785 0.133 181.9);
+    --primary-foreground: oklch(0.168 0.023 195.2);
+    --secondary: oklch(0.98 0.006 185.3);
+    --secondary-foreground: oklch(0.168 0.023 195.2);
+    --muted: oklch(0.95 0.003 219.5);
+    --muted-foreground: oklch(0.389 0.013 196.6);
+    --accent: oklch(0.98 0.006 185.3);
+    --accent-foreground: oklch(0.168 0.023 195.2);
     --destructive: oklch(0.577 0.245 27.325);
     --destructive-foreground: oklch(0.985 0 0);
-    --border: oklch(0.92 0 0);
-    --input: oklch(0.91 0 0);
-    --ring: oklch(0.8 0 0);
+    --border: oklch(0.898 0.008 197);
+    --input: oklch(0.64 0.024 189.5);
+    --ring: oklch(0.511 0.086 186.4);
+    --signal: oklch(0.511 0.086 186.4);
+    --signal-gradient: linear-gradient(
+        135deg,
+        oklch(0.511 0.086 186.4) 0%,
+        oklch(0.6 0.104 184.7) 100%
+    );
     --chart-1: oklch(0.35 0 0);
     --chart-2: oklch(0.5 0 0);
     --chart-3: oklch(0.65 0 0);
     --chart-4: oklch(0.45 0.15 45);
     --chart-5: oklch(0.55 0.12 280);
     --radius: 0.5rem;
-    --sidebar: oklch(0.975 0 0);
-    --sidebar-foreground: oklch(0.13 0 0);
-    --sidebar-primary: oklch(0.13 0 0);
-    --sidebar-primary-foreground: oklch(1 0 0);
-    --sidebar-accent: oklch(0.94 0 0);
-    --sidebar-accent-foreground: oklch(0.13 0 0);
-    --sidebar-border: oklch(0.92 0 0);
-    --sidebar-ring: oklch(0.8 0 0);
+    --sidebar: oklch(0.995 0.003 197.1);
+    --sidebar-foreground: oklch(0.168 0.023 195.2);
+    --sidebar-primary: oklch(0.785 0.133 181.9);
+    --sidebar-primary-foreground: oklch(0.168 0.023 195.2);
+    --sidebar-accent: oklch(0.98 0.006 185.3);
+    --sidebar-accent-foreground: oklch(0.168 0.023 195.2);
+    --sidebar-border: oklch(0.898 0.008 197);
+    --sidebar-ring: oklch(0.511 0.086 186.4);
 
     /* Shiki syntax highlighting — always dark bg, so use dark palette in both modes */
     --shiki-background: transparent;
@@ -75,6 +81,8 @@
     --border: oklch(0.29 0.028 225);
     --input: oklch(0.31 0.028 225);
     --ring: oklch(0.785 0.1325 182);
+    --signal: oklch(0.785 0.1325 182);
+    --signal-gradient: linear-gradient(135deg, #2dd4bf 0%, #5eead4 55%, #99f6e4 100%);
     --chart-1: oklch(0.785 0.1325 182);
     --chart-2: oklch(0.75 0.16 80);
     --chart-3: oklch(0.6 0.2 15);
@@ -102,6 +110,7 @@
     --color-popover-foreground: var(--popover-foreground);
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
+    --color-signal: var(--signal);
     --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
     --color-muted: var(--muted);
@@ -139,14 +148,6 @@
     body {
         @apply bg-background text-foreground;
     }
-    /* Faint blueprint grid, matching the LinkedIn banner */
-    .dark body {
-        background-image:
-            linear-gradient(rgb(94 234 212 / 0.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgb(94 234 212 / 0.035) 1px, transparent 1px);
-        background-size: 48px 48px;
-    }
-
     /* Custom scrollbar */
     ::-webkit-scrollbar {
         width: 8px;
@@ -161,6 +162,18 @@
     }
     ::-webkit-scrollbar-thumb:hover {
         background: var(--muted-foreground);
+    }
+}
+
+/* The one page frame. The navigation, footer, and every page section use it, so content lines up everywhere. */
+@utility site-container {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+
+    @media (width >= 64rem) {
+        padding-inline: 2rem;
     }
 }
 
@@ -212,7 +225,7 @@
 
 /* Text gradient for headings */
 .text-gradient {
-    background: linear-gradient(135deg, #2dd4bf 0%, #5eead4 55%, #99f6e4 100%);
+    background: var(--signal-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

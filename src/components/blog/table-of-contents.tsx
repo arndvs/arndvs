@@ -87,7 +87,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
                                     heading.level === 3 ? "pl-4" : ""
                                 } ${
                                     activeId === heading.id
-                                        ? "text-primary font-medium"
+                                        ? "text-signal font-medium"
                                         : "text-muted-foreground hover:text-foreground"
                                 }`}
                             >
@@ -114,7 +114,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
                                     heading.level === 3 ? "pl-6" : "pl-4"
                                 } ${
                                     activeId === heading.id
-                                        ? "border-primary text-primary font-medium"
+                                        ? "border-primary text-signal font-medium"
                                         : "text-muted-foreground hover:text-foreground hover:border-muted-foreground/50 border-transparent"
                                 }`}
                             >

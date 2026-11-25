@@ -68,23 +68,41 @@ export function CostBreakdown({ estimate, formulas, mainName, routedName, decisi
         })),
     ];
     const largest = lines.reduce((most, line) => Math.max(most, line.perDay), 0);
+    const total = lines.reduce((sum, line) => sum + line.perDay, 0);
 
     return (
         <section aria-labelledby="breakdown-heading" className="space-y-4">
-            <h3
-                id="breakdown-heading"
-                className="text-muted-foreground text-xs font-medium tracking-wide uppercase"
-            >
-                Where the money goes
-            </h3>
+            <div className="flex items-baseline justify-between gap-3">
+                <h3
+                    id="breakdown-heading"
+                    className="text-muted-foreground text-xs font-medium tracking-wide uppercase"
+                >
+                    Where the money goes
+                </h3>
+                <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                    Per month
+                </span>
+            </div>
             <ul className="space-y-5">
                 {lines.map((line) => (
                     <li key={line.id} className="space-y-1.5">
-                        <div className="flex items-baseline justify-between gap-3 text-sm">
+                        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)_auto] items-center gap-x-4 text-sm">
                             <span className="min-w-0">
                                 <span className="font-medium">{line.title}</span>
                                 <span className="text-muted-foreground block text-xs">
                                     {line.detail}
+                                </span>
+                            </span>
+                            <span className="min-w-0">
+                                <span
+                                    className="bg-primary text-primary-foreground flex h-5 items-center justify-end rounded-sm px-1.5 font-mono text-xs whitespace-nowrap"
+                                    style={{
+                                        width: `${largest > 0 ? Math.max((line.perDay / largest) * 100, 1) : 0}%`,
+                                    }}
+                                >
+                                    {largest > 0 && line.perDay === largest
+                                        ? `${Math.round((line.perDay / total) * 100)}% of the bill`
+                                        : null}
                                 </span>
                             </span>
                             <span className="flex-none font-mono whitespace-nowrap tabular-nums">
@@ -92,17 +110,6 @@ export function CostBreakdown({ estimate, formulas, mainName, routedName, decisi
                                 <span className="text-muted-foreground text-xs"> /mo</span>
                             </span>
                         </div>
-                        <span
-                            aria-hidden="true"
-                            className="bg-muted block h-1.5 overflow-hidden rounded-full"
-                        >
-                            <span
-                                className="bg-primary block h-full rounded-full"
-                                style={{
-                                    width: `${largest > 0 ? Math.max((line.perDay / largest) * 100, 1) : 0}%`,
-                                }}
-                            />
-                        </span>
                         {line.formula.terms.length > 0 ? (
                             <p className="text-muted-foreground font-mono text-xs leading-relaxed tabular-nums">
                                 {line.formula.terms.map((term, index) => (

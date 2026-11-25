@@ -10,6 +10,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
+import { TalkLink } from "../speaking/components";
+import { TALKS } from "../speaking/data";
+
 const journey = [
     {
         period: "2006-2017",
@@ -186,8 +189,8 @@ export default function AboutContent() {
                     </span>
                 </div>
 
-                <div className="relative z-10 w-full px-6 lg:px-12 xl:px-20">
-                    <div className="mx-auto max-w-7xl">
+                <div className="relative z-10 w-full">
+                    <div className="site-container">
                         <div
                             style={{
                                 transform: isVisible ? "translateY(0)" : "translateY(30px)",
@@ -195,7 +198,7 @@ export default function AboutContent() {
                                 transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
                             }}
                         >
-                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            <span className="text-signal text-sm font-medium tracking-widest uppercase">
                                 About Me
                             </span>
                         </div>
@@ -239,9 +242,9 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             The Journey
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -261,7 +264,7 @@ export default function AboutContent() {
                                         <span className="text-muted-foreground font-mono text-sm">
                                             {String(index + 1).padStart(2, "0")}
                                         </span>
-                                        <div className="font-display text-primary mt-2 text-2xl font-bold">
+                                        <div className="font-display text-signal mt-2 text-2xl font-bold">
                                             {phase.period}
                                         </div>
                                     </div>
@@ -288,10 +291,10 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="grid gap-16 lg:grid-cols-2">
                         <motion.div variants={itemVariants}>
-                            <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                            <span className="text-signal text-sm font-medium tracking-widest uppercase">
                                 How I Work
                             </span>
                             <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -335,9 +338,9 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Technologies
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -372,9 +375,9 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Continuous Learning
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -407,9 +410,9 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Education
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -447,9 +450,9 @@ export default function AboutContent() {
                 variants={containerVariants}
                 className="border-border border-t py-24 lg:py-32"
             >
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <motion.div variants={itemVariants}>
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Sharing Knowledge
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -481,11 +484,41 @@ export default function AboutContent() {
                 </div>
             </motion.section>
 
+            {/* Speaking */}
+            <section
+                className="border-border border-t py-24 lg:py-32"
+                aria-labelledby="about-speaking"
+            >
+                <div className="site-container">
+                    <span className="text-signal text-sm font-medium tracking-widest uppercase">
+                        Speaking
+                    </span>
+                    <h2
+                        id="about-speaking"
+                        className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl"
+                    >
+                        I teach what I build
+                    </h2>
+                    <div className="bg-border mt-12 grid gap-px overflow-hidden rounded-2xl">
+                        {TALKS.map((talk) => (
+                            <TalkLink key={talk.id} talk={talk} />
+                        ))}
+                    </div>
+                    <Link
+                        href="/speaking"
+                        className="text-muted-foreground hover:text-signal group mt-8 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+                    >
+                        All talks and workshops
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                </div>
+            </section>
+
             {/* Personal */}
             <section className="border-border border-t py-24 lg:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="max-w-2xl">
-                        <span className="text-primary text-sm font-medium tracking-widest uppercase">
+                        <span className="text-signal text-sm font-medium tracking-widest uppercase">
                             Beyond Code
                         </span>
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
@@ -501,7 +534,7 @@ export default function AboutContent() {
 
             {/* CTA */}
             <section className="border-border border-t py-24 lg:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-12 xl:px-20">
+                <div className="site-container">
                     <div className="max-w-3xl">
                         <h2 className="font-display text-4xl font-bold tracking-tight lg:text-5xl">
                             Let&apos;s work <span className="text-gradient">together</span>

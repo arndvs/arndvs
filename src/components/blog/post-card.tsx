@@ -57,7 +57,7 @@ export function PostCard({
                             {formattedDate && <time dateTime={publishedAt}>{formattedDate}</time>}
                             <span>{readingTime}</span>
                         </div>
-                        <h3 className="font-display group-hover:text-primary line-clamp-2 text-xl font-bold transition-colors">
+                        <h3 className="font-display group-hover:text-signal line-clamp-2 text-xl font-bold transition-colors">
                             {title}
                         </h3>
                         {excerpt && (

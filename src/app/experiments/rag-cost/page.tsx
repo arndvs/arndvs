@@ -61,6 +61,7 @@ export default function RagCostPage() {
             />
             <ExperimentHero
                 backdrop="COST"
+                compact
                 eyebrow="Experiment · Cost, latency, and scale"
                 title={
                     <>
@@ -75,8 +76,8 @@ export default function RagCostPage() {
                 </p>
             </ExperimentHero>
 
-            <section className="px-6 pb-24 lg:px-12 lg:pb-32 xl:px-20">
-                <div className="mx-auto max-w-7xl">
+            <section className="pb-24 lg:pb-32">
+                <div className="site-container">
                     <RagCostEstimator
                         models={models}
                         decisionModel={decisionModel(MODEL_CATALOG)}
