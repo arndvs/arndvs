@@ -83,7 +83,7 @@ const featuredProjects = [
     },
 ];
 
-export default function HomeContent() {
+export default function HomeContent({ techLinks = {} }: { techLinks?: Record<string, string> }) {
     const { containerVariants, itemVariants } = useAnimationVariants();
     const [isVisible, setIsVisible] = useState(false);
 
@@ -270,14 +270,20 @@ export default function HomeContent() {
             <section className="border-border border-t py-20" aria-label="Technologies">
                 <div className="site-container">
                     <div className="flex flex-wrap gap-3">
-                        {technologiesData.map((tech) => (
-                            <span
-                                key={tech}
-                                className="border-border hover:border-primary/50 hover:text-signal rounded-full border px-4 py-2 text-sm font-medium transition-colors"
-                            >
-                                {tech}
-                            </span>
-                        ))}
+                        {technologiesData.map((tech) => {
+                            const className =
+                                "border-border hover:border-primary/50 hover:text-signal rounded-full border px-4 py-2 text-sm font-medium transition-colors";
+                            const href = techLinks[tech];
+                            return href ? (
+                                <Link key={tech} href={href} className={className}>
+                                    {tech}
+                                </Link>
+                            ) : (
+                                <span key={tech} className={className}>
+                                    {tech}
+                                </span>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
