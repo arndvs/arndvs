@@ -112,7 +112,14 @@ export type Screen = {
     judgment?: Judgment;
 };
 
-export type RuleId = "stories" | "defaults" | "crud" | "walk" | "cardinality" | "trace";
+export type RuleId =
+    | "story-check"
+    | "stories"
+    | "defaults"
+    | "crud"
+    | "walk"
+    | "cardinality"
+    | "trace";
 
 export type FindingSource = { kind: "story" | "relationship"; id: string };
 
@@ -498,6 +505,7 @@ export const derive = (product: Product): Derived => {
     };
 
     const context: RuleContext = {
+        stories: product.stories,
         roles,
         rels,
         otherRoles,

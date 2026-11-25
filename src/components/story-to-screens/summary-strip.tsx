@@ -16,7 +16,7 @@ export function SummaryStrip({ derived, manualCount }: Props) {
     const judged = derived.screens.filter((screen) => screen.judgment);
     const misfires = judged.filter((screen) => screen.judgment?.kind === "misfire").length;
     const folded = judged.length - misfires;
-    const fromStories = derived.steps[0]?.total ?? 0;
+    const fromStories = derived.steps.find((step) => step.ruleId === "stories")?.total ?? 0;
     const open = derived.findings.filter((finding) => finding.status === "open").length;
     // "Standard" screens are the ones every product needs; "missed" are the ones
     // the stories implied but never said. Counting them together overstates the catch.

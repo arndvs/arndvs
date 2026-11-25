@@ -19,7 +19,7 @@ export const PRESETS: readonly Preset[] = [
                 id: "company",
                 roleName: "Company",
                 actor: "Lena",
-                text: "Lena is a UX manager at a company that needs testers for a new app prototype. She creates a profile for the company and posts a study with the requirements and a short survey. Three days later the study has 23 applicants. She reviews the applicants, compares their answers, and contacts ten of them with possible dates. After the tests she marks the study complete.",
+                text: "Lena is a UX manager at a company that needs testers for a new app prototype. She creates a profile for the company and posts a study with the requirements and a short survey. Three days later the study has 23 applicants. She reviews the applicants, compares their answers, and contacts ten of them with possible dates. After the tests she marks the study complete, but she has to chase each applicant by hand to confirm the dates.",
                 hand: {
                     nouns: [
                         "company",
@@ -41,7 +41,7 @@ export const PRESETS: readonly Preset[] = [
                 id: "tester",
                 roleName: "Tester",
                 actor: "Suzan",
-                text: "Suzan likes testing new products for extra cash. She creates her own profile with her age, devices and interests. She browses the studies, reads the requirements, and applies to three of them by answering the survey. Later she gets a message from a company, picks a time, attends the test and receives a gift card.",
+                text: "Suzan likes testing new products for extra cash. She creates her own profile with her age, devices and interests. She browses the studies, reads the requirements, and applies to three of them by answering the survey. Later she gets a message from a company, picks a time, attends the test and receives a gift card. She keeps track of every application by hand, so she loses one when the dates clash.",
                 hand: {
                     nouns: [
                         "product",
@@ -118,7 +118,7 @@ export const PRESETS: readonly Preset[] = [
                 id: "ed",
                 roleName: "Member sharing",
                 actor: "Ed",
-                text: "Ed writes a blog post about working with developers and shares the link with the group so other members can learn from it.",
+                text: "Ed writes a blog post about working with developers and shares the link with the group so other members can learn from it. He does it by hand, and the same questions keep coming back.",
                 hand: { nouns: ["post", "link", "group", "member"], verbs: ["write", "share"] },
             },
             {
@@ -135,7 +135,7 @@ export const PRESETS: readonly Preset[] = [
                 id: "john",
                 roleName: "Member traveling",
                 actor: "John",
-                text: "John is visiting San Francisco and wants to find members who live there. He posts in the group asking who is nearby.",
+                text: "John is visiting San Francisco and wants to find members who live there. He posts in the group asking who is nearby, but he has no idea who to ask.",
                 hand: { nouns: ["member", "group"], verbs: ["find", "post", "ask"] },
             },
         ],
