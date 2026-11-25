@@ -201,9 +201,9 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             </section>
 
             <section className="border-border border-t py-16 lg:py-24">
-                <div className="site-container max-w-3xl">
+                <div className="site-container">
                     <h2 className="font-display text-3xl font-bold tracking-tight">Questions</h2>
-                    <dl className="mt-8 space-y-8">
+                    <dl className="mt-8 max-w-3xl space-y-8">
                         {s.faqs.map((f) => (
                             <div key={f.question}>
                                 <dt className="font-semibold">{f.question}</dt>
