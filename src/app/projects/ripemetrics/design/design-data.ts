@@ -141,7 +141,7 @@ export const designPageData: DesignPageData = {
                 "The design sprint process ran across a massive 1,892-frame Figma canvas with dedicated sections for each designer. Each person explored different approaches to campaign management, marketing groups, demographics, and navigation. The sprint canvas included a 'FINAL NAVIGATION DESIGNS' consolidation section showing how divergent exploration was driven to convergent decisions. Additional sprint activities included Campaign Center variants (8+ by Omid), Marketing Groups explorations (6+ variants), and systematic dropdown and calendar component specifications.",
             stats: [
                 { value: 1892, label: "Sprint Frames" },
-                { value: 8, label: "Designers" },
+                { value: 12, label: "Designers" },
                 { value: 116, label: "BI Layout Frames" },
             ],
             tags: ["Design Sprints", "Team Direction", "Facilitation", "Convergence"],
