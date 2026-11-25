@@ -384,6 +384,20 @@ export default function WorkWithMeContent() {
                         <h2 className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl">
                             Built, shipped, running in production
                         </h2>
+                        <Link
+                            href="/results"
+                            className="text-muted-foreground hover:text-signal group mt-4 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+                        >
+                            See every result, before and after, with testimonials
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                        <Link
+                            href="/speaking"
+                            className="text-muted-foreground hover:text-signal group mt-2 flex w-fit items-center gap-2 text-sm font-medium transition-colors"
+                        >
+                            See the AI workshops I teach for small business owners
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
                     </motion.div>
 
                     <motion.div

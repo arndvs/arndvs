@@ -10,6 +10,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useAnimationVariants } from "@/lib/hooks/use-animation-variants";
 
+import { TalkLink } from "../speaking/components";
+import { TALKS } from "../speaking/data";
+
 const journey = [
     {
         period: "2006-2017",
@@ -480,6 +483,36 @@ export default function AboutContent() {
                     </div>
                 </div>
             </motion.section>
+
+            {/* Speaking */}
+            <section
+                className="border-border border-t py-24 lg:py-32"
+                aria-labelledby="about-speaking"
+            >
+                <div className="site-container">
+                    <span className="text-signal text-sm font-medium tracking-widest uppercase">
+                        Speaking
+                    </span>
+                    <h2
+                        id="about-speaking"
+                        className="font-display mt-4 text-3xl font-bold tracking-tight lg:text-4xl"
+                    >
+                        I teach what I build
+                    </h2>
+                    <div className="bg-border mt-12 grid gap-px overflow-hidden rounded-2xl">
+                        {TALKS.map((talk) => (
+                            <TalkLink key={talk.id} talk={talk} />
+                        ))}
+                    </div>
+                    <Link
+                        href="/speaking"
+                        className="text-muted-foreground hover:text-signal group mt-8 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+                    >
+                        All talks and workshops
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                </div>
+            </section>
 
             {/* Personal */}
             <section className="border-border border-t py-24 lg:py-32">
