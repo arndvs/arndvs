@@ -46,6 +46,8 @@ export type Choices = {
     releases: Record<string, Release>;
     /** Keyed by screen id. A judged screen stays in the list but leaves the product. */
     judgments: Record<string, Judgment>;
+    /** A word the visitor says means the same thing as an entity: "requirement" → "study". */
+    merges: Record<string, string>;
     /** What the visitor would have built, before looking. Empty when they skipped. */
     guess: string[];
     /** A guess the visitor linked to a screen by hand, keyed by the guess text. */
@@ -158,6 +160,8 @@ export type Derived = {
     entities: Entity[];
     /** Every marked lemma and the stories it appears in, most stories first. */
     signals: Signal[];
+    /** The merges in force, so the map can show what each thing includes. */
+    merges: Record<string, string>;
     relationships: Relationship[];
     screens: Screen[];
     findings: Finding[];
@@ -299,7 +303,10 @@ export const derive = (product: Product): Derived => {
         }
     }
 
-    const entityOf = (lemma: string): string => own(aliases, lemma) ?? lemma;
+    // A merge the visitor made wins over the aliases: "requirement" is "study" if
+    // they say so. Merges are validated in `readChoices`, so a cycle can't get here.
+    const entityOf = (lemma: string): string =>
+        own(choices.merges, lemma) ?? own(aliases, lemma) ?? lemma;
     const roleOf = (story: Story): string =>
         own(aliases, story.actor.toLowerCase()) ?? roleNameOf(story);
 
@@ -584,6 +591,7 @@ export const derive = (product: Product): Derived => {
         marksByStory,
         entities: [...entityIds].map((id) => ({ id, name: titleCase(id), isRole: roles.has(id) })),
         signals,
+        merges: choices.merges,
         relationships: rels,
         screens: [...screens.values()],
         findings: findings.map((finding) => ({

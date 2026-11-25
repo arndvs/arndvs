@@ -51,6 +51,7 @@ const blankProduct = (): Product => ({
         cardinality: {},
         releases: {},
         judgments: {},
+        merges: {},
         guess: [],
         guessLinks: {},
         manualScreens: [],

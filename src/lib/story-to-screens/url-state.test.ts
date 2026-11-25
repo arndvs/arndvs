@@ -33,6 +33,7 @@ const yours = (stories: number, length: number): Product => ({
         cardinality: {},
         releases: {},
         judgments: {},
+        merges: {},
         guess: [],
         guessLinks: {},
         manualScreens: [],
