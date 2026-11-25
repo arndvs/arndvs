@@ -84,7 +84,7 @@ const projects = [
             "A 277,000-line healthcare platform serving 5,000+ families — 5 AI integrations, 76 JSON-LD schemas, 203 programmatic pages, and a 27-template transactional email system — built solo on Next.js 16, Sanity v5, and OpenAI.",
         tags: ["Next.js 16", "React 19", "Sanity v5", "TypeScript", "OpenAI", "Schema.org"],
         stats: [
-            { value: "277K+", label: "Lines of Code" },
+            { value: "2,200+", label: "TypeScript Files" },
             { value: "5K+", label: "Families Served" },
             { value: "76", label: "JSON-LD Schemas" },
         ],
