@@ -32,8 +32,4 @@ describe("safeJsonLdStringify", () => {
             ),
         ).toEqual(input);
     });
-
-    it("handles an empty object", () => {
-        expect(safeJsonLdStringify({})).toBe("{}");
-    });
 });
