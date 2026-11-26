@@ -15,6 +15,7 @@ const blank = (text: string, roleName = "Owner"): Product => ({
         cardinality: {},
         releases: {},
         judgments: {},
+        merges: {},
         guess: [],
         guessLinks: {},
         manualScreens: [],
@@ -60,6 +61,7 @@ const GOLDEN: Record<string, { screens: string[]; findings: string[] }> = {
             "crud:profile",
             "crud:study",
             "defaults",
+            "signals:create",
             "walk:answer",
             "walk:applicant",
             "walk:study",
@@ -83,7 +85,7 @@ const GOLDEN: Record<string, { screens: string[]; findings: string[] }> = {
             "view-post",
             "view-question",
         ],
-        findings: ["crud:call", "crud:post", "crud:question", "defaults"],
+        findings: ["crud:call", "crud:post", "crud:question", "defaults", "signals:ask"],
     },
     clinic: {
         screens: [
@@ -106,7 +108,14 @@ const GOLDEN: Record<string, { screens: string[]; findings: string[] }> = {
             "view-staff",
             "view-visit",
         ],
-        findings: ["card:therapist>clinic", "crud:count", "crud:number", "defaults", "walk:visit"],
+        findings: [
+            "card:therapist>clinic",
+            "crud:count",
+            "crud:number",
+            "defaults",
+            "signals:work",
+            "walk:visit",
+        ],
     },
 };
 
@@ -117,6 +126,7 @@ describe("derive", () => {
 
         expect(derived.screens.map((screen) => screen.id).sort()).toEqual(golden?.screens);
         expect(derived.findings.map((finding) => finding.id).sort()).toEqual(golden?.findings);
+        expect(derived.findings.some((finding) => finding.ruleId === "story-check")).toBe(false);
     });
 
     it("derives a screen from a story that says 'constructor'", () => {

@@ -3,6 +3,8 @@ import { Check } from "lucide-react";
 import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/contact-form";
+import { JsonLd } from "@/components/json-ld";
+import { breadcrumbList, graph } from "@/lib/json-ld";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
@@ -70,6 +72,9 @@ export default function SpeakingPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
+            />
+            <JsonLd
+                data={graph(breadcrumbList("/speaking", [{ name: "Speaking", path: "/speaking" }]))}
             />
             <main className="min-h-screen">
                 {/* Intro */}

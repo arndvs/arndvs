@@ -797,6 +797,17 @@ export type POST_QUERY_RESULT = {
 export type POST_SLUGS_QUERY_RESULT = Array<string>;
 
 // Source: src/sanity/lib/queries.ts
+// Variable: LLMS_POSTS_QUERY
+// Query: *[_type == "post" && defined(slug.current) && defined(publishedAt)] | order(publishedAt desc) {    title,    "slug": slug.current,    excerpt,    publishedAt,    "text": pt::text(body)  }
+export type LLMS_POSTS_QUERY_RESULT = Array<{
+    title: string;
+    slug: string;
+    excerpt: string | null;
+    publishedAt: string;
+    text: string;
+}>;
+
+// Source: src/sanity/lib/queries.ts
 // Variable: SITEMAP_POSTS_QUERY
 // Query: *[_type == "post" && defined(slug.current)] {    "slug": slug.current,    _updatedAt  }
 export type SITEMAP_POSTS_QUERY_RESULT = Array<{
@@ -1000,6 +1011,7 @@ declare module "@sanity/client" {
         '\n  *[_type == "post" && defined(publishedAt)] | order(publishedAt desc) {\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    publishedAt,\n    mainImage {\n      \n  asset->{ _id, url, metadata { dimensions, lqip } },\n  hotspot,\n  crop\n,\n      alt\n    },\n    categories,\n    "bodyCharCount": length(pt::text(body))\n  }\n': POSTS_QUERY_RESULT;
         '\n  *[_type == "post" && slug.current == $slug][0] {\n    _id,\n    _updatedAt,\n    title,\n    "slug": slug.current,\n    author,\n    publishedAt,\n    excerpt,\n    tldr,\n    mainImage {\n      \n  asset->{ _id, url, metadata { dimensions, lqip } },\n  hotspot,\n  crop\n,\n      alt\n    },\n    body[] {\n      ...,\n      _type == "inlineImage" => {\n        ...,\n        \n  asset->{ _id, url, metadata { dimensions, lqip } },\n  hotspot,\n  crop\n\n      }\n    },\n    "bodyCharCount": length(pt::text(body)),\n    categories,\n    seo {\n      metaTitle,\n      metaDescription,\n      focusKeyword,\n      keywords,\n      noIndex,\n      image {\n        asset->{ _id, url, metadata { dimensions } },\n        hotspot,\n        crop\n      }\n    }\n  }\n': POST_QUERY_RESULT;
         '\n  *[_type == "post" && defined(slug.current)][].slug.current\n': POST_SLUGS_QUERY_RESULT;
+        '\n  *[_type == "post" && defined(slug.current) && defined(publishedAt)] | order(publishedAt desc) {\n    title,\n    "slug": slug.current,\n    excerpt,\n    publishedAt,\n    "text": pt::text(body)\n  }\n': LLMS_POSTS_QUERY_RESULT;
         '\n  *[_type == "post" && defined(slug.current)] {\n    "slug": slug.current,\n    _updatedAt\n  }\n': SITEMAP_POSTS_QUERY_RESULT;
         '\n  *[_type == "changelogEntry"] | order(date desc) [0...50] {\n    _id,\n    title,\n    "slug": slug.current,\n    date,\n    type,\n    summary,\n    body,\n    relatedProject,\n    commitHash,\n    commitRange,\n    isHighlight,\n    source\n  }\n': CHANGELOG_QUERY_RESULT;
         '\n  *[_type == "changelogEntry"] | order(date desc) [0].date\n': CHANGELOG_LATEST_DATE_QUERY_RESULT;

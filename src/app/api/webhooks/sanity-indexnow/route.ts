@@ -1,38 +1,13 @@
 import { parseBody } from "next-sanity/webhook";
 import { type NextRequest, NextResponse } from "next/server";
 
+import { submitToIndexNow } from "@/lib/indexnow";
 import { siteConfig } from "@/sanity/env";
 import { webhookSecret } from "@/sanity/env.server";
-
-function getIndexNowKey(): string {
-    const key = process.env.INDEXNOW_KEY;
-
-    if (!key) throw new Error("Missing environment variable: INDEXNOW_KEY");
-
-    return key;
-}
 
 interface WebhookBody {
     _type: string;
     slug?: { current?: string };
-}
-
-async function submitToIndexNow(urls: string[]) {
-    const indexNowKey = getIndexNowKey();
-    const host = new URL(siteConfig.url).host;
-
-    const response = await fetch("https://api.indexnow.org/IndexNow", {
-        method: "POST",
-        headers: { "Content-Type": "application/json; charset=utf-8" },
-        body: JSON.stringify({
-            host,
-            key: indexNowKey,
-            keyLocation: `${siteConfig.url}/${indexNowKey}.txt`,
-            urlList: urls,
-        }),
-    });
-
-    return { status: response.status, ok: response.ok };
 }
 
 export async function POST(req: NextRequest) {

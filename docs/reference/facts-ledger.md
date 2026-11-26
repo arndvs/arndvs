@@ -55,14 +55,14 @@ Left off the site: seven 2022 React, Redux, and Next.js intro courses.
 
 ## AlignSD
 
-| Fact               | Value                   | Status             | Notes                                                                                                                                        |
-| ------------------ | ----------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Code size          | 2,200+ TypeScript files | Counted 2026-11-14 | 2,202 `.ts`/`.tsx` files, about 320K lines including data and docs files. Prefer the file count. Line counts in circulation: 44K, 52K, 277K. |
-| Families served    | 5,000+                  | Resume             |                                                                                                                                              |
-| AI integrations    | 5                       | Resume             |                                                                                                                                              |
-| Programmatic pages | 203                     | Open               | Resumes and site say 203; LinkedIn says 163+.                                                                                                |
-| JSON-LD schemas    | 76                      | Open               | Resumes and site say 76; one site heading and one blog excerpt say 81; LinkedIn says 68.                                                     |
-| Email templates    | 27                      | Open               | One resume says 26 templates from 44 components.                                                                                             |
+| Fact               | Value                   | Status             | Notes                                                                                                                                                                                                                             |
+| ------------------ | ----------------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Code size          | 2,200+ TypeScript files | Counted 2026-11-14 | 2,202 `.ts`/`.tsx` files, about 320K lines including data and docs files. Prefer the file count. Line counts in circulation: 44K, 52K, 277K. The site uses the file count since 2026-11-24; `retired-claims.test.ts` blocks 277K. |
+| Families served    | 5,000+                  | Resume             |                                                                                                                                                                                                                                   |
+| AI integrations    | 5                       | Resume             |                                                                                                                                                                                                                                   |
+| Programmatic pages | 203                     | Open               | Resumes and site say 203; LinkedIn says 163+.                                                                                                                                                                                     |
+| JSON-LD schemas    | 76                      | Open               | Resumes and site say 76; one site heading and one blog excerpt say 81; LinkedIn says 68.                                                                                                                                          |
+| Email templates    | 27                      | Open               | One resume says 26 templates from 44 components.                                                                                                                                                                                  |
 
 ## MCRDSE
 
@@ -78,16 +78,16 @@ Left off the site: seven 2022 React, Redux, and Next.js intro courses.
 
 ## RipeMetrics
 
-| Fact                                | Value                                             | Status | Notes                                                                                                                  |
-| ----------------------------------- | ------------------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------- |
-| Dates                               | March 2017 – September 2025                       | Open   | One resume says April 2017; the site case study says July 2025.                                                        |
-| Codebases                           | 8                                                 | Resume | The case study also says 7 supporting repos and lists six.                                                             |
-| Journey engine behavior triggers    | 21                                                | Resume |                                                                                                                        |
-| Segmentation scopes                 | 38                                                | Resume |                                                                                                                        |
-| Core app                            | 880 components, 85 routes, 53 RTK Query services  | Resume |                                                                                                                        |
-| Onboarding time                     | about 30 minutes to under 60 seconds              | Open   | LinkedIn says 20+ minutes to about 1 minute.                                                                           |
-| Migration speedup                   | about 6 seconds off common dashboard interactions | Open   | The case study also credits 4 seconds to RTK Query alone.                                                              |
-| 40% customer service cost reduction | —                                                 | Open   | On the site but in no resume and with no stated measurement. Removed from the homepage and Work With Me until sourced. |
+| Fact                                | Value                                             | Status | Notes                                                                                                                                                                                      |
+| ----------------------------------- | ------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Dates                               | March 2017 – September 2025                       | Open   | One resume says April 2017; the site case study says July 2025.                                                                                                                            |
+| Codebases                           | 8                                                 | Resume | The case study also says 7 supporting repos and lists six.                                                                                                                                 |
+| Journey engine behavior triggers    | 21                                                | Resume |                                                                                                                                                                                            |
+| Segmentation scopes                 | 38                                                | Resume |                                                                                                                                                                                            |
+| Core app                            | 880 components, 85 routes, 53 RTK Query services  | Resume |                                                                                                                                                                                            |
+| Onboarding time                     | about 30 minutes to under 60 seconds              | Open   | LinkedIn says 20+ minutes to about 1 minute.                                                                                                                                               |
+| Migration speedup                   | about 6 seconds off common dashboard interactions | Open   | The case study also credits 4 seconds to RTK Query alone.                                                                                                                                  |
+| 40% customer service cost reduction | —                                                 | Open   | On the site but in no resume and with no stated measurement. Removed from the homepage, Work With Me and (2026-11-24) the projects grid until sourced; `retired-claims.test.ts` blocks it. |
 
 ## First-reward journey (inKind work sample)
 

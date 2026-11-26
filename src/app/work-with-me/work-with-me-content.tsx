@@ -471,6 +471,16 @@ export default function WorkWithMeContent() {
                         <p className="text-muted-foreground mt-8 text-sm">
                             Based in San Diego. Open to remote, hybrid, or on-site in San Diego.
                         </p>
+                        <p className="text-muted-foreground mt-2 text-sm">
+                            Hiring for a project rather than a role?{" "}
+                            <Link
+                                href="/services"
+                                className="text-signal underline-offset-4 hover:underline"
+                            >
+                                See services for businesses
+                            </Link>
+                            .
+                        </p>
                     </div>
                 </div>
             </section>

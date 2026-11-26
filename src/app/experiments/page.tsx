@@ -5,14 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ExperimentHero } from "@/components/experiments/experiment-hero";
+import { JsonLd } from "@/components/json-ld";
 import { EXPERIMENTS } from "@/lib/data/experiments";
+import { breadcrumbList, graph, itemList, webPage } from "@/lib/json-ld";
 import { generateSiteMetadata } from "@/lib/metadata";
 
 const INTRO =
     "Small interactive tools I've built to answer specific questions about what AI costs, how coding agents work, and how products get designed.";
 
 export const metadata: Metadata = generateSiteMetadata({
-    title: "Experiments",
+    title: "Free Tools for AI Costs and UX Design",
     description: INTRO,
     path: "/experiments",
 });
@@ -20,9 +22,29 @@ export const metadata: Metadata = generateSiteMetadata({
 export default function ExperimentsPage() {
     return (
         <main className="min-h-screen">
+            <JsonLd
+                data={graph(
+                    webPage({
+                        type: "CollectionPage",
+                        path: "/experiments",
+                        name: "Experiments",
+                        description: INTRO,
+                        extra: {
+                            mainEntity: itemList(
+                                EXPERIMENTS.map((e) => ({
+                                    name: e.seoTitle,
+                                    path: `/experiments/${e.slug}`,
+                                    description: e.description,
+                                })),
+                            ),
+                        },
+                    }),
+                    breadcrumbList("/experiments", [{ name: "Experiments", path: "/experiments" }]),
+                )}
+            />
             <ExperimentHero
                 backdrop="LAB"
-                eyebrow="Experiments"
+                eyebrow="Experiments · Free tools"
                 title={
                     <>
                         Small tools, <span className="text-gradient">specific questions</span>
@@ -58,7 +80,7 @@ export default function ExperimentsPage() {
                                         {experiment.description}
                                     </p>
                                     <span className="text-muted-foreground group-hover:text-signal mt-6 inline-flex items-center gap-2 text-sm font-medium transition-colors">
-                                        Open the experiment
+                                        Open the tool
                                         <ArrowRight
                                             aria-hidden="true"
                                             className="h-4 w-4 transition-transform group-hover:translate-x-1"

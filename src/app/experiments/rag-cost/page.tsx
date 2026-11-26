@@ -1,8 +1,18 @@
 import type { Metadata } from "next";
 
+import { ExperimentGuide } from "@/components/experiments/experiment-guide";
 import { ExperimentHero } from "@/components/experiments/experiment-hero";
+import { JsonLd } from "@/components/json-ld";
 import { RagCostEstimator } from "@/components/rag-cost/rag-cost-estimator";
 import { findExperiment } from "@/lib/data/experiments";
+import {
+    absolute,
+    breadcrumbList,
+    faqPage,
+    graph,
+    softwareApplication,
+    webPage,
+} from "@/lib/json-ld";
 import { generateSiteMetadata } from "@/lib/metadata";
 import {
     MODEL_CATALOG,
@@ -11,13 +21,12 @@ import {
     nonEmpty,
 } from "@/lib/rag-cost/model-pricing";
 import type { ModelPricing } from "@/lib/rag-cost/model-pricing";
-import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
-import { siteConfig } from "@/sanity/env";
 
 const experiment = findExperiment("rag-cost");
+const path = `/experiments/${experiment.slug}`;
 
 export const metadata: Metadata = generateSiteMetadata({
-    title: experiment.title,
+    title: experiment.seoTitle,
     description: experiment.description,
     path: `/experiments/${experiment.slug}`,
     images: [
@@ -39,25 +48,28 @@ export default function RagCostPage() {
     const pick = (id: string, fallback: ModelPricing): string =>
         (models.find((model) => model.id === id) ?? fallback).id;
 
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "@id": `${siteConfig.url}/experiments/${experiment.slug}/#app`,
-        name: experiment.title,
-        description: experiment.description,
-        url: `${siteConfig.url}/experiments/${experiment.slug}`,
-        applicationCategory: "BusinessApplication",
-        operatingSystem: "Any",
-        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        author: { "@id": `${siteConfig.url}/#person` },
-        isPartOf: { "@id": `${siteConfig.url}/#website` },
-    };
-
     return (
         <main className="min-h-screen">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
+            <JsonLd
+                data={graph(
+                    webPage({
+                        path,
+                        name: experiment.seoTitle,
+                        description: experiment.description,
+                        extra: { mainEntity: { "@id": `${absolute(path)}/#app` } },
+                    }),
+                    softwareApplication({
+                        path,
+                        name: experiment.title,
+                        description: experiment.description,
+                        applicationCategory: experiment.applicationCategory,
+                    }),
+                    faqPage(path, experiment.faqs),
+                    breadcrumbList(path, [
+                        { name: "Experiments", path: "/experiments" },
+                        { name: experiment.title, path },
+                    ]),
+                )}
             />
             <ExperimentHero
                 backdrop="COST"
@@ -90,6 +102,17 @@ export default function RagCostPage() {
                     />
                 </div>
             </section>
+
+            <ExperimentGuide
+                experiment={experiment}
+                related={[
+                    { label: "AI development services", href: "/services/ai-development" },
+                    {
+                        label: "RipeMetrics: a production RAG pipeline",
+                        href: "/projects/ripemetrics",
+                    },
+                ]}
+            />
         </main>
     );
 }

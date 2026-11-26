@@ -2,12 +2,16 @@ import { cardinality } from "./cardinality";
 import type { RuleModule } from "./context";
 import { crud } from "./crud";
 import { defaults } from "./defaults";
+import { signals } from "./signals";
 import { stories } from "./stories";
+import { storyCheck } from "./story-check";
 import { trace } from "./trace";
 import { walk } from "./walk";
 
 /** The rules, in the order the waterfall applies them. */
 export const RULE_MODULES: readonly RuleModule[] = [
+    storyCheck,
+    signals,
     stories,
     defaults,
     crud,

@@ -9,12 +9,13 @@ import { VisualEditing } from "next-sanity/visual-editing";
 import localFont from "next/font/local";
 import { draftMode } from "next/headers";
 
+import { SiteAnalytics } from "@/components/analytics/site-analytics";
 import { DisableDraftMode } from "@/components/disable-draft-mode";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { ThemeProvider } from "@/components/theme-provider";
-import { personJsonLd } from "@/lib/data/json-ld";
+import { personJsonLd, ripemetricsJsonLd } from "@/lib/data/json-ld";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
 import { SanityLive } from "@/sanity/lib/live";
@@ -141,6 +142,7 @@ export default async function RootLayout({
                                 "@context": "https://schema.org",
                                 "@graph": [
                                     personJsonLd,
+                                    ripemetricsJsonLd,
                                     {
                                         "@type": "WebSite",
                                         "@id": `${siteConfig.url}/#website`,
@@ -173,6 +175,7 @@ export default async function RootLayout({
                     )}
                 </ThemeProvider>
                 <Analytics />
+                <SiteAnalytics />
                 {process.env.NODE_ENV === "development" && <TailwindIndicator />}
             </body>
         </html>

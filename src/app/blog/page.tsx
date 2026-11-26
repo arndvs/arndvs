@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { JsonLd } from "@/components/json-ld";
+import { breadcrumbList, graph } from "@/lib/json-ld";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
@@ -51,6 +53,7 @@ export default async function BlogPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(collectionJsonLd) }}
             />
+            <JsonLd data={graph(breadcrumbList("/blog", [{ name: "Blog", path: "/blog" }]))} />
             <BlogListContent posts={posts} />
         </>
     );

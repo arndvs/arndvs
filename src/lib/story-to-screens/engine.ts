@@ -46,6 +46,8 @@ export type Choices = {
     releases: Record<string, Release>;
     /** Keyed by screen id. A judged screen stays in the list but leaves the product. */
     judgments: Record<string, Judgment>;
+    /** A word the visitor says means the same thing as an entity: "requirement" → "study". */
+    merges: Record<string, string>;
     /** What the visitor would have built, before looking. Empty when they skipped. */
     guess: string[];
     /** A guess the visitor linked to a screen by hand, keyed by the guess text. */
@@ -76,6 +78,12 @@ export type Mark = {
 };
 
 export type Entity = { id: string; name: string; isRole: boolean };
+
+/**
+ * A thing or action and the stories it appears in. A lemma in two or more
+ * stories is a signal: the stories keep coming back to it.
+ */
+export type Signal = { lemma: string; kind: MarkKind; stories: string[] };
 
 /** A sentence in a story that a screen or finding came from. */
 export type ScreenSource = { storyId: string; start: number; sentence: string };
@@ -112,7 +120,15 @@ export type Screen = {
     judgment?: Judgment;
 };
 
-export type RuleId = "stories" | "defaults" | "crud" | "walk" | "cardinality" | "trace";
+export type RuleId =
+    | "story-check"
+    | "signals"
+    | "stories"
+    | "defaults"
+    | "crud"
+    | "walk"
+    | "cardinality"
+    | "trace";
 
 export type FindingSource = { kind: "story" | "relationship"; id: string };
 
@@ -142,6 +158,10 @@ export const edgeTarget = (screen: Screen): string | null =>
 export type Derived = {
     marksByStory: Record<string, Mark[]>;
     entities: Entity[];
+    /** Every marked lemma and the stories it appears in, most stories first. */
+    signals: Signal[];
+    /** The merges in force, so the map can show what each thing includes. */
+    merges: Record<string, string>;
     relationships: Relationship[];
     screens: Screen[];
     findings: Finding[];
@@ -283,7 +303,10 @@ export const derive = (product: Product): Derived => {
         }
     }
 
-    const entityOf = (lemma: string): string => own(aliases, lemma) ?? lemma;
+    // A merge the visitor made wins over the aliases: "requirement" is "study" if
+    // they say so. Merges are validated in `readChoices`, so a cycle can't get here.
+    const entityOf = (lemma: string): string =>
+        own(choices.merges, lemma) ?? own(aliases, lemma) ?? lemma;
     const roleOf = (story: Story): string =>
         own(aliases, story.actor.toLowerCase()) ?? roleNameOf(story);
 
@@ -497,7 +520,24 @@ export const derive = (product: Product): Derived => {
         steps.push({ ruleId, added, total: screens.size });
     };
 
+    // A lemma's story count is what makes it a signal. Nouns are counted by the
+    // entity they resolve to, so "requirement" and "requirements" count once.
+    const signalMap = new Map<string, Signal>();
+    for (const [storyId, marks] of Object.entries(marksByStory)) {
+        for (const mark of marks) {
+            const lemma = mark.kind === "noun" ? entityOf(mark.lemma) : mark.lemma;
+            const signal = signalMap.get(lemma) ?? { lemma, kind: mark.kind, stories: [] };
+            if (!signal.stories.includes(storyId)) signal.stories.push(storyId);
+            signalMap.set(lemma, signal);
+        }
+    }
+    const signals = [...signalMap.values()].sort(
+        (a, b) => b.stories.length - a.stories.length || a.lemma.localeCompare(b.lemma),
+    );
+
     const context: RuleContext = {
+        stories: product.stories,
+        signals,
         roles,
         rels,
         otherRoles,
@@ -550,6 +590,8 @@ export const derive = (product: Product): Derived => {
     return {
         marksByStory,
         entities: [...entityIds].map((id) => ({ id, name: titleCase(id), isRole: roles.has(id) })),
+        signals,
+        merges: choices.merges,
         relationships: rels,
         screens: [...screens.values()],
         findings: findings.map((finding) => ({

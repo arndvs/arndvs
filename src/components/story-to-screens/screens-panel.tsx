@@ -16,6 +16,8 @@ type Props = {
 };
 
 const RULE_LABEL: Record<Screen["ruleId"], string> = {
+    "story-check": "story check",
+    signals: "signals",
     stories: "stories",
     defaults: "default",
     crud: "edit rule",

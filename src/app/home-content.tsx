@@ -83,7 +83,7 @@ const featuredProjects = [
     },
 ];
 
-export default function HomeContent() {
+export default function HomeContent({ techLinks = {} }: { techLinks?: Record<string, string> }) {
     const { containerVariants, itemVariants } = useAnimationVariants();
     const [isVisible, setIsVisible] = useState(false);
 
@@ -255,7 +255,7 @@ export default function HomeContent() {
                                     priority
                                 />
                             </div>
-                            <div className="bg-card/85 border-border relative z-10 mx-auto -mt-12 max-w-sm rounded-xl border p-4 backdrop-blur lg:absolute lg:bottom-2 lg:-left-6 lg:mt-0 lg:w-96">
+                            <div className="bg-card/85 border-border relative z-10 mx-auto -mt-12 w-fit max-w-sm rounded-xl border px-5 py-4 text-center backdrop-blur lg:absolute lg:bottom-2 lg:left-[54%] lg:mt-0 lg:-translate-x-1/2 lg:whitespace-nowrap">
                                 <p className="text-sm font-medium">Based in San Diego, CA</p>
                                 <p className="text-muted-foreground mt-1 text-xs">
                                     Open to remote, hybrid, or on-site roles
@@ -270,14 +270,20 @@ export default function HomeContent() {
             <section className="border-border border-t py-20" aria-label="Technologies">
                 <div className="site-container">
                     <div className="flex flex-wrap gap-3">
-                        {technologiesData.map((tech) => (
-                            <span
-                                key={tech}
-                                className="border-border hover:border-primary/50 hover:text-signal rounded-full border px-4 py-2 text-sm font-medium transition-colors"
-                            >
-                                {tech}
-                            </span>
-                        ))}
+                        {technologiesData.map((tech) => {
+                            const className =
+                                "border-border hover:border-primary/50 hover:text-signal rounded-full border px-4 py-2 text-sm font-medium transition-colors";
+                            const href = techLinks[tech];
+                            return href ? (
+                                <Link key={tech} href={href} className={className}>
+                                    {tech}
+                                </Link>
+                            ) : (
+                                <span key={tech} className={className}>
+                                    {tech}
+                                </span>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
@@ -383,7 +389,14 @@ export default function HomeContent() {
                         <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
                             I&apos;m looking for applied AI, forward-deployed, and marketing
                             automation engineering roles. Full-time or contract, San Diego or
-                            remote.
+                            remote. Running a business and need something built?{" "}
+                            <Link
+                                href="/services"
+                                className="text-signal underline-offset-4 hover:underline"
+                            >
+                                See services for businesses
+                            </Link>
+                            .
                         </p>
                         <div className="mt-10 flex flex-wrap items-center gap-4">
                             <Button asChild size="lg" className="group">

@@ -19,6 +19,8 @@ const footerData = {
         { name: "Results", href: "/results" },
         { name: "Speaking", href: "/speaking" },
         { name: "Blog", href: "/blog" },
+        { name: "Services", href: "/services" },
+        { name: "Skills", href: "/skills" },
         { name: "Work with me", href: "/work-with-me" },
     ],
     social: SOCIAL_LINKS,

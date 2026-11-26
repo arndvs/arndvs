@@ -1,0 +1,26 @@
+name: IndexNow after deploy
+
+# Vercel reports each deployment to GitHub. After a successful production deploy, tell
+# IndexNow (Bing, and through it ChatGPT search) about every URL in the sitemap.
+on:
+  deployment_status:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Submit sitemap URLs
+        env:
+          SECRET: ${{ secrets.INDEXNOW_SUBMIT_SECRET }}
+        run: |
+          if [ -z "$SECRET" ]; then echo "INDEXNOW_SUBMIT_SECRET is not set; skipping."; exit 0; fi
+          curl --fail-with-body -sS -X POST https://arndvs.com/api/indexnow/submit-all \
+            -H "Authorization: Bearer $SECRET"

@@ -7,7 +7,7 @@ export const pageData: PageData<DiagramKey> = {
         badge: "Healthcare / Web · In Production",
         title: "Align San Diego Family Chiropractic",
         tagline:
-            "A 277K-line Next.js healthcare platform serving 5,000+ families — built solo from schema design to production deployment.",
+            "A 2,200-file Next.js healthcare platform serving 5,000+ families — built solo from schema design to production deployment.",
         stats: [
             { label: "Pages", value: "203" },
             { label: "JSON-LD Schemas", value: "76" },
@@ -377,7 +377,7 @@ export const pageData: PageData<DiagramKey> = {
         },
         {
             title: "I should have built the audit tools first",
-            body: "I wrote 6 custom code audit scripts (async waterfalls, bundle imports, client component boundaries, event listeners, suspense coverage, re-render patterns) before the codebase hit 30K lines. At 277K lines, those scripts catch regressions I'd never find manually. The 2 hours invested in tooling saved 20+ hours of debugging.",
+            body: "I wrote 6 custom code audit scripts (async waterfalls, bundle imports, client component boundaries, event listeners, suspense coverage, re-render patterns) before the codebase hit 30K lines. At 2,200+ files, those scripts catch regressions I'd never find manually. The 2 hours invested in tooling saved 20+ hours of debugging.",
         },
         {
             title: "Motion accessibility starts on the server",
@@ -391,7 +391,7 @@ export const pageData: PageData<DiagramKey> = {
 
     metrics: {
         hero: [
-            { value: 276990, label: "Lines of Code" },
+            { value: 2200, label: "TypeScript Files", suffix: "+" },
             { value: 203, label: "Pages" },
             { value: 1877, label: "Commits" },
             { value: 12, label: "External Integrations", suffix: "+" },

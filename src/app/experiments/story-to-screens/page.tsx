@@ -1,16 +1,25 @@
 import type { Metadata } from "next";
 
+import { ExperimentGuide } from "@/components/experiments/experiment-guide";
 import { ExperimentHero } from "@/components/experiments/experiment-hero";
+import { JsonLd } from "@/components/json-ld";
 import { StoryToScreens } from "@/components/story-to-screens/story-to-screens";
 import { findExperiment } from "@/lib/data/experiments";
+import {
+    absolute,
+    breadcrumbList,
+    faqPage,
+    graph,
+    softwareApplication,
+    webPage,
+} from "@/lib/json-ld";
 import { generateSiteMetadata } from "@/lib/metadata";
-import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
-import { siteConfig } from "@/sanity/env";
 
 const experiment = findExperiment("story-to-screens");
+const path = `/experiments/${experiment.slug}`;
 
 export const metadata: Metadata = generateSiteMetadata({
-    title: experiment.title,
+    title: experiment.seoTitle,
     description: experiment.description,
     path: `/experiments/${experiment.slug}`,
     images: [
@@ -24,25 +33,28 @@ export const metadata: Metadata = generateSiteMetadata({
 });
 
 export default function StoryToScreensPage() {
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "@id": `${siteConfig.url}/experiments/${experiment.slug}/#app`,
-        name: experiment.title,
-        description: experiment.description,
-        url: `${siteConfig.url}/experiments/${experiment.slug}`,
-        applicationCategory: "DesignApplication",
-        operatingSystem: "Any",
-        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-        author: { "@id": `${siteConfig.url}/#person` },
-        isPartOf: { "@id": `${siteConfig.url}/#website` },
-    };
-
     return (
         <main className="min-h-screen">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
+            <JsonLd
+                data={graph(
+                    webPage({
+                        path,
+                        name: experiment.seoTitle,
+                        description: experiment.description,
+                        extra: { mainEntity: { "@id": `${absolute(path)}/#app` } },
+                    }),
+                    softwareApplication({
+                        path,
+                        name: experiment.title,
+                        description: experiment.description,
+                        applicationCategory: experiment.applicationCategory,
+                    }),
+                    faqPage(path, experiment.faqs),
+                    breadcrumbList(path, [
+                        { name: "Experiments", path: "/experiments" },
+                        { name: experiment.title, path },
+                    ]),
+                )}
             />
             <ExperimentHero
                 backdrop="FLOW"
@@ -67,6 +79,17 @@ export default function StoryToScreensPage() {
                     <StoryToScreens />
                 </div>
             </section>
+
+            <ExperimentGuide
+                experiment={experiment}
+                related={[
+                    {
+                        label: "ctrl+shft: the UX process as agent skills",
+                        href: "/projects/ctrlshft",
+                    },
+                    { label: "Services for businesses", href: "/services" },
+                ]}
+            />
         </main>
     );
 }

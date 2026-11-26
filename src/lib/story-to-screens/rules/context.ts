@@ -1,4 +1,13 @@
-import type { Finding, Relationship, RuleId, Screen, ScreenSource, ScreenType } from "../engine";
+import type {
+    Finding,
+    Relationship,
+    RuleId,
+    Screen,
+    ScreenSource,
+    ScreenType,
+    Signal,
+    Story,
+} from "../engine";
 
 /** Where a rule sits in the process. Shown as the rule's step, and used to group the summary. */
 export type RuleStage = "discover" | "model" | "design" | "plan" | "handoff";
@@ -17,6 +26,10 @@ export type OtherRole = {
  * add to them; nothing is recomputed between rules.
  */
 export type RuleContext = {
+    /** The stories as written, for rules that read them rather than derive from them. */
+    stories: Story[];
+    /** Every marked lemma and the stories it appears in. */
+    signals: Signal[];
     roles: Set<string>;
     rels: Relationship[];
     otherRoles: Map<string, OtherRole>;
