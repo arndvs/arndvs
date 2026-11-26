@@ -2,6 +2,7 @@ import type { Result, ResultsClient, Testimonial } from "@/app/results/data";
 import type { Talk } from "@/app/speaking/data";
 import type { ExperimentEntry } from "@/lib/data/experiments";
 import { personJsonLd } from "@/lib/data/json-ld";
+import type { Service } from "@/lib/data/services";
 
 import type { LlmsCaseStudy } from "./sources";
 
@@ -24,6 +25,7 @@ export interface LlmsInput {
     siteUrl: string;
     caseStudies: { slug: string; lastModified: string; data: LlmsCaseStudy }[];
     experiments: ExperimentEntry[];
+    services: Service[];
     posts: LlmsPost[];
     clients: ResultsClient[];
     results: Result[];
@@ -64,6 +66,41 @@ function pagesIndex(i: LlmsInput): string {
         `- [Results](${u}/results): before-and-after outcomes from client and company work, each linked to its case study`,
         `- [Speaking](${u}/speaking): past sessions and topics he can bring to a group`,
     ].join("\n");
+}
+
+function servicesIndex(i: LlmsInput): string {
+    if (i.services.length === 0) return "";
+    return [
+        "## Services for businesses",
+        "",
+        `- [All services](${i.siteUrl}/services): contract work for businesses, each service backed by case studies`,
+        ...i.services.map(
+            (s) => `- [${s.name}](${i.siteUrl}/services/${s.slug}): ${line(s.description)}`,
+        ),
+    ].join("\n");
+}
+
+function servicesFull(i: LlmsInput): string {
+    if (i.services.length === 0) return "";
+    const out = ["## Services for businesses"];
+    for (const s of i.services) {
+        out.push(
+            "",
+            `### ${s.name}`,
+            "",
+            `URL: ${i.siteUrl}/services/${s.slug}`,
+            "",
+            line(s.intro),
+            "",
+            "What gets built:",
+            ...s.deliverables.map((d) => `- ${line(d)}`),
+            "",
+            "Proof: " + s.caseStudies.map((c) => `${i.siteUrl}/projects/${c.slug}`).join(", "),
+            "",
+            ...s.faqs.flatMap((f) => [`**${line(f.question)}** ${line(f.answer)}`, ""]),
+        );
+    }
+    return out.join("\n").trimEnd();
 }
 
 function projectsIndex(i: LlmsInput): string {
@@ -114,6 +151,7 @@ export function buildLlmsTxt(i: LlmsInput): string {
     return [
         header(i),
         pagesIndex(i),
+        servicesIndex(i),
         projectsIndex(i),
         experimentsIndex(i),
         postsIndex(i),
@@ -231,6 +269,7 @@ export function buildLlmsFullTxt(i: LlmsInput): string {
     return [
         header(i),
         pagesIndex(i),
+        servicesFull(i),
         resultsFull(i),
         studies,
         experimentsIndex(i),

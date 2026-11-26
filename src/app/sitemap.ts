@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { EXPERIMENTS } from "@/lib/data/experiments";
 import { PAGE_LAST_MODIFIED, latestDate } from "@/lib/data/page-dates";
 import { PROJECTS } from "@/lib/data/projects";
+import { SERVICES } from "@/lib/data/services";
 import { SHOW_LOG_PAGES } from "@/lib/data/site-sections";
 import { siteConfig } from "@/sanity/env";
 import { client } from "@/sanity/lib/client";
@@ -58,6 +59,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const projectEntries: MetadataRoute.Sitemap = PROJECTS.map((project) => ({
         url: `${baseUrl}/projects/${project.slug}`,
         lastModified: new Date(project.lastModified),
+        changeFrequency: "monthly",
+        priority: 0.9,
+    }));
+
+    const serviceEntries: MetadataRoute.Sitemap = SERVICES.map((service) => ({
+        url: `${baseUrl}/services/${service.slug}`,
+        lastModified: new Date(service.lastModified),
         changeFrequency: "monthly",
         priority: 0.9,
     }));
@@ -127,6 +135,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: "monthly",
             priority: 0.7,
         },
+        {
+            url: `${baseUrl}/services`,
+            lastModified: latestDate(
+                SERVICES.map((service) => service.lastModified),
+                PAGE_LAST_MODIFIED.home,
+            ),
+            changeFrequency: "monthly",
+            priority: 0.9,
+        },
+        ...serviceEntries,
         ...projectEntries,
         ...experimentEntries,
         ...blogEntries,

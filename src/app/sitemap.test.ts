@@ -34,4 +34,11 @@ describe("sitemap", () => {
         const entry = (await sitemap()).find((e) => e.url === "https://arndvs.com/projects");
         expect(new Date(entry!.lastModified!).getTime()).toBe(newest);
     });
+
+    it("lists the services hub and every service page", async () => {
+        const { SERVICES } = await import("@/lib/data/services");
+        const urls = (await sitemap()).map((e) => e.url);
+        expect(urls).toContain("https://arndvs.com/services");
+        for (const s of SERVICES) expect(urls).toContain(`https://arndvs.com/services/${s.slug}`);
+    });
 });

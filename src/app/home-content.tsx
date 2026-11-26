@@ -383,7 +383,14 @@ export default function HomeContent() {
                         <p className="text-muted-foreground mt-6 text-lg leading-relaxed">
                             I&apos;m looking for applied AI, forward-deployed, and marketing
                             automation engineering roles. Full-time or contract, San Diego or
-                            remote.
+                            remote. Running a business and need something built?{" "}
+                            <Link
+                                href="/services"
+                                className="text-signal underline-offset-4 hover:underline"
+                            >
+                                See services for businesses
+                            </Link>
+                            .
                         </p>
                         <div className="mt-10 flex flex-wrap items-center gap-4">
                             <Button asChild size="lg" className="group">
