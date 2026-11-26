@@ -19,8 +19,10 @@ export default function AboutPage() {
         "@context": "https://schema.org",
         "@graph": [
             {
-                "@type": "AboutPage",
+                // ProfilePage tells Google this page is about one person (its mainEntity).
+                "@type": ["AboutPage", "ProfilePage"],
                 "@id": `${siteConfig.url}/about/#webpage`,
+                mainEntity: { "@id": `${siteConfig.url}/#person` },
                 url: `${siteConfig.url}/about`,
                 name: "About Aaron Davis",
                 description:

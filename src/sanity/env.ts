@@ -1,3 +1,4 @@
+import { normalizeSiteUrl } from "../lib/site-url";
 import { assertValue } from "./lib/assert-value";
 
 export const apiVersion = assertValue(
@@ -16,9 +17,12 @@ export const projectId = assertValue(
 );
 
 export const siteConfig = {
-    url: assertValue(
-        process.env.NEXT_PUBLIC_SITE_URL,
-        "Missing environment variable: NEXT_PUBLIC_SITE_URL",
+    // Normalized: https on any real host, no trailing slash. See src/lib/site-url.ts.
+    url: normalizeSiteUrl(
+        assertValue(
+            process.env.NEXT_PUBLIC_SITE_URL,
+            "Missing environment variable: NEXT_PUBLIC_SITE_URL",
+        ),
     ),
     studioUrl: process.env.NEXT_PUBLIC_SANITY_STUDIO_URL ?? "/studio",
 } as const;

@@ -73,6 +73,17 @@ export const POST_SLUGS_QUERY = defineQuery(/* groq */ `
   *[_type == "post" && defined(slug.current)][].slug.current
 `);
 
+/** Published posts for /llms.txt and /llms-full.txt, newest first, with body as plain text. */
+export const LLMS_POSTS_QUERY = defineQuery(/* groq */ `
+  *[_type == "post" && defined(slug.current) && defined(publishedAt)] | order(publishedAt desc) {
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+    "text": pt::text(body)
+  }
+`);
+
 export const SITEMAP_POSTS_QUERY = defineQuery(/* groq */ `
   *[_type == "post" && defined(slug.current)] {
     "slug": slug.current,
