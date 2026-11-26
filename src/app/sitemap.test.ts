@@ -41,4 +41,13 @@ describe("sitemap", () => {
         expect(urls).toContain("https://arndvs.com/services");
         for (const s of SERVICES) expect(urls).toContain(`https://arndvs.com/services/${s.slug}`);
     });
+
+    it("lists only skills with enough case studies", async () => {
+        const { SKILLS, isIndexed } = await import("@/lib/data/skills");
+        const urls = (await sitemap()).map((e) => e.url);
+        expect(urls).toContain("https://arndvs.com/skills");
+        for (const s of SKILLS) {
+            expect(urls.includes(`https://arndvs.com/skills/${s.slug}`), s.slug).toBe(isIndexed(s));
+        }
+    });
 });

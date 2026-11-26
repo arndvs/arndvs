@@ -5,6 +5,7 @@ import { PAGE_LAST_MODIFIED, latestDate } from "@/lib/data/page-dates";
 import { PROJECTS } from "@/lib/data/projects";
 import { SERVICES } from "@/lib/data/services";
 import { SHOW_LOG_PAGES } from "@/lib/data/site-sections";
+import { indexedSkills, skillLastModified } from "@/lib/data/skills";
 import { siteConfig } from "@/sanity/env";
 import { client } from "@/sanity/lib/client";
 import {
@@ -68,6 +69,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(service.lastModified),
         changeFrequency: "monthly",
         priority: 0.9,
+    }));
+
+    // Only skills with enough case studies; the rest are noindex (see skills.ts).
+    const skillEntries: MetadataRoute.Sitemap = indexedSkills().map((skill) => ({
+        url: `${baseUrl}/skills/${skill.slug}`,
+        lastModified: new Date(skillLastModified(skill)),
+        changeFrequency: "monthly",
+        priority: 0.6,
     }));
 
     const experimentEntries: MetadataRoute.Sitemap = EXPERIMENTS.map((experiment) => ({
@@ -144,7 +153,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: "monthly",
             priority: 0.9,
         },
+        {
+            url: `${baseUrl}/skills`,
+            lastModified: latestDate(
+                indexedSkills().map(skillLastModified),
+                PAGE_LAST_MODIFIED.home,
+            ),
+            changeFrequency: "monthly",
+            priority: 0.6,
+        },
         ...serviceEntries,
+        ...skillEntries,
         ...projectEntries,
         ...experimentEntries,
         ...blogEntries,
