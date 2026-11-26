@@ -119,7 +119,7 @@ export function StoryToScreens() {
     }, []);
 
     // Restores a shared link once, after hydration, for the same reason as the
-    // RAG Cost Estimator: the page is prerendered with the default example. With no
+    // RAG Cost Calculator: the page is prerendered with the default example. With no
     // link, it restores whatever this browser saved.
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);

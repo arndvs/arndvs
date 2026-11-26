@@ -81,7 +81,7 @@ const resultTabs = [
 type ResultTab = (typeof resultTabs)[number]["id"];
 
 /**
- * The RAG Cost Estimator. All math lives in `src/lib/rag-cost`; this component
+ * The RAG Cost Calculator. All math lives in `src/lib/rag-cost`; this component
  * owns the state, keeps the URL in step with it, and lays the page out.
  */
 export function RagCostEstimator({

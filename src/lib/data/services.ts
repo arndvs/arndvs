@@ -105,7 +105,7 @@ export const SERVICES: Service[] = [
         faqs: [
             {
                 question: "What does a RAG chatbot cost to run?",
-                answer: "It depends on traffic, how much context each answer pulls in, caching, and which model handles which questions. My RAG Cost Estimator shows the math for your numbers; routing easy questions to a smaller model and caching repeated answers are usually the biggest levers.",
+                answer: "It depends on traffic, how much context each answer pulls in, caching, and which model handles which questions. My RAG Cost Calculator shows the math for your numbers; routing easy questions to a smaller model and caching repeated answers are usually the biggest levers.",
             },
             {
                 question: "How do you stop the model from making things up?",
