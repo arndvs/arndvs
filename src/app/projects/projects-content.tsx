@@ -64,11 +64,11 @@ const projects = [
         year: "2017–2025",
         role: "Co-Founder, Lead Frontend & AI Engineer",
         description:
-            "AI-powered customer growth platform I co-founded and led AI engineering on — automated customer service reducing costs by 40%, achieving 95%+ uptime over 8 years in production.",
+            "AI-powered customer growth platform I co-founded and led AI engineering on: a production RAG pipeline and multi-channel AI customer service across chat, SMS, email and voice, in production for 8 years.",
         tags: ["React", "Next.js", "TypeScript", "Redux RTK", "OpenAI", "Pinecone", "PostgreSQL"],
         stats: [
             { value: "8", label: "Years in Production" },
-            { value: "40%", label: "Cost Reduction" },
+            { value: "880+", label: "Components" },
             { value: "128K+", label: "Lines of Code" },
         ],
         href: "/projects/ripemetrics",
@@ -84,7 +84,7 @@ const projects = [
             "A 277,000-line healthcare platform serving 5,000+ families — 5 AI integrations, 76 JSON-LD schemas, 203 programmatic pages, and a 27-template transactional email system — built solo on Next.js 16, Sanity v5, and OpenAI.",
         tags: ["Next.js 16", "React 19", "Sanity v5", "TypeScript", "OpenAI", "Schema.org"],
         stats: [
-            { value: "277K+", label: "Lines of Code" },
+            { value: "2,200+", label: "TypeScript Files" },
             { value: "5K+", label: "Families Served" },
             { value: "76", label: "JSON-LD Schemas" },
         ],
