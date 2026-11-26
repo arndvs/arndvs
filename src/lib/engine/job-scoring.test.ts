@@ -49,15 +49,15 @@ describe("scoreJob — fit scoring", () => {
         expect(result.score).toBeLessThan(DEFAULT_MINIMUM_JOB_REVIEW_SCORE);
     });
 
-    it("gives partial credit for a title keyword hit", () => {
-        const result = scoreJob(job({ title: "Senior Engineer - Applied AI" }), baseConfig);
-        expect(result.score).toBeGreaterThan(0);
-    });
-
-    it("adds skill match points", () => {
-        const result = scoreJob(job({ title: "Applied AI Engineer (Python, RAG)" }), baseConfig);
-        const skillReason = result.reasons.find((r) => r.includes("Skill match"));
+    it("adds skill match points and gives partial credit for a single keyword hit", () => {
+        const skillReason = scoreJob(
+            job({ title: "Applied AI Engineer (Python, RAG)" }),
+            baseConfig,
+        ).reasons.find((r) => r.includes("Skill match"));
         expect(skillReason).toBeTruthy();
+
+        const partial = scoreJob(job({ title: "Senior Engineer - Applied AI" }), baseConfig);
+        expect(partial.score).toBeGreaterThan(0);
     });
 });
 
