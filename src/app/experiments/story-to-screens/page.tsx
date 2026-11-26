@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
 import { ExperimentHero } from "@/components/experiments/experiment-hero";
+import { JsonLd } from "@/components/json-ld";
 import { StoryToScreens } from "@/components/story-to-screens/story-to-screens";
 import { findExperiment } from "@/lib/data/experiments";
+import { breadcrumbList, graph } from "@/lib/json-ld";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { safeJsonLdStringify } from "@/lib/utils/safe-json-ld";
 import { siteConfig } from "@/sanity/env";
@@ -43,6 +45,14 @@ export default function StoryToScreensPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
+            />
+            <JsonLd
+                data={graph(
+                    breadcrumbList(`/experiments/${experiment.slug}`, [
+                        { name: "Experiments", path: "/experiments" },
+                        { name: experiment.title, path: `/experiments/${experiment.slug}` },
+                    ]),
+                )}
             />
             <ExperimentHero
                 backdrop="FLOW"

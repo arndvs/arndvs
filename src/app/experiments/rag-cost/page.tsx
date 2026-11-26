@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
 import { ExperimentHero } from "@/components/experiments/experiment-hero";
+import { JsonLd } from "@/components/json-ld";
 import { RagCostEstimator } from "@/components/rag-cost/rag-cost-estimator";
 import { findExperiment } from "@/lib/data/experiments";
+import { breadcrumbList, graph } from "@/lib/json-ld";
 import { generateSiteMetadata } from "@/lib/metadata";
 import {
     MODEL_CATALOG,
@@ -58,6 +60,14 @@ export default function RagCostPage() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
+            />
+            <JsonLd
+                data={graph(
+                    breadcrumbList(`/experiments/${experiment.slug}`, [
+                        { name: "Experiments", path: "/experiments" },
+                        { name: experiment.title, path: `/experiments/${experiment.slug}` },
+                    ]),
+                )}
             />
             <ExperimentHero
                 backdrop="COST"
