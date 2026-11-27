@@ -111,45 +111,30 @@ describe("merges in saved work", () => {
 describe("readMerges", () => {
     const read = (value: unknown) => readChoices({ merges: value }).merges;
 
-    it("reads a plain map", () => {
+    it("sanitizes merges from a shared link against loops, limits and types", () => {
         expect(read({ requirement: "study" })).toEqual({ requirement: "study" });
-    });
 
-    it("drops a merge onto itself", () => {
+        // A merge onto itself drops.
         expect(read({ study: "study" })).toEqual({});
-    });
-
-    it("drops a two-step cycle", () => {
+        // Two- and three-step cycles break: the cycle member is dropped.
         expect(read({ a: "b", b: "a" })).toEqual({ a: "b" });
-    });
-
-    it("drops a three-step cycle", () => {
         expect(read({ a: "b", b: "c", c: "a" })).toEqual({ a: "b", b: "c" });
-    });
-
-    it("keeps a chain that does not loop", () => {
+        // A chain that does not loop is kept whole.
         expect(read({ a: "b", b: "c" })).toEqual({ a: "b", b: "c" });
-    });
 
-    it("drops a key over the length limit", () => {
+        // Over-long keys and targets are dropped or truncated.
         expect(read({ ["x".repeat(61)]: "study" })).toEqual({});
-    });
-
-    it("truncates an over-long target, like every other visitor string", () => {
         expect(read({ requirement: "y".repeat(61) })).toEqual({
             requirement: "y".repeat(60),
         });
-    });
 
-    it("caps the number of entries", () => {
+        // Entry count is capped.
         const many = Object.fromEntries(
             Array.from({ length: 60 }, (_, index) => [`word${index}`, "study"]),
         );
-
         expect(Object.keys(read(many))).toHaveLength(50);
-    });
 
-    it("ignores anything that is not a map", () => {
+        // Anything that is not a map is ignored.
         expect(read("requirement")).toEqual({});
         expect(read(null)).toEqual({});
         expect(read([1, 2, 3])).toEqual({});
