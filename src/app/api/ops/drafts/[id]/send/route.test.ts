@@ -51,21 +51,14 @@ describe("POST /api/ops/drafts/[id]/send", () => {
         expect(markPosted).toHaveBeenCalledWith("d1");
     });
 
-    it("rejects sending a non-ready draft via the policy (isSendable)", async () => {
-        mockAuthed();
-        getById.mockResolvedValue({ _id: "d1", status: "editing", body: "x" });
+    it("rejects sending any draft that is not ready via the policy (isSendable)", async () => {
+        for (const status of ["editing", "posted"]) {
+            mockAuthed();
+            getById.mockResolvedValue({ _id: "d1", status, body: "x" });
 
-        const res = await POST(mockRequest(), { params: Promise.resolve({ id: "d1" }) });
-        expect(res.status).toBe(409);
-        expect(markPosted).not.toHaveBeenCalled();
-    });
-
-    it("rejects sending a terminal draft via the policy (isSendable)", async () => {
-        mockAuthed();
-        getById.mockResolvedValue({ _id: "d1", status: "posted", body: "x" });
-
-        const res = await POST(mockRequest(), { params: Promise.resolve({ id: "d1" }) });
-        expect(res.status).toBe(409);
-        expect(markPosted).not.toHaveBeenCalled();
+            const res = await POST(mockRequest(), { params: Promise.resolve({ id: "d1" }) });
+            expect(res.status, status).toBe(409);
+            expect(markPosted, status).not.toHaveBeenCalled();
+        }
     });
 });
